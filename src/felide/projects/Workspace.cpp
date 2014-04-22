@@ -71,7 +71,7 @@ namespace felide { namespace projects {
     int Workspace::getProjectCount() const {
         assert(this->impl != nullptr);
         
-        this->impl->projects.size();
+        return this->impl->projects.size();
     }
     
     
@@ -86,10 +86,12 @@ namespace felide { namespace projects {
     
     
     const Project& Workspace::getProject(int index) const {
-        assert(this->impl != nullptr);
-        
-        const Workspace *workspace = this;
-        return workspace->getProject(index);
+		assert(this->impl != nullptr);
+
+		auto position = this->impl->projects.begin();
+		std::advance(position, index);
+
+		return *(*position);
     }
     
     
@@ -115,9 +117,21 @@ namespace felide { namespace projects {
      * @brief Get or create a project with the specified name.
      */
     const Project& Workspace::getProject (const std::string &projectName) const {
-        assert(this->impl != nullptr);
-        
-        const Workspace *cthis = this;
-        return cthis->getProject(projectName);
+		assert(this->impl != nullptr);
+
+		auto &projects = this->impl->projects;
+		auto position = std::find_if(projects.begin(), projects.end(), [projectName](const Project *project) {
+			return project->getName() == projectName;
+		});
+
+		if (position != projects.end()) {
+			return *(*position);
+		}
+		else {
+			Project *project = new Project();
+			project->setName(projectName);
+			projects.push_back(project);
+			return *project;
+		}
     }
 }}

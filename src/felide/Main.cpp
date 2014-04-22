@@ -1,15 +1,19 @@
 
-#include <QApplication> 
+#include <wx/app.h>
 #include <felide/interface/MainWindow.hpp>
 
-int main(int argc, char* argv[]) {
-    using namespace felide;
-    using namespace felide::interface;
-    
-    QApplication app(argc, argv);
-    
-    MainWindow *window = new MainWindow(nullptr);
-    window->show();
+class Application : public wxApp {
+public:
+	virtual bool OnInit() {
+		using felide::gui::MainWindow;
+		
+		MainWindow *window = new MainWindow();
 
-    return app.exec();
-}
+		window->Show();
+
+		return true;
+	}
+};
+
+wxDECLARE_APP(Application);
+wxIMPLEMENT_APP(Application);

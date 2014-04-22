@@ -11,31 +11,14 @@
 #ifndef __FELIDE_INTERFACE_EDITORWIDGETMANAGER_HPP__
 #define __FELIDE_INTERFACE_EDITORWIDGETMANAGER_HPP__
 
-#include <QTabWidget>
-
 namespace felide { namespace interface {
     /**
      * @brief The central widget in the window.
      */
-    class EditorWidgetManager : public QTabWidget {
-        Q_OBJECT
-    public:
-        explicit EditorWidgetManager(QWidget *parent = nullptr);
-        
-        /**
-         * @brief Opens a new tab, with an empty document.
-         */
-        void open();
-        
-    private:
-        
-        
-    signals:
-        
-    public slots:
-    
+    class EditorWidgetManager {
+	public:
+		EditorWidgetManager();
     };
-
 }}
 
 #endif // __FELIDE_INTERFACE_EDITORWIDGETMANAGER_HPP__

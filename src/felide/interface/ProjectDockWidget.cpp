@@ -11,8 +11,7 @@
 #include <felide/interface/ProjectDockWidget.hpp>
 
 namespace felide { namespace interface {
-    ProjectDockWidget::ProjectDockWidget(const QString &title, QWidget *parent) : 
-        QDockWidget(title, parent), treeView(nullptr) {
-        this->treeView = new QTreeView(this);
+    ProjectDockWidget::ProjectDockWidget() {
     }
 }}
+

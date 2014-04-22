@@ -63,9 +63,16 @@ namespace felide { namespace projects {
     }
     
     const ProjectItem* Project::getProjectItem(int index) const {
-        assert(this->impl != nullptr);
-        const Project *project = this;
-        return project->getProjectItem(index);
+		assert(this->impl != nullptr);
+
+		if (index >= this->getProjectItemCount()) {
+			throw std::runtime_error("felide::projects::Project::getProjectItem: The supplied index ");
+		}
+
+		auto projectItemIt = this->impl->projectItems.begin();
+		std::advance(projectItemIt, index);
+
+		return *projectItemIt;
     }
     
     void Project::setName(const std::string &name) {

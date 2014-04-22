@@ -11,17 +11,10 @@
 #ifndef __FELIDE_INTERFACE_EDITORWIDGET_HPP__
 #define __FELIDE_INTERFACE_EDITORWIDGET_HPP__
 
-#include <QWidget>
-
 namespace felide { namespace interface {
-    class EditorWidget : public QWidget {
-        Q_OBJECT
+    class EditorWidget {
     public:
-        explicit EditorWidget(QWidget *parent = 0);
-        
-    signals:
-        
-    public slots:
+        explicit EditorWidget();
         
     };
 }}

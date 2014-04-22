@@ -13,7 +13,7 @@
 #include <string>
 
 namespace felide { namespace util {
-    
+
 	/**
 	 * @brief Static class for basic file management utilities.
 	 */

@@ -1,73 +1,87 @@
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x") 
 
-# FIND_PACKAGE(Boost REQUIRED)
-FIND_PACKAGE(Qt4 REQUIRED)
+IF (CMAKE_COMPILER_IS_GNUCXX)
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x") 
+ENDIF()
 
-INCLUDE_DIRECTORIES(felide ..)
+SET(Boost_USE_STATIC_LIBS OFF) 
+SET(Boost_USE_STATIC_RUNTIME OFF) 
+SET(Boost_USE_MULTITHREADED ON)
+FIND_PACKAGE(Boost REQUIRED )
 
-SET(felide_QT_SOURCES 
-    interface/MainWindow.cpp 
-    interface/EditorWidget.cpp 
-    interface/EditorWidgetManager.cpp 
-    interface/ProjectDockWidget.cpp
+IF (WIN32)
+	ADD_DEFINITIONS( -D__WXMSW__ )
+	ADD_DEFINITIONS( -D_UNICODE )
+	ADD_DEFINITIONS( -DWXUSINGDLL )
+
+	SET (wxWidgets_ROOT_DIR $ENV{wxWidgets_ROOT_DIR})
+
+	IF(CMAKE_BUILD_TYPE MATCHES DEBUG) 
+		SET (DEBUG_POSTFIX "d")
+	ELSE()
+		SET (DEBUG_POSTFIX "")
+	ENDIF()
+	
+	IF (MSVC)
+		SET (COMPILER vc_dll)
+	ELSE()
+		SET (COMPILER gcc_dll)
+	ENDIF()
+	
+	SET (wxWidgets_INCLUDE_DIRS 
+		${wxWidgets_ROOT_DIR}/include 
+		${wxWidgets_ROOT_DIR}/lib/${COMPILER}/mswu${DEBUG_POSTFIX}
+	)
+	
+	SET (wxWidgets_LINK_DIRS ${wxWidgets_ROOT_DIR}/lib/${COMPILER})
+	SET (wxWidgets_LIBS wxbase30u${DEBUG_POSTFIX} wxmsw30u${DEBUG_POSTFIX}_core)
+ELSE()
+	FIND_PACKAGE(wxWidgets REQUIRED)
+ENDIF()
+
+INCLUDE_DIRECTORIES(felide .. ${Boost_INCLUDE_DIRS} ${wxWidgets_INCLUDE_DIRS})
+
+SET (MainSources Main.cpp)
+SET (InterfaceSources 
+	interface/EditorWidget.hpp			interface/EditorWidget.cpp
+	interface/EditorWidgetManager.hpp	interface/EditorWidgetManager.cpp
+	interface/MainWindow.hpp			interface/MainWindow.cpp	
+	interface/ProjectDockWidget.hpp		interface/ProjectDockWidget.cpp
 )
 
-SET(felide_QT_HEADERS 
-    interface/MainWindow.hpp 
-    interface/EditorWidget.hpp 
-    interface/EditorWidgetManager.hpp 
-    interface/ProjectDockWidget.hpp
+SET (ProjectsSources 
+	projects/Builder.hpp		projects/Builder.cpp
+    projects/ProjectItem.hpp	projects/ProjectItem.cpp
+    projects/Project.hpp		projects/Project.cpp
+	projects/Workspace.hpp		projects/Workspace.cpp
 )
 
-QT4_WRAP_CPP(felide_QT_HEADERS_MOC ${felide_QT_HEADERS})
-
-INCLUDE(${QT_USE_FILE})
-ADD_DEFINITIONS(${QT_DEFINITIONS})
-
-SET(felide_SOURCES
-    ${felide_QT_SOURCES} ${felide_QT_HEADERS_MOC}
-
-    Main.cpp 
-
-    projects/Builder.cpp
-    projects/ProjectItem.cpp
-    projects/Project.cpp
-    projects/Workspace.cpp
-    
-    system/Environment.cpp
-    system/Module.cpp
-    system/Process.cpp
-    system/Library.cpp
-    
-    toolchains/Compiler.cpp
-    toolchains/Linker.cpp
-    toolchains/Runtime.cpp
-    toolchains/Toolchain.cpp
-    
-    util/FileUtil.cpp    
+SET (SystemSources 
+	system/Environment.hpp	system/Environment.cpp
+    system/Module.hpp		system/Module.cpp
+	system/Process.hpp		system/Process.cpp
+	system/Library.hpp		system/Library.cpp
 )
 
-SET(felide_HEADERS
-    ${felide_QT_HEADERS} 
-    
-    projects/Builder.hpp
-    projects/ProjectItem.hpp
-    projects/Project.hpp
-    projects/Workspace.hpp
-    
-    system/Environment.hpp
-    system/Module.hpp
-    system/Process.hpp
-    system/Library.hpp
-    
-    toolchains/Compiler.hpp
-    toolchains/Linker.hpp
-    toolchains/Runtime.hpp
-    toolchains/Toolchain.hpp
-    
-    util/FileUtil.hpp
+SET (ToolchainsSources 
+	toolchains/Compiler.hpp		toolchains/Compiler.cpp
+    toolchains/Linker.hpp		toolchains/Linker.cpp
+    toolchains/Runtime.hpp		toolchains/Runtime.cpp
+    toolchains/Toolchain.hpp	toolchains/Toolchain.cpp
 )
 
-ADD_EXECUTABLE(felide ${felide_SOURCES} ${felide_HEADERS_MOC})
+SET (UtilSources
+	util/FileUtil.hpp			util/FileUtil.cpp
+)
 
-TARGET_LINK_LIBRARIES(felide ${QT_LIBRARIES})
+SOURCE_GROUP(Main		FILES ${MainSources} )
+SOURCE_GROUP(Interface	FILES ${InterfaceSources} )
+SOURCE_GROUP(Projects	FILES ${ProjectsSources} )
+SOURCE_GROUP(System		FILES ${SystemSources} )
+SOURCE_GROUP(Toolchains FILES ${ToolchainsSources} )
+SOURCE_GROUP(Util		FILES ${UtilSources} )
+
+LINK_DIRECTORIES(${wxWidgets_LINK_DIRS})
+
+ADD_EXECUTABLE(felide WIN32 ${MainSources} ${InterfaceSources} ${ProjectsSources} ${SystemSources} ${ToolchainsSources} ${UtilSources})
+
+TARGET_LINK_LIBRARIES(felide ${wxWidgets_LIBS})

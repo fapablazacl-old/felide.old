@@ -11,7 +11,7 @@
 #include <felide/interface/EditorWidget.hpp>
 
 namespace felide { namespace interface {
-    EditorWidget::EditorWidget(QWidget *parent) : QWidget(parent) {
+    EditorWidget::EditorWidget() {
         
     }
 }}

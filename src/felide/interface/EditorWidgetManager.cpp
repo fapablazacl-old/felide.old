@@ -11,6 +11,6 @@
 #include <felide/interface/EditorWidgetManager.hpp>
 
 namespace felide { namespace interface { 
-    EditorWidgetManager::EditorWidgetManager(QWidget *parent) : QTabWidget(parent) {
+    EditorWidgetManager::EditorWidgetManager() {
     }
 }}

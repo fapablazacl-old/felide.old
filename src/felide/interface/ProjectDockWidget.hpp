@@ -11,22 +11,11 @@
 #ifndef __FELIDE_INTERFACE_PROJECTDOCKWIDGET_HPP__
 #define __FELIDE_INTERFACE_PROJECTDOCKWIDGET_HPP__
 
-#include <QDockWidget>
-#include <QTreeView>
-
 namespace felide { namespace interface {
-    class ProjectDockWidget : public QDockWidget {
-        Q_OBJECT
+    class ProjectDockWidget {
     public:
-        explicit ProjectDockWidget(const QString &title = tr(""), QWidget *parent = nullptr);
+        explicit ProjectDockWidget();
     
-    private:
-        QTreeView *treeView;
-        
-    signals:
-        
-    public slots:
-        
     };
 }}
 
