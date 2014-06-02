@@ -1,75 +1,69 @@
 
-IF (CMAKE_COMPILER_IS_GNUCXX)
+
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed.
+set(CMAKE_AUTOMOC ON)
+
+
+IF(CMAKE_COMPILER_IS_GNUCXX)
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x") 
 ENDIF()
 
 SET(Boost_USE_STATIC_LIBS OFF) 
 SET(Boost_USE_STATIC_RUNTIME OFF) 
 SET(Boost_USE_MULTITHREADED ON)
-FIND_PACKAGE(Boost REQUIRED )
 
-IF (WIN32)
-	ADD_DEFINITIONS( -D__WXMSW__ )
-	ADD_DEFINITIONS( -D_UNICODE )
-	ADD_DEFINITIONS( -DWXUSINGDLL )
+FIND_PACKAGE(Boost REQUIRED)
+FIND_PACKAGE(Qt5Widgets REQUIRED)
 
-	SET (wxWidgets_ROOT_DIR $ENV{wxWidgets_ROOT_DIR})
+INCLUDE_DIRECTORIES(felide .. ${Boost_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR})
 
-	IF(CMAKE_BUILD_TYPE MATCHES DEBUG) 
-		SET (DEBUG_POSTFIX "d")
-	ELSE()
-		SET (DEBUG_POSTFIX "")
-	ENDIF()
-	
-	IF (MSVC)
-		SET (COMPILER vc_dll)
-	ELSE()
-		SET (COMPILER gcc_dll)
-	ENDIF()
-	
-	SET (wxWidgets_INCLUDE_DIRS 
-		${wxWidgets_ROOT_DIR}/include 
-		${wxWidgets_ROOT_DIR}/lib/${COMPILER}/mswu${DEBUG_POSTFIX}
-	)
-	
-	SET (wxWidgets_LINK_DIRS ${wxWidgets_ROOT_DIR}/lib/${COMPILER})
-	SET (wxWidgets_LIBS wxbase30u${DEBUG_POSTFIX} wxmsw30u${DEBUG_POSTFIX}_core)
-ELSE()
-	FIND_PACKAGE(wxWidgets REQUIRED)
-ENDIF()
+ADD_DEFINITIONS(${QT_DEFINITIONS})
 
-INCLUDE_DIRECTORIES(felide .. ${Boost_INCLUDE_DIRS} ${wxWidgets_INCLUDE_DIRS})
+SET(MainSources Main.cpp)
 
-SET (MainSources Main.cpp)
-SET (InterfaceSources 
+set(InterfaceUiSources
+    interface/MainWindow.ui
+)
+
+SET(InterfaceHeadersMOC 
+	interface/EditorWidget.hpp
+	interface/EditorWidgetManager.hpp
+	interface/MainWindow.hpp
+	interface/ProjectDockWidget.hpp
+)
+
+SET(InterfaceSources ${InterfaceHeadersMOC}
 	interface/EditorWidget.hpp			interface/EditorWidget.cpp
 	interface/EditorWidgetManager.hpp	interface/EditorWidgetManager.cpp
 	interface/MainWindow.hpp			interface/MainWindow.cpp	
 	interface/ProjectDockWidget.hpp		interface/ProjectDockWidget.cpp
 )
 
-SET (ProjectsSources 
+SET(ProjectsSources 
 	projects/Builder.hpp		projects/Builder.cpp
     projects/ProjectItem.hpp	projects/ProjectItem.cpp
     projects/Project.hpp		projects/Project.cpp
 	projects/Workspace.hpp		projects/Workspace.cpp
+    projects/Manager.hpp		projects/Manager.cpp
 )
 
-SET (SystemSources 
+SET(SystemSources 
 	system/Environment.hpp	system/Environment.cpp
     system/Module.hpp		system/Module.cpp
 	system/Process.hpp		system/Process.cpp
 	system/Library.hpp		system/Library.cpp
 )
 
-SET (ToolchainsSources 
+SET(ToolchainsSources 
 	toolchains/Compiler.hpp		toolchains/Compiler.cpp
     toolchains/Linker.hpp		toolchains/Linker.cpp
     toolchains/Runtime.hpp		toolchains/Runtime.cpp
     toolchains/Toolchain.hpp	toolchains/Toolchain.cpp
 )
 
-SET (UtilSources
+SET(UtilSources
 	util/FileUtil.hpp			util/FileUtil.cpp
 )
 
@@ -80,8 +74,17 @@ SOURCE_GROUP(System		FILES ${SystemSources} )
 SOURCE_GROUP(Toolchains FILES ${ToolchainsSources} )
 SOURCE_GROUP(Util		FILES ${UtilSources} )
 
-LINK_DIRECTORIES(${wxWidgets_LINK_DIRS})
+QT5_WRAP_UI(InterfaceUiSourcesMOC ${InterfaceUiSources})
 
-ADD_EXECUTABLE(felide WIN32 ${MainSources} ${InterfaceSources} ${ProjectsSources} ${SystemSources} ${ToolchainsSources} ${UtilSources})
+ADD_EXECUTABLE(felide WIN32 
+    ${MainSources} 
+    ${InterfaceUiSourcesMOC}
+    ${InterfaceSourcesMOC} 
+    ${InterfaceSources} 
+    ${ProjectsSources} 
+    ${SystemSources} 
+    ${ToolchainsSources} 
+    ${UtilSources}
+)
 
-TARGET_LINK_LIBRARIES(felide ${wxWidgets_LIBS})
+TARGET_LINK_LIBRARIES(felide Qt5::Widgets)

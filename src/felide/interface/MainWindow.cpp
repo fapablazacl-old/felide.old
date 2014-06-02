@@ -16,6 +16,7 @@
 #include <felide/interface/EditorWidgetManager.hpp>
 
 namespace felide { namespace gui {
-    MainWindow::MainWindow() : wxFrame(nullptr, wxID_ANY, "Hello, world1") {
+    MainWindow::MainWindow() : ui( new Ui::MainWindow() ) {
+        this->ui->setupUi(this);
     }
 }}

@@ -11,13 +11,15 @@
 #ifndef __FELIDE_INTERFACE_EDITORWIDGETMANAGER_HPP__
 #define __FELIDE_INTERFACE_EDITORWIDGETMANAGER_HPP__
 
+#include <QWidget>
+
 namespace felide { namespace interface {
     /**
      * @brief The central widget in the window.
      */
-    class EditorWidgetManager {
+    class EditorWidgetManager : public QWidget {
 	public:
-		EditorWidgetManager();
+		EditorWidgetManager(QWidget *parent);
     };
 }}
 
