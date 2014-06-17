@@ -49,10 +49,11 @@ SET (InterfaceSources
 )
 
 SET (ProjectsSources 
-	projects/Builder.hpp		projects/Builder.cpp
-    projects/ProjectItem.hpp	projects/ProjectItem.cpp
-    projects/Project.hpp		projects/Project.cpp
-	projects/Workspace.hpp		projects/Workspace.cpp
+	projects/Builder.hpp            projects/Builder.cpp
+    projects/ProjectItem.hpp        projects/ProjectItem.cpp
+    projects/Project.hpp            projects/Project.cpp
+	projects/Workspace.hpp          projects/Workspace.cpp
+    projects/WorkspaceManager.hpp   projects/WorkspaceManager.cpp
 )
 
 SET (SystemSources 
