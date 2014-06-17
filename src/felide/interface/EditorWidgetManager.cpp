@@ -9,8 +9,11 @@
 
 
 #include <felide/interface/EditorWidgetManager.hpp>
+#include <QTabWidget>
 
 namespace felide { namespace interface { 
-    EditorWidgetManager::EditorWidgetManager() {
+    EditorWidgetManager::EditorWidgetManager(QWidget *parent) : QWidget(parent) {
+        QTabWidget *tabWidget = new QTabWidget(this);
+        tabWidget->addTab(new QWidget(this), "Uno ");
     }
 }}

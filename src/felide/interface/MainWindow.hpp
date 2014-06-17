@@ -10,17 +10,21 @@
 #ifndef __FELIDE_INTERFACE_MAINWINDOW_HPP__
 #define __FELIDE_INTERFACE_MAINWINDOW_HPP__
 
+#include <memory>
 #include <boost/shared_ptr.hpp>
 #include <felide/projects/Workspace.hpp>
 
-#include <wx/frame.h>
+#include <QMainWindow>
+
+#include "ui_MainWindow.h"
 
 namespace felide { namespace gui {
-	class MainWindow : public wxFrame {
+	class MainWindow : public QMainWindow {
     public:
         MainWindow();
 
     private:
+        std::unique_ptr<Ui::MainWindow> ui;
         boost::shared_ptr<felide::projects::Workspace> workspace;
     };
 }}
