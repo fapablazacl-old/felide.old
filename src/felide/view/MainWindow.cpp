@@ -2,12 +2,19 @@
 #include "MainWindow.hpp"
 
 #include <sstream>
+#include <boost/functional/hash.hpp>
+
 #include <QFileDialog>
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <Qsci/qscilexercpp.h>
 
 namespace felide { namespace view {
+    
+    std::string getTempPath() 
+    {
+        return "/var/tmp/felide/";
+    }
     
     MainWindow::MainWindow() 
     {
@@ -19,7 +26,7 @@ namespace felide { namespace view {
         this->show();
         
         this->updateTitle();
-    } 
+    }
     
     MainWindow::~MainWindow() {}
     
@@ -114,9 +121,7 @@ namespace felide { namespace view {
         this->editorWidget = new QsciScintilla(this);
         this->setCentralWidget(this->editorWidget);
         
-        this->dockWidget = new QDockWidget("Test", this);
-        
-        
+        // this->dockWidget = new QDockWidget("Test", this);
     }
     
     void MainWindow::connectSignals() 
@@ -174,7 +179,6 @@ namespace felide { namespace view {
                     if (!this->doSaveFile()) {
                         return;
                     }
-                    break;
                 
                 case QMessageBox::Cancel:
                     return;
@@ -195,8 +199,6 @@ namespace felide { namespace view {
                     if (!this->doSaveFile()) {
                         return;
                     }
-                    
-                    break;
                 
                 case QMessageBox::Cancel:
                     return;

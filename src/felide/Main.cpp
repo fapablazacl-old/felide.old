@@ -2,6 +2,14 @@
 #include <QApplication>
 #include <felide/view/MainWindow.hpp>
 
+namespace felide 
+{
+    class Application : public QApplication 
+    {
+        
+    };
+}
+
 int main(int argc, char **argv) 
 {
     QApplication app(argc, argv);
