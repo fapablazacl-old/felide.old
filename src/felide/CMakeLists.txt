@@ -12,12 +12,14 @@ set (felide_sources_cpp
 set (felide_sources 
     Main.cpp 
     view/MainWindow.cpp 
+    view/SourceEditor.cpp
     model/Source.hpp 
     model/util/Util.hpp
 )
 
 set (felide_headers 
     view/MainWindow.hpp
+    view/SourceEditor.hpp
 )
 
 QT4_WRAP_CPP(felide_headers_moc ${felide_headers})
