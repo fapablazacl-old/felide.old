@@ -237,7 +237,7 @@ namespace felide { namespace view {
         return ext==".c" || ext==".h" || ext==".cpp" || ext==".hpp";
     }
     
-    QsciLexer* createLexer(const std::string &filename) 
+    static QsciLexer* createLexer(const std::string &filename) 
     {
         QsciLexer *lexer = nullptr;
         
