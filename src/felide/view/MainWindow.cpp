@@ -3,15 +3,19 @@
 
 #include <sstream>
 #include <boost/functional/hash.hpp>
+#include <boost/filesystem.hpp>
 
 #include <QFileDialog>
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <Qsci/qscilexercpp.h>
+#include <Qsci/qscilexercmake.h>
 
 namespace felide { namespace view {
     
-    const char fileFilter[] = "C++ Source Files (*.cpp *.hpp *.c *.h);;All Files (*.*)";
+    namespace fs = boost::filesystem;
+    
+    const char fileFilter[] = "C/C++ Source Files (*.cpp *.hpp *.c *.h);;All Files (*.*)";
     
     std::string getTempPath() 
     {
@@ -90,14 +94,6 @@ namespace felide { namespace view {
         this->editorWidget->setMarginsBackgroundColor(QColor("#cccccc"));
     
         connect(this->editorWidget, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
-        
-        // lexer
-        QsciLexerCPP *lexer = new QsciLexerCPP();
-        
-        lexer->setDefaultFont(this->editorWidget->font());
-        lexer->setFoldComments(true);
-        
-        this->editorWidget->setLexer(lexer);
         
         // caret
         this->editorWidget->setCaretLineVisible(true);
@@ -236,6 +232,42 @@ namespace felide { namespace view {
         this->doSaveFile();
     }
     
+    bool isExtensionCpp(const std::string &ext) 
+    {
+        return ext==".c" || ext==".h" || ext==".cpp" || ext==".hpp";
+    }
+    
+    QsciLexer* createLexer(const std::string &filename) 
+    {
+        QsciLexer *lexer = nullptr;
+        
+        // Select correct lexer type
+        fs::path path = fs::path(filename);
+        fs::path name = path.filename();
+        
+        if (isExtensionCpp(name.extension().string())) {
+            QsciLexerCPP *cppLexer = new QsciLexerCPP();
+            cppLexer->setFoldComments(true);
+            
+            lexer = cppLexer;
+        }
+        
+        if (name.string() == "CMakeLists.txt") {
+            lexer = new QsciLexerCMake();
+        }
+        
+        return lexer;
+    }
+    
+    void MainWindow::setLexer(QsciLexer *lexer)
+    {
+        if (lexer) {
+            lexer->setDefaultFont(this->editorWidget->font());
+        }
+        
+        this->editorWidget->setLexer(lexer);
+    }
+    
     bool MainWindow::doOpenFile() 
     {
         QString path = QFileDialog::getOpenFileName(this, "Open", QString(), tr(fileFilter));
@@ -244,8 +276,9 @@ namespace felide { namespace view {
             return false;
         }
         
-        std::string content;
+        this->setLexer(createLexer(path.toStdString()));
         
+        std::string content;
         this->source = felide::model::Source(path.toStdString());
         content = this->source.load();
         this->editorWidget->setText(QString(content.c_str()));
@@ -264,6 +297,8 @@ namespace felide { namespace view {
         if (path.isEmpty()) {
             return false;
         }
+        
+        this->setLexer(createLexer(path.toStdString()));
         
         std::string content = this->editorWidget->text().toStdString();
         
@@ -346,5 +381,3 @@ namespace felide { namespace view {
         
     }
 }}
-
-

@@ -24,7 +24,7 @@ namespace felide { namespace view {
         ~MainWindow();
         
         virtual void closeEvent(QCloseEvent *event) override;
-        
+       
     private:
         void initializeEditor();
         void initializeMenuBar();
@@ -40,6 +40,8 @@ namespace felide { namespace view {
         bool doOpenFile();
         bool doSaveFile();
         
+        void setLexer(QsciLexer *lexer);
+       
     private:
         QMenu *fileMenu = nullptr;
         QMenu *editMenu = nullptr;
