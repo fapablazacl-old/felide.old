@@ -27,3 +27,8 @@ QT4_WRAP_CPP(felide_headers_moc ${felide_headers})
 add_executable(felide ${felide_sources} ${felide_sources_cpp} ${felide_headers_moc})
 
 target_link_libraries(felide ${QT_LIBRARIES} qscintilla2) 
+
+# Installation
+
+install (TARGETS felide DESTINATION bin)
+

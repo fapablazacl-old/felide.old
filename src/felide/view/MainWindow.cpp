@@ -11,6 +11,8 @@
 
 namespace felide { namespace view {
     
+    const char fileFilter[] = "C++ Source Files (*.cpp *.hpp *.c *.h);;All Files (*.*)";
+    
     std::string getTempPath() 
     {
         return "/var/tmp/felide/";
@@ -236,7 +238,7 @@ namespace felide { namespace view {
     
     bool MainWindow::doOpenFile() 
     {
-        QString path = QFileDialog::getOpenFileName(this, "Open", QString(), tr("Sources (*.cpp *.hpp *.c *.h)"));
+        QString path = QFileDialog::getOpenFileName(this, "Open", QString(), tr(fileFilter));
         
         if (path.isEmpty()) {
             return false;
@@ -257,7 +259,7 @@ namespace felide { namespace view {
     
     bool MainWindow::doSaveFile() 
     {
-        QString path = QFileDialog::getSaveFileName(this, "Save", QString(), tr("Sources (*.cpp *.hpp *.c *.h)"));
+        QString path = QFileDialog::getSaveFileName(this, "Save", QString(), tr(fileFilter));
         
         if (path.isEmpty()) {
             return false;
@@ -344,4 +346,5 @@ namespace felide { namespace view {
         
     }
 }}
+
 
