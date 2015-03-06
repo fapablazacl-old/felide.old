@@ -24,14 +24,20 @@ namespace felide { namespace view {
     
     MainWindow::MainWindow() 
     {
-        this->initializeMenuBar();
+        this->initializeUserInterface();
+    }
+    
+    void MainWindow::initializeUserInterface()
+    {
+        this->initializeMenuBar();        
+        this->updateTitle();
+    }
+    
+    void MainWindow::addSourceEditor() 
+    {
         this->initializeWindow();
         this->initializeEditor();
         this->connectSignals();
-        
-        this->show();
-        
-        this->updateTitle();
     }
     
     MainWindow::~MainWindow() {}
@@ -118,8 +124,6 @@ namespace felide { namespace view {
     {
         this->editorWidget = new QsciScintilla(this);
         this->setCentralWidget(this->editorWidget);
-        
-        // this->dockWidget = new QDockWidget("Test", this);
     }
     
     void MainWindow::connectSignals() 

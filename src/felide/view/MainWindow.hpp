@@ -24,8 +24,11 @@ namespace felide { namespace view {
         ~MainWindow();
         
         virtual void closeEvent(QCloseEvent *event) override;
-       
+        void addSourceEditor();
+        
     private:
+        void initializeUserInterface();
+        
         void initializeEditor();
         void initializeMenuBar();
         void initializeWindow();
