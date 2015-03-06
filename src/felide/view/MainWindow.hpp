@@ -9,8 +9,6 @@
 #include <QMenu>
 #include <Qsci/qsciscintilla.h>
 
-#include <QDockWidget>
-
 #include <felide/model/Source.hpp>
 
 namespace felide { namespace view {
