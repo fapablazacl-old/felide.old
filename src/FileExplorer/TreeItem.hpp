@@ -13,7 +13,7 @@ public:
     TreeItem( const QList<QVariant> &data, TreeItem *parent);
     ~TreeItem();
     
-    TreeItem* appendChild();
+    TreeItem* appendChild(const QList<QVariant> &data);
     TreeItem* child(int row);
     int childCount() const;
     

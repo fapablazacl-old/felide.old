@@ -9,14 +9,14 @@ TreeItem::TreeItem( const QList<QVariant> &data, TreeItem *parentItem)
 
 TreeItem::~TreeItem() {}
 
-TreeItem* TreeItem::appendChild() 
+TreeItem* TreeItem::appendChild(const QList<QVariant> &data) 
 {
-    QList<QVariant> tmp;
+    TreeItem *childItem = new TreeItem(data, this);
     
-    auto item = std::unique_ptr<TreeItem>(new TreeItem(tmp, this));
+    auto item = std::unique_ptr<TreeItem>(childItem);
     this->childItems.push_back(std::move(item));
     
-    return item.get();
+    return childItem;
 }
 
 TreeItem* TreeItem::child(int row) 
@@ -62,10 +62,9 @@ int TreeItem::row() const
     return 0;
 }
 
-TreeItem* TreeItem::parent() 
+TreeItem* TreeItem::parent()
 {
     return this->parentItem;
-    
 }
 
 const TreeItem* TreeItem::parent() const 

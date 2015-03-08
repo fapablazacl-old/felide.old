@@ -110,9 +110,16 @@ QVariant TreeModel::headerData(int section, Qt::Orientation orientation, int rol
 void TreeModel::setupModelData()
 {
     QList<QVariant> values;
+    QList<QVariant> values1;
+    QList<QVariant> values2;
     
     values << "Hola" << "Como te llamas?";
     
     this->rootItem = std::unique_ptr<TreeItem>(new TreeItem(values, nullptr));
+    
+    values1 << "Hola Hijo 1" << "Como te llamas?";
+    this->rootItem->appendChild(values1);
+    
+    values2 << "Hola Hijo 2" << "Como te llamas?";
+    this->rootItem->appendChild(values2);
 }
-
