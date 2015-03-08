@@ -1,26 +1,40 @@
 
-project (felide)
+# Qt5Widgets
+set (CMAKE_INCLUDE_CURRENT_DIR ON)
+set (CMAKE_AUTOMOC ON)
 
-# link_directories(/usr/lib64/qt4/)
+find_package(Qt5Widgets REQUIRED)
+
+set (Qt_LIBRARY_PATH C:/Qt/5.4/msvc2013/lib)
+link_directories(${Qt_LIBRARY_PATH})
+
+# TODO: Make FindQScintilla happy
+# set (QT_INCLUDE_DIR ${Qt5Widgets_INCLUDE_DIRS})
+# message ( STATUS "QT_INCLUDE_DIR: " ${QT_INCLUDE_DIR})
 # find_package(QScintilla REQUIRED)
 
-set (felide_sources_cpp 
-    model/Source.cpp 
-    model/util/Util.cpp
-)
+# Boost
+add_definitions(-DBOOST_ALL_NO_LIB)
+set (Boost_USE_STATIC_LIBS OFF)
+set (Boost_USE_MULTITHREADED ON)
+set (Boost_USE_STATIC_RUNTIME OFF)
+find_package(Boost REQUIRED COMPONENTS system filesystem)
+include_directories(${Boost_INCLUDE_DIRS})
 
-set (felide_sources_qt
+link_directories(${Boost_LIBRARY_DIRS})
+
+set (felide_src
     Main.cpp 
-    view/MainWindow.cpp 
-    model/Source.hpp 
-    model/util/Util.hpp
+    
+    model/Source.hpp 		model/Source.cpp 
+    model/util/Util.hpp		model/util/Util.cpp
+	view/MainWindow.hpp		view/MainWindow.cpp 
+    view/SourceEditor.hpp	view/SourceEditor.cpp
 )
 
-set (felide_headers_qt
-    view/MainWindow.hpp
-)
+add_executable(felide ${felide_src})
 
-QT4_WRAP_CPP(felide_headers_moc ${felide_headers_qt})
+target_link_libraries(felide ${Boost_LIBRARIES} Qt5::Widgets qscintilla2)
 
-add_executable(felide ${felide_sources_qt} ${felide_sources_cpp} ${felide_headers_moc})
-target_link_libraries(felide ${QT_LIBRARIES} ${QSCINTILLA_LIBRARY}) 
+# Installation
+install (TARGETS felide DESTINATION bin)

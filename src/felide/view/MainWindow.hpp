@@ -9,8 +9,6 @@
 #include <QMenu>
 #include <Qsci/qsciscintilla.h>
 
-#include <QDockWidget>
-
 #include <felide/model/Source.hpp>
 
 namespace felide { namespace view {
@@ -24,8 +22,11 @@ namespace felide { namespace view {
         ~MainWindow();
         
         virtual void closeEvent(QCloseEvent *event) override;
+        void addSourceEditor();
         
     private:
+        void initializeUserInterface();
+        
         void initializeEditor();
         void initializeMenuBar();
         void initializeWindow();
@@ -40,6 +41,8 @@ namespace felide { namespace view {
         bool doOpenFile();
         bool doSaveFile();
         
+        void setLexer(QsciLexer *lexer);
+       
     private:
         QMenu *fileMenu = nullptr;
         QMenu *editMenu = nullptr;
