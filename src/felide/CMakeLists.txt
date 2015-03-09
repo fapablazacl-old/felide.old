@@ -38,8 +38,10 @@ set (src_felide_model_util
 )
 
 set (src_felide_view
-	view/MainWindow.hpp		view/MainWindow.cpp 
-    view/SourceEditor.hpp	view/SourceEditor.cpp
+	view/MainWindow.hpp				view/MainWindow.cpp 
+    view/SourceEditor.hpp			view/SourceEditor.cpp
+	view/SourceEditorGeneric.hpp	view/SourceEditorGeneric.cpp
+	view/SourceEditorScintilla.hpp	view/SourceEditorScintilla.cpp
 )
 
 set (src_felide

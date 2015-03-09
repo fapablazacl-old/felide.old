@@ -3,10 +3,6 @@
 #define __FELIDE_VIEW_SOURCEEDITOR_HPP__
 
 #include <QWidget>
-#include <Qsci/qsciscintilla.h>
-#include <memory>
-
-#include <felide/model/Source.hpp>
 
 namespace felide { namespace view {
     
@@ -16,31 +12,23 @@ namespace felide { namespace view {
         
     public:
         SourceEditor();
-        explicit SourceEditor(const QString &filePath);
-    
-        QString getTitle() const;
-        bool getDirtyFlag() const;
+		
+        virtual QString getTitle() const;
+        virtual bool getDirtyFlag() const;
         
-        void save();
-        void save(const QString &filePath);
-        void load(const QString &filePath);
+        virtual void save();
+        virtual void save(const QString &filePath);
+        virtual void load(const QString &filePath);
         
-        void undo();
-        void redo();
-        void copy();
-        void cut();
-        void paste();
+        virtual void undo();
+        virtual void redo();
+        virtual void copy();
+        virtual void cut();
+        virtual void paste();
     
-        QString getFilePath() const;
+        virtual QString getFilePath() const;
     
-        bool hasFilePath() const;
-    
-    private:
-        void setLexer(QsciLexer *lexer);
-    
-    private:
-        QsciScintilla *editorWidget = nullptr;
-        felide::model::Source source;
+        virtual bool hasFilePath() const;
     };
 }}
 
