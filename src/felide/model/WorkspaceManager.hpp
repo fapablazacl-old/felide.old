@@ -21,7 +21,7 @@ namespace felide { namespace model {
 		 * @brief Create a empty content Workspace files and directory structure on the specified path.
 		 */
 		virtual WorkspacePtr createWorkspace(const std::string &path) = 0;
-	}
+	};
 }}
 
 #endif	// __FELIDE_MODEL_WORKSPACEMANAGER_HPP__

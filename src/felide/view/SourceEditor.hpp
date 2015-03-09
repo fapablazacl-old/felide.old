@@ -10,8 +10,8 @@
 
 namespace felide { namespace view {
     
-    class SourceEditor : public QWidget 
-    {
+    class SourceEditor : public QWidget {
+	public:
         Q_OBJECT
         
     public:

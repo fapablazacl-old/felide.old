@@ -5,6 +5,7 @@
 #include <string>
 #include <memory>
 #include <felide/model/Source.hpp>
+#include <felide/model/ProjectItem.hpp>
 
 namespace felide { namespace model {
 	
@@ -21,7 +22,7 @@ namespace felide { namespace model {
 		virtual void deleteItem(ProjectItem item) = 0;
 	};
 	
-	std::unique_ptr<Project> ProjectPtr;
+	typedef std::unique_ptr<Project> ProjectPtr;
 }}
 
 #endif	// __FELIDE_MODEL_PROJECT_HPP__

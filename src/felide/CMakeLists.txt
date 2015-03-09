@@ -23,16 +23,35 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 link_directories(${Boost_LIBRARY_DIRS})
 
-set (felide_src
-    Main.cpp 
-    
-    model/Source.hpp 		model/Source.cpp 
-    model/util/Util.hpp		model/util/Util.cpp
+set (src_felide_model
+	model/Source.hpp 					model/Source.cpp 
+	model/ProjectItem.hpp				model/ProjectItem.cpp 
+	model/Project.hpp					model/Project.cpp 
+	model/Workspace.hpp					model/Workspace.cpp 
+	model/WorkspaceManager.hpp			model/WorkspaceManager.cpp 
+	model/WorkspaceManager.hpp			model/WorkspaceManager.cpp
+	model/FelideWorkspaceManager.hpp	model/FelideWorkspaceManager.cpp
+)
+
+set (src_felide_model_util
+	model/util/Util.hpp		model/util/Util.cpp
+)
+
+set (src_felide_view
 	view/MainWindow.hpp		view/MainWindow.cpp 
     view/SourceEditor.hpp	view/SourceEditor.cpp
 )
 
-add_executable(felide ${felide_src})
+set (src_felide
+    Main.cpp 
+)
+
+source_group (\\ FILES ${src_felide})
+source_group (model FILES ${src_felide_model})
+source_group (model\\util FILES ${src_felide_model_util})
+source_group (view FILES ${src_felide_view})
+
+add_executable(felide ${src_felide} ${src_felide_model} ${src_felide_model_util} ${src_felide_view})
 
 target_link_libraries(felide ${Boost_LIBRARIES} Qt5::Widgets qscintilla2)
 

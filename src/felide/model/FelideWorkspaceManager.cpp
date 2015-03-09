@@ -8,15 +8,18 @@ namespace felide { namespace model {
 	
 	class FelideProject : public Project {
 	public:
-		~Project() {}
+		~FelideProject() {}
 		
 		int getProjectItemCount() const  {
+			return 0;
 		}
 		
 		ProjectItem* getProjectItem(int index)  {
+			return nullptr;
 		}
 		
 		const ProjectItem* getProjectItem(int index) const  {
+			return nullptr;
 		}
 		
 		void addItem(const ProjectItem &item)  {
@@ -43,6 +46,6 @@ namespace felide { namespace model {
 	
 	WorkspacePtr FelideWorkspaceManager::createWorkspace(const std::string &path)
 	{
-		
+		return WorkspacePtr();
 	}
 }}
