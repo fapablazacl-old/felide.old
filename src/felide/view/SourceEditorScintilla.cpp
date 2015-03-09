@@ -66,6 +66,42 @@ namespace felide { namespace view {
         this->load(filePath);
     }
     
+	void SourceEditorScintilla::initializeEditor() 
+	{
+		// font
+		QFont font("Monospace", 8);
+		font.setFixedPitch(true);
+        
+		this->impl->editorWidget->setFont(font);
+        
+		// margins
+		QFontMetrics fontmetrics = QFontMetrics(font);
+		this->impl->editorWidget->setMarginsFont(font);
+		this->impl->editorWidget->setMarginWidth(0, fontmetrics.width(QString::number(this->impl->editorWidget->lines())) + 6);
+		this->impl->editorWidget->setMarginLineNumbers(0, true);
+		this->impl->editorWidget->setMarginsBackgroundColor(QColor("#cccccc"));
+    
+		connect(this->impl->editorWidget, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
+        
+		// caret
+		this->impl->editorWidget->setCaretLineVisible(true);
+		this->impl->editorWidget->setCaretLineBackgroundColor(QColor("#ffe4e4"));
+        
+		// initialize folding
+		QsciScintilla::FoldStyle state = static_cast<QsciScintilla::FoldStyle>((!this->impl->editorWidget->folding()) * 5);
+        
+		if (!state) {
+			this->impl->editorWidget->foldAll(false);
+		}
+        
+		this->impl->editorWidget->setFolding(state);
+        
+		// initialize tabulation
+		this->impl->editorWidget->setIndentationsUseTabs(false);
+		this->impl->editorWidget->setIndentationWidth(4);
+		this->impl->editorWidget->setAutoIndent(true);
+	}
+
     QString SourceEditorScintilla::getTitle() const
     {
         std::stringstream ss;

@@ -84,46 +84,9 @@ namespace felide { namespace view {
         this->executeAction->setShortcut(tr("Ctrl+F5"));
     }
     
-    void MainWindow::initializeEditor() 
-    {
-        // font
-        QFont font("Monospace", 8);
-        font.setFixedPitch(true);
-        
-        this->editorWidget->setFont(font);
-        
-        // margins
-        QFontMetrics fontmetrics = QFontMetrics(font);
-        this->editorWidget->setMarginsFont(font);
-        this->editorWidget->setMarginWidth(0, fontmetrics.width(QString::number(this->editorWidget->lines())) + 6);
-        this->editorWidget->setMarginLineNumbers(0, true);
-        this->editorWidget->setMarginsBackgroundColor(QColor("#cccccc"));
-    
-        connect(this->editorWidget, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
-        
-        // caret
-        this->editorWidget->setCaretLineVisible(true);
-        this->editorWidget->setCaretLineBackgroundColor(QColor("#ffe4e4"));
-        
-        // initialize folding
-        QsciScintilla::FoldStyle state = static_cast<QsciScintilla::FoldStyle>((!this->editorWidget->folding()) * 5);
-        
-        if (!state) {
-            this->editorWidget->foldAll(false);
-        }
-        
-        this->editorWidget->setFolding(state);
-        
-        // initialize tabulation
-        this->editorWidget->setIndentationsUseTabs(false);
-        this->editorWidget->setIndentationWidth(4);
-        this->editorWidget->setAutoIndent(true);
-    }
-    
     void MainWindow::initializeWindow() 
     {
-        this->editorWidget = new QsciScintilla(this);
-        this->setCentralWidget(this->editorWidget);
+
     }
     
     void MainWindow::connectSignals() 
@@ -175,7 +138,7 @@ namespace felide { namespace view {
     
     void MainWindow::onNewFile() 
     {
-        if (this->source.getDirtyFlag()) {
+        if (this->sourceEditor->getDirtyFlag()) {
             switch (this->askSaveChanges()) {
                 case QMessageBox::Save:
                     if (!this->doSaveFile()) {

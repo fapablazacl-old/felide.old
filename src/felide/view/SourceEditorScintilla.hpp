@@ -36,6 +36,9 @@ namespace felide { namespace view {
         bool hasFilePath() const;
 		
 	private:
+		void initializeEditor();
+
+	private:
 		struct Impl;
 		std::unique_ptr<Impl> impl;
     };

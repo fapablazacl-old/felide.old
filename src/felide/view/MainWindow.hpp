@@ -7,8 +7,8 @@
 #include <QAction>
 #include <QMenuBar>
 #include <QMenu>
-#include <Qsci/qsciscintilla.h>
 
+#include <felide/view/SourceEditor.hpp>
 #include <felide/model/Source.hpp>
 
 namespace felide { namespace view {
@@ -40,8 +40,6 @@ namespace felide { namespace view {
         
         bool doOpenFile();
         bool doSaveFile();
-        
-        void setLexer(QsciLexer *lexer);
        
     private:
         QMenu *fileMenu = nullptr;
@@ -66,12 +64,7 @@ namespace felide { namespace view {
         QAction *buildAction = nullptr;
         QAction *executeAction = nullptr;
         
-        QsciScintilla *editorWidget = nullptr;
-        
-        QDockWidget *dockWidget = nullptr;
-        
-        felide::model::Source source;
-        
+		SourceEditor *sourceEditor = nullptr;
         int documentCount = 1;
         
     private slots:
