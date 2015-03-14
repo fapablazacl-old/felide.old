@@ -1,20 +1,32 @@
 
 #include "SourceEditor.hpp"
 
+
 namespace felide { namespace view {
+
+    using namespace felide::model;
     
-    SourceEditor::SourceEditor() 
+    int SourceEditor::documentCount = 1;
+    
+    SourceEditor::SourceEditor(QWidget *parent) : QWidget(parent)
     {
     }
-	
+    
+    SourceEditor::~SourceEditor() {}
+    
+    void SourceEditor::increaseDocumentCount()
+    {
+        SourceEditor::documentCount += 1;
+    }
+
+    int SourceEditor::getDocumentCount()
+    {
+        return SourceEditor::documentCount;
+    }
+    
     QString SourceEditor::getTitle() const
     {
         return QString();
-    }
-    
-    bool SourceEditor::getDirtyFlag() const
-    {
-        return true;
     }
     
     void SourceEditor::save()
@@ -49,13 +61,8 @@ namespace felide { namespace view {
     {
     }
     
-    QString SourceEditor::getFilePath() const
+    const Source* SourceEditor::getSource() const
     {
-		return "";
-    }
-    
-    bool SourceEditor::hasFilePath() const
-    {
-        return false;
+        return nullptr;
     }
 }}

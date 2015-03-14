@@ -2,6 +2,7 @@
 #define __FELIDE_VIEW_SOURCEEDITORGENERIC_HPP__
 
 #include <QWidget>
+#include <QTextEdit>
 #include <memory>
 
 #include <felide/view/SourceEditor.hpp>
@@ -12,29 +13,32 @@ namespace felide { namespace view {
 		Q_OBJECT
 
 	public:
-        SourceEditorGeneric();
-        explicit SourceEditorGeneric(const QString &filePath);
+        explicit SourceEditorGeneric(QWidget *parent);
+        explicit SourceEditorGeneric(QWidget *parent, const QString &filePath);
     
-        QString getTitle() const;
-        bool getDirtyFlag() const;
+        virtual QString getTitle() const override;
         
-        void save();
-        void save(const QString &filePath);
-        void load(const QString &filePath);
+        virtual void save() override;
+        virtual void save(const QString &filePath) override;
+        virtual void load(const QString &filePath) override;
         
-        void undo();
-        void redo();
-        void copy();
-        void cut();
-        void paste();
-    
-        QString getFilePath() const;
-    
-        bool hasFilePath() const;
-		
+        virtual void undo() override;
+        virtual void redo() override;
+        virtual void copy() override;
+        virtual void cut() override;
+        virtual void paste() override;
+        
+        virtual const felide::model::Source* getSource() const override;
+    	
+    private:
+        void createWidget();
+        
+    private slots:
+        void textChanged();
+        
 	private:
-		struct Impl;
-		std::unique_ptr<Impl> impl;
+        QTextEdit *editorWidget = nullptr;
+        felide::model::Source source;
 	};
 }}
 

@@ -1,4 +1,6 @@
 
+#if 0
+
 #include "SourceEditorScintilla.hpp"
 
 #include <sstream>
@@ -192,3 +194,5 @@ namespace felide { namespace view {
         return this->impl->source.hasPath();
     }
 }}
+
+#endif

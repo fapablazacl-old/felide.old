@@ -8,8 +8,8 @@
 #include <QFileDialog>
 #include <QCloseEvent>
 #include <QMessageBox>
-#include <Qsci/qscilexercpp.h>
-#include <Qsci/qscilexercmake.h>
+
+#include <felide/view/SourceEditorGeneric.hpp>
 
 namespace felide { namespace view {
     
@@ -31,6 +31,12 @@ namespace felide { namespace view {
     {
         this->initializeMenuBar();        
         this->updateTitle();
+    }
+    
+    void MainWindow::initializeEditor()
+    {
+        this->sourceEditor = new SourceEditorGeneric(this);
+        this->setCentralWidget(this->sourceEditor);
     }
     
     void MainWindow::addSourceEditor() 
@@ -103,41 +109,49 @@ namespace felide { namespace view {
         this->connect(this->copyAction, SIGNAL(triggered()), this, SLOT(onCopy()));
         this->connect(this->pasteAction, SIGNAL(triggered()), this, SLOT(onPaste()));
         
-        this->connect(this->testAction, SIGNAL(triggered()), this, SLOT(onTest()));
+        // this->connect(this->testAction, SIGNAL(triggered()), this, SLOT(onTest()));
     }
     
     void MainWindow::updateTitle() 
     {
+        /*
         std::stringstream ss;
         
         ss << "felide - ";
-        if (this->source.hasPath()) {
-            ss << this->source.getPath() << " ";
+        
+        if (this->sourceEditor->getSource()->hasPath()) {
+            ss << this->sourceEditor->getSource()->getPath() << " ";
         } else {
             ss << "Untitled " << this->documentCount << " ";
         }
         
-        ss << (this->source.getDirtyFlag()?"[modified]":"");
+        ss << (this->sourceEditor->getSource()->getDirtyFlag()?"[modified]":"");
         
         this->setWindowTitle(QString(ss.str().c_str()));
+        */
     }
     
     void MainWindow::updateEditorMargin() 
     {
+        /*
         QFontMetrics fontmetrics = this->editorWidget->fontMetrics();
         this->editorWidget->setMarginWidth(0, fontmetrics.width(QString::number(this->editorWidget->lines())) + 6);
+        */
     }
     
     void MainWindow::onTextChanged() 
     {
+        /*
         this->source.setDirtyFlag(true);
         
         this->updateEditorMargin();
         this->updateTitle();
+        */
     }
     
     void MainWindow::onNewFile() 
     {
+        /*
         if (this->sourceEditor->getDirtyFlag()) {
             switch (this->askSaveChanges()) {
                 case QMessageBox::Save:
@@ -154,10 +168,12 @@ namespace felide { namespace view {
         
         this->source = felide::model::Source();
         this->updateTitle();
+        */
     }
     
     void MainWindow::onOpenFile() 
     {    
+        /*
         if (this->source.getDirtyFlag()) {
             switch (this->askSaveChanges()) {
                 case QMessageBox::Save:
@@ -171,16 +187,19 @@ namespace felide { namespace view {
         }
         
         this->doOpenFile();
+        */
     }
     
     void MainWindow::onSaveFile() 
     {
+        /*
         if (this->source.hasPath()) {
             this->source.save(this->editorWidget->text().toStdString());
             this->updateTitle();
         } else {
             this->onSaveFileAs();
         }
+        */
     }
     
     int MainWindow::askSaveChanges() 
@@ -199,44 +218,9 @@ namespace felide { namespace view {
         this->doSaveFile();
     }
     
-    bool isExtensionCpp(const std::string &ext) 
-    {
-        return ext==".c" || ext==".h" || ext==".cpp" || ext==".hpp";
-    }
-    
-    static QsciLexer* createLexer(const std::string &filename) 
-    {
-        QsciLexer *lexer = nullptr;
-        
-        // Select correct lexer type
-        fs::path path = fs::path(filename);
-        fs::path name = path.filename();
-        
-        if (isExtensionCpp(name.extension().string())) {
-            QsciLexerCPP *cppLexer = new QsciLexerCPP();
-            cppLexer->setFoldComments(true);
-            
-            lexer = cppLexer;
-        }
-        
-        if (name.string() == "CMakeLists.txt") {
-            lexer = new QsciLexerCMake();
-        }
-        
-        return lexer;
-    }
-    
-    void MainWindow::setLexer(QsciLexer *lexer)
-    {
-        if (lexer) {
-            lexer->setDefaultFont(this->editorWidget->font());
-        }
-        
-        this->editorWidget->setLexer(lexer);
-    }
-    
     bool MainWindow::doOpenFile() 
     {
+        /*
         QString path = QFileDialog::getOpenFileName(this, "Open", QString(), tr(fileFilter));
         
         if (path.isEmpty()) {
@@ -253,19 +237,18 @@ namespace felide { namespace view {
         this->source.setDirtyFlag(false);
         
         this->updateTitle();
-        
+        */
         return true;
     }
     
     bool MainWindow::doSaveFile() 
     {
+        /*
         QString path = QFileDialog::getSaveFileName(this, "Save", QString(), tr(fileFilter));
         
         if (path.isEmpty()) {
             return false;
         }
-        
-        this->setLexer(createLexer(path.toStdString()));
         
         std::string content = this->editorWidget->text().toStdString();
         
@@ -273,12 +256,14 @@ namespace felide { namespace view {
         this->source.save(content);
         
         this->updateTitle();
+        */
         
         return true;
     }
     
     void MainWindow::closeEvent(QCloseEvent *event) 
     {
+        /*
         if (!this->source.getDirtyFlag()) {
             event->accept();
             return;
@@ -301,6 +286,7 @@ namespace felide { namespace view {
                 event->ignore();
                 break;
         }
+        */
     }
     
     void MainWindow::onExit() 
@@ -310,27 +296,27 @@ namespace felide { namespace view {
     
     void MainWindow::onUndo() 
     {
-        this->editorWidget->undo();
+        // this->editorWidget->undo();
     }
     
     void MainWindow::onRedo()
     {
-        this->editorWidget->redo();
+        // this->editorWidget->redo();
     }
     
     void MainWindow::onCut()
     {
-        this->editorWidget->cut();
+        // this->editorWidget->cut();
     }
     
     void MainWindow::onCopy()
     {
-        this->editorWidget->copy();
+        // this->editorWidget->copy();
     }
     
     void MainWindow::onPaste()
     {
-        this->editorWidget->paste();
+        // this->editorWidget->paste();
     }
     
     void MainWindow::onTest() 

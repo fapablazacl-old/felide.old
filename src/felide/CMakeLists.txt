@@ -38,10 +38,10 @@ set (src_felide_model_util
 )
 
 set (src_felide_view
-	view/MainWindow.hpp				view/MainWindow.cpp 
-    view/SourceEditor.hpp			view/SourceEditor.cpp
-	view/SourceEditorGeneric.hpp	view/SourceEditorGeneric.cpp
-	view/SourceEditorScintilla.hpp	view/SourceEditorScintilla.cpp
+	view/MainWindow.hpp                 view/MainWindow.cpp 
+    view/SourceEditor.hpp               view/SourceEditor.cpp
+	view/SourceEditorGeneric.hpp        view/SourceEditorGeneric.cpp
+	view/SourceEditorScintilla.hpp      view/SourceEditorScintilla.cpp
 )
 
 set (src_felide
@@ -55,7 +55,7 @@ source_group (view FILES ${src_felide_view})
 
 add_executable(felide ${src_felide} ${src_felide_model} ${src_felide_model_util} ${src_felide_view})
 
-target_link_libraries(felide ${Boost_LIBRARIES} Qt5::Widgets qscintilla2)
+target_link_libraries(felide ${Boost_LIBRARIES} Qt5::Widgets)
 
 # Installation
 install (TARGETS felide DESTINATION bin)

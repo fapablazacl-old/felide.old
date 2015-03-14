@@ -1,4 +1,6 @@
 
+#if 0
+
 #ifndef __FELIDE_VIEW_SOURCEEDITORSCINTILLA_HPP__
 #define __FELIDE_VIEW_SOURCEEDITORSCINTILLA_HPP__
 
@@ -39,9 +41,11 @@ namespace felide { namespace view {
 		void initializeEditor();
 
 	private:
-		struct Impl;
-		std::unique_ptr<Impl> impl;
+		// struct Impl;
+		// std::unique_ptr<Impl> impl;
     };
 }}
 
 #endif  // __FELIDE_VIEW_SOURCEEDITORSCINTILLA_HPP__
+
+#endif

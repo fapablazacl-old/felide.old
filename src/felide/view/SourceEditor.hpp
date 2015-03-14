@@ -3,6 +3,7 @@
 #define __FELIDE_VIEW_SOURCEEDITOR_HPP__
 
 #include <QWidget>
+#include <felide/model/Source.hpp>
 
 namespace felide { namespace view {
     
@@ -11,10 +12,10 @@ namespace felide { namespace view {
         Q_OBJECT
         
     public:
-        SourceEditor();
-		
+        virtual ~SourceEditor() = 0;
+        explicit SourceEditor(QWidget *parent);
+        
         virtual QString getTitle() const;
-        virtual bool getDirtyFlag() const;
         
         virtual void save();
         virtual void save(const QString &filePath);
@@ -25,10 +26,18 @@ namespace felide { namespace view {
         virtual void copy();
         virtual void cut();
         virtual void paste();
-    
-        virtual QString getFilePath() const;
-    
-        virtual bool hasFilePath() const;
+        
+        virtual const felide::model::Source* getSource() const;
+
+    signals:
+        void editorChanged(const QString &editorTitle);
+        
+    public:
+        static void increaseDocumentCount();
+        static int getDocumentCount();
+        
+    private:
+        static int documentCount;
     };
 }}
 
