@@ -18,15 +18,20 @@ namespace felide { namespace model {
         
         bool getDirtyFlag() const;
         
-        std::string load();
+        std::string open();
+        std::string open(const std::string &filename);
         
         void save(const std::string &content);
+        void save(const std::string &content, const std::string &filename);
         
         bool hasPath() const;
-        
         void setPath(const std::string &path);
 
         std::string getPath() const;
+        
+        std::string getName() const;
+        
+        void new_();
         
     private:
         std::string path;

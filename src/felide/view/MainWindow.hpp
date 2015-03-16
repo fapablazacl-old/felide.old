@@ -22,25 +22,18 @@ namespace felide { namespace view {
         ~MainWindow();
         
         virtual void closeEvent(QCloseEvent *event) override;
-        void addSourceEditor();
         
     private:
         void initializeUserInterface();
         
         void initializeEditor();
         void initializeMenuBar();
-        void initializeWindow();
         void connectSignals();
-        
-        void updateTitle();
         
         void updateEditorMargin();
         
         int askSaveChanges();
         
-        bool doOpenFile();
-        bool doSaveFile();
-       
     private:
         QMenu *fileMenu = nullptr;
         QMenu *editMenu = nullptr;
@@ -69,12 +62,12 @@ namespace felide { namespace view {
         
     private slots:
         void onNewFile();
-        void onOpenFile();
-        void onSaveFile();
-        void onSaveFileAs();
+        bool onOpenFile();
+        bool onSaveFile();
+        bool onSaveFileAs();
         void onExit();
         
-        void onTextChanged();
+        void onEditorChanged(const QString &title);
         
         void onUndo();
         void onRedo();

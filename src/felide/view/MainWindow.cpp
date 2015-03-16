@@ -2,6 +2,7 @@
 #include "MainWindow.hpp"
 
 #include <sstream>
+#include <iostream>
 #include <boost/functional/hash.hpp>
 #include <boost/filesystem.hpp>
 
@@ -25,25 +26,23 @@ namespace felide { namespace view {
     MainWindow::MainWindow() 
     {
         this->initializeUserInterface();
+        this->onNewFile();
     }
     
     void MainWindow::initializeUserInterface()
     {
-        this->initializeMenuBar();        
-        this->updateTitle();
+        this->initializeMenuBar();
+        this->initializeEditor();
+        this->connectSignals();
     }
     
     void MainWindow::initializeEditor()
     {
         this->sourceEditor = new SourceEditorGeneric(this);
+        
+        QObject::connect(this->sourceEditor, &SourceEditor::editorChanged, this, &MainWindow::onEditorChanged);
+        
         this->setCentralWidget(this->sourceEditor);
-    }
-    
-    void MainWindow::addSourceEditor() 
-    {
-        this->initializeWindow();
-        this->initializeEditor();
-        this->connectSignals();
     }
     
     MainWindow::~MainWindow() {}
@@ -89,12 +88,7 @@ namespace felide { namespace view {
         this->executeAction = this->compileMenu->addAction("&Execute");
         this->executeAction->setShortcut(tr("Ctrl+F5"));
     }
-    
-    void MainWindow::initializeWindow() 
-    {
 
-    }
-    
     void MainWindow::connectSignals() 
     {
         this->connect(this->newFileAction, SIGNAL(triggered()), this, SLOT(onNewFile()));
@@ -108,27 +102,6 @@ namespace felide { namespace view {
         this->connect(this->cutAction, SIGNAL(triggered()), this, SLOT(onCut()));
         this->connect(this->copyAction, SIGNAL(triggered()), this, SLOT(onCopy()));
         this->connect(this->pasteAction, SIGNAL(triggered()), this, SLOT(onPaste()));
-        
-        // this->connect(this->testAction, SIGNAL(triggered()), this, SLOT(onTest()));
-    }
-    
-    void MainWindow::updateTitle() 
-    {
-        /*
-        std::stringstream ss;
-        
-        ss << "felide - ";
-        
-        if (this->sourceEditor->getSource()->hasPath()) {
-            ss << this->sourceEditor->getSource()->getPath() << " ";
-        } else {
-            ss << "Untitled " << this->documentCount << " ";
-        }
-        
-        ss << (this->sourceEditor->getSource()->getDirtyFlag()?"[modified]":"");
-        
-        this->setWindowTitle(QString(ss.str().c_str()));
-        */
     }
     
     void MainWindow::updateEditorMargin() 
@@ -139,23 +112,25 @@ namespace felide { namespace view {
         */
     }
     
-    void MainWindow::onTextChanged() 
+    void MainWindow::onEditorChanged(const QString &title) 
     {
-        /*
-        this->source.setDirtyFlag(true);
+        std::cout << "editorChanged" << std::endl;
         
+        std::stringstream ss;
+        
+        ss << "felide - " << title.toStdString();
+        
+        this->setWindowTitle(QString(ss.str().c_str()));
+        this->sourceEditor->getProjectItem()->setDirtyFlag(true);
         this->updateEditorMargin();
-        this->updateTitle();
-        */
     }
     
     void MainWindow::onNewFile() 
     {
-        /*
-        if (this->sourceEditor->getDirtyFlag()) {
+        if (this->sourceEditor->getProjectItem()->getDirtyFlag()) {
             switch (this->askSaveChanges()) {
                 case QMessageBox::Save:
-                    if (!this->doSaveFile()) {
+                    if (!this->onSaveFile()) {
                         return;
                     }
                 
@@ -164,42 +139,46 @@ namespace felide { namespace view {
             }
         }
         
-        this->documentCount++;
-        
-        this->source = felide::model::Source();
-        this->updateTitle();
-        */
+        this->sourceEditor->new_();
     }
     
-    void MainWindow::onOpenFile() 
-    {    
-        /*
-        if (this->source.getDirtyFlag()) {
+    bool MainWindow::onOpenFile() 
+    {   
+        // Check for previous file
+        if (this->sourceEditor->getProjectItem()->getDirtyFlag()) {
             switch (this->askSaveChanges()) {
                 case QMessageBox::Save:
-                    if (!this->doSaveFile()) {
-                        return;
+                
+                    if (!this->onSaveFile()) {
+                        return false;
                     }
                 
                 case QMessageBox::Cancel:
-                    return;
+                    return false;
             }
         }
         
-        this->doOpenFile();
-        */
+        // Open the file
+        QString path = QFileDialog::getOpenFileName(this, "Open", QString(), tr(fileFilter));
+        
+        if (path.isEmpty()) {
+            return false;
+        }
+        
+        this->sourceEditor->load(path);
+        
+        return true;
     }
     
-    void MainWindow::onSaveFile() 
+    bool MainWindow::onSaveFile() 
     {
-        /*
-        if (this->source.hasPath()) {
-            this->source.save(this->editorWidget->text().toStdString());
-            this->updateTitle();
+        if (this->sourceEditor->getProjectItem()->hasPath()) {
+            this->sourceEditor->save();
+            
+            return true;
         } else {
-            this->onSaveFileAs();
+            return this->onSaveFileAs();
         }
-        */
     }
     
     int MainWindow::askSaveChanges() 
@@ -213,65 +192,29 @@ namespace felide { namespace view {
         return msgBox.exec();
     }
     
-    void MainWindow::onSaveFileAs() 
+    bool MainWindow::onSaveFileAs() 
     {
-        this->doSaveFile();
-    }
-    
-    bool MainWindow::doOpenFile() 
-    {
-        /*
-        QString path = QFileDialog::getOpenFileName(this, "Open", QString(), tr(fileFilter));
-        
-        if (path.isEmpty()) {
-            return false;
-        }
-        
-        this->setLexer(createLexer(path.toStdString()));
-        
-        std::string content;
-        this->source = felide::model::Source(path.toStdString());
-        content = this->source.load();
-        this->editorWidget->setText(QString(content.c_str()));
-        
-        this->source.setDirtyFlag(false);
-        
-        this->updateTitle();
-        */
-        return true;
-    }
-    
-    bool MainWindow::doSaveFile() 
-    {
-        /*
         QString path = QFileDialog::getSaveFileName(this, "Save", QString(), tr(fileFilter));
         
         if (path.isEmpty()) {
             return false;
         }
         
-        std::string content = this->editorWidget->text().toStdString();
-        
-        this->source = felide::model::Source(path.toStdString());
-        this->source.save(content);
-        
-        this->updateTitle();
-        */
+        this->sourceEditor->save(path);
         
         return true;
     }
     
     void MainWindow::closeEvent(QCloseEvent *event) 
     {
-        /*
-        if (!this->source.getDirtyFlag()) {
+        if (!this->sourceEditor->getProjectItem()->getDirtyFlag()) {
             event->accept();
             return;
         }
         
         switch (this->askSaveChanges()) {
             case QMessageBox::Save:
-                if (this->doSaveFile()) {
+                if (this->onSaveFile()) {
                     event->accept();
                 } else {
                     event->ignore();
@@ -286,7 +229,6 @@ namespace felide { namespace view {
                 event->ignore();
                 break;
         }
-        */
     }
     
     void MainWindow::onExit() 
@@ -296,27 +238,27 @@ namespace felide { namespace view {
     
     void MainWindow::onUndo() 
     {
-        // this->editorWidget->undo();
+        this->sourceEditor->undo();
     }
     
     void MainWindow::onRedo()
     {
-        // this->editorWidget->redo();
+        this->sourceEditor->redo();
     }
     
     void MainWindow::onCut()
     {
-        // this->editorWidget->cut();
+        this->sourceEditor->cut();
     }
     
     void MainWindow::onCopy()
     {
-        // this->editorWidget->copy();
+        this->sourceEditor->copy();
     }
     
     void MainWindow::onPaste()
     {
-        // this->editorWidget->paste();
+        this->sourceEditor->paste();
     }
     
     void MainWindow::onTest() 

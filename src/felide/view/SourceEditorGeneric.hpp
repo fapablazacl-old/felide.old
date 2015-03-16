@@ -15,9 +15,13 @@ namespace felide { namespace view {
 	public:
         explicit SourceEditorGeneric(QWidget *parent);
         explicit SourceEditorGeneric(QWidget *parent, const QString &filePath);
+        
+        virtual ~SourceEditorGeneric();
+        
     
         virtual QString getTitle() const override;
-        
+    
+        virtual void new_() override;
         virtual void save() override;
         virtual void save(const QString &filePath) override;
         virtual void load(const QString &filePath) override;
@@ -28,8 +32,9 @@ namespace felide { namespace view {
         virtual void cut() override;
         virtual void paste() override;
         
-        virtual const felide::model::Source* getSource() const override;
-    	
+        virtual const felide::model::ProjectItem* getProjectItem() const override;
+        virtual felide::model::ProjectItem* getProjectItem() override;
+        
     private:
         void createWidget();
         
@@ -38,7 +43,7 @@ namespace felide { namespace view {
         
 	private:
         QTextEdit *editorWidget = nullptr;
-        felide::model::Source source;
+        felide::model::ProjectItem *projectItem = nullptr;
 	};
 }}
 

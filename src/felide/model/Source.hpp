@@ -1,4 +1,6 @@
 
+#if 0
+
 #ifndef __FELIDE_MODEL_SOURCE_HPP__
 #define __FELIDE_MODEL_SOURCE_HPP__
 
@@ -35,3 +37,5 @@ namespace felide { namespace model {
 }}
 
 #endif  // __FELIDE_MODEL_SOURCE_HPP__
+
+#endif

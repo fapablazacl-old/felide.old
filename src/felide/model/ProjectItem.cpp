@@ -4,13 +4,18 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <boost/filesystem.hpp>
 
 namespace felide { namespace model {
     
-    ProjectItem::ProjectItem() {}
+    ProjectItem::ProjectItem() 
+    {
+        this->new_();
+    }
     
     ProjectItem::ProjectItem(const std::string &path) 
     {
+        this->new_();
         this->setPath(path);
     }
     
@@ -26,7 +31,7 @@ namespace felide { namespace model {
         return this->dirty;
     }
     
-    std::string ProjectItem::load() 
+    std::string ProjectItem::open() 
     {
         std::string line;
         std::string content;
@@ -50,6 +55,12 @@ namespace felide { namespace model {
         return content;
     }
     
+    std::string ProjectItem::open(const std::string &filename)
+    {
+        this->setPath(filename);
+        return this->open();
+    }
+    
     void ProjectItem::save(const std::string &content) 
     {
         std::fstream fs;
@@ -62,6 +73,12 @@ namespace felide { namespace model {
         fs << content;
         
         this->dirty = false;
+    }
+    
+    void ProjectItem::save(const std::string &content, const std::string &path) 
+    {
+        this->setPath(path);
+        this->save(content);
     }
     
     void ProjectItem::setPath(const std::string &path) 
@@ -77,5 +94,20 @@ namespace felide { namespace model {
     bool ProjectItem::hasPath() const 
     {
         return this->path.size() > 0;
+    }
+    
+    std::string ProjectItem::getName() const
+    {
+        if (this->hasPath()) {
+            return boost::filesystem::path(this->getPath()).filename().string();
+        } else {
+            return "";
+        }
+    }
+    
+    void ProjectItem::new_()
+    {
+        this->setPath("");
+        this->setDirtyFlag(false);
     }
 }}

@@ -11,17 +11,16 @@
 #include <felide/model/Source.hpp>
 
 namespace felide { namespace view {
-    
+    using namespace felide::model;
+
     namespace fs = boost::filesystem;
-    
-    static bool isExtensionCpp(const std::string &ext) 
-    {
-        return ext==".c" || ext==".h" || ext==".cpp" || ext==".hpp";
-    }
     
     void SourceEditorGeneric::createWidget()
     {
-        this->editorWidget = new QTextEdit(this);   
+        this->projectItem = new ProjectItem();
+        
+        this->editorWidget = new QTextEdit(this);
+        QObject::connect(this->editorWidget, &QTextEdit::textChanged, this, &SourceEditorGeneric::textChanged);
         
         QGridLayout *layout = new QGridLayout(this);
         layout->addWidget(this->editorWidget, 0, 0);
@@ -41,30 +40,39 @@ namespace felide { namespace view {
         this->load(filePath);
     }
     
+    SourceEditorGeneric::~SourceEditorGeneric()
+    {
+        boost::checked_delete(this->projectItem);
+    }
+    
     QString SourceEditorGeneric::getTitle() const
     {
         std::stringstream ss;
         
-        ss << (this->source.getDirtyFlag()?"[modified]":"");
+        ss << (this->getProjectItem()->getDirtyFlag()?"[modified] ":"");
         
-        if (this->source.hasPath()) {
-            ss << this->source.getPath() << " ";
+        if (this->getProjectItem()->hasPath()) {
+            ss << this->getProjectItem()->getPath() << " ";
         } else {
             ss << "Untitled " << SourceEditor::getDocumentCount() << " ";
         }
         
-        return QString(ss.str().c_str());
+        return QString::fromStdString(ss.str());
+    }
+    
+    void SourceEditorGeneric::new_() 
+    {
+        this->getProjectItem()->new_();   
+        this->editorWidget->setText("");
     }
     
     void SourceEditorGeneric::save()
     {
-        if (!this->source.hasPath()) {
+        if (!this->getProjectItem()->hasPath()) {
             throw std::runtime_error("SourceEditorGeneric::save: Cannot save a file without a filename");
         }
 		
-        this->source.save(this->editorWidget->toPlainText().toStdString());
-        
-        // emit editorChanged(this->getTitle());
+        this->getProjectItem()->save(this->editorWidget->toPlainText().toStdString());
     }
     
     void SourceEditorGeneric::save(const QString &filePath)
@@ -72,26 +80,16 @@ namespace felide { namespace view {
         std::string filename = filePath.toStdString();
         std::string content = this->editorWidget->toPlainText().toStdString();
         
-        auto source = felide::model::Source(filename);
-        source.save(content);
-        
-        this->source = source;
-        
-        // emit editorChanged(this->getTitle());
+        this->getProjectItem()->save(content, filename);
     }
     
     void SourceEditorGeneric::load(const QString &filePath)
     {
         std::string filename = filePath.toStdString();
+        std::string content = this->getProjectItem()->open(filename);
         
-        auto source = felide::model::Source(filename);
-        std::string content = source.load();
-        source.setDirtyFlag(false);
-        
-        this->editorWidget->setText(QString(content.c_str()));
-        this->source = source;
-        
-        // emit editorChanged(this->getTitle());
+        this->editorWidget->setText(QString::fromStdString(content));
+        this->getProjectItem()->setDirtyFlag(false);
     }
     
     void SourceEditorGeneric::undo()
@@ -119,9 +117,14 @@ namespace felide { namespace view {
         this->editorWidget->paste();
     }
     
-    const felide::model::Source* SourceEditorGeneric::getSource() const 
+    const felide::model::ProjectItem* SourceEditorGeneric::getProjectItem() const 
     {
-        return &this->source;
+        return this->projectItem;
+    }
+
+    felide::model::ProjectItem* SourceEditorGeneric::getProjectItem()
+    {
+        return this->projectItem;
     }
     
     void SourceEditorGeneric::textChanged()

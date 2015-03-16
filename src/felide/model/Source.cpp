@@ -1,4 +1,6 @@
 
+#if 0
+
 #include "Source.hpp"
 
 #include <fstream>
@@ -79,3 +81,5 @@ namespace felide { namespace model {
         return this->path.size() > 0;
     }
 }}
+
+#endif
