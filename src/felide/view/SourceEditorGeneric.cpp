@@ -62,8 +62,8 @@ namespace felide { namespace view {
     
     void SourceEditorGeneric::new_() 
     {
-        this->getProjectItem()->new_();   
         this->editorWidget->setText("");
+        this->getProjectItem()->new_();   
     }
     
     void SourceEditorGeneric::save()

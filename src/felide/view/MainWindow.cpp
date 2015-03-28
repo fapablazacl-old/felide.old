@@ -3,8 +3,6 @@
 
 #include <sstream>
 #include <iostream>
-#include <boost/functional/hash.hpp>
-#include <boost/filesystem.hpp>
 
 #include <QFileDialog>
 #include <QCloseEvent>
@@ -13,8 +11,6 @@
 #include <felide/view/SourceEditorGeneric.hpp>
 
 namespace felide { namespace view {
-    
-    namespace fs = boost::filesystem;
     
     const char fileFilter[] = "C/C++ Source Files (*.cpp *.hpp *.c *.h);;All Files (*.*)";
     
@@ -114,8 +110,6 @@ namespace felide { namespace view {
     
     void MainWindow::onEditorChanged(const QString &title) 
     {
-        std::cout << "editorChanged" << std::endl;
-        
         std::stringstream ss;
         
         ss << "felide - " << title.toStdString();
