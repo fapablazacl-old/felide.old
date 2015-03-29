@@ -7,8 +7,10 @@
 #include <QAction>
 #include <QMenuBar>
 #include <QMenu>
+#include <QTabWidget>
 
 #include <felide/view/SourceEditor.hpp>
+#include <felide/view/EditorPanel.hpp>
 #include <felide/model/Source.hpp>
 
 namespace felide { namespace view {
@@ -26,7 +28,6 @@ namespace felide { namespace view {
     private:
         void initializeUserInterface();
         
-        void initializeEditor();
         void initializeMenuBar();
         void connectSignals();
         
@@ -56,8 +57,10 @@ namespace felide { namespace view {
         
         QAction *buildAction = nullptr;
         QAction *executeAction = nullptr;
+		// SourceEditor *sourceEditor = nullptr;
         
-		SourceEditor *sourceEditor = nullptr;
+        EditorPanel *editorPanel;
+        
         int documentCount = 1;
         
     private slots:

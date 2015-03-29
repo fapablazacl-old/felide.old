@@ -28,17 +28,15 @@ namespace felide { namespace view {
     void MainWindow::initializeUserInterface()
     {
         this->initializeMenuBar();
-        this->initializeEditor();
         this->connectSignals();
-    }
-    
-    void MainWindow::initializeEditor()
-    {
-        this->sourceEditor = new SourceEditorGeneric(this);
         
-        QObject::connect(this->sourceEditor, &SourceEditor::editorChanged, this, &MainWindow::onEditorChanged);
+        this->editorPanel = new EditorPanel(this);
         
-        this->setCentralWidget(this->sourceEditor);
+        this->editorPanel->openEditor(new SourceEditorGeneric(this));
+        this->editorPanel->openEditor(new SourceEditorGeneric(this));
+        this->editorPanel->openEditor(new SourceEditorGeneric(this));
+        
+        this->setCentralWidget(this->editorPanel);
     }
     
     MainWindow::~MainWindow() {}
@@ -115,13 +113,15 @@ namespace felide { namespace view {
         ss << "felide - " << title.toStdString();
         
         this->setWindowTitle(QString(ss.str().c_str()));
-        this->sourceEditor->getProjectItem()->setDirtyFlag(true);
+        // this->editorPanel->getActiveEditor()->getProjectItem()->setDirtyFlag(true);
         this->updateEditorMargin();
     }
     
     void MainWindow::onNewFile() 
     {
-        if (this->sourceEditor->getProjectItem()->getDirtyFlag()) {
+        SourceEditor *editor = this->editorPanel->getActiveEditor();
+        
+        if (editor->getProjectItem()->isModified()) {
             switch (this->askSaveChanges()) {
                 case QMessageBox::Save:
                     if (!this->onSaveFile()) {
@@ -133,13 +133,15 @@ namespace felide { namespace view {
             }
         }
         
-        this->sourceEditor->new_();
+        editor->new_();
     }
     
     bool MainWindow::onOpenFile() 
     {   
+        SourceEditor *editor = this->editorPanel->getActiveEditor();
+        
         // Check for previous file
-        if (this->sourceEditor->getProjectItem()->getDirtyFlag()) {
+        if (editor->getProjectItem()->isModified()) {
             switch (this->askSaveChanges()) {
                 case QMessageBox::Save:
                 
@@ -159,20 +161,26 @@ namespace felide { namespace view {
             return false;
         }
         
-        this->sourceEditor->load(path);
+        editor->load(path);
         
         return true;
     }
     
     bool MainWindow::onSaveFile() 
     {
-        if (this->sourceEditor->getProjectItem()->hasPath()) {
-            this->sourceEditor->save();
+        SourceEditor *editor = this->editorPanel->getActiveEditor();
+        
+        bool result = false;
+        
+        if (editor->getProjectItem()->hasPath()) {
+            editor->save();
             
-            return true;
+            result = true;
         } else {
-            return this->onSaveFileAs();
+            result = this->onSaveFileAs();
         }
+        
+        return result;
     }
     
     int MainWindow::askSaveChanges() 
@@ -194,14 +202,14 @@ namespace felide { namespace view {
             return false;
         }
         
-        this->sourceEditor->save(path);
+        this->editorPanel->getActiveEditor()->save(path);
         
         return true;
     }
     
     void MainWindow::closeEvent(QCloseEvent *event) 
     {
-        if (!this->sourceEditor->getProjectItem()->getDirtyFlag()) {
+        if (!this->editorPanel->getActiveEditor()->getProjectItem()->isModified()) {
             event->accept();
             return;
         }
@@ -232,27 +240,27 @@ namespace felide { namespace view {
     
     void MainWindow::onUndo() 
     {
-        this->sourceEditor->undo();
+        this->editorPanel->getActiveEditor()->undo();
     }
     
     void MainWindow::onRedo()
     {
-        this->sourceEditor->redo();
+        this->editorPanel->getActiveEditor()->redo();
     }
     
     void MainWindow::onCut()
     {
-        this->sourceEditor->cut();
+        this->editorPanel->getActiveEditor()->cut();
     }
     
     void MainWindow::onCopy()
     {
-        this->sourceEditor->copy();
+        this->editorPanel->getActiveEditor()->copy();
     }
     
     void MainWindow::onPaste()
     {
-        this->sourceEditor->paste();
+        this->editorPanel->getActiveEditor()->paste();
     }
     
     void MainWindow::onTest() 

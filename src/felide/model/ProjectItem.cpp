@@ -21,14 +21,14 @@ namespace felide { namespace model {
     
     ProjectItem::~ProjectItem() {}
     
-    void ProjectItem::setDirtyFlag(bool flag) 
+    void ProjectItem::modify() 
     {
-        this->dirty = flag;
+        this->modifyAndTrigger(true);
     }
         
-    bool ProjectItem::getDirtyFlag() const 
+    bool ProjectItem::isModified() const 
     {
-        return this->dirty;
+        return this->modified;
     }
     
     std::string ProjectItem::open() 
@@ -50,7 +50,7 @@ namespace felide { namespace model {
             content += "\n";
         }
         
-        this->dirty = false;
+        this->modifyAndTrigger(false);
         
         return content;
     }
@@ -72,7 +72,7 @@ namespace felide { namespace model {
         
         fs << content;
         
-        this->dirty = false;
+        this->modifyAndTrigger(false);
     }
     
     void ProjectItem::save(const std::string &content, const std::string &path) 
@@ -108,6 +108,14 @@ namespace felide { namespace model {
     void ProjectItem::new_()
     {
         this->setPath("");
-        this->setDirtyFlag(false);
+        this->modified = false;
+    }
+    
+    void ProjectItem::modifyAndTrigger(bool modified)
+    {
+        if (this->modified != modified) {
+            this->modified = modified;
+            this->modifyChanged();
+        }
     }
 }}

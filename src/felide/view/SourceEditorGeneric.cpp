@@ -49,7 +49,7 @@ namespace felide { namespace view {
     {
         std::stringstream ss;
         
-        ss << (this->getProjectItem()->getDirtyFlag()?"[modified] ":"");
+        ss << (this->getProjectItem()->isModified()?"[*] ":"");
         
         if (this->getProjectItem()->hasPath()) {
             ss << this->getProjectItem()->getPath() << " ";
@@ -89,7 +89,6 @@ namespace felide { namespace view {
         std::string content = this->getProjectItem()->open(filename);
         
         this->editorWidget->setText(QString::fromStdString(content));
-        this->getProjectItem()->setDirtyFlag(false);
     }
     
     void SourceEditorGeneric::undo()
@@ -129,6 +128,6 @@ namespace felide { namespace view {
     
     void SourceEditorGeneric::textChanged()
     {
-        emit editorChanged(this->getTitle());
+        emit editorChanged(this);
     }
 }}

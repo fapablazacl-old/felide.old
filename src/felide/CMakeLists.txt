@@ -38,6 +38,7 @@ set (src_felide_model_util
 )
 
 set (src_felide_view
+    view/EditorPanel.hpp                view/EditorPanel.cpp
 	view/MainWindow.hpp                 view/MainWindow.cpp 
     view/SourceEditor.hpp               view/SourceEditor.cpp
 	view/SourceEditorGeneric.hpp        view/SourceEditorGeneric.cpp

@@ -32,7 +32,7 @@ namespace felide { namespace view {
         virtual felide::model::ProjectItem* getProjectItem() = 0;
 
     signals:
-        void editorChanged(const QString &editorTitle);
+        void editorChanged(SourceEditor *editor);
         
     protected:
         static void increaseDocumentCount();
