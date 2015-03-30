@@ -31,8 +31,14 @@ namespace felide { namespace view {
         virtual const felide::model::ProjectItem* getProjectItem() const = 0;
         virtual felide::model::ProjectItem* getProjectItem() = 0;
 
+    private:
+        int editorNumber = 0;
+    
+    protected:
+        int getEditorNumber() const;
+        
     signals:
-        void editorChanged(SourceEditor *editor);
+        void sourceChanged(SourceEditor *editor);
         
     protected:
         static void increaseDocumentCount();

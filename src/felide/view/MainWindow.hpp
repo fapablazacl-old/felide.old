@@ -32,8 +32,9 @@ namespace felide { namespace view {
         void connectSignals();
         
         void updateEditorMargin();
-        
         int askSaveChanges();
+        
+        void updateTitle();
         
     private:
         QMenu *fileMenu = nullptr;

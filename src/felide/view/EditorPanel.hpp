@@ -12,6 +12,9 @@ namespace felide { namespace view {
     class EditorPanel : public QWidget {
         Q_OBJECT
         
+    signals:
+        void editorChanged();
+        
     public:
         EditorPanel(QWidget *parent);
         

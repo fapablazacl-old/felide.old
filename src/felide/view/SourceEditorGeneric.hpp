@@ -37,9 +37,6 @@ namespace felide { namespace view {
     private:
         void createWidget();
         
-    private slots:
-        void textChanged();
-        
 	private:
         QTextEdit *editorWidget = nullptr;
         felide::model::ProjectItem *projectItem = nullptr;

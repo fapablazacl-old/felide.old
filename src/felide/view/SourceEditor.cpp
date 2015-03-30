@@ -11,6 +11,7 @@ namespace felide { namespace view {
     SourceEditor::SourceEditor(QWidget *parent) : QWidget(parent)
     {
         this->increaseDocumentCount();
+        this->editorNumber = SourceEditor::getDocumentCount();
     }
     
     SourceEditor::~SourceEditor() {}
@@ -23,5 +24,10 @@ namespace felide { namespace view {
     int SourceEditor::getDocumentCount()
     {
         return SourceEditor::documentCount;
+    }
+    
+    int SourceEditor::getEditorNumber() const
+    {
+        return this->editorNumber;
     }
 }}

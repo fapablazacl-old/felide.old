@@ -28,13 +28,10 @@ namespace felide { namespace view {
     void MainWindow::initializeUserInterface()
     {
         this->initializeMenuBar();
-        this->connectSignals();
         
         this->editorPanel = new EditorPanel(this);
         
-        this->editorPanel->openEditor(new SourceEditorGeneric(this));
-        this->editorPanel->openEditor(new SourceEditorGeneric(this));
-        this->editorPanel->openEditor(new SourceEditorGeneric(this));
+        this->connectSignals();
         
         this->setCentralWidget(this->editorPanel);
     }
@@ -96,6 +93,10 @@ namespace felide { namespace view {
         this->connect(this->cutAction, SIGNAL(triggered()), this, SLOT(onCut()));
         this->connect(this->copyAction, SIGNAL(triggered()), this, SLOT(onCopy()));
         this->connect(this->pasteAction, SIGNAL(triggered()), this, SLOT(onPaste()));
+        
+        QObject::connect(this->editorPanel, &EditorPanel::editorChanged, [this]() {
+            this->updateTitle();
+        });
     }
     
     void MainWindow::updateEditorMargin() 
@@ -108,18 +109,19 @@ namespace felide { namespace view {
     
     void MainWindow::onEditorChanged(const QString &title) 
     {
-        std::stringstream ss;
         
-        ss << "felide - " << title.toStdString();
-        
-        this->setWindowTitle(QString(ss.str().c_str()));
-        // this->editorPanel->getActiveEditor()->getProjectItem()->setDirtyFlag(true);
-        this->updateEditorMargin();
     }
     
     void MainWindow::onNewFile() 
     {
+        this->editorPanel->openEditor(new SourceEditorGeneric(this));
+        
+        /*
         SourceEditor *editor = this->editorPanel->getActiveEditor();
+        
+        if (!editor) {
+            return;
+        }
         
         if (editor->getProjectItem()->isModified()) {
             switch (this->askSaveChanges()) {
@@ -134,12 +136,17 @@ namespace felide { namespace view {
         }
         
         editor->new_();
+        */
     }
     
     bool MainWindow::onOpenFile() 
     {   
         SourceEditor *editor = this->editorPanel->getActiveEditor();
         
+        if (!editor) {
+            return false;
+        }
+            
         // Check for previous file
         if (editor->getProjectItem()->isModified()) {
             switch (this->askSaveChanges()) {
@@ -169,6 +176,10 @@ namespace felide { namespace view {
     bool MainWindow::onSaveFile() 
     {
         SourceEditor *editor = this->editorPanel->getActiveEditor();
+        
+        if (!editor) {
+            return false;
+        }
         
         bool result = false;
         
@@ -209,7 +220,9 @@ namespace felide { namespace view {
     
     void MainWindow::closeEvent(QCloseEvent *event) 
     {
-        if (!this->editorPanel->getActiveEditor()->getProjectItem()->isModified()) {
+        SourceEditor *editor = this->editorPanel->getActiveEditor();
+        
+        if (!editor || !editor->getProjectItem()->isModified()) {
             event->accept();
             return;
         }
@@ -240,26 +253,46 @@ namespace felide { namespace view {
     
     void MainWindow::onUndo() 
     {
+        if (!this->editorPanel->getActiveEditor()) {
+            return;
+        }
+        
         this->editorPanel->getActiveEditor()->undo();
     }
     
     void MainWindow::onRedo()
     {
+        if (!this->editorPanel->getActiveEditor()) {
+            return;
+        }
+        
         this->editorPanel->getActiveEditor()->redo();
     }
     
     void MainWindow::onCut()
     {
+        if (!this->editorPanel->getActiveEditor()) {
+            return;
+        }
+        
         this->editorPanel->getActiveEditor()->cut();
     }
     
     void MainWindow::onCopy()
     {
+        if (!this->editorPanel->getActiveEditor()) {
+            return;
+        }
+        
         this->editorPanel->getActiveEditor()->copy();
     }
     
     void MainWindow::onPaste()
     {
+        if (!this->editorPanel->getActiveEditor()) {
+            return;
+        }
+        
         this->editorPanel->getActiveEditor()->paste();
     }
     
@@ -276,5 +309,20 @@ namespace felide { namespace view {
     void MainWindow::onExecute()
     {
         
+    }
+    
+    void MainWindow::updateTitle()
+    {
+        QString title;
+        SourceEditor *editor = this->editorPanel->getActiveEditor();
+        
+        if (editor) {
+            title = "felide - " + editor->getTitle();
+        } else {
+            title = "felide";
+        }
+        
+        this->setWindowTitle(title);
+        this->updateEditorMargin();
     }
 }}

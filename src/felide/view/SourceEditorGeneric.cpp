@@ -5,7 +5,6 @@
 #include <memory>
 #include <boost/filesystem.hpp>
 
-
 #include <QTextEdit>
 #include <QGridLayout>
 #include <felide/model/Source.hpp>
@@ -20,7 +19,10 @@ namespace felide { namespace view {
         this->projectItem = new ProjectItem();
         
         this->editorWidget = new QTextEdit(this);
-        QObject::connect(this->editorWidget, &QTextEdit::textChanged, this, &SourceEditorGeneric::textChanged);
+        QObject::connect(this->editorWidget, &QTextEdit::textChanged, [this]() {
+            this->projectItem->modify();
+            emit sourceChanged(this);
+        });
         
         QGridLayout *layout = new QGridLayout(this);
         layout->addWidget(this->editorWidget, 0, 0);
@@ -54,7 +56,7 @@ namespace felide { namespace view {
         if (this->getProjectItem()->hasPath()) {
             ss << this->getProjectItem()->getPath() << " ";
         } else {
-            ss << "Untitled " << SourceEditor::getDocumentCount() << " ";
+            ss << "Untitled " << this->getEditorNumber() << " ";
         }
         
         return QString::fromStdString(ss.str());
@@ -124,10 +126,5 @@ namespace felide { namespace view {
     felide::model::ProjectItem* SourceEditorGeneric::getProjectItem()
     {
         return this->projectItem;
-    }
-    
-    void SourceEditorGeneric::textChanged()
-    {
-        emit editorChanged(this);
     }
 }}
