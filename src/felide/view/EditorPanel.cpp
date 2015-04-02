@@ -54,6 +54,31 @@ namespace felide { namespace view {
     
     const SourceEditor* EditorPanel::getActiveEditor() const
     {
-        return nullptr;
+        const SourceEditor* editor = nullptr;
+        
+        editor = static_cast<const SourceEditor*>(this->tabWidget->currentWidget());
+        
+        return editor;
+    }
+    
+    SourceEditor* EditorPanel::findNewEditor() const
+    {
+        SourceEditor *result = nullptr;
+        
+        for (int i=0; i<this->tabWidget->count(); i++) {
+            SourceEditor *editor = nullptr;
+            editor = static_cast<SourceEditor*>(this->tabWidget->widget(i));
+            
+            if (editor->isNew()) {
+                result = editor;
+            }
+        }
+        
+        return result;
+    }
+    
+    void EditorPanel::activateEditor(SourceEditor *editor)
+    {
+        this->tabWidget->setCurrentWidget(editor);
     }
 }}

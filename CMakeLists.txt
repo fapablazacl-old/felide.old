@@ -6,7 +6,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 
 # Other
-# add_definitions(-std=c++11)
+add_definitions(-std=c++11)
 
 include_directories(src)
 

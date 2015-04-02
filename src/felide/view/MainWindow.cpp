@@ -85,7 +85,9 @@ namespace felide { namespace view {
         this->connect(this->newFileAction, SIGNAL(triggered()), this, SLOT(onNewFile()));
         this->connect(this->openFileAction, SIGNAL(triggered()), this, SLOT(onOpenFile()));
         this->connect(this->saveFileAction, SIGNAL(triggered()), this, SLOT(onSaveFile()));
-        this->connect(this->saveAsFileAction, SIGNAL(triggered()), this, SLOT(onSaveFileAs()));
+        
+        
+        
         this->connect(this->exitAction, SIGNAL(triggered()), this, SLOT(onExit()));
         
         this->connect(this->undoAction, SIGNAL(triggered()), this, SLOT(onUndo()));
@@ -96,6 +98,13 @@ namespace felide { namespace view {
         
         QObject::connect(this->editorPanel, &EditorPanel::editorChanged, [this]() {
             this->updateTitle();
+        });
+        
+        
+        QObject::connect(this->saveAsFileAction, &QAction::triggered, [this]() {
+            if (this->editorPanel->getActiveEditor()) {
+                this->onSaveFileAs(this->editorPanel->getActiveEditor());
+            }
         });
     }
     
@@ -114,7 +123,10 @@ namespace felide { namespace view {
     
     void MainWindow::onNewFile() 
     {
-        this->editorPanel->openEditor(new SourceEditorGeneric(this));
+        SourceEditor *editor = new SourceEditorGeneric(this);
+        
+        this->editorPanel->openEditor(editor);
+        this->editorPanel->activateEditor(editor);
         
         /*
         SourceEditor *editor = this->editorPanel->getActiveEditor();
@@ -141,26 +153,6 @@ namespace felide { namespace view {
     
     bool MainWindow::onOpenFile() 
     {   
-        SourceEditor *editor = this->editorPanel->getActiveEditor();
-        
-        if (!editor) {
-            return false;
-        }
-            
-        // Check for previous file
-        if (editor->getProjectItem()->isModified()) {
-            switch (this->askSaveChanges()) {
-                case QMessageBox::Save:
-                
-                    if (!this->onSaveFile()) {
-                        return false;
-                    }
-                
-                case QMessageBox::Cancel:
-                    return false;
-            }
-        }
-        
         // Open the file
         QString path = QFileDialog::getOpenFileName(this, "Open", QString(), tr(fileFilter));
         
@@ -168,6 +160,14 @@ namespace felide { namespace view {
             return false;
         }
         
+        SourceEditor *editor = this->editorPanel->getActiveEditor();
+        
+        if (!editor || !editor->isNew()) {
+            editor = new SourceEditorGeneric(this);
+            this->editorPanel->openEditor(editor);
+        }
+        
+        this->editorPanel->activateEditor(editor);
         editor->load(path);
         
         return true;
@@ -188,7 +188,7 @@ namespace felide { namespace view {
             
             result = true;
         } else {
-            result = this->onSaveFileAs();
+            result = this->onSaveFileAs(editor);
         }
         
         return result;
@@ -205,15 +205,23 @@ namespace felide { namespace view {
         return msgBox.exec();
     }
     
-    bool MainWindow::onSaveFileAs() 
+    bool MainWindow::onSaveFileAs(SourceEditor *editor) 
     {
-        QString path = QFileDialog::getSaveFileName(this, "Save", QString(), tr(fileFilter));
+        QString defaultPath;
+        
+        if (editor->getProjectItem()->hasPath()) {
+            defaultPath = QString::fromStdString(editor->getProjectItem()->getPath());
+        } else {
+            defaultPath = editor->getFileTitle();
+        }
+        
+        QString path = QFileDialog::getSaveFileName(this, "Save", defaultPath, tr(fileFilter));
         
         if (path.isEmpty()) {
             return false;
         }
         
-        this->editorPanel->getActiveEditor()->save(path);
+        editor->save(path);
         
         return true;
     }

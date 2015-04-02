@@ -58,9 +58,8 @@ namespace felide { namespace view {
         
         QAction *buildAction = nullptr;
         QAction *executeAction = nullptr;
-		// SourceEditor *sourceEditor = nullptr;
         
-        EditorPanel *editorPanel;
+        EditorPanel *editorPanel = nullptr;
         
         int documentCount = 1;
         
@@ -68,7 +67,7 @@ namespace felide { namespace view {
         void onNewFile();
         bool onOpenFile();
         bool onSaveFile();
-        bool onSaveFileAs();
+        bool onSaveFileAs(SourceEditor *editor);
         void onExit();
         
         void onEditorChanged(const QString &title);

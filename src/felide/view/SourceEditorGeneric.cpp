@@ -47,17 +47,25 @@ namespace felide { namespace view {
         boost::checked_delete(this->projectItem);
     }
     
+    QString SourceEditorGeneric::getFileTitle() const
+    {
+        std::string fileTitle;
+        
+        if (this->getProjectItem()->hasPath()) {
+            fileTitle = this->getProjectItem()->getName();
+        } else {
+            fileTitle = "Untitled " + std::to_string(this->getEditorNumber());
+        }
+        
+        return QString::fromStdString(fileTitle);
+    }
+    
     QString SourceEditorGeneric::getTitle() const
     {
         std::stringstream ss;
         
         ss << (this->getProjectItem()->isModified()?"[*] ":"");
-        
-        if (this->getProjectItem()->hasPath()) {
-            ss << this->getProjectItem()->getPath() << " ";
-        } else {
-            ss << "Untitled " << this->getEditorNumber() << " ";
-        }
+        ss << this->getFileTitle().toStdString() << " ";
         
         return QString::fromStdString(ss.str());
     }
@@ -75,6 +83,8 @@ namespace felide { namespace view {
         }
 		
         this->getProjectItem()->save(this->editorWidget->toPlainText().toStdString());
+        
+        emit sourceChanged(this);
     }
     
     void SourceEditorGeneric::save(const QString &filePath)
@@ -83,6 +93,8 @@ namespace felide { namespace view {
         std::string content = this->editorWidget->toPlainText().toStdString();
         
         this->getProjectItem()->save(content, filename);
+        
+        emit sourceChanged(this);
     }
     
     void SourceEditorGeneric::load(const QString &filePath)
@@ -91,6 +103,8 @@ namespace felide { namespace view {
         std::string content = this->getProjectItem()->open(filename);
         
         this->editorWidget->setText(QString::fromStdString(content));
+        
+        emit sourceChanged(this);
     }
     
     void SourceEditorGeneric::undo()

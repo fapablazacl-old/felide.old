@@ -22,6 +22,10 @@ namespace felide { namespace view {
         
         void closeEditor(SourceEditor *editor);
         
+        SourceEditor* findNewEditor() const;
+        
+        void activateEditor(SourceEditor *editor);
+        
         SourceEditor* getActiveEditor();
         const SourceEditor* getActiveEditor() const;
         

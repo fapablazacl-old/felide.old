@@ -30,4 +30,10 @@ namespace felide { namespace view {
     {
         return this->editorNumber;
     }
+    
+    bool SourceEditor::isNew() const
+    {
+        const ProjectItem *projectItem = this->getProjectItem();
+        return !projectItem->hasPath() && !projectItem->isModified();
+    }
 }}

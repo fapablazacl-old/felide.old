@@ -15,6 +15,8 @@ namespace felide { namespace view {
         SourceEditor(QWidget *parent);
         virtual ~SourceEditor() = 0;
         
+        virtual QString getFileTitle() const = 0;
+        
         virtual QString getTitle() const = 0;
         
         virtual void new_() = 0;
@@ -30,7 +32,9 @@ namespace felide { namespace view {
         
         virtual const felide::model::ProjectItem* getProjectItem() const = 0;
         virtual felide::model::ProjectItem* getProjectItem() = 0;
-
+        
+        bool isNew() const;
+        
     private:
         int editorNumber = 0;
     

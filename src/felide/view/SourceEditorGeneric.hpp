@@ -18,6 +18,8 @@ namespace felide { namespace view {
         
         virtual ~SourceEditorGeneric();
         
+        virtual QString getFileTitle() const override;
+        
         virtual QString getTitle() const override;
     
         virtual void new_() override;
