@@ -7,13 +7,13 @@
 
 namespace felide { namespace view {
     
-    class SourceEditor : public QWidget {
+    class Editor : public QWidget {
 	public:
         Q_OBJECT
         
     public:
-        SourceEditor(QWidget *parent);
-        virtual ~SourceEditor() = 0;
+        Editor(QWidget *parent);
+        virtual ~Editor() = 0;
         
         virtual QString getFileTitle() const = 0;
         
@@ -42,7 +42,7 @@ namespace felide { namespace view {
         int getEditorNumber() const;
         
     signals:
-        void sourceChanged(SourceEditor *editor);
+        void sourceChanged(Editor *editor);
         
     protected:
         static void increaseDocumentCount();

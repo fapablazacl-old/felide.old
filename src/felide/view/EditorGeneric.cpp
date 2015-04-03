@@ -1,5 +1,5 @@
 
-#include "SourceEditorGeneric.hpp"
+#include "EditorGeneric.hpp"
 
 #include <sstream>
 #include <memory>
@@ -14,7 +14,7 @@ namespace felide { namespace view {
 
     namespace fs = boost::filesystem;
     
-    void SourceEditorGeneric::createWidget()
+    void EditorGeneric::createWidget()
     {
         this->projectItem = new ProjectItem();
         
@@ -31,23 +31,23 @@ namespace felide { namespace view {
         this->show();
     }
     
-    SourceEditorGeneric::SourceEditorGeneric(QWidget *parent) : SourceEditor(parent)
+    EditorGeneric::EditorGeneric(QWidget *parent) : Editor(parent)
     {
         this->createWidget();
     }
     
-    SourceEditorGeneric::SourceEditorGeneric(QWidget *parent, const QString &filePath)  : SourceEditor(parent)
+    EditorGeneric::EditorGeneric(QWidget *parent, const QString &filePath) : Editor(parent)
     {
         this->createWidget();
         this->load(filePath);
     }
     
-    SourceEditorGeneric::~SourceEditorGeneric()
+    EditorGeneric::~EditorGeneric()
     {
         boost::checked_delete(this->projectItem);
     }
     
-    QString SourceEditorGeneric::getFileTitle() const
+    QString EditorGeneric::getFileTitle() const
     {
         std::string fileTitle;
         
@@ -60,7 +60,7 @@ namespace felide { namespace view {
         return QString::fromStdString(fileTitle);
     }
     
-    QString SourceEditorGeneric::getTitle() const
+    QString EditorGeneric::getTitle() const
     {
         std::stringstream ss;
         
@@ -70,16 +70,16 @@ namespace felide { namespace view {
         return QString::fromStdString(ss.str());
     }
     
-    void SourceEditorGeneric::new_() 
+    void EditorGeneric::new_() 
     {
         this->editorWidget->setText("");
         this->getProjectItem()->new_();   
     }
     
-    void SourceEditorGeneric::save()
+    void EditorGeneric::save()
     {
         if (!this->getProjectItem()->hasPath()) {
-            throw std::runtime_error("SourceEditorGeneric::save: Cannot save a file without a filename");
+            throw std::runtime_error("EditorGeneric::save: Cannot save a file without a filename");
         }
 		
         this->getProjectItem()->save(this->editorWidget->toPlainText().toStdString());
@@ -87,7 +87,7 @@ namespace felide { namespace view {
         emit sourceChanged(this);
     }
     
-    void SourceEditorGeneric::save(const QString &filePath)
+    void EditorGeneric::save(const QString &filePath)
     {
         std::string filename = filePath.toStdString();
         std::string content = this->editorWidget->toPlainText().toStdString();
@@ -97,7 +97,7 @@ namespace felide { namespace view {
         emit sourceChanged(this);
     }
     
-    void SourceEditorGeneric::load(const QString &filePath)
+    void EditorGeneric::load(const QString &filePath)
     {
         std::string filename = filePath.toStdString();
         std::string content = this->getProjectItem()->open(filename);
@@ -109,37 +109,37 @@ namespace felide { namespace view {
         emit sourceChanged(this);
     }
     
-    void SourceEditorGeneric::undo()
+    void EditorGeneric::undo()
     {
         this->editorWidget->undo();
     }
     
-    void SourceEditorGeneric::redo()
+    void EditorGeneric::redo()
     {
         this->editorWidget->redo();
     }
     
-    void SourceEditorGeneric::copy()
+    void EditorGeneric::copy()
     {
         this->editorWidget->copy();
     }
     
-    void SourceEditorGeneric::cut()
+    void EditorGeneric::cut()
     {
         this->editorWidget->cut();
     }
     
-    void SourceEditorGeneric::paste()
+    void EditorGeneric::paste()
     {
         this->editorWidget->paste();
     }
     
-    const felide::model::ProjectItem* SourceEditorGeneric::getProjectItem() const 
+    const felide::model::ProjectItem* EditorGeneric::getProjectItem() const 
     {
         return this->projectItem;
     }
 
-    felide::model::ProjectItem* SourceEditorGeneric::getProjectItem()
+    felide::model::ProjectItem* EditorGeneric::getProjectItem()
     {
         return this->projectItem;
     }

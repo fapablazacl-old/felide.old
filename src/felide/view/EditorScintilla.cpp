@@ -1,7 +1,7 @@
 
 #if 0
 
-#include "SourceEditorScintilla.hpp"
+#include "EditorScintilla.hpp"
 
 #include <sstream>
 #include <memory>

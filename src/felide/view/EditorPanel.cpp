@@ -16,6 +16,11 @@ namespace felide { namespace view {
             emit this->editorChanged();
         });
         
+        QObject::connect(this->tabWidget, &QTabWidget::tabCloseRequested, [this](int index) {
+            Editor *editor = static_cast<Editor*>(this->tabWidget->widget(index));
+            emit this->editorClosed(editor);
+        });
+        
         // layout
         QGridLayout *layout = nullptr;
         
@@ -25,46 +30,47 @@ namespace felide { namespace view {
         this->setLayout(layout);
     }
     
-    void EditorPanel::openEditor(SourceEditor *editor) 
+    void EditorPanel::openEditor(Editor *editor) 
     {
         this->tabWidget->addTab(editor, editor->getTitle());
         
-        QObject::connect(editor, &SourceEditor::sourceChanged, [this](SourceEditor *editor) {
+        QObject::connect(editor, &Editor::sourceChanged, [this](Editor *editor) {
             int index = this->tabWidget->indexOf(editor);
             this->tabWidget->setTabText(index, editor->getTitle());
         });
     }
     
-    void EditorPanel::closeEditor(SourceEditor *editor) 
+    void EditorPanel::closeEditor(Editor *editor) 
     {
-        
+        int index = this->tabWidget->indexOf(editor);
+        this->tabWidget->removeTab(index);
     }
     
-    SourceEditor* EditorPanel::getActiveEditor()
+    Editor* EditorPanel::getActiveEditor()
     {
-        SourceEditor* editor = nullptr;
+        Editor* editor = nullptr;
         
-        editor = static_cast<SourceEditor*>(this->tabWidget->currentWidget());
+        editor = static_cast<Editor*>(this->tabWidget->currentWidget());
         
         return editor;
     }
     
-    const SourceEditor* EditorPanel::getActiveEditor() const
+    const Editor* EditorPanel::getActiveEditor() const
     {
-        const SourceEditor* editor = nullptr;
+        const Editor* editor = nullptr;
         
-        editor = static_cast<const SourceEditor*>(this->tabWidget->currentWidget());
+        editor = static_cast<const Editor*>(this->tabWidget->currentWidget());
         
         return editor;
     }
     
-    SourceEditor* EditorPanel::findNewEditor() const
+    Editor* EditorPanel::findNewEditor() const
     {
-        SourceEditor *result = nullptr;
+        Editor *result = nullptr;
         
         for (int i=0; i<this->tabWidget->count(); i++) {
-            SourceEditor *editor = nullptr;
-            editor = static_cast<SourceEditor*>(this->tabWidget->widget(i));
+            Editor *editor = nullptr;
+            editor = static_cast<Editor*>(this->tabWidget->widget(i));
             
             if (editor->isNew()) {
                 result = editor;
@@ -74,7 +80,7 @@ namespace felide { namespace view {
         return result;
     }
     
-    void EditorPanel::activateEditor(SourceEditor *editor)
+    void EditorPanel::activateEditor(Editor *editor)
     {
         this->tabWidget->setCurrentWidget(editor);
     }

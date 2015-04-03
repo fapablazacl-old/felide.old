@@ -8,7 +8,7 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 
-#include <felide/view/SourceEditorGeneric.hpp>
+#include <felide/view/EditorGeneric.hpp>
 
 namespace felide { namespace view {
     
@@ -82,28 +82,80 @@ namespace felide { namespace view {
 
     void MainWindow::connectSignals() 
     {
-        this->connect(this->newFileAction, SIGNAL(triggered()), this, SLOT(onNewFile()));
-        this->connect(this->openFileAction, SIGNAL(triggered()), this, SLOT(onOpenFile()));
-        this->connect(this->saveFileAction, SIGNAL(triggered()), this, SLOT(onSaveFile()));
+        QObject::connect(this->newFileAction, &QAction::triggered, [this](){
+            this->onNewFile();
+        });
         
-        
+        QObject::connect(this->openFileAction, &QAction::triggered, [this](){
+           this->onOpenFile();
+        });
+                
+        QObject::connect(this->saveFileAction, &QAction::triggered, [this](){
+            Editor *editor = this->editorPanel->getActiveEditor();
+            
+            if (editor) {
+                this->onSaveFile(editor);
+            }
+        });
+                         
+        QObject::connect(this->saveAsFileAction, &QAction::triggered, [this](){
+            Editor *editor = this->editorPanel->getActiveEditor();
+            
+            if (editor) {
+                this->onSaveFileAs(editor);
+            }
+        });
         
         this->connect(this->exitAction, SIGNAL(triggered()), this, SLOT(onExit()));
         
-        this->connect(this->undoAction, SIGNAL(triggered()), this, SLOT(onUndo()));
-        this->connect(this->redoAction, SIGNAL(triggered()), this, SLOT(onRedo()));
-        this->connect(this->cutAction, SIGNAL(triggered()), this, SLOT(onCut()));
-        this->connect(this->copyAction, SIGNAL(triggered()), this, SLOT(onCopy()));
-        this->connect(this->pasteAction, SIGNAL(triggered()), this, SLOT(onPaste()));
+        QObject::connect(this->undoAction, &QAction::triggered, [this]() {
+            Editor *editor = this->editorPanel->getActiveEditor();
+            
+            if (editor) {
+                this->onUndo(editor);
+            }
+        });
+        
+        QObject::connect(this->redoAction, &QAction::triggered, [this]() {
+            Editor *editor = this->editorPanel->getActiveEditor();
+            
+            if (editor) {
+                this->onRedo(editor);
+            }
+        });
+        
+        QObject::connect(this->cutAction, &QAction::triggered, [this]() {
+            Editor *editor = this->editorPanel->getActiveEditor();
+            
+            if (editor) {
+                this->onCut(editor);
+            }
+        });
+        
+        QObject::connect(this->copyAction, &QAction::triggered, [this]() {
+            Editor *editor = this->editorPanel->getActiveEditor();
+            
+            if (editor) {
+                this->onCopy(editor);
+            }
+        });
+        
+        QObject::connect(this->pasteAction, &QAction::triggered, [this]() {
+            Editor *editor = this->editorPanel->getActiveEditor();
+            
+            if (editor) {
+                this->onPaste(editor);
+            }
+        });
+        
         
         QObject::connect(this->editorPanel, &EditorPanel::editorChanged, [this]() {
             this->updateTitle();
         });
         
-        
-        QObject::connect(this->saveAsFileAction, &QAction::triggered, [this]() {
-            if (this->editorPanel->getActiveEditor()) {
-                this->onSaveFileAs(this->editorPanel->getActiveEditor());
+        QObject::connect(this->editorPanel, &EditorPanel::editorClosed, [this](Editor *editor) {
+            if (this->saveChanges(editor)) {
+                this->editorPanel->closeEditor(editor);
             }
         });
     }
@@ -116,39 +168,12 @@ namespace felide { namespace view {
         */
     }
     
-    void MainWindow::onEditorChanged(const QString &title) 
-    {
-        
-    }
-    
     void MainWindow::onNewFile() 
     {
-        SourceEditor *editor = new SourceEditorGeneric(this);
+        Editor *editor = new EditorGeneric(this);
         
         this->editorPanel->openEditor(editor);
         this->editorPanel->activateEditor(editor);
-        
-        /*
-        SourceEditor *editor = this->editorPanel->getActiveEditor();
-        
-        if (!editor) {
-            return;
-        }
-        
-        if (editor->getProjectItem()->isModified()) {
-            switch (this->askSaveChanges()) {
-                case QMessageBox::Save:
-                    if (!this->onSaveFile()) {
-                        return;
-                    }
-                
-                case QMessageBox::Cancel:
-                    return;
-            }
-        }
-        
-        editor->new_();
-        */
     }
     
     bool MainWindow::onOpenFile() 
@@ -160,10 +185,10 @@ namespace felide { namespace view {
             return false;
         }
         
-        SourceEditor *editor = this->editorPanel->findNewEditor();
+        Editor *editor = this->editorPanel->findNewEditor();
         
         if (!editor) {
-            editor = new SourceEditorGeneric(this);
+            editor = new EditorGeneric(this);
             this->editorPanel->openEditor(editor);
         }
         
@@ -173,10 +198,8 @@ namespace felide { namespace view {
         return true;
     }
     
-    bool MainWindow::onSaveFile() 
+    bool MainWindow::onSaveFile(Editor *editor) 
     {
-        SourceEditor *editor = this->editorPanel->getActiveEditor();
-        
         if (!editor) {
             return false;
         }
@@ -194,10 +217,10 @@ namespace felide { namespace view {
         return result;
     }
     
-    int MainWindow::askSaveChanges() 
+    int MainWindow::askSaveChanges(Editor *editor) 
     {
         QMessageBox msgBox;
-        msgBox.setText("The document has been modified.");
+        msgBox.setText("The file '" + editor->getFileTitle() + " has been modified.");
         msgBox.setInformativeText("Do you want to save your changes?");
         msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Save);
@@ -205,7 +228,7 @@ namespace felide { namespace view {
         return msgBox.exec();
     }
     
-    bool MainWindow::onSaveFileAs(SourceEditor *editor) 
+    bool MainWindow::onSaveFileAs(Editor *editor) 
     {
         QString defaultPath;
         
@@ -228,29 +251,12 @@ namespace felide { namespace view {
     
     void MainWindow::closeEvent(QCloseEvent *event) 
     {
-        SourceEditor *editor = this->editorPanel->getActiveEditor();
+        Editor *editor = this->editorPanel->getActiveEditor();
         
-        if (!editor || !editor->getProjectItem()->isModified()) {
+        if (this->saveChanges(editor)) {
             event->accept();
-            return;
-        }
-        
-        switch (this->askSaveChanges()) {
-            case QMessageBox::Save:
-                if (this->onSaveFile()) {
-                    event->accept();
-                } else {
-                    event->ignore();
-                }
-                break;
-            
-            case QMessageBox::Discard:
-                event->accept();
-                break;
-                
-            case QMessageBox::Cancel:
-                event->ignore();
-                break;
+        } else {
+            event->ignore();
         }
     }
     
@@ -259,49 +265,29 @@ namespace felide { namespace view {
         this->close();
     }
     
-    void MainWindow::onUndo() 
+    void MainWindow::onUndo(Editor *editor) 
     {
-        if (!this->editorPanel->getActiveEditor()) {
-            return;
-        }
-        
-        this->editorPanel->getActiveEditor()->undo();
+        editor->undo();
     }
     
-    void MainWindow::onRedo()
+    void MainWindow::onRedo(Editor *editor)
     {
-        if (!this->editorPanel->getActiveEditor()) {
-            return;
-        }
-        
-        this->editorPanel->getActiveEditor()->redo();
+        editor->redo();
     }
     
-    void MainWindow::onCut()
+    void MainWindow::onCut(Editor *editor)
     {
-        if (!this->editorPanel->getActiveEditor()) {
-            return;
-        }
-        
-        this->editorPanel->getActiveEditor()->cut();
+        editor->cut();
     }
     
-    void MainWindow::onCopy()
+    void MainWindow::onCopy(Editor *editor)
     {
-        if (!this->editorPanel->getActiveEditor()) {
-            return;
-        }
-        
-        this->editorPanel->getActiveEditor()->copy();
+        editor->copy();
     }
     
-    void MainWindow::onPaste()
+    void MainWindow::onPaste(Editor *editor)
     {
-        if (!this->editorPanel->getActiveEditor()) {
-            return;
-        }
-        
-        this->editorPanel->getActiveEditor()->paste();
+        editor->paste();
     }
     
     void MainWindow::onTest() 
@@ -322,7 +308,7 @@ namespace felide { namespace view {
     void MainWindow::updateTitle()
     {
         QString title;
-        SourceEditor *editor = this->editorPanel->getActiveEditor();
+        Editor *editor = this->editorPanel->getActiveEditor();
         
         if (editor) {
             title = "felide - " + editor->getTitle();
@@ -332,5 +318,21 @@ namespace felide { namespace view {
         
         this->setWindowTitle(title);
         this->updateEditorMargin();
+    }
+    
+    
+    bool MainWindow::onClose(Editor *editor) { }
+    
+    bool MainWindow::saveChanges(Editor *editor)
+    {
+        if (!editor || !editor->getProjectItem()->isModified()) {
+            return true;
+        }
+        
+        switch (this->askSaveChanges(editor)) {
+            case QMessageBox::Save:     return this->onSaveFile(editor);
+            case QMessageBox::Discard:  return true;
+            case QMessageBox::Cancel:   return false;
+        }
     }
 }}

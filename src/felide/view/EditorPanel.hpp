@@ -4,8 +4,9 @@
 
 #include <QWidget>
 #include <QTabWidget>
+#include <QWidgetList>
 
-#include <felide/view/SourceEditor.hpp>
+#include <felide/view/Editor.hpp>
 
 namespace felide { namespace view {
 
@@ -15,19 +16,21 @@ namespace felide { namespace view {
     signals:
         void editorChanged();
         
+        void editorClosed(Editor *editor);
+        
     public:
         EditorPanel(QWidget *parent);
         
-        void openEditor(SourceEditor *editor);
+        void openEditor(Editor *editor);
         
-        void closeEditor(SourceEditor *editor);
+        void closeEditor(Editor *editor);
         
-        SourceEditor* findNewEditor() const;
+        Editor* findNewEditor() const;
         
-        void activateEditor(SourceEditor *editor);
+        void activateEditor(Editor *editor);
         
-        SourceEditor* getActiveEditor();
-        const SourceEditor* getActiveEditor() const;
+        Editor* getActiveEditor();
+        const Editor* getActiveEditor() const;
         
     private:
         QTabWidget *tabWidget = nullptr;

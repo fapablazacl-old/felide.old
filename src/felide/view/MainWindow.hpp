@@ -9,14 +9,13 @@
 #include <QMenu>
 #include <QTabWidget>
 
-#include <felide/view/SourceEditor.hpp>
+#include <felide/view/Editor.hpp>
 #include <felide/view/EditorPanel.hpp>
 #include <felide/model/Source.hpp>
 
 namespace felide { namespace view {
     
-    class MainWindow : public QMainWindow 
-    {
+    class MainWindow : public QMainWindow {
         Q_OBJECT
         
     public:
@@ -32,9 +31,14 @@ namespace felide { namespace view {
         void connectSignals();
         
         void updateEditorMargin();
-        int askSaveChanges();
+        int askSaveChanges(Editor *editor);
         
         void updateTitle();
+        
+        /**
+         * @brief Check if the user wants to save the specified editor data
+         */
+        bool saveChanges(Editor *editor);
         
     private:
         QMenu *fileMenu = nullptr;
@@ -66,17 +70,21 @@ namespace felide { namespace view {
     private slots:
         void onNewFile();
         bool onOpenFile();
-        bool onSaveFile();
-        bool onSaveFileAs(SourceEditor *editor);
+        bool onSaveFile(Editor *editor);
+        bool onSaveFileAs(Editor *editor);
         void onExit();
         
-        void onEditorChanged(const QString &title);
+        /**
+         * @brief Try to close the specified editor. Return 'true' if the editor 
+         * can be closed, and 'false' otherwise.
+         */
+        bool onClose(Editor *editor);
         
-        void onUndo();
-        void onRedo();
-        void onCut();
-        void onCopy();
-        void onPaste();
+        void onUndo(Editor *editor);
+        void onRedo(Editor *editor);
+        void onCut(Editor *editor);
+        void onCopy(Editor *editor);
+        void onPaste(Editor *editor);
         
         void onTest();
         

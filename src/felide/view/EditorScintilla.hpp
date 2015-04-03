@@ -1,14 +1,14 @@
 
 #if 0
 
-#ifndef __FELIDE_VIEW_SOURCEEDITORSCINTILLA_HPP__
-#define __FELIDE_VIEW_SOURCEEDITORSCINTILLA_HPP__
+#ifndef __FELIDE_VIEW_EDITORSCINTILLA_HPP__
+#define __FELIDE_VIEW_EDITORSCINTILLA_HPP__
 
 #include <QWidget>
 #include <memory>
 
 #include <felide/model/Source.hpp>
-#include <felide/view/SourceEditor.hpp>
+#include <felide/view/Editor.hpp>
 
 namespace felide { namespace view {
     

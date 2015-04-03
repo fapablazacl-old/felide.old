@@ -1,22 +1,22 @@
-#ifndef __FELIDE_VIEW_SOURCEEDITORGENERIC_HPP__
-#define __FELIDE_VIEW_SOURCEEDITORGENERIC_HPP__
+#ifndef __FELIDE_VIEW_EDITORGENERIC_HPP__
+#define __FELIDE_VIEW_EDITORGENERIC_HPP__
 
 #include <QWidget>
 #include <QTextEdit>
 #include <memory>
 
-#include <felide/view/SourceEditor.hpp>
+#include <felide/view/Editor.hpp>
 
 namespace felide { namespace view {
-    class SourceEditorGeneric : public SourceEditor {
+    class EditorGeneric : public Editor {
 	public:
 		Q_OBJECT
 
 	public:
-        explicit SourceEditorGeneric(QWidget *parent);
-        explicit SourceEditorGeneric(QWidget *parent, const QString &filePath);
+        explicit EditorGeneric(QWidget *parent);
+        explicit EditorGeneric(QWidget *parent, const QString &filePath);
         
-        virtual ~SourceEditorGeneric();
+        virtual ~EditorGeneric();
         
         virtual QString getFileTitle() const override;
         
