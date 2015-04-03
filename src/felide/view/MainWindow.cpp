@@ -160,9 +160,9 @@ namespace felide { namespace view {
             return false;
         }
         
-        SourceEditor *editor = this->editorPanel->getActiveEditor();
+        SourceEditor *editor = this->editorPanel->findNewEditor();
         
-        if (!editor || !editor->isNew()) {
+        if (!editor) {
             editor = new SourceEditorGeneric(this);
             this->editorPanel->openEditor(editor);
         }

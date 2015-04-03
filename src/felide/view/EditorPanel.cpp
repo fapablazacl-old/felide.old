@@ -31,9 +31,6 @@ namespace felide { namespace view {
         
         QObject::connect(editor, &SourceEditor::sourceChanged, [this](SourceEditor *editor) {
             int index = this->tabWidget->indexOf(editor);
-            
-            std::cout << "editorChanged(). index: " << index << ". Title: " << editor->getTitle().toStdString() << std::endl;
-            
             this->tabWidget->setTabText(index, editor->getTitle());
         });
     }
