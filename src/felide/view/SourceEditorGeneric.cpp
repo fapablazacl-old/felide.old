@@ -102,7 +102,9 @@ namespace felide { namespace view {
         std::string filename = filePath.toStdString();
         std::string content = this->getProjectItem()->open(filename);
         
+        this->editorWidget->blockSignals(true);
         this->editorWidget->setText(QString::fromStdString(content));
+        this->editorWidget->blockSignals(false);
         
         emit sourceChanged(this);
     }
