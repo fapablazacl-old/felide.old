@@ -1,13 +1,28 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 
-project(felide)
+PROJECT (felide)
 
-cmake_minimum_required(VERSION 2.8.11)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+# Boost
+ADD_DEFINITIONS(-DBOOST_ALL_NO_LIB)
 
+SET (Boost_USE_STATIC_LIBS OFF)
+SET (Boost_USE_MULTITHREADED ON)
+SET (Boost_USE_STATIC_RUNTIME OFF)
 
-# Other
-add_definitions(-std=c++11)
+FIND_PACKAGE (Boost COMPONENTS filesystem system  REQUIRED)
 
-include_directories(src)
+# Win32xx
+IF (NOT WIN32XX_INCLUDE_DIRS)
+	MESSAGE (FATAL_ERROR "Please specify Win32xx include location (define WIN32XX_INCLUDE_DIRS variable)")
+ENDIF ()
 
-add_subdirectory(src)
+SET (WIN32XX_LIBRARIES comctl32)
+
+INCLUDE_DIRECTORIES (${WIN32XX_INCLUDE_DIRS})
+
+# Include dirs
+INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/src)
+
+ADD_SUBDIRECTORY (src/felide)
+ADD_SUBDIRECTORY (src/felide.editor)
