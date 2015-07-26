@@ -2,6 +2,7 @@
 #ifndef __FELIDE_PROJECTITEM_HPP__
 #define __FELIDE_PROJECTITEM_HPP__
 
+#include <memory>
 #include <string>
 
 namespace felide { 
@@ -41,6 +42,8 @@ namespace felide {
         std::string path;
         bool modified = false;
     };
+    
+    typedef std::unique_ptr<ProjectItem> ProjectItemPtr;
 }
 
 #endif	// __FELIDE_PROJECTITEM_HPP__
