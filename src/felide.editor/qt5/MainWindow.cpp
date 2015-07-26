@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <QAction>
+#include <QFileDialog>
 
 namespace felide { namespace qt5 {
 
@@ -29,7 +30,6 @@ namespace felide { namespace qt5 {
         
         untitledCount ++;
         
-        // QString title = QString("untitled") + QString::number(untitledCount);
         QString title = "";
         title.sprintf("untitled%02d", untitledCount);
         
@@ -41,7 +41,11 @@ namespace felide { namespace qt5 {
     }
     
     void MainWindow::handleFileOpen() {
+        QString path = QFileDialog::getOpenFileName(this, "Open Source ...", "", "(*.cpp)");
+        auto item = std::make_unique<ProjectItem>(path.toStdString());
         
+        QString title = QString::fromStdString(item->getName());
+        this->tabbedEditor->openEditor(item.get(), title);
     }
 
     void MainWindow::handleFileSave() {

@@ -29,7 +29,10 @@ namespace felide { namespace qt5 {
     
     static void applyLexer(QsciScintilla *scintilla, QsciLexer *lexer) {
         if (lexer) {
-            lexer->setDefaultFont(QFont("Inconsolata"));
+            QFont font = QFont("Inconsolata", 10);
+            
+            lexer->setDefaultFont(font);
+            lexer->setFont(font);
             scintilla->setLexer(lexer);
         }
     }
@@ -49,12 +52,15 @@ namespace felide { namespace qt5 {
         this->item = item;
         this->scintilla = static_cast<QsciScintilla*>(createEditorWidget(this, item));
         
+        if (item->hasPath()) {
+            QString text = QString::fromStdString(item->open());
+            this->scintilla->setText(text);
+        }
+        
         QGridLayout *layout = new QGridLayout(this);
         layout->addWidget(this->scintilla);
         this->setLayout(layout);
     }
 
-    Editor::~Editor() {
-        
-    }
+    Editor::~Editor() {}
 }}
