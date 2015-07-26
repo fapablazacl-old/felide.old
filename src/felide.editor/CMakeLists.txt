@@ -28,6 +28,9 @@ SET (felide_editor_qt5_src
     qt5/TabbedEditor.hpp
     qt5/TabbedEditor.cpp
 
+    qt5/Editor.hpp
+    qt5/Editor.cpp
+
     qt5/MainWindow.hpp
     qt5/MainWindow.cpp
     
