@@ -24,10 +24,10 @@ namespace felide {
         std::string open();
         
         //! Open the specified file.
-        std::string open(const std::string &filename);
+        std::string open(const std::string &path);
         
         void save(const std::string &content);
-        void save(const std::string &content, const std::string &filename);
+        void save(const std::string &content, const std::string &path);
         
         bool hasPath() const;
         void setPath(const std::string &path);

@@ -18,7 +18,11 @@ namespace felide { namespace qt5 {
     }
     
     void TabbedEditor::openEditor(ProjectItem *item) {
+        this->openEditor(item, "");
+    }
+    
+    void TabbedEditor::openEditor(ProjectItem *item, const QString &title) {
         QWidget *editor = new Editor(this->tabWidget, item);
-        this->tabWidget->addTab(editor, "Test01");
+        this->tabWidget->addTab(editor, title);
     }
 }}

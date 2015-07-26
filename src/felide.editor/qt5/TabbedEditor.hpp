@@ -1,6 +1,6 @@
 
-#ifndef __felide_qt5_documentpanel_hpp__
-#define __felide_qt5_documentpanel_hpp__
+#ifndef __felide_qt5_tabbededitor_hpp__
+#define __felide_qt5_tabbededitor_hpp__
 
 #include <QWidget>
 #include <QTabWidget>
@@ -15,10 +15,11 @@ namespace felide { namespace qt5 {
         explicit TabbedEditor(QWidget *parent);
         
         void openEditor(ProjectItem *item);
+        void openEditor(ProjectItem *item, const QString &title);
         
     private:
         QTabWidget *tabWidget = nullptr;
     };
 }}
 
-#endif // __felide_qt5_documentpanel_hpp__
+#endif // __felide_qt5_tabbededitor_hpp__

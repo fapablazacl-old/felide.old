@@ -18,12 +18,22 @@ namespace felide { namespace qt5 {
     public:
         MainWindow();
         virtual ~MainWindow();
+
+    public slots:
+        void handleFileNew();
+        void handleFileOpen();
+        void handleFileSave();
+        void handleFileSaveAs();
+        void handleFileClose();
+        void handleFileExit();
         
     private:
         std::unique_ptr<Ui_MainWindow> ui;
         TabbedEditor *tabbedEditor = nullptr;
         
         std::list<ProjectItemPtr> items;
+        
+        int untitledCount = 0;
     };
 }}
 
