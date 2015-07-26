@@ -45,6 +45,8 @@ namespace felide { namespace qt5 {
         
         applyLexer(editor, lexer);
         
+        editor->setCaretLineVisible(true);
+        
         return editor;
     }
     
@@ -52,15 +54,29 @@ namespace felide { namespace qt5 {
         this->item = item;
         this->scintilla = static_cast<QsciScintilla*>(createEditorWidget(this, item));
         
+        QGridLayout *layout = new QGridLayout(this);
+        layout->addWidget(this->scintilla);
+        this->setLayout(layout);
+        
+        this->open();
+    }
+
+    void Editor::open() {
         if (item->hasPath()) {
             QString text = QString::fromStdString(item->open());
             this->scintilla->setText(text);
         }
-        
-        QGridLayout *layout = new QGridLayout(this);
-        layout->addWidget(this->scintilla);
-        this->setLayout(layout);
     }
-
+    
+    void Editor::save() {
+        QString text = this->scintilla->text();
+        this->item->save(text.toStdString());
+    }
+    
+    void Editor::save(QString path) {
+        QString text = this->scintilla->text();
+        this->item->save(text.toStdString(), path.toStdString());
+    }
+    
     Editor::~Editor() {}
 }}

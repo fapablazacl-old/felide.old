@@ -17,6 +17,10 @@ namespace felide { namespace qt5 {
         explicit Editor(QWidget *parent, ProjectItem *item);
         ~Editor();
       
+        void open();
+        void save();
+        void save(QString path);
+        
         ProjectItem* getItem();
         
         const ProjectItem* getItem() const;
