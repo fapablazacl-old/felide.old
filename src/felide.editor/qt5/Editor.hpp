@@ -12,11 +12,14 @@ namespace felide { namespace qt5 {
 
     class Editor : public QWidget {
         Q_OBJECT
+    
+    signals:
+        void titleUpdated(const Editor *editor);
         
     public:
         explicit Editor(QWidget *parent, ProjectItem *item);
         ~Editor();
-      
+        
         void open();
         void save();
         void save(QString path);

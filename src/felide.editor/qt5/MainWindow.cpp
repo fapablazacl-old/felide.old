@@ -49,12 +49,18 @@ namespace felide { namespace qt5 {
     }
 
     void MainWindow::handleFileSave() {
-        this->tabbedEditor->getEditor()->save();
+        if (!this->tabbedEditor->getCurrentEditor()->getItem()->hasPath()) {
+            this->handleFileSaveAs();
+        } else {
+            this->tabbedEditor->getCurrentEditor()->save();
+        }
     }
 
     void MainWindow::handleFileSaveAs() {
+        Editor *editor = this->tabbedEditor->getCurrentEditor();
         QString path = QFileDialog::getSaveFileName(this, "Save File...", "", "(*.cpp)");
-        this->tabbedEditor->getEditor()->save(path);
+        
+        editor->save(path);
     }
 
     void MainWindow::handleFileClose() {

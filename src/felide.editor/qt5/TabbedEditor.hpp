@@ -21,8 +21,14 @@ namespace felide { namespace qt5 {
         
         void closeEditor();
         
-        Editor* getEditor();
-        const Editor* getEditor() const;
+        Editor* getCurrentEditor();
+        const Editor* getCurrentEditor() const;
+        
+    public slots:
+        void editorTitledChanged(const Editor* editor);
+        
+    private:
+        int getEditorIndex(const Editor* editor) const;
         
     private:
         QTabWidget *tabWidget = nullptr;

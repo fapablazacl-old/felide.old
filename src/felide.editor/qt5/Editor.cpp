@@ -66,16 +66,22 @@ namespace felide { namespace qt5 {
             QString text = QString::fromStdString(item->open());
             this->scintilla->setText(text);
         }
+        
+        this->titleUpdated(this);
     }
     
     void Editor::save() {
         QString text = this->scintilla->text();
         this->item->save(text.toStdString());
+        
+        this->titleUpdated(this);
     }
     
     void Editor::save(QString path) {
         QString text = this->scintilla->text();
         this->item->save(text.toStdString(), path.toStdString());
+        
+        this->titleUpdated(this);
     }
     
     Editor::~Editor() {}
