@@ -3,18 +3,14 @@
 #define __FELIDE_EDITOR_WIN32XX_APPLICATIONWIN32XX_HPP__
 
 #include <wincore.h>
-#include "MainFrameWin32xx.hpp"
-#include "ModuleWin32xx.hpp"
+#include "MainFrame.hpp"
+#include "Module.hpp"
+#include "felide.editor/Application.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
-	
-	class ApplicationWin32xx : public CWinApp {
+	class Application : public felide::editor::Application {
 	public:
-        virtual BOOL InitInstance() override;
-
-    private:
-        MainFrameWin32xx mainFrame;
-        ModulePtr scintillaModule;
+		virtual int getReturnCode() override;
 	};
 }}}
 

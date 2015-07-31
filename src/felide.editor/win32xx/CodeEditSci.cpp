@@ -1,5 +1,7 @@
 
-#include "ScintillaWin32xx.hpp"
+#if defined(FELIDE_GUI_CODEEDIT_SCI)
+
+#include "CodeEditSci.hpp"
 
 #include <Scintilla.h>
 #include <SciLexer.h>
@@ -120,3 +122,5 @@ namespace felide { namespace editor { namespace win32xx {
         this->SendEditor(SCI_SETUSETABS, 0);
     }
 }}}
+
+#endif 
