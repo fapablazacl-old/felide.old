@@ -28,12 +28,14 @@ namespace felide { namespace qt5 {
     }
     
     static void applyLexer(QsciScintilla *scintilla, QsciLexer *lexer) {
+        QFont font = QFont("Inconsolata", 10);
+        
         if (lexer) {
-            QFont font = QFont("Inconsolata", 10);
-            
             lexer->setDefaultFont(font);
             lexer->setFont(font);
             scintilla->setLexer(lexer);
+        } else {
+            scintilla->setFont(font);
         }
     }
     
