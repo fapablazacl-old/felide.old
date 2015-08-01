@@ -2,6 +2,7 @@
 #include "TabbedEditor.hpp"
 #include "Editor.hpp"
 #include <iostream>
+#include <stdexcept>
 #include <QGridLayout>
 #include <Qsci/qsciscintilla.h>
 #include <Qsci/qscilexer.h>
@@ -72,8 +73,7 @@ namespace felide { namespace qt5 {
         if (found) {
             return index;
         } else {
-            // TODO: Throw exception?
-            return -1;            
+            throw std::runtime_error("TabbedEditor::getEditorIndex: editor not found.");
         }
     }
     

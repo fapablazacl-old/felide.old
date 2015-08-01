@@ -42,22 +42,40 @@ namespace felide { namespace qt5 {
     
     void MainWindow::handleFileOpen() {
         QString path = QFileDialog::getOpenFileName(this, "Open File...", "", "(*.cpp)");
-        auto item = std::make_unique<ProjectItem>(path.toStdString());
         
-        QString title = QString::fromStdString(item->getName());
-        this->tabbedEditor->openEditor(item.get(), title);
+        if (path.isEmpty()) {
+            return;
+        }
+        
+        auto projectItem = std::make_unique<ProjectItem>(path.toStdString());
+        
+        QString title = QString::fromStdString(projectItem->getName());
+        this->tabbedEditor->openEditor(projectItem.get(), title);
+        
+        this->items.push_back(std::move(projectItem));
     }
 
     void MainWindow::handleFileSave() {
-        if (!this->tabbedEditor->getCurrentEditor()->getItem()->hasPath()) {
+        Editor *editor = this->tabbedEditor->getCurrentEditor();
+        
+        if (!editor) {
+            return;
+        }
+        
+        if (!editor->getItem()->hasPath()) {
             this->handleFileSaveAs();
         } else {
-            this->tabbedEditor->getCurrentEditor()->save();
+            editor->save();
         }
     }
 
     void MainWindow::handleFileSaveAs() {
         Editor *editor = this->tabbedEditor->getCurrentEditor();
+        
+        if (!editor) {
+            return;
+        }
+        
         QString path = QFileDialog::getSaveFileName(this, "Save File...", "", "(*.cpp)");
         
         editor->save(path);
