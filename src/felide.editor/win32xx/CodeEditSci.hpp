@@ -1,6 +1,10 @@
 
+#if defined(FELIDE_GUI_CODEEDIT_SCI)
+
 #ifndef __FELIDE_EDITOR_WIN32XX_SCINTILLA_HPP__
 #define __FELIDE_EDITOR_WIN32XX_SCINTILLA_HPP__
+
+#include "CodeEdit.hpp"
 
 #include <string>
 #include <wincore.h>
@@ -8,7 +12,7 @@
 #include <SciLexer.h>
 
 namespace felide { namespace editor { namespace win32xx { 
-    class Scintilla : public CWnd {
+    class Scintilla : public CodeEdit {
     public:
         virtual void PreCreate(CREATESTRUCT &cs) override;
 
@@ -24,11 +28,11 @@ namespace felide { namespace editor { namespace win32xx {
         void SetAStyle(int style, COLORREF fore, COLORREF back, int size, const char *face);
 
     public:
-        void SetText(const CString &text) {
+        virtual void SetText(const CString &text) {
             this->SendEditor(SCI_SETTEXT, 0, (LPARAM)text.c_str());
         }
 
-        CString GetText() {
+        virtual CString GetText() override {
             std::string content;
             const int length = this->SendEditor(SCI_GETTEXTLENGTH);
             content.resize(length);
@@ -37,18 +41,20 @@ namespace felide { namespace editor { namespace win32xx {
             return content.c_str();
         }
 
-        void SetSavePoint() {
+        virtual void SetSavePoint() override {
             this->SendEditor(SCI_SETSAVEPOINT);
         }
 
-        void EmptyUndoBuffer() {
+        virtual void EmptyUndoBuffer() override {
             this->SendEditor(SCI_EMPTYUNDOBUFFER);
         }
 
-        void ClearAll() { 
+        virtual void ClearAll() override { 
             this->SendEditor(SCI_CLEARALL);
         }
     };
 }}}
 
 #endif // __FELIDE_EDITOR_WIN32XX_SCINTILLA_HPP__
+
+#endif	

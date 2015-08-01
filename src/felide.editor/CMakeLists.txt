@@ -1,17 +1,23 @@
 
-IF (WIN32XX_FOUND)
+IF (FELIDE_GUI_TOOLKIT_WIN32XX)
     SET(felide_editor_win32xx_src 
-        win32xx/MainFrameWin32xx.hpp 
-        win32xx/MainFrameWin32xx.cpp
+        win32xx/MainFrame.hpp 
+        win32xx/MainFrame.cpp
         
-        win32xx/ApplicationWin32xx.hpp 
-        win32xx/ApplicationWin32xx.cpp
+        win32xx/Application.hpp 
+        win32xx/Application.cpp
         
-        win32xx/ScintillaWin32xx.hpp 
-        win32xx/ScintillaWin32xx.cpp
+		win32xx/CodeEdit.hpp 
+        win32xx/CodeEdit.cpp
+
+		win32xx/CodeEditSci.hpp 
+        win32xx/CodeEditSci.cpp
+
+		win32xx/CodeEditText.hpp 
+        win32xx/CodeEditText.cpp 
         
-        win32xx/ModuleWin32xx.hpp 
-        win32xx/ModuleWin32xx.cpp
+        win32xx/Module.hpp 
+        win32xx/Module.cpp
     )
     
     SET(felide_editor_win32xx_res_src 
@@ -19,33 +25,34 @@ IF (WIN32XX_FOUND)
         win32xx/res/Resource.rc
         win32xx/res/bitmap1.bmp
     )
-ELSE ()
-    SET(felide_editor_win32xx_src )
-    SET(felide_editor_win32xx_res_src )
 ENDIF ()
 
-SET (felide_editor_qt5_src 
-    qt5/TabbedEditor.hpp
-    qt5/TabbedEditor.cpp
+IF (FELIDE_GUI_TOOLKIT_QT5)
+	SET (felide_editor_qt5_src 
+		qt5/TabbedEditor.hpp
+		qt5/TabbedEditor.cpp
 
-    qt5/Editor.hpp
-    qt5/Editor.cpp
+		qt5/Editor.hpp
+		qt5/Editor.cpp
 
-    qt5/MainWindow.hpp
-    qt5/MainWindow.cpp
-    
-    qt5/Application.hpp
-    qt5/Application.cpp
-)
+		qt5/MainWindow.hpp
+		qt5/MainWindow.cpp
+		
+		qt5/Application.hpp
+		qt5/Application.cpp
+	)
 
-QT5_WRAP_UI (felide_editor_qt5_ui
-    qt5/MainWindow.ui
-)
+	QT5_WRAP_UI (felide_editor_qt5_ui
+		qt5/MainWindow.ui
+	)
+ENDIF()
 
 SET (felide_editor_gtk3mm_src )
 
 SET (felide_editor_src 
     Main.cpp
+	Application.hpp 
+	Application.cpp
 )
 
 ADD_EXECUTABLE (felide.editor WIN32 
@@ -60,7 +67,7 @@ SET_PROPERTY (TARGET felide.editor PROPERTY CXX_STANDARD 14)
 
 SOURCE_GROUP(\\ FILES ${felide_editor_src})
 
-IF (WIN32XX_FOUND)
+IF (FELIDE_GUI_TOOLKIT_WIN32XX)
     SOURCE_GROUP(win32xx FILES ${felide_editor_win32xx_src})
     SOURCE_GROUP(win32xx\\res FILES ${felide_editor_win32xx_res_src})
 ENDIF ()

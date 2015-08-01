@@ -1,33 +1,30 @@
 
-#include "MainFrameWin32xx.hpp"
+#include "MainFrame.hpp"
 #include "res/resource.h"
 
 #include <file.h>
-#include <Scintilla.h>
-#include <SciLexer.h>
-
 #include <string>
 
 namespace felide { namespace editor { namespace win32xx {
 
-    MainFrameWin32xx::MainFrameWin32xx() {
+    MainFrame::MainFrame() {
         this->projectItem = std::make_unique<ProjectItem>();
 
-        this->textEditor = std::make_unique<Scintilla>();
+        this->textEditor = CodeEdit::new_();
         this->SetView(*this->textEditor.get());
     }
 
-    MainFrameWin32xx::~MainFrameWin32xx() {}
+    MainFrame::~MainFrame() {}
 
-    void MainFrameWin32xx::OnDestroy() {
+    void MainFrame::OnDestroy() {
         ::PostQuitMessage(0);
     }
 
-    void MainFrameWin32xx::OnInitialUpdate() {
+    void MainFrame::OnInitialUpdate() {
         this->SetWindowTextA("Felide Editor");
     }
 
-    BOOL MainFrameWin32xx::OnCommand(WPARAM wParam, LPARAM lParam) {
+    BOOL MainFrame::OnCommand(WPARAM wParam, LPARAM lParam) {
         const int command = LOWORD(wParam);
 
         switch (command) {
@@ -40,7 +37,7 @@ namespace felide { namespace editor { namespace win32xx {
         }
     }
 
-    bool MainFrameWin32xx::checkSavedChanges() {
+    bool MainFrame::checkSavedChanges() {
         if (this->projectItem->isModified()) {
             int result = MessageBox("Do you want to save the changes?", "Felide", MB_YESNOCANCEL | MB_ICONQUESTION);
 
@@ -57,7 +54,7 @@ namespace felide { namespace editor { namespace win32xx {
         return true;
     }
 
-    void MainFrameWin32xx::OnFileNew() {
+    void MainFrame::OnFileNew() {
         if (!this->checkSavedChanges()) {
             return;
         }
@@ -68,7 +65,7 @@ namespace felide { namespace editor { namespace win32xx {
         this->textEditor->EmptyUndoBuffer();
     }
 
-    void MainFrameWin32xx::OnFileOpen() {
+    void MainFrame::OnFileOpen() {
         CString filePath = CFile().OpenFileDialog(nullptr, 6UL, nullptr, "C/C++ Files\0*.c;*.cpp");
                 
         if (filePath == "") {
@@ -84,7 +81,7 @@ namespace felide { namespace editor { namespace win32xx {
         this->textEditor->SetSavePoint();
     }
 
-    void MainFrameWin32xx::OnFileSave() {
+    void MainFrame::OnFileSave() {
         if (!this->projectItem->hasPath()) {
             this->SendMessage(WM_COMMAND, ID_FILE_SAVEAS, 0);
             return;
@@ -94,7 +91,7 @@ namespace felide { namespace editor { namespace win32xx {
         this->projectItem->save(content);
     }
 
-    void MainFrameWin32xx::OnFileSaveAs() {
+    void MainFrame::OnFileSaveAs() {
         CString filePath = CFile().SaveFileDialog(nullptr, 6UL, nullptr, "C/C++ Files\0*.c;*.cpp");
 
         if (filePath == "") {
@@ -105,7 +102,7 @@ namespace felide { namespace editor { namespace win32xx {
         this->projectItem->save(content, filePath.c_str());
     }
 
-    void MainFrameWin32xx::OnFileExit() {
+    void MainFrame::OnFileExit() {
         if (!this->checkSavedChanges()) {
             return;
         }

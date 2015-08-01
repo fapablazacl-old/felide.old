@@ -10,15 +10,15 @@
 #include <frame.h>
 #include <mdi.h>
 
-#include "ScintillaWin32xx.hpp"
+#include "CodeEdit.hpp"
 #include "felide/ProjectItem.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
-    class MainFrameWin32xx : public CFrame {
+    class MainFrame : public CFrame {
     public:
-        MainFrameWin32xx();
-        virtual ~MainFrameWin32xx();
+        MainFrame();
+        virtual ~MainFrame();
 
         virtual void OnDestroy() override;
 
@@ -36,8 +36,8 @@ namespace felide { namespace editor { namespace win32xx {
         bool checkSavedChanges();
 
     private:
-        std::unique_ptr<Scintilla> textEditor;
-        std::unique_ptr<ProjectItem> projectItem;
+        CodeEditPtr textEditor;
+        ProjectItemPtr projectItem;
 
         /*
         virtual int OnCreate(LPCREATESTRUCT cs) override;

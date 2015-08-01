@@ -1,14 +1,16 @@
 
-#include "ModuleWin32xx.hpp"
+#include "Module.hpp"
 
 namespace felide { namespace editor { namespace win32xx { 
 
     Module::Module(const std::string &name) {
         HMODULE module = ::LoadLibraryA(name.c_str());
 
+		/*
         if (!module) {
             throw std::runtime_error("Can't load module '" + name + "'.");
         }
+		*/
 
         this->module = module;
     }
