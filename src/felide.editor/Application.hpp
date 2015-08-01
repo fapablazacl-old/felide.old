@@ -12,7 +12,7 @@ namespace felide { namespace editor {
 	class Application {
 	public:
 		virtual ~Application();
-		virtual int getReturnCode() = 0;
+		virtual int run(int argc, char **argv) = 0;
 
 	public:
 		static ApplicationPtr new_();

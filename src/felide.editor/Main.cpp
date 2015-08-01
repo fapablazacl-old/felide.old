@@ -1,19 +1,4 @@
 
-/*
-#include <QApplication>
-#include "qt5/MainWindow.hpp"
-
-int main(int argc, char **argv) {
-    ::QApplication app(argc, argv);
-    
-    felide::qt5::MainWindow mainWindow;
-    
-    mainWindow.show();
-    
-    return app.exec();
-}
-*/
-
 #include "Application.hpp"
 
 int main(int argc, char **argv) {
@@ -21,7 +6,7 @@ int main(int argc, char **argv) {
 
 	{
 		auto app = felide::editor::Application::new_();
-		returnCode = app->getReturnCode();
+		returnCode = app->run(argc, argv);
 	}
 	
     return returnCode;
