@@ -19,7 +19,7 @@ namespace felide { namespace qt5 {
         void openEditor(ProjectItem *item);
         void openEditor(ProjectItem *item, const QString &title);
         
-        void closeEditor();
+        void closeEditor(const Editor *editor);
         
         Editor* getCurrentEditor();
         const Editor* getCurrentEditor() const;

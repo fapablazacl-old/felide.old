@@ -82,7 +82,8 @@ namespace felide { namespace qt5 {
     }
 
     void MainWindow::handleFileClose() {
-        this->tabbedEditor->closeEditor();
+        const Editor *editor = this->tabbedEditor->getCurrentEditor();
+        this->tabbedEditor->closeEditor(editor);
     }
 
     void MainWindow::handleFileExit() {

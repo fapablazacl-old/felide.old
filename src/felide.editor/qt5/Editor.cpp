@@ -1,5 +1,5 @@
 
-#include "Editor.hpp"
+#include "felide.editor/qt5/Editor.hpp"
 
 #include <QGridLayout>
 #include <boost/filesystem/path.hpp>
@@ -61,6 +61,11 @@ namespace felide { namespace qt5 {
         this->setLayout(layout);
         
         this->open();
+        
+        connect(this->scintilla, &QsciScintilla::textChanged, [this]() {
+            this->item->modify();
+            this->titleUpdated(this);
+        });
     }
 
     void Editor::open() {
