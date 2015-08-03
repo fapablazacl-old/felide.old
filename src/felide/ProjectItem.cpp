@@ -42,7 +42,7 @@ namespace felide {
             std::getline(fs, line);
             
             content += line;
-            content += "\n";
+            content += "\r\n";
         }
         
         this->modified = false;

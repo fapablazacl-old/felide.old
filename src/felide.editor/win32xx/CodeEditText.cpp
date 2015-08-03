@@ -10,10 +10,18 @@ namespace felide { namespace editor { namespace win32xx {
     }
 
 	void CodeEditText::SetText(const CString &text) {
+		this->SendMessageA(WM_SETTEXT, 0, (LPARAM)text.c_str());
 	}
 
 	CString CodeEditText::GetText() {
-		return "";
+		INT textLength = this->SendMessageA(WM_GETTEXTLENGTH, 0, 0);
+
+		std::string text;
+		text.resize(textLength);
+
+		this->SendMessageA(WM_GETTEXT, 0, (LPARAM)text.c_str());
+		
+		return text.c_str();
 	}
 
 	void CodeEditText::SetSavePoint() {

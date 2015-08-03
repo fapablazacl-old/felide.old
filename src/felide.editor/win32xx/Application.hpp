@@ -10,7 +10,7 @@
 namespace felide { namespace editor { namespace win32xx {
 	class Application : public felide::editor::Application {
 	public:
-		virtual int getReturnCode() override;
+		virtual int run(int argc, char **argv) override;
 	};
 }}}
 

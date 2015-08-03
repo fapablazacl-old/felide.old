@@ -16,8 +16,7 @@ namespace felide { namespace editor { namespace win32xx {
         ModulePtr scintillaModule;
 	};
 
-
-	int Application::getReturnCode() {
+	int Application::run(int argc, char **argv) {
 		ApplicationImpl app;
 		return app.Run();
 	}
