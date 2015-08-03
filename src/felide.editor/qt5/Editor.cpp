@@ -91,5 +91,25 @@ namespace felide { namespace qt5 {
         this->titleUpdated(this);
     }
     
+    void Editor::onUndo() {
+        this->scintilla->undo();
+    }
+    
+    void Editor::onRedo() {
+        this->scintilla->redo();
+    }
+    
+    void Editor::onCut() {
+        this->scintilla->cut();
+    }
+    
+    void Editor::onCopy() {
+        this->scintilla->copy();
+    }
+    
+    void Editor::onPaste() {
+        this->scintilla->paste();
+    }
+    
     Editor::~Editor() {}
 }}
