@@ -2,34 +2,40 @@
 #include "CodeEditText.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
+
+	class CustomEdit : public CEdit {
+	public:
+		virtual void PreCreate(CREATESTRUCT &cs) override {
+			cs.style = WS_CHILD | WS_VISIBLE | ES_MULTILINE | ES_AUTOHSCROLL | ES_AUTOVSCROLL | ES_NOHIDESEL | WS_HSCROLL | WS_VSCROLL;
+		}
+	};
+
+	CodeEditText::CodeEditText() : edit(new CustomEdit()) {}
+
 	CodeEditText::~CodeEditText() {}
 
-	void CodeEditText::PreCreate(CREATESTRUCT &cs) {
-        cs.style = WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_CLIPCHILDREN | ES_LEFT | ES_MULTILINE | WS_VSCROLL | ES_AUTOVSCROLL;
-        cs.lpszClass = "EDIT";
-    }
-
 	void CodeEditText::SetText(const CString &text) {
-		this->SendMessageA(WM_SETTEXT, 0, (LPARAM)text.c_str());
+		this->edit->SetWindowTextA(text);
 	}
 
 	CString CodeEditText::GetText() {
-		INT textLength = this->SendMessageA(WM_GETTEXTLENGTH, 0, 0);
-
-		std::string text;
-		text.resize(textLength);
-
-		this->SendMessageA(WM_GETTEXT, 0, (LPARAM)text.c_str());
-		
-		return text.c_str();
+		return this->edit->GetWindowTextA();
 	}
 
-	void CodeEditText::SetSavePoint() {
-	}
+	void CodeEditText::SetSavePoint() {}
 
-	void CodeEditText::EmptyUndoBuffer() {
-	}
+	void CodeEditText::EmptyUndoBuffer() {}
 
 	void CodeEditText::ClearAll() {
+		this->edit->SetWindowTextA("");
+	}
+
+	CWnd* CodeEditText::getWindow() {
+		return this->edit.get();
+	}
+
+	void CodeEditText::setTabWidth(const int spaces) {
+		this->edit->SetTabStops(4*5);
+		this->edit->Invalidate();
 	}
 }}}

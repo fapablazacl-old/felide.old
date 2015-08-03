@@ -10,7 +10,7 @@ namespace felide { namespace editor { namespace win32xx {
 	class CodeEdit;
 	typedef std::unique_ptr<CodeEdit> CodeEditPtr;
 
-	class CodeEdit : public CWnd {
+	class CodeEdit {
 	public:
 		virtual ~CodeEdit();
 
@@ -20,6 +20,10 @@ namespace felide { namespace editor { namespace win32xx {
         virtual void SetSavePoint() = 0;
         virtual void EmptyUndoBuffer() = 0;
         virtual void ClearAll() = 0;
+		virtual void setTabWidth(const int spaces) = 0;
+
+		// Underlying window
+		virtual CWnd* getWindow() = 0;
 
 	public:
 		static CodeEditPtr new_();
