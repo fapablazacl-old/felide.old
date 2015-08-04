@@ -11,7 +11,7 @@ namespace felide { namespace editor { namespace win32xx {
         this->projectItem = std::make_unique<ProjectItem>();
 
         this->textEditor = CodeEdit::new_();
-        this->SetView(*this->textEditor.get());
+        this->SetView(*this->textEditor->getWindow());
     }
 
     MainFrame::~MainFrame() {}

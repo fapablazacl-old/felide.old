@@ -3,6 +3,7 @@
 #define __felide_editor_win32xx_codeedittext_hpp__
 
 #include <wincore.h>
+#include <stdcontrols.h>
 
 #include "CodeEdit.hpp"
 
@@ -10,9 +11,10 @@ namespace felide { namespace editor { namespace win32xx {
 
 	class CodeEditText : public CodeEdit {
 	public:
+		CodeEditText();
 		virtual ~CodeEditText();
 
-		virtual void PreCreate(CREATESTRUCT &cs) override;
+		virtual CWnd* getWindow() override;
 
 		virtual void SetText(const CString &text) override;
         virtual CString GetText() override;
@@ -20,6 +22,11 @@ namespace felide { namespace editor { namespace win32xx {
         virtual void SetSavePoint() override;
         virtual void EmptyUndoBuffer() override;
         virtual void ClearAll() override;
+
+		virtual void setTabWidth(const int spaces) override;
+
+	private:
+		std::unique_ptr<CEdit> edit;
 	};
 }}}
 
