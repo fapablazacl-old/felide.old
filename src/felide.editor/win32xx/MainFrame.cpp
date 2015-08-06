@@ -14,6 +14,15 @@ namespace felide { namespace editor { namespace win32xx {
         this->SetView(*this->textEditor->getWindow());
     }
 
+	int MainFrame::OnCreate(LPCREATESTRUCT pcs) {
+		int result = CFrame::OnCreate(pcs);
+
+		this->textEditor->setFont("Courier", 10);
+		this->textEditor->setTabWidth(4);
+
+		return result;
+	}
+
     MainFrame::~MainFrame() {}
 
     void MainFrame::OnDestroy() {
@@ -21,7 +30,7 @@ namespace felide { namespace editor { namespace win32xx {
     }
 
     void MainFrame::OnInitialUpdate() {
-        this->SetWindowTextA("Felide Editor");
+        this->SetWindowTextA("felide.editor");
     }
 
     BOOL MainFrame::OnCommand(WPARAM wParam, LPARAM lParam) {

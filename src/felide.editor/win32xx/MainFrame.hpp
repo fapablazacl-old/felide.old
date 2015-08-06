@@ -26,6 +26,8 @@ namespace felide { namespace editor { namespace win32xx {
         virtual void OnInitialUpdate() override;
         virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam) override;
         
+		virtual int OnCreate(LPCREATESTRUCT pcs) override;
+
         void OnFileNew();
         void OnFileOpen();
         void OnFileSave();

@@ -1,6 +1,6 @@
 
-#ifndef __felide_editor_win32xx_codeedit_hpp__
-#define __felide_editor_win32xx_codeedit_hpp__
+#ifndef __felide_editor_win32xx_editor_hpp__
+#define __felide_editor_win32xx_editor_hpp__
 
 #include <memory>
 #include <wincore.h>
@@ -24,10 +24,11 @@ namespace felide { namespace editor { namespace win32xx {
 
 		// Underlying window
 		virtual CWnd* getWindow() = 0;
+		virtual void setFont(const CString &name, const int size) = 0;
 
 	public:
 		static CodeEditPtr new_();
 	};
 }}}
 
-#endif	// __felide_editor_win32xx_codeedit_hpp__
+#endif	// __felide_editor_win32xx_editor_hpp__

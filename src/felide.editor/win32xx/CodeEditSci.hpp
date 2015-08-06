@@ -1,8 +1,8 @@
 
 #if defined(FELIDE_GUI_CODEEDIT_SCI)
 
-#ifndef __FELIDE_EDITOR_WIN32XX_SCINTILLA_HPP__
-#define __FELIDE_EDITOR_WIN32XX_SCINTILLA_HPP__
+#ifndef __felide_editor_win32xx_editorsci_hpp__
+#define __felide_editor_win32xx_editorsci_hpp__
 
 #include "CodeEdit.hpp"
 
@@ -55,6 +55,6 @@ namespace felide { namespace editor { namespace win32xx {
     };
 }}}
 
-#endif // __FELIDE_EDITOR_WIN32XX_SCINTILLA_HPP__
+#endif // __felide_editor_win32xx_editorsci_hpp__
 
 #endif	

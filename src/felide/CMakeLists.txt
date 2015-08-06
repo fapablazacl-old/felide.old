@@ -3,6 +3,7 @@ SET(felide_src
 	 ProjectItem.hpp ProjectItem.cpp
 	 Project.hpp Project.cpp
 	 Workspace.hpp Workspace.cpp
+	 Toolchain.hpp Toolchain.cpp
 )
 
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
