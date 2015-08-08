@@ -1,7 +1,7 @@
 /*
  * Felipe's Integrated Development Environment.
  *
- * Copyright (c) 2014 Felipe Apablaza.
+ * Copyright (c) 2014-2015 Felipe Apablaza.
  *
  * This file and its source code is licensed under the GPLv3 license.
  * For details, see the LICENSE file included in this software distribution.
@@ -12,6 +12,7 @@
 
 #include <felide/system/Module.hpp>
 #include <list>
+#include <memory>
 
 namespace felide { namespace system {
 	/**
@@ -19,64 +20,41 @@ namespace felide { namespace system {
 	 */
 	struct ProcessStatus {
 		enum Enum {
-			Stopped, 	/** @brief The process has not begun, or has been terminated. */
-			Executing 	/** @brief The process is currently executing. */
+			Stopped, 	//! The process has not begun, or has been terminated.
+			Executing 	//! The process is currently executing.
 		};
 	}; 
 
-	class Environment;
+	class Process;
+	typedef std::unique_ptr<Process> ProcessPtr;
 
 	/**
-	 * @brief Executable process module pointer reference.
+	 * @brief External OS process.
 	 */
-	class Process : public Module {
+	class Process {
 	public:
-		Process ();
-		virtual ~Process();
+		virtual ~Process() {}
 		
-		void open(const std::string &processName);
-		void open(const std::string &processName, const std::list<std::string> &args);
-		void close();
-		void start();
-		void terminate();
-		
-		void setInputStream(std::istream &is);
-		void setOutputStream(std::ostream &os);
-		void setErrorStream(std::ostream &os);
-		
-		std::istream& getInputStream();
-		std::ostream& getOutputStream();
-		std::ostream& getErrorStream();
-		
-		const std::istream& getInputStream() const;
-		const std::ostream& getOutputStream() const;
-		const std::ostream& getErrorStream() const;
-		
-		Environment* getEnvironment();
-		const Environment* getEnvironment() const;
+		/**
+		 * @brief Get the process exit code.
+		 */
+		virtual int getExitCode() const = 0;
 
 		/**
-		 * @brief Get the exit code of the process.
-		 *
-		 * In case the process is still running, the caller get hanged-up until the first one
-		 * terminates execution.
+		 * @brief Wait for execution
 		 */
-		int getExitCode() const;
-		
-		/**
-		 * @brief Get the execution status for the process.
+		virtual void wait() = 0;
+
+		/** 
+		 * @brief Start in async the process.
 		 */
-		ProcessStatus::Enum getStatus() const;
-		
+		virtual void start() = 0;
+
+		virtual void terminate() = 0;
+
 	public:
-		/**
-		 * @brief Get a pointer reference to the currently running process.
-		 */
-		static Process* getCurrent();
-		
-	private:
-		class Private;
-		Private *impl;
+		static ProcessPtr open(const std::string &processName);
+		static ProcessPtr open(const std::string &processName, const std::list<std::string> &args);
 	};
 }}
 
