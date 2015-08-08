@@ -16,6 +16,14 @@ namespace felide { namespace qt5 {
     signals:
         void titleUpdated(const Editor *editor);
         
+    public slots:
+        void onUndo();
+        void onRedo();
+        
+        void onCut();
+        void onCopy();
+        void onPaste();
+        
     public:
         explicit Editor(QWidget *parent, ProjectItem *item);
         ~Editor();

@@ -26,6 +26,9 @@ namespace felide { namespace qt5 {
         void handleFileSaveAs();
         void handleFileClose();
         void handleFileExit();
+
+    private:
+        void updateState();
         
     private:
         std::unique_ptr<Ui_MainWindow> ui;

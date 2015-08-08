@@ -14,13 +14,36 @@ namespace felide { namespace qt5 {
         this->tabbedEditor = new TabbedEditor(this);
         this->setCentralWidget(tabbedEditor);
         
-        // connect signals
+        // file menu
         connect(this->ui->action_New, &QAction::triggered, this, &MainWindow::handleFileNew);
         connect(this->ui->action_Open, &QAction::triggered, this, &MainWindow::handleFileOpen);
         connect(this->ui->action_Save, &QAction::triggered, this, &MainWindow::handleFileSave);
         connect(this->ui->actionSave_As, &QAction::triggered, this, &MainWindow::handleFileSaveAs);
         connect(this->ui->actionClose, &QAction::triggered, this, &MainWindow::handleFileClose);
         connect(this->ui->action_Exit, &QAction::triggered, this, &MainWindow::handleFileExit);
+        
+        // edit menu
+        connect(this->ui->action_Undo, &QAction::triggered, [this]() {
+            this->tabbedEditor->getCurrentEditor()->onUndo();
+        });
+        
+        connect(this->ui->action_Redo, &QAction::triggered, [this]() {
+            this->tabbedEditor->getCurrentEditor()->onRedo();
+        });
+        
+        connect(this->ui->action_Cut, &QAction::triggered, [this]() {
+            this->tabbedEditor->getCurrentEditor()->onCut();
+        });
+        
+        connect(this->ui->actionC_opy, &QAction::triggered, [this]() {
+            this->tabbedEditor->getCurrentEditor()->onCopy();
+        });
+        
+        connect(this->ui->action_Paste, &QAction::triggered, [this]() {
+            this->tabbedEditor->getCurrentEditor()->onPaste();
+        });
+        
+        this->updateState();
     }
     
     MainWindow::~MainWindow() {}
@@ -38,6 +61,8 @@ namespace felide { namespace qt5 {
         this->items.push_back(std::move(projectItem));
         
         this->untitledCount = untitledCount;
+        
+        this->updateState();
     }
     
     void MainWindow::handleFileOpen() {
@@ -53,6 +78,8 @@ namespace felide { namespace qt5 {
         this->tabbedEditor->openEditor(projectItem.get(), title);
         
         this->items.push_back(std::move(projectItem));
+        
+        this->updateState();
     }
 
     void MainWindow::handleFileSave() {
@@ -84,9 +111,22 @@ namespace felide { namespace qt5 {
     void MainWindow::handleFileClose() {
         const Editor *editor = this->tabbedEditor->getCurrentEditor();
         this->tabbedEditor->closeEditor(editor);
+        
+        this->updateState();
     }
 
     void MainWindow::handleFileExit() {
         this->close();
+    }
+    
+    void MainWindow::updateState() {
+        const bool openedEditor = (this->tabbedEditor->getCurrentEditor()!=nullptr);
+
+        this->ui->actionClose->setEnabled(openedEditor);
+        this->ui->action_Undo->setEnabled(openedEditor);
+        this->ui->action_Redo->setEnabled(openedEditor);
+        this->ui->action_Cut->setEnabled(openedEditor);
+        this->ui->actionC_opy->setEnabled(openedEditor);
+        this->ui->action_Paste->setEnabled(openedEditor);
     }
 }}
