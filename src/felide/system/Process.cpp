@@ -28,6 +28,8 @@ namespace felide { namespace system {
 		void construct(const std::string &name, const std::list<std::string> &args) {
 			std::string cmdLine = boost::join(args, " ");
 
+			cmdLine = name + " " + cmdLine;
+
 			const char *lpAppName = nullptr;
 			char* lpCmdLine = nullptr;
 
@@ -35,12 +37,15 @@ namespace felide { namespace system {
 			si.cb = sizeof(STARTUPINFO);
 
 			// prepare application name
-			lpAppName = name.c_str();
+			// lpAppName = name.c_str();
 
 			// prepare command line
+			/*
 			if (cmdLine != "") {
 				lpCmdLine = const_cast<char*>(cmdLine.c_str());
 			}
+			*/
+			lpCmdLine = const_cast<char*>(cmdLine.c_str());
 
 			// prepare creation flags
 			DWORD dwCreateFlags = CREATE_SUSPENDED;
@@ -48,7 +53,7 @@ namespace felide { namespace system {
 			// invoke process
 			PROCESS_INFORMATION pi = { 0 };
 			BOOL result = ::CreateProcess (
-				lpAppName, lpCmdLine,
+				nullptr, lpCmdLine,
 				NULL, NULL, FALSE,
 				dwCreateFlags, NULL, NULL,
 				&si, &pi

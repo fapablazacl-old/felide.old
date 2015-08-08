@@ -1,5 +1,6 @@
 
 #include "MainFrame.hpp"
+#include "felide/system/Process.hpp"
 #include "res/resource.h"
 
 #include <file.h>
@@ -42,6 +43,12 @@ namespace felide { namespace editor { namespace win32xx {
             case ID_FILE_SAVE:      this->OnFileSave();     return TRUE;
             case ID_FILE_SAVEAS:    this->OnFileSaveAs();   return TRUE;
             case ID_FILE_EXIT:      this->OnFileExit();     return TRUE;
+
+			case ID_BUILD_CLEAN:	this->OnBuildClean();	return TRUE;
+			case ID_BUILD_COMPILE:	this->OnBuildCompile();	return TRUE;
+
+			// case ID_BUILD_LINK:		this->OnBuildLink();	return TRUE;
+
             default: return FALSE;
         }
     }
@@ -119,12 +126,16 @@ namespace felide { namespace editor { namespace win32xx {
         this->Close();
     }
 
-	void MainFrame::OnBuildClean() {
-
-	}
+	void MainFrame::OnBuildClean() {}
 
 	void MainFrame::OnBuildCompile() {
-
+		try {
+			auto compiler = felide::system::Process::open("gcc", {"-v"});
+			compiler->start();
+			compiler->wait();
+		} catch (std::exception &exp) {
+			::MessageBox(NULL, exp.what(), "Error", MB_OK | MB_ICONERROR);
+		}
 	}
 
 	void MainFrame::OnBuildLink() {
