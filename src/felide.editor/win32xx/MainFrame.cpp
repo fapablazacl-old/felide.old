@@ -10,7 +10,7 @@ namespace felide { namespace editor { namespace win32xx {
     MainFrame::MainFrame() {
         this->projectItem = std::make_unique<ProjectItem>();
 
-        this->textEditor = CodeEdit::new_();
+        this->textEditor = Editor::new_();
         this->SetView(*this->textEditor->getWindow());
     }
 
@@ -118,4 +118,16 @@ namespace felide { namespace editor { namespace win32xx {
 
         this->Close();
     }
+
+	void MainFrame::OnBuildClean() {
+
+	}
+
+	void MainFrame::OnBuildCompile() {
+
+	}
+
+	void MainFrame::OnBuildLink() {
+
+	}
 }}}

@@ -10,7 +10,7 @@
 #include <frame.h>
 #include <mdi.h>
 
-#include "CodeEdit.hpp"
+#include "Editor.hpp"
 #include "felide/ProjectItem.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
@@ -33,12 +33,16 @@ namespace felide { namespace editor { namespace win32xx {
         void OnFileSave();
         void OnFileSaveAs();
         void OnFileExit();
-        
+
+		void OnBuildClean();
+		void OnBuildCompile();
+		void OnBuildLink();
+
     private:
         bool checkSavedChanges();
 
     private:
-        CodeEditPtr textEditor;
+        EditorPtr textEditor;
         ProjectItemPtr projectItem;
 
         /*

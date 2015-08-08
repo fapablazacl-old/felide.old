@@ -5,16 +5,16 @@
 #include <wincore.h>
 #include <stdcontrols.h>
 
-#include "CodeEdit.hpp"
+#include "Editor.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
 	class CustomEdit;
 
-	class CodeEditText : public CodeEdit {
+	class EditorText : public Editor {
 	public:
-		CodeEditText();
-		virtual ~CodeEditText();
+		EditorText();
+		virtual ~EditorText();
 
 		virtual CWnd* getWindow() override;
 

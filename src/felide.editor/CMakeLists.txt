@@ -7,14 +7,14 @@ IF (FELIDE_GUI_TOOLKIT_WIN32XX)
         win32xx/Application.hpp 
         win32xx/Application.cpp
         
-		win32xx/CodeEdit.hpp 
-        win32xx/CodeEdit.cpp
+		win32xx/Editor.hpp 
+        win32xx/Editor.cpp
 
-		win32xx/CodeEditSci.hpp 
-        win32xx/CodeEditSci.cpp
+		win32xx/EditorSci.hpp 
+        win32xx/EditorSci.cpp
 
-		win32xx/CodeEditText.hpp 
-        win32xx/CodeEditText.cpp 
+		win32xx/EditorText.hpp 
+        win32xx/EditorText.cpp 
         
         win32xx/Module.hpp 
         win32xx/Module.cpp

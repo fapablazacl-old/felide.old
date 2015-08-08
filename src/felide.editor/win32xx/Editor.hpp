@@ -7,12 +7,12 @@
 
 namespace felide { namespace editor { namespace win32xx {
 
-	class CodeEdit;
-	typedef std::unique_ptr<CodeEdit> CodeEditPtr;
+	class Editor;
+	typedef std::unique_ptr<Editor> EditorPtr;
 
-	class CodeEdit {
+	class Editor {
 	public:
-		virtual ~CodeEdit();
+		virtual ~Editor();
 
         virtual void SetText(const CString &text) = 0;
         virtual CString GetText() = 0;
@@ -27,7 +27,7 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual void setFont(const CString &name, const int size) = 0;
 
 	public:
-		static CodeEditPtr new_();
+		static EditorPtr new_();
 	};
 }}}
 

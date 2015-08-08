@@ -4,7 +4,7 @@
 #ifndef __felide_editor_win32xx_editorsci_hpp__
 #define __felide_editor_win32xx_editorsci_hpp__
 
-#include "CodeEdit.hpp"
+#include "Editor.hpp"
 
 #include <string>
 #include <wincore.h>
@@ -12,7 +12,7 @@
 #include <SciLexer.h>
 
 namespace felide { namespace editor { namespace win32xx { 
-    class Scintilla : public CodeEdit {
+    class Scintilla : public Editor {
     public:
         virtual void PreCreate(CREATESTRUCT &cs) override;
 

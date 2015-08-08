@@ -1,13 +1,11 @@
 
-#include "CodeEditText.hpp"
+#include "EditorText.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
 	class CustomEdit : public CEdit {
 	public:
-		CustomEdit() {
-			
-		}
+		CustomEdit() {}
 
 		virtual void PreCreate(CREATESTRUCT &cs) override {
 			cs.style = WS_CHILD | WS_VISIBLE | ES_MULTILINE | ES_AUTOHSCROLL | ES_AUTOVSCROLL | ES_NOHIDESEL | WS_HSCROLL | WS_VSCROLL;
@@ -21,31 +19,31 @@ namespace felide { namespace editor { namespace win32xx {
 		CFont font;
 	};
 
-	CodeEditText::CodeEditText() : edit(new CustomEdit()) {}
+	EditorText::EditorText() : edit(new CustomEdit()) {}
 
-	CodeEditText::~CodeEditText() {}
+	EditorText::~EditorText() {}
 
-	void CodeEditText::SetText(const CString &text) {
+	void EditorText::SetText(const CString &text) {
 		this->edit->SetWindowTextA(text);
 	}
 
-	CString CodeEditText::GetText() {
+	CString EditorText::GetText() {
 		return this->edit->GetWindowTextA();
 	}
 
-	void CodeEditText::SetSavePoint() {}
+	void EditorText::SetSavePoint() {}
 
-	void CodeEditText::EmptyUndoBuffer() {}
+	void EditorText::EmptyUndoBuffer() {}
 
-	void CodeEditText::ClearAll() {
+	void EditorText::ClearAll() {
 		this->edit->SetWindowTextA("");
 	}
 
-	CWnd* CodeEditText::getWindow() {
+	CWnd* EditorText::getWindow() {
 		return this->edit.get();
 	}
 
-	void CodeEditText::setFont(const CString &name, const int size) {
+	void EditorText::setFont(const CString &name, const int size) {
 
 		this->edit->getFont()->CreatePointFont(size*10, name);
 
@@ -53,7 +51,7 @@ namespace felide { namespace editor { namespace win32xx {
 		this->edit->Invalidate();
 	}
 
-	void CodeEditText::setTabWidth(const int spaces) {
+	void EditorText::setTabWidth(const int spaces) {
 		const int factor = 4;
 
 		this->edit->SetTabStops(spaces*factor);
