@@ -5,6 +5,7 @@
 
 #include <file.h>
 #include <string>
+#include <boost/filesystem.hpp>
 
 namespace felide { namespace editor { namespace win32xx {
 
@@ -46,8 +47,7 @@ namespace felide { namespace editor { namespace win32xx {
 
 			case ID_BUILD_CLEAN:	this->OnBuildClean();	return TRUE;
 			case ID_BUILD_COMPILE:	this->OnBuildCompile();	return TRUE;
-
-			// case ID_BUILD_LINK:		this->OnBuildLink();	return TRUE;
+			case ID_BUILD_LINK:		this->OnBuildLink();	return TRUE;
 
             default: return FALSE;
         }
@@ -130,7 +130,26 @@ namespace felide { namespace editor { namespace win32xx {
 
 	void MainFrame::OnBuildCompile() {
 		try {
-			auto compiler = felide::system::Process::open("gcc", {"-v"});
+			if (!this->projectItem->hasPath()) {
+				this->MessageBox("Save the source first", "felide.editor", MB_OK | MB_ICONEXCLAMATION);
+				return;
+			}
+
+			namespace fs = boost::filesystem;
+
+			fs::path path = this->projectItem->getPath();
+			fs::path parentPath = path.parent_path().string();
+
+			// setup command line parameters
+			std::list<std::string> args = {
+				this->projectItem->getPath(),
+				"-o" + this->projectItem->getPath() + ".exe",
+				"-O0", 
+				"-Wall",
+				"-lstdc++"
+			};
+
+			auto compiler = felide::system::Process::open("gcc", args);
 			compiler->start();
 			compiler->wait();
 		} catch (std::exception &exp) {
