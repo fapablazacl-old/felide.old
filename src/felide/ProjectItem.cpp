@@ -68,10 +68,10 @@ namespace felide {
         
         fs.open(this->getPath().c_str(), std::ios_base::out);
         if (!fs.is_open()) {
-            throw std::runtime_error("");
+            throw std::runtime_error("The file could't be opened");
         }
-        
-        fs << content;
+		
+		fs.write(content.c_str(), content.size() - 1);
         
         this->modified = false;
     }
