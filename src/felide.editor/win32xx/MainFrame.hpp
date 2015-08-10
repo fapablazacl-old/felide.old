@@ -12,6 +12,7 @@
 
 #include "Editor.hpp"
 #include "felide/ProjectItem.hpp"
+#include "felide/system/Process.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
@@ -44,6 +45,8 @@ namespace felide { namespace editor { namespace win32xx {
     private:
         EditorPtr textEditor;
         ProjectItemPtr projectItem;
+
+		felide::system::StreamPtr stream;
 
         /*
         virtual int OnCreate(LPCREATESTRUCT cs) override;

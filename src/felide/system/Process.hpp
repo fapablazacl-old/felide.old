@@ -10,11 +10,21 @@
 #ifndef __FELIDE_SYSTEM_PROCESS_HPP__
 #define __FELIDE_SYSTEM_PROCESS_HPP__
 
-#include <felide/system/Module.hpp>
+#include <string>
 #include <list>
 #include <memory>
+#include <functional>
 
 namespace felide { namespace system {
+
+	class Stream {
+	public:
+		virtual ~Stream() {}
+		virtual void write(const char *) {}
+	};
+
+	typedef std::unique_ptr<Stream> StreamPtr;
+
 	/**
 	 * @brief Possible status for a given Process.
 	 */
@@ -27,6 +37,8 @@ namespace felide { namespace system {
 
 	class Process;
 	typedef std::unique_ptr<Process> ProcessPtr;
+
+	typedef std::function<void (const std::string &)> ProcessCallback;
 
 	/**
 	 * @brief External OS process.
@@ -55,6 +67,7 @@ namespace felide { namespace system {
 	public:
 		static ProcessPtr open(const std::string &processName);
 		static ProcessPtr open(const std::string &processName, const std::list<std::string> &args);
+		static ProcessPtr open(const std::string &processName, const std::list<std::string> &args, Stream *stream);
 	};
 }}
 

@@ -9,6 +9,20 @@
 
 namespace felide { namespace editor { namespace win32xx {
 
+	class SimpleStream : public felide::system::Stream {
+	public:
+		SimpleStream(Editor *editor) {
+			this->editor = editor;
+		}
+
+		virtual void write(const char *str) {
+			this->editor->SetText(CString(str));
+		}
+
+	private:
+		Editor *editor = nullptr;
+	};
+
     MainFrame::MainFrame() {
         this->projectItem = std::make_unique<ProjectItem>();
 
@@ -21,6 +35,8 @@ namespace felide { namespace editor { namespace win32xx {
 
 		this->textEditor->setFont("Courier", 10);
 		this->textEditor->setTabWidth(4);
+
+		this->stream = std::make_unique<SimpleStream>(this->textEditor.get());
 
 		return result;
 	}
@@ -143,7 +159,7 @@ namespace felide { namespace editor { namespace win32xx {
 			// setup command line parameters
 			std::list<std::string> args = {
 				this->projectItem->getPath(),
-				"-o" + this->projectItem->getPath() + ".exe",
+				"-o" + (parentPath / path.stem()).string() + ".exe",
 				"-O0", 
 				"-Wall",
 				"-lstdc++"
