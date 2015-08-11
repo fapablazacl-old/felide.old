@@ -9,7 +9,7 @@
 
 #include "Process.hpp"
 
-#include <thread>
+#include <sstream>
 #include <boost/algorithm/string/join.hpp>
 #include <Windows.h>
 
@@ -23,7 +23,7 @@ namespace felide { namespace system {
 
 	class ProcessRedirector {
 	public:
-		explicit ProcessRedirector(STARTUPINFO *si, PROCESS_INFORMATION *pi, Stream *stream) {
+		explicit ProcessRedirector(STARTUPINFO *si, PROCESS_INFORMATION *pi) {
 			SECURITY_ATTRIBUTES sa = {0};
 			SECURITY_DESCRIPTOR sd = {0};
 
@@ -60,7 +60,6 @@ namespace felide { namespace system {
 			this->hWriteStdIn = hWriteStdIn;
 
 			this->pi = pi;
-			this->stream = stream;
 		}
 
 		~ProcessRedirector() {
@@ -70,20 +69,12 @@ namespace felide { namespace system {
 			::CloseHandle(hWriteStdIn);
 		}
 
-		void handle() {
+		std::string getOutput() {
 			PROCESS_INFORMATION pi = *this->pi;
 			
+			std::stringstream ss;
+
 			while (true) {
-				::Sleep(10);
-
-				// check if process is running
-				unsigned long exitCode = 0;
-				::GetExitCodeProcess(pi.hProcess, &exitCode);
-
-				if (exitCode != STILL_ACTIVE) {
-					return;
-				}
-
 				// check for pending reads from stdout
 				const int BUFFER_SIZE = 1024;
 				char buff[BUFFER_SIZE] = {0};
@@ -98,42 +89,47 @@ namespace felide { namespace system {
 					if (avail > BUFFER_SIZE-1) {
 						while (readed >= BUFFER_SIZE-1) {
 							::ReadFile(this->hReadStdOut, buff, BUFFER_SIZE-1, &readed, NULL);
-							this->stream->write(buff);
+							ss << buff;
 							::ZeroMemory(buff, sizeof(buff));
 						}
 					} else {
 						::ReadFile(this->hReadStdOut, buff, BUFFER_SIZE-1, &readed, NULL);
-						this->stream->write(buff);
+						ss << buff;
 					}
 				}
+
+				// check if process is running
+				unsigned long exitCode = 0;
+				::GetExitCodeProcess(pi.hProcess, &exitCode);
+
+				if (exitCode != STILL_ACTIVE) {
+					break;
+				}
 			}
+
+			return ss.str();
 		}
 
 	private:
 		HANDLE hStdIn = 0, hStdOut = 0;
 		HANDLE hReadStdOut = 0, hWriteStdIn = 0;
 		PROCESS_INFORMATION *pi = nullptr;
-		Stream *stream = nullptr;
 	};
 
 	typedef std::unique_ptr<ProcessRedirector> ProcessRedirectorPtr;
 
 	class ProcessWin32 : public Process {
 	public:
-		ProcessWin32(const std::string &name) {
+		ProcessWin32(ProcessFlags::Enum flags, const std::string &name) {
 			std::list<std::string> args;
-			this->construct(name, args, nullptr);
+			this->construct(flags, name, args);
 		}
 
-		ProcessWin32(const std::string &name, const std::list<std::string> &args) {
-			this->construct(name, args, nullptr);
+		ProcessWin32(ProcessFlags::Enum flags, const std::string &name, const std::list<std::string> &args) {
+			this->construct(flags, name, args);
 		}
 
-		ProcessWin32(const std::string &name, const std::list<std::string> &args, Stream *stream) {
-			this->construct(name, args, stream);
-		}
-
-		void construct(const std::string &name, const std::list<std::string> &args, Stream *stream) {
+		void construct(ProcessFlags::Enum flags, const std::string &name, const std::list<std::string> &args) {
 			std::string cmdLine = name + " " + boost::join(args, " ");
 			char* lpCmdLine = const_cast<char*>(cmdLine.c_str());
 
@@ -144,8 +140,8 @@ namespace felide { namespace system {
 
 			ProcessRedirectorPtr redirector;
 
-			if (stream) {
-				redirector = std::make_unique<ProcessRedirector>(&si, &this->processInfo, stream);
+			if (flags&ProcessFlags::Redirect) {
+				redirector = std::make_unique<ProcessRedirector>(&si, &this->processInfo);
 			}
 
 			// invoke process
@@ -186,18 +182,12 @@ namespace felide { namespace system {
 			if (::WaitForSingleObject(this->processInfo.hProcess, INFINITE) == WAIT_FAILED) {
 				throw std::runtime_error(std::to_string(::GetLastError()));
 			}
-
-			this->thread.join();
 		}
 
 		virtual void start() override {
 			if (::ResumeThread(this->processInfo.hThread) == FALSE) {
 				throw std::runtime_error(std::to_string(::GetLastError()));
 			} 
-
-			if (this->redirector) {
-				this->thread = std::thread(&ProcessRedirector::handle, this->redirector.get());
-			}
 		}
 
 		virtual void terminate() override {
@@ -206,23 +196,26 @@ namespace felide { namespace system {
 			}
 		}
 
+		virtual std::string getOutput() const override {
+			if (!this->redirector) {
+				throw std::runtime_error("Process::getOutput: The process wasn't created with a valid redirector.");
+			}
+
+			return this->redirector->getOutput();
+		}
+
 	private:
 		PROCESS_INFORMATION processInfo;
 		ProcessRedirectorPtr redirector;
-		std::thread thread;
 	};
 
 	typedef ProcessWin32 ProcessImpl;
 
-	ProcessPtr Process::open(const std::string &processName) {
-		return std::make_unique<ProcessImpl>(processName);
+	ProcessPtr Process::open(ProcessFlags::Enum flags, const std::string &processName) {
+		return std::make_unique<ProcessImpl>(flags, processName);
 	}
 
-	ProcessPtr Process::open(const std::string &processName, const std::list<std::string> &args) {
-		return std::make_unique<ProcessImpl>(processName, args);
-	}
-
-	ProcessPtr Process::open(const std::string &processName, const std::list<std::string> &args, Stream *stream) {
-		return std::make_unique<ProcessImpl>(processName, args, stream);
+	ProcessPtr Process::open(ProcessFlags::Enum flags, const std::string &processName, const std::list<std::string> &args) {
+		return std::make_unique<ProcessImpl>(flags, processName, args);
 	}
 }}

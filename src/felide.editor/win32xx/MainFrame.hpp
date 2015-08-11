@@ -46,8 +46,6 @@ namespace felide { namespace editor { namespace win32xx {
         EditorPtr textEditor;
         ProjectItemPtr projectItem;
 
-		felide::system::StreamPtr stream;
-
         /*
         virtual int OnCreate(LPCREATESTRUCT cs) override;
         virtual void SetupToolBar() override;

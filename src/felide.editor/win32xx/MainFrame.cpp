@@ -9,20 +9,6 @@
 
 namespace felide { namespace editor { namespace win32xx {
 
-	class SimpleStream : public felide::system::Stream {
-	public:
-		SimpleStream(Editor *editor) {
-			this->editor = editor;
-		}
-
-		virtual void write(const char *str) {
-			this->editor->SetText(CString(str));
-		}
-
-	private:
-		Editor *editor = nullptr;
-	};
-
     MainFrame::MainFrame() {
         this->projectItem = std::make_unique<ProjectItem>();
 
@@ -35,8 +21,6 @@ namespace felide { namespace editor { namespace win32xx {
 
 		this->textEditor->setFont("Courier", 10);
 		this->textEditor->setTabWidth(4);
-
-		this->stream = std::make_unique<SimpleStream>(this->textEditor.get());
 
 		return result;
 	}
@@ -165,10 +149,14 @@ namespace felide { namespace editor { namespace win32xx {
 				"-lstdc++"
 			};
 
-			auto compiler = felide::system::Process::open("gcc", args);
+			auto compiler = felide::system::Process::open(felide::system::ProcessFlags::Redirect, "gcc", args);
 			compiler->start();
 			compiler->wait();
-		} catch (std::exception &exp) {
+
+			std::string msg = compiler->getOutput();
+			::MessageBox(NULL, msg.c_str(), "Error", MB_OK | MB_ICONERROR);
+
+		} catch (std::exception exp) {
 			::MessageBox(NULL, exp.what(), "Error", MB_OK | MB_ICONERROR);
 		}
 	}

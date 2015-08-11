@@ -17,14 +17,6 @@
 
 namespace felide { namespace system {
 
-	class Stream {
-	public:
-		virtual ~Stream() {}
-		virtual void write(const char *) {}
-	};
-
-	typedef std::unique_ptr<Stream> StreamPtr;
-
 	/**
 	 * @brief Possible status for a given Process.
 	 */
@@ -39,6 +31,14 @@ namespace felide { namespace system {
 	typedef std::unique_ptr<Process> ProcessPtr;
 
 	typedef std::function<void (const std::string &)> ProcessCallback;
+
+
+	struct ProcessFlags {
+		enum Enum {
+			Default = 0,
+			Redirect = 1
+		};
+	};
 
 	/**
 	 * @brief External OS process.
@@ -57,6 +57,11 @@ namespace felide { namespace system {
 		 */
 		virtual void wait() = 0;
 
+		/**
+		 * @brief Get process output
+		 */
+		virtual std::string getOutput() const = 0;
+
 		/** 
 		 * @brief Start in async the process.
 		 */
@@ -65,9 +70,8 @@ namespace felide { namespace system {
 		virtual void terminate() = 0;
 
 	public:
-		static ProcessPtr open(const std::string &processName);
-		static ProcessPtr open(const std::string &processName, const std::list<std::string> &args);
-		static ProcessPtr open(const std::string &processName, const std::list<std::string> &args, Stream *stream);
+		static ProcessPtr open(ProcessFlags::Enum flags, const std::string &processName);
+		static ProcessPtr open(ProcessFlags::Enum flags, const std::string &processName, const std::list<std::string> &args);
 	};
 }}
 
