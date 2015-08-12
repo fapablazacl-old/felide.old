@@ -9,8 +9,11 @@
 #include <wincore.h>
 #include <frame.h>
 #include <mdi.h>
+#include <toolbar.h>
+#include <tab.h>
 
 #include "Editor.hpp"
+#include "TabbedEditorPanel.hpp"
 #include "felide/ProjectItem.hpp"
 #include "felide/system/Process.hpp"
 
@@ -44,7 +47,8 @@ namespace felide { namespace editor { namespace win32xx {
 
     private:
         EditorPtr textEditor;
-        ProjectItemPtr projectItem;
+        
+		CDocker *lastActiveDocker = nullptr;
 
         /*
         virtual int OnCreate(LPCREATESTRUCT cs) override;

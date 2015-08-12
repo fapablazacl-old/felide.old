@@ -19,7 +19,9 @@ namespace felide { namespace editor { namespace win32xx {
 		CFont font;
 	};
 
-	EditorText::EditorText() : edit(new CustomEdit()) {}
+	EditorText::EditorText(ProjectItemPtr projectItem) : edit(new CustomEdit()) {
+		this->projectItem = std::move(projectItem);
+	}
 
 	EditorText::~EditorText() {}
 
@@ -56,5 +58,13 @@ namespace felide { namespace editor { namespace win32xx {
 
 		this->edit->SetTabStops(spaces*factor);
 		this->edit->Invalidate();
+	}
+
+	ProjectItem* EditorText::getProjectItem() {
+		return this->projectItem.get();
+	}
+
+	const ProjectItem* EditorText::getProjectItem() const {
+		return this->projectItem.get();
 	}
 }}}

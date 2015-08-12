@@ -10,9 +10,9 @@
 namespace felide { namespace editor { namespace win32xx {
 
     MainFrame::MainFrame() {
-        this->projectItem = std::make_unique<ProjectItem>();
+        auto projectItem = std::make_unique<ProjectItem>();
 
-        this->textEditor = Editor::new_();
+        this->textEditor = Editor::new_(std::move(projectItem));
         this->SetView(*this->textEditor->getWindow());
     }
 
@@ -54,7 +54,9 @@ namespace felide { namespace editor { namespace win32xx {
     }
 
     bool MainFrame::checkSavedChanges() {
-        if (this->projectItem->isModified()) {
+		const Editor *editor = this->textEditor.get();
+
+        if (editor->getProjectItem()->isModified()) {
             int result = MessageBox("Do you want to save the changes?", "Felide", MB_YESNOCANCEL | MB_ICONQUESTION);
 
             switch (result) {
@@ -75,10 +77,11 @@ namespace felide { namespace editor { namespace win32xx {
             return;
         }
 
-        this->projectItem = std::make_unique<ProjectItem>();
+		Editor *editor = this->textEditor.get();
 
-        this->textEditor->ClearAll();
-        this->textEditor->EmptyUndoBuffer();
+		editor->getProjectItem()->new_();
+        editor->ClearAll();
+        editor->EmptyUndoBuffer();
     }
 
     void MainFrame::OnFileOpen() {
@@ -88,23 +91,27 @@ namespace felide { namespace editor { namespace win32xx {
             return;
         }
 
+		Editor *editor = this->textEditor.get();
+
         this->SendMessage(WM_COMMAND, ID_FILE_NEW, 0);
 
-        std::string content = this->projectItem->open(filePath.c_str());
+        std::string content = editor->getProjectItem()->open(filePath.c_str());
 
-        this->textEditor->SetText(content.c_str());
-        this->textEditor->EmptyUndoBuffer();
-        this->textEditor->SetSavePoint();
+        editor->SetText(content.c_str());
+        editor->EmptyUndoBuffer();
+        editor->SetSavePoint();
     }
 
     void MainFrame::OnFileSave() {
-        if (!this->projectItem->hasPath()) {
+		Editor *editor = this->textEditor.get();
+
+        if (!editor->getProjectItem()->hasPath()) {
             this->SendMessage(WM_COMMAND, ID_FILE_SAVEAS, 0);
             return;
         }
 
-        std::string content = this->textEditor->GetText().c_str();
-        this->projectItem->save(content);
+        std::string content = editor->GetText().c_str();
+        editor->getProjectItem()->save(content);
     }
 
     void MainFrame::OnFileSaveAs() {
@@ -114,8 +121,10 @@ namespace felide { namespace editor { namespace win32xx {
             return;
         }
 
-        std::string content = this->textEditor->GetText().c_str();
-        this->projectItem->save(content, filePath.c_str());
+		Editor *editor = this->textEditor.get();
+
+        std::string content = editor->GetText().c_str();
+        editor->getProjectItem()->save(content, filePath.c_str());
     }
 
     void MainFrame::OnFileExit() {
@@ -130,26 +139,30 @@ namespace felide { namespace editor { namespace win32xx {
 
 	void MainFrame::OnBuildCompile() {
 		try {
-			if (!this->projectItem->hasPath()) {
-				this->MessageBox("Save the source first", "felide.editor", MB_OK | MB_ICONEXCLAMATION);
+			Editor *editor = this->textEditor.get();
+
+			if (!editor->getProjectItem()->hasPath()) {
+				this->MessageBox("Please, save the source first", "felide.editor", MB_OK | MB_ICONEXCLAMATION);
 				return;
 			}
 
 			namespace fs = boost::filesystem;
 
-			fs::path path = this->projectItem->getPath();
+			fs::path path = editor->getProjectItem()->getPath();
 			fs::path parentPath = path.parent_path().string();
 
 			// setup command line parameters
 			std::list<std::string> args = {
-				this->projectItem->getPath(),
+				editor->getProjectItem()->getPath(),
 				"-o" + (parentPath / path.stem()).string() + ".exe",
 				"-O0", 
 				"-Wall",
 				"-lstdc++"
 			};
 
-			auto compiler = felide::system::Process::open(felide::system::ProcessFlags::Redirect, "gcc", args);
+			namespace felsys=felide::system;
+
+			auto compiler = felsys::Process::open(felsys::ProcessFlags::Redirect, "gcc", args);
 			compiler->start();
 			compiler->wait();
 

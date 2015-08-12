@@ -12,7 +12,7 @@ typedef felide::editor::win32xx::EditorText EditorImpl;
 namespace felide { namespace editor { namespace win32xx {
 	Editor::~Editor() {} 
 
-	EditorPtr Editor::new_() {
-		return std::unique_ptr<Editor>(new EditorImpl());
+	EditorPtr Editor::new_(ProjectItemPtr projectItem) {
+		return std::unique_ptr<Editor>(new EditorImpl(std::move(projectItem)));
 	}
 }}}

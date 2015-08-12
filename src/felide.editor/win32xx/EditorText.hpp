@@ -13,7 +13,7 @@ namespace felide { namespace editor { namespace win32xx {
 
 	class EditorText : public Editor {
 	public:
-		EditorText();
+		EditorText(ProjectItemPtr projectItem);
 		virtual ~EditorText();
 
 		virtual CWnd* getWindow() override;
@@ -28,8 +28,13 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual void setFont(const CString &name, const int size) override;
 		virtual void setTabWidth(const int spaces) override;
 
+		virtual ProjectItem* getProjectItem() override;
+
+		virtual const ProjectItem* getProjectItem() const override;
+
 	private:
 		std::unique_ptr<CustomEdit> edit;
+		ProjectItemPtr projectItem;
 	};
 }}}
 

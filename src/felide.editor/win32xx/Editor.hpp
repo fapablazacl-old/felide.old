@@ -5,6 +5,8 @@
 #include <memory>
 #include <wincore.h>
 
+#include "felide/ProjectItem.hpp"
+
 namespace felide { namespace editor { namespace win32xx {
 
 	class Editor;
@@ -26,8 +28,11 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual CWnd* getWindow() = 0;
 		virtual void setFont(const CString &name, const int size) = 0;
 
+		virtual ProjectItem* getProjectItem() = 0;
+		virtual const ProjectItem* getProjectItem() const = 0;
+
 	public:
-		static EditorPtr new_();
+		static EditorPtr new_(ProjectItemPtr item);
 	};
 }}}
 
