@@ -54,7 +54,7 @@ namespace felide { namespace editor { namespace win32xx {
     }
 
     bool MainFrame::checkSavedChanges() {
-		const Editor *editor = this->textEditor.get();
+		const Editor *editor = this->getActiveEditor();
 
         if (editor->getProjectItem()->isModified()) {
             int result = MessageBox("Do you want to save the changes?", "Felide", MB_YESNOCANCEL | MB_ICONQUESTION);
@@ -77,7 +77,7 @@ namespace felide { namespace editor { namespace win32xx {
             return;
         }
 
-		Editor *editor = this->textEditor.get();
+		Editor *editor = this->getActiveEditor();
 
 		editor->getProjectItem()->new_();
         editor->ClearAll();
@@ -91,7 +91,7 @@ namespace felide { namespace editor { namespace win32xx {
             return;
         }
 
-		Editor *editor = this->textEditor.get();
+		Editor *editor = this->getActiveEditor();
 
         this->SendMessage(WM_COMMAND, ID_FILE_NEW, 0);
 
@@ -103,7 +103,7 @@ namespace felide { namespace editor { namespace win32xx {
     }
 
     void MainFrame::OnFileSave() {
-		Editor *editor = this->textEditor.get();
+		Editor *editor = this->getActiveEditor();
 
         if (!editor->getProjectItem()->hasPath()) {
             this->SendMessage(WM_COMMAND, ID_FILE_SAVEAS, 0);
@@ -121,7 +121,7 @@ namespace felide { namespace editor { namespace win32xx {
             return;
         }
 
-		Editor *editor = this->textEditor.get();
+		Editor *editor = this->getActiveEditor();
 
         std::string content = editor->GetText().c_str();
         editor->getProjectItem()->save(content, filePath.c_str());
@@ -139,7 +139,7 @@ namespace felide { namespace editor { namespace win32xx {
 
 	void MainFrame::OnBuildCompile() {
 		try {
-			Editor *editor = this->textEditor.get();
+			Editor *editor = this->getActiveEditor();
 
 			if (!editor->getProjectItem()->hasPath()) {
 				this->MessageBox("Please, save the source first", "felide.editor", MB_OK | MB_ICONEXCLAMATION);
@@ -166,8 +166,12 @@ namespace felide { namespace editor { namespace win32xx {
 			compiler->start();
 			compiler->wait();
 
-			std::string msg = compiler->getOutput();
-			::MessageBox(NULL, msg.c_str(), "Error", MB_OK | MB_ICONERROR);
+			if (compiler->getExitCode() != 0) {
+				std::string msg = compiler->getOutput();
+				::MessageBox(NULL, msg.c_str(), "felide.editor", MB_OK | MB_ICONERROR);
+			} else {
+				::MessageBox(NULL, "Compilation OK.", "felide.editor", MB_OK | MB_ICONINFORMATION);
+			}
 
 		} catch (std::exception exp) {
 			::MessageBox(NULL, exp.what(), "Error", MB_OK | MB_ICONERROR);
@@ -176,5 +180,9 @@ namespace felide { namespace editor { namespace win32xx {
 
 	void MainFrame::OnBuildLink() {
 
+	}
+
+	Editor* MainFrame::getActiveEditor() {
+		return this->textEditor.get();
 	}
 }}}

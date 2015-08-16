@@ -32,6 +32,9 @@ namespace felide { namespace editor { namespace win32xx {
         
 		virtual int OnCreate(LPCREATESTRUCT pcs) override;
 
+	protected:
+		Editor* getActiveEditor();
+
         void OnFileNew();
         void OnFileOpen();
         void OnFileSave();
@@ -42,10 +45,14 @@ namespace felide { namespace editor { namespace win32xx {
 		void OnBuildCompile();
 		void OnBuildLink();
 
+	protected:
+
     private:
         bool checkSavedChanges();
 
     private:
+		CTabbedMDI tabbedMDI;
+
         EditorPtr textEditor;
         
 		CDocker *lastActiveDocker = nullptr;
