@@ -10,13 +10,14 @@
 #ifndef __FELIDE_SYSTEM_LIBRARY_HPP__
 #define __FELIDE_SYSTEM_LIBRARY_HPP__
 
+#include "felide/Config.hpp"
 #include <felide/system/Module.hpp>
 
 namespace felide { namespace system {
 	/**
 	 * @brief Dynamically loaded executable module library (.so on Unix, .dll on Windows)
 	 */
-	class Library : public Module {
+	class FELIDE_API Library : public Module {
 	public:
 		virtual ~Library();
 	};

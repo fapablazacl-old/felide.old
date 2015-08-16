@@ -10,6 +10,7 @@
 #ifndef __FELIDE_SYSTEM_MODULE_HPP__
 #define __FELIDE_SYSTEM_MODULE_HPP__
 
+#include "felide/Config.hpp"
 #include <string>
 
 namespace felide { namespace system {
@@ -21,7 +22,7 @@ namespace felide { namespace system {
 	/**
 	 * @brief Executable module image. 
 	 */
-	class Module {
+	class FELIDE_API Module {
 	public:
 		virtual ~Module();
 		

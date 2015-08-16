@@ -13,11 +13,12 @@
 #include <memory>
 #include <string>
 
+#include "Config.hpp"
 #include "Project.hpp"
 
 namespace felide { 
 
-	class Workspace {
+	class FELIDE_API Workspace {
 	public:
 		virtual ~Workspace() = 0;
 		

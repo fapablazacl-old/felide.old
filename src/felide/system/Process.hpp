@@ -10,6 +10,7 @@
 #ifndef __FELIDE_SYSTEM_PROCESS_HPP__
 #define __FELIDE_SYSTEM_PROCESS_HPP__
 
+#include "felide/Config.hpp"
 #include <string>
 #include <list>
 #include <memory>
@@ -43,7 +44,7 @@ namespace felide { namespace system {
 	/**
 	 * @brief External OS process.
 	 */
-	class Process {
+	class FELIDE_API Process {
 	public:
 		virtual ~Process() {}
 		

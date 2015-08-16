@@ -10,13 +10,14 @@
 #ifndef __FELIDE_SYSTEM_ENVIRONMENT_HPP__
 #define __FELIDE_SYSTEM_ENVIRONMENT_HPP__
 
+#include "felide/Config.hpp"
 #include <string>
 
 namespace felide { namespace system {
 	/**
 	* @brief Accessor and manipulator for temporal environment variables of processes.
 	 */
-	class Environment {
+	class FELIDE_API Environment {
 	public:
 		virtual ~Environment();
 		

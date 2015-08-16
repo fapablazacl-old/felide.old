@@ -1,26 +1,26 @@
 
 IF (FELIDE_GUI_TOOLKIT_WIN32XX)
     SET(felide_editor_win32xx_src 
-        win32xx/MainFrame.hpp 
-        win32xx/MainFrame.cpp
+        win32xx/CMainFrame.hpp 
+        win32xx/CMainFrame.cpp
         
-        win32xx/Application.hpp 
-        win32xx/Application.cpp
+        win32xx/CApplication.hpp 
+        win32xx/CApplication.cpp
         
-		win32xx/Editor.hpp 
-        win32xx/Editor.cpp
+		win32xx/CEditor.hpp 
+        win32xx/CEditor.cpp
 
-		win32xx/EditorSci.hpp 
-        win32xx/EditorSci.cpp
+		win32xx/CEditorSci.hpp 
+        win32xx/CEditorSci.cpp
 
-		win32xx/EditorText.hpp 
-        win32xx/EditorText.cpp 
+		win32xx/CEditorText.hpp 
+        win32xx/CEditorText.cpp 
         
-        win32xx/Module.hpp 
-        win32xx/Module.cpp
+        win32xx/CModule.hpp 
+        win32xx/CModule.cpp
 
-		win32xx/TabbedEditorPanel.hpp
-		win32xx/TabbedEditorPanel.cpp
+		win32xx/CTabbedEditorPanel.hpp
+		win32xx/CTabbedEditorPanel.cpp
     )
     
     SET(felide_editor_win32xx_res_src 

@@ -10,11 +10,12 @@
 #ifndef __FELIDE_PROJECTITEM_HPP__
 #define __FELIDE_PROJECTITEM_HPP__
 
+#include "Config.hpp"
 #include <memory>
 #include <string>
 
 namespace felide { 
-    class ProjectItem {
+    class FELIDE_API ProjectItem {
     public:
         ProjectItem();
         

@@ -15,7 +15,7 @@
 #include "ProjectItem.hpp"
 
 namespace felide { 
-	class Project {
+	class FELIDE_API Project {
 	public:
 		virtual ~Project() = 0;
 		

@@ -5,8 +5,8 @@
 #include "qt5/Application.hpp"
 typedef felide::editor::qt5::Application ApplicationImpl;
 #elif defined(FELIDE_GUI_TOOLKIT_WIN32XX)
-#include "win32xx/Application.hpp"
-typedef felide::editor::win32xx::Application ApplicationImpl;
+#include "win32xx/CApplication.hpp"
+typedef felide::editor::win32xx::CApplication ApplicationImpl;
 #else 
 #error You must select first a GUI toolkit.
 #endif
