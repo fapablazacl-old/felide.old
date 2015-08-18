@@ -54,12 +54,11 @@ SET (felide_editor_gtk3mm_src )
 
 SET (felide_editor_src 
     Main.cpp
-	Application.hpp 
-	Application.cpp
-	View.hpp
-	Controller.hpp
-	View.cpp
-	Controller.cpp
+	Application.hpp			Application.cpp
+	View.hpp				View.cpp 
+	Handler.hpp				Handler.cpp
+	MainFrame.hpp			MainFrame.cpp
+	MainFrameHandler.hpp	MainFrameHandler.cpp
 )
 
 ADD_EXECUTABLE (felide.editor WIN32 
