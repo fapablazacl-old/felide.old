@@ -3,61 +3,45 @@
 
 namespace felide { namespace editor { namespace win32xx {
 
-	class CustomEdit : public CEdit {
-	public:
-		CustomEdit() {}
-
-		virtual void PreCreate(CREATESTRUCT &cs) override {
-			cs.style = WS_CHILD | WS_VISIBLE | ES_MULTILINE | ES_AUTOHSCROLL | ES_AUTOVSCROLL | ES_NOHIDESEL | WS_HSCROLL | WS_VSCROLL;
-		}
-
-		CFont *getFont() {
-			return &this->font;
-		}
-
-	private:
-		CFont font;
-	};
-
-    CEditorText::CEditorText(ProjectItemPtr projectItem) : edit(new CustomEdit()) {
+    CEditorText::CEditorText(ProjectItemPtr projectItem) {
 		this->projectItem = std::move(projectItem);
 	}
 
     CEditorText::~CEditorText() {}
 
-	void CEditorText::SetText(const CString &text) {
-		this->edit->SetWindowTextA(text);
+    void CEditorText::PreCreate(CREATESTRUCT &cs) {
+        cs.style = WS_CHILD | WS_VISIBLE | ES_MULTILINE | ES_AUTOHSCROLL | 
+                    ES_AUTOVSCROLL | ES_NOHIDESEL | WS_HSCROLL | WS_VSCROLL;
+    }
+
+	void CEditorText::setText(const std::string &text) {
+		this->SetWindowTextA(text.c_str());
 	}
 
-	CString CEditorText::GetText() {
-		return this->edit->GetWindowTextA();
+    std::string CEditorText::getText() const {
+		return std::string(this->GetWindowTextA());
 	}
 
-	void CEditorText::SetSavePoint() {}
+	void CEditorText::setSavePoint() {}
 
-	void CEditorText::EmptyUndoBuffer() {}
+	void CEditorText::emptyUndoBuffer() {}
 
-	void CEditorText::ClearAll() {
-		this->edit->SetWindowTextA("");
+	void CEditorText::clearAll() {
+		this->SetWindowTextA("");
 	}
 
-	CWnd* CEditorText::getWindow() {
-		return this->edit.get();
-	}
+	void CEditorText::setFont(const std::string &name, const int size) {
+        this->editorFont.CreatePointFont(size*10, name.c_str());
 
-	void CEditorText::setFont(const CString &name, const int size) {
-
-		this->edit->getFont()->CreatePointFont(size*10, name);
-
-		this->edit->SetFont(this->edit->getFont());
-		this->edit->Invalidate();
+		this->SetFont(&this->editorFont);
+		this->Invalidate();
 	}
 
 	void CEditorText::setTabWidth(const int spaces) {
 		const int factor = 4;
 
-		this->edit->SetTabStops(spaces*factor);
-		this->edit->Invalidate();
+		this->SetTabStops(spaces*factor);
+		this->Invalidate();
 	}
 
 	ProjectItem* CEditorText::getProjectItem() {

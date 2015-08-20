@@ -12,10 +12,10 @@
 #include <toolbar.h>
 #include <tab.h>
 
-#include "CEditor.hpp"
-#include "CTabbedEditorPanel.hpp"
 #include "felide/ProjectItem.hpp"
 #include "felide/system/Process.hpp"
+#include "felide.editor/Editor.hpp"
+#include "felide.editor/win32xx/CTabbedEditorPanel.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
@@ -33,7 +33,8 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual int OnCreate(LPCREATESTRUCT pcs) override;
 
 	protected:
-		CEditor* getActiveEditor();
+		Editor* getActiveEditor();
+        const Editor* getActiveEditor() const;
 
         void OnFileNew();
         void OnFileOpen();
@@ -46,11 +47,11 @@ namespace felide { namespace editor { namespace win32xx {
 		void OnBuildLink();
 
     private:
-        bool checkSavedChanges();
+        bool checkSavedChanges() const;
 
     private:
 		CTabbedMDI tabbedMDI;
-        CEditorPtr textEditor;
+        EditorPtr textEditor;
     };
 }}}
 

@@ -10,9 +10,6 @@
 namespace felide { namespace editor { namespace win32xx {
 
     CMainFrame::CMainFrame() {
-        // auto projectItem = std::make_unique<ProjectItem>();
-        // this->textEditor = Editor::new_(std::move(projectItem));
-
         this->SetView(this->tabbedMDI);
     }
 
@@ -55,8 +52,8 @@ namespace felide { namespace editor { namespace win32xx {
         }
     }
 
-    bool CMainFrame::checkSavedChanges() {
-		const CEditor *editor = this->getActiveEditor();
+    bool CMainFrame::checkSavedChanges() const {
+		const Editor *editor = this->getActiveEditor();
 
         if (editor->getProjectItem()->isModified()) {
             int result = MessageBox("Do you want to save the changes?", "Felide", MB_YESNOCANCEL | MB_ICONQUESTION);
@@ -75,11 +72,24 @@ namespace felide { namespace editor { namespace win32xx {
     }
 
     void CMainFrame::OnFileNew() {
-		CEditor *editor = this->getActiveEditor();
+        auto projectItem = std::make_unique<ProjectItem>();
 
+        Editor *editor = Editor::new_(std::move(projectItem));
+
+        CWnd *editorCtrl = dynamic_cast<CWnd*>(editor);
+
+        // WndPtr textEditor(editorCtrl);
+        
+        editorCtrl->Create(&this->tabbedMDI);
+
+        this->tabbedMDI.AddMDIChild(WndPtr(editorCtrl), "Lala");
+
+        /*
+		Editor *editor = this->getActiveEditor();
 		editor->getProjectItem()->new_();
-        editor->ClearAll();
-        editor->EmptyUndoBuffer();
+        editor->clearAll();
+        editor->emptyUndoBuffer();
+        */
     }
 
     void CMainFrame::OnFileOpen() {
@@ -89,26 +99,26 @@ namespace felide { namespace editor { namespace win32xx {
             return;
         }
 
-		CEditor *editor = this->getActiveEditor();
+		Editor *editor = this->getActiveEditor();
 
         this->SendMessage(WM_COMMAND, ID_FILE_NEW, 0);
 
         std::string content = editor->getProjectItem()->open(filePath.c_str());
 
-        editor->SetText(content.c_str());
-        editor->EmptyUndoBuffer();
-        editor->SetSavePoint();
+        editor->setText(content.c_str());
+        editor->emptyUndoBuffer();
+        editor->setSavePoint();
     }
 
     void CMainFrame::OnFileSave() {
-		CEditor *editor = this->getActiveEditor();
+		Editor *editor = this->getActiveEditor();
 
         if (!editor->getProjectItem()->hasPath()) {
             this->SendMessage(WM_COMMAND, ID_FILE_SAVEAS, 0);
             return;
         }
 
-        std::string content = editor->GetText().c_str();
+        std::string content = editor->getText();
         editor->getProjectItem()->save(content);
     }
 
@@ -119,9 +129,9 @@ namespace felide { namespace editor { namespace win32xx {
             return;
         }
 
-		CEditor *editor = this->getActiveEditor();
+		Editor *editor = this->getActiveEditor();
 
-        std::string content = editor->GetText().c_str();
+        std::string content = editor->getText();
         editor->getProjectItem()->save(content, filePath.c_str());
     }
 
@@ -137,7 +147,7 @@ namespace felide { namespace editor { namespace win32xx {
 
 	void CMainFrame::OnBuildCompile() {
 		try {
-			CEditor *editor = this->getActiveEditor();
+			Editor *editor = this->getActiveEditor();
 
 			if (!editor->getProjectItem()->hasPath()) {
 				this->MessageBox("Please, save the source first", "felide.editor", MB_OK | MB_ICONEXCLAMATION);
@@ -180,7 +190,11 @@ namespace felide { namespace editor { namespace win32xx {
 
 	}
 
-	CEditor* CMainFrame::getActiveEditor() {
+	Editor* CMainFrame::getActiveEditor() {
 		return this->textEditor.get();
 	}
+
+    const Editor* CMainFrame::getActiveEditor() const {
+        return this->textEditor.get();
+    }
 }}}

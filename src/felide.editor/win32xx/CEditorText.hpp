@@ -5,27 +5,30 @@
 #include <wincore.h>
 #include <stdcontrols.h>
 
-#include "CEditor.hpp"
+#include "felide/ProjectItem.hpp"
+#include "felide.editor/Editor.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
-	class CustomEdit;
-
-	class CEditorText : public CEditor {
+	class CEditorText : public Editor, CEdit {
 	public:
         CEditorText(ProjectItemPtr projectItem);
 		virtual ~CEditorText();
 
-		virtual CWnd* getWindow() override;
+        // 
 
-		virtual void SetText(const CString &text) override;
-        virtual CString GetText() override;
+        virtual void PreCreate(CREATESTRUCT &cs) override;
 
-        virtual void SetSavePoint() override;
-        virtual void EmptyUndoBuffer() override;
-        virtual void ClearAll() override;
+        // 
 
-		virtual void setFont(const CString &name, const int size) override;
+		virtual void setText(const std::string &text) override;
+        virtual std::string getText() const override;
+
+        virtual void setSavePoint() override;
+        virtual void emptyUndoBuffer() override;
+        virtual void clearAll() override;
+
+		virtual void setFont(const std::string &name, const int size) override;
 		virtual void setTabWidth(const int spaces) override;
 
 		virtual ProjectItem* getProjectItem() override;
@@ -33,8 +36,8 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual const ProjectItem* getProjectItem() const override;
 
 	private:
-		std::unique_ptr<CustomEdit> edit;
 		ProjectItemPtr projectItem;
+        CFont editorFont;
 	};
 }}}
 

@@ -2,10 +2,14 @@
 #ifndef __felide_editor_editor_hpp__
 #define __felide_editor_editor_hpp__
 
+#include <memory>
 #include <string>
 #include "felide/ProjectItem.hpp"
 
 namespace felide { namespace editor {
+
+    class Editor;
+    typedef std::unique_ptr<Editor> EditorPtr;
 
     /**
      * @brief Generic source editor component interface.
@@ -15,7 +19,7 @@ namespace felide { namespace editor {
         virtual ~Editor() {}
 
         virtual void setText(const std::string &text) {}
-        virtual std::string getText() const {}
+        virtual std::string getText() const { return ""; }
 
         virtual void setSavePoint() {}
         virtual void emptyUndoBuffer() {}
@@ -24,8 +28,11 @@ namespace felide { namespace editor {
 
         virtual void setFont(const std::string &name, const int size) {}
 
-        virtual ProjectItem* getProjectItem() {}
-        virtual const ProjectItem* getProjectItem() const {}
+        virtual ProjectItem* getProjectItem() {return nullptr;}
+        virtual const ProjectItem* getProjectItem() const {return nullptr;}
+
+    public:
+        static Editor* new_(ProjectItemPtr item);
 	};
 }}
 

@@ -56,6 +56,9 @@ SET (felide_editor_src
     Main.cpp
 	Application.hpp 
 	Application.cpp
+
+	Editor.hpp 
+	Editor.cpp
 )
 
 ADD_EXECUTABLE (felide.editor WIN32 
