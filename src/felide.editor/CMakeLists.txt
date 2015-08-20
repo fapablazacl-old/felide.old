@@ -21,6 +21,9 @@ IF (FELIDE_GUI_TOOLKIT_WIN32XX)
 
 		win32xx/TabbedEditorPanel.hpp
 		win32xx/TabbedEditorPanel.cpp
+
+		win32xx/CDialogFactory.hpp
+		win32xx/CDialogFactory.cpp
     )
     
     SET(felide_editor_win32xx_res_src 
