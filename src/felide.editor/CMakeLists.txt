@@ -73,7 +73,7 @@ SET (felide_editor_src
 	MainFrame.hpp			
 	MainFrame.cpp
 
-	MainFrameHandler.hpp	
+	MainFrameHandler.hpp
 	MainFrameHandler.cpp
 )
 

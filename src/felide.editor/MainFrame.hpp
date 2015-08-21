@@ -4,15 +4,22 @@
 
 #include "View.hpp"
 #include "MainFrameHandler.hpp"
+#include "Editor.hpp"
 
 namespace felide { namespace editor {
 
 	class MainFrameHandler;
 	class MainFrame : public View<MainFrameHandler> {
 	public:
-		explicit MainFrame(MainFrameHandler* handler);
-
+		MainFrame(DialogFactory *dialogFactory);
 		virtual ~MainFrame();
+
+		virtual Editor* createEditor(ProjectItemPtr item) = 0;
+
+		virtual Editor* getCurrentEditor() = 0;
+		virtual const Editor* getCurrentEditor() const = 0;
+
+		virtual void close() = 0;
 	};
 }}
 

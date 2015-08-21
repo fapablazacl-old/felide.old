@@ -15,43 +15,40 @@
 #include "felide/ProjectItem.hpp"
 #include "felide/system/Process.hpp"
 #include "felide.editor/Editor.hpp"
+#include "felide.editor/MainFrame.hpp"
 #include "felide.editor/win32xx/CTabbedEditorPanel.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
-    class CMainFrame : public CFrame {
+    class CMainFrame : public CFrame, public MainFrame {
     public:
-        CMainFrame();
+        explicit CMainFrame(DialogFactory *factory);
         virtual ~CMainFrame();
 
         virtual void OnDestroy() override;
 
+	public:
+		virtual Editor* createEditor(ProjectItemPtr item) override;
+		virtual Editor* getCurrentEditor() override;
+		virtual const Editor* getCurrentEditor() const override;
+		virtual void close() override;
+
+		virtual void setHandler(MainFrameHandler *handler) override;
+		virtual MainFrameHandler* getHandler() override;
+		virtual const MainFrameHandler* getHandler() const override;
+
+		virtual DialogFactory* getDialogFactory() const override;
+
     protected:
         virtual void OnInitialUpdate() override;
         virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam) override;
-        
 		virtual int OnCreate(LPCREATESTRUCT pcs) override;
-
-	protected:
-		Editor* getActiveEditor();
-        const Editor* getActiveEditor() const;
-
-        void OnFileNew();
-        void OnFileOpen();
-        void OnFileSave();
-        void OnFileSaveAs();
-        void OnFileExit();
-
-		void OnBuildClean();
-		void OnBuildCompile();
-		void OnBuildLink();
-
-    private:
-        bool checkSavedChanges() const;
 
     private:
 		CTabbedMDI tabbedMDI;
         EditorPtr textEditor;
+		MainFrameHandler *handler = nullptr;
+		DialogFactory *dialogFactory = nullptr;
     };
 }}}
 

@@ -48,8 +48,8 @@ namespace felide {
         void new_();
         
     private:
-        std::string path;
-        bool modified = false;
+		struct Private;
+		Private* impl = nullptr;
     };
     
     typedef std::unique_ptr<ProjectItem> ProjectItemPtr;

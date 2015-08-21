@@ -38,163 +38,110 @@ namespace felide { namespace editor { namespace win32xx {
         const int command = LOWORD(wParam);
 
         switch (command) {
-            case ID_FILE_NEW:       this->OnFileNew();      return TRUE;
-            case ID_FILE_OPEN:      this->OnFileOpen();     return TRUE;
-            case ID_FILE_SAVE:      this->OnFileSave();     return TRUE;
-            case ID_FILE_SAVEAS:    this->OnFileSaveAs();   return TRUE;
-            case ID_FILE_EXIT:      this->OnFileExit();     return TRUE;
+            case ID_FILE_NEW:       
+				this->handler->handleFileNew();
+				return TRUE;
 
-			case ID_BUILD_CLEAN:	this->OnBuildClean();	return TRUE;
-			case ID_BUILD_COMPILE:	this->OnBuildCompile();	return TRUE;
-			case ID_BUILD_LINK:		this->OnBuildLink();	return TRUE;
+            case ID_FILE_OPEN:      
+				this->handler->handleFileOpen();
+				return TRUE;
+
+            case ID_FILE_SAVE:      
+				this->handler->handleFileSave();
+				return TRUE;
+
+            case ID_FILE_SAVEAS:    
+				this->handler->handleFileSaveAs();
+				return TRUE;
+
+            case ID_FILE_EXIT:      
+				this->handler->handleFileExit();
+				return TRUE;
+
+			case ID_BUILD_CLEAN:	
+				this->handler->handleBuildClean();
+				return TRUE;
+
+			case ID_BUILD_COMPILE:	
+				this->handler->handleBuildCompile();
+				return TRUE;
+
+			case ID_BUILD_LINK:		
+				this->handler->handleBuildLink();
+				return TRUE;
 
             default: return FALSE;
         }
     }
+	
+  //  void CMainFrame::OnFileNew() {
+  //      auto projectItem = std::make_unique<ProjectItem>();
 
-    bool CMainFrame::checkSavedChanges() const {
-		const Editor *editor = this->getActiveEditor();
+  //      Editor *editor = Editor::new_(std::move(projectItem));
 
-        if (editor->getProjectItem()->isModified()) {
-            int result = MessageBox("Do you want to save the changes?", "Felide", MB_YESNOCANCEL | MB_ICONQUESTION);
+  //      CWnd *editorCtrl = dynamic_cast<CWnd*>(editor);
 
-            switch (result) {
-                case 0: 
-                    this->SendMessage(WM_COMMAND, ID_FILE_SAVE, 0); 
-                    return true;
+  //      // WndPtr textEditor(editorCtrl);
+  //      
+  //      editorCtrl->Create(&this->tabbedMDI);
 
-                case 1: return true;
-                case 2: return false;
-            }
-        }
+  //      this->tabbedMDI.AddMDIChild(WndPtr(editorCtrl), "Lala");
 
-        return true;
-    }
+  //      /*
+		//Editor *editor = this->getCurrentEditor();
+		//editor->getProjectItem()->new_();
+  //      editor->clearAll();
+  //      editor->emptyUndoBuffer();
+  //      */
+  //  }
 
-    void CMainFrame::OnFileNew() {
-        auto projectItem = std::make_unique<ProjectItem>();
+  //  void CMainFrame::OnFileOpen() {
+  //      CString filePath = CFile().OpenFileDialog(nullptr, 6UL, nullptr, "C/C++ Files\0*.c;*.cpp");
+  //              
+  //      if (filePath == "") {
+  //          return;
+  //      }
 
-        Editor *editor = Editor::new_(std::move(projectItem));
+		//Editor *editor = this->getCurrentEditor();
 
-        CWnd *editorCtrl = dynamic_cast<CWnd*>(editor);
+  //      this->SendMessage(WM_COMMAND, ID_FILE_NEW, 0);
 
-        // WndPtr textEditor(editorCtrl);
-        
-        editorCtrl->Create(&this->tabbedMDI);
+  //      std::string content = editor->getProjectItem()->open(filePath.c_str());
 
-        this->tabbedMDI.AddMDIChild(WndPtr(editorCtrl), "Lala");
-
-        /*
-		Editor *editor = this->getActiveEditor();
-		editor->getProjectItem()->new_();
-        editor->clearAll();
-        editor->emptyUndoBuffer();
-        */
-    }
-
-    void CMainFrame::OnFileOpen() {
-        CString filePath = CFile().OpenFileDialog(nullptr, 6UL, nullptr, "C/C++ Files\0*.c;*.cpp");
-                
-        if (filePath == "") {
-            return;
-        }
-
-		Editor *editor = this->getActiveEditor();
-
-        this->SendMessage(WM_COMMAND, ID_FILE_NEW, 0);
-
-        std::string content = editor->getProjectItem()->open(filePath.c_str());
-
-        editor->setText(content.c_str());
-        editor->emptyUndoBuffer();
-        editor->setSavePoint();
-    }
-
-    void CMainFrame::OnFileSave() {
-		Editor *editor = this->getActiveEditor();
-
-        if (!editor->getProjectItem()->hasPath()) {
-            this->SendMessage(WM_COMMAND, ID_FILE_SAVEAS, 0);
-            return;
-        }
-
-        std::string content = editor->getText();
-        editor->getProjectItem()->save(content);
-    }
-
-    void CMainFrame::OnFileSaveAs() {
-        CString filePath = CFile().SaveFileDialog(nullptr, 6UL, nullptr, "C/C++ Files\0*.c;*.cpp");
-
-        if (filePath == "") {
-            return;
-        }
-
-		Editor *editor = this->getActiveEditor();
-
-        std::string content = editor->getText();
-        editor->getProjectItem()->save(content, filePath.c_str());
-    }
-
-    void CMainFrame::OnFileExit() {
-        if (!this->checkSavedChanges()) {
-            return;
-        }
-
-        this->Close();
-    }
-
-	void CMainFrame::OnBuildClean() {}
-
-	void CMainFrame::OnBuildCompile() {
-		try {
-			Editor *editor = this->getActiveEditor();
-
-			if (!editor->getProjectItem()->hasPath()) {
-				this->MessageBox("Please, save the source first", "felide.editor", MB_OK | MB_ICONEXCLAMATION);
-				return;
-			}
-
-			namespace fs = boost::filesystem;
-
-			fs::path path = editor->getProjectItem()->getPath();
-			fs::path parentPath = path.parent_path().string();
-
-			// setup command line parameters
-			std::list<std::string> args = {
-				editor->getProjectItem()->getPath(),
-				"-o" + (parentPath / path.stem()).string() + ".exe",
-				"-O0", 
-				"-Wall",
-				"-lstdc++"
-			};
-
-			namespace felsys=felide::system;
-
-			auto compiler = felsys::Process::open(felsys::ProcessFlags::Redirect, "gcc", args);
-			compiler->start();
-			compiler->wait();
-
-			if (compiler->getExitCode() != 0) {
-				std::string msg = compiler->getOutput();
-				::MessageBox(NULL, msg.c_str(), "felide.editor", MB_OK | MB_ICONERROR);
-			} else {
-				::MessageBox(NULL, "Compilation OK.", "felide.editor", MB_OK | MB_ICONINFORMATION);
-			}
-
-		} catch (std::exception exp) {
-			::MessageBox(NULL, exp.what(), "Error", MB_OK | MB_ICONERROR);
-		}
-	}
-
-	void CMainFrame::OnBuildLink() {
+  //      editor->setText(content.c_str());
+  //      editor->emptyUndoBuffer();
+  //      editor->setSavePoint();
+  //  }
+	
+	Editor* CMainFrame::createEditor(ProjectItemPtr item) {
 
 	}
 
-	Editor* CMainFrame::getActiveEditor() {
+	Editor* CMainFrame::getCurrentEditor() {
 		return this->textEditor.get();
 	}
 
-    const Editor* CMainFrame::getActiveEditor() const {
-        return this->textEditor.get();
-    }
+	const Editor* CMainFrame::getCurrentEditor() const {
+		return this->textEditor.get();
+	}
+
+	void CMainFrame::close() {
+		CFrame::Close();
+	}
+
+	void CMainFrame::setHandler(MainFrameHandler *handler) {
+		this->handler = handler;
+	}
+
+	MainFrameHandler* CMainFrame::getHandler() {
+		return this->handler;
+	}
+
+	const MainFrameHandler* CMainFrame::getHandler() const {
+		return this->handler;
+	}
+
+	DialogFactory* CMainFrame::getDialogFactory() const {
+		return this->dialogFactory;
+	}
 }}}

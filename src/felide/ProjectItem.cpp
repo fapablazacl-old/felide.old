@@ -16,23 +16,34 @@
 
 namespace felide {
 
+	struct ProjectItem::Private {
+		std::string path;
+		bool modified = false;
+	};
+
     ProjectItem::ProjectItem() {
+		this->impl = new ProjectItem::Private();
+
         this->new_();
     }
     
     ProjectItem::ProjectItem(const std::string &path) {
+		this->impl = new ProjectItem::Private();
+
         this->new_();
         this->setPath(path);
     }
     
-    ProjectItem::~ProjectItem() {}
+    ProjectItem::~ProjectItem() {
+		delete this->impl;
+	}
     
     void ProjectItem::modify() {
-        this->modified = true;
+        this->impl->modified = true;
     }
         
     bool ProjectItem::isModified() const {
-        return this->modified;
+        return this->impl->modified;
     }
     
     std::string ProjectItem::open() {
@@ -53,7 +64,7 @@ namespace felide {
             content += "\r\n";
         }
         
-        this->modified = false;
+        this->impl->modified = false;
 
         return content;
     }
@@ -73,7 +84,7 @@ namespace felide {
 		
 		fs.write(content.c_str(), content.size() - 1);
         
-        this->modified = false;
+        this->impl->modified = false;
     }
     
     void ProjectItem::save(const std::string &content, const std::string &path) {
@@ -82,15 +93,15 @@ namespace felide {
     }
     
     void ProjectItem::setPath(const std::string &path) {
-        this->path = path;
+        this->impl->path = path;
     }
 
     std::string ProjectItem::getPath() const {
-        return this->path;
+        return this->impl->path;
     }
     
     bool ProjectItem::hasPath() const {
-        return this->path.size() > 0;
+        return this->impl->path.size() > 0;
     }
     
     std::string ProjectItem::getName() const {
@@ -103,6 +114,6 @@ namespace felide {
     
     void ProjectItem::new_() {
         this->setPath("");
-        this->modified = false;
+        this->impl->modified = false;
     }
 }

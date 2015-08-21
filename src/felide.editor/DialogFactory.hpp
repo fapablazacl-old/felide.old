@@ -23,8 +23,8 @@ namespace felide { namespace editor {
 		virtual ~DialogFactory() {}
 		virtual DialogPtr showMessageDialog(const std::string &title, const std::string &msg, DialogIcon icons, DialogButton buttons) const = 0;
 		virtual DialogPtr showInputDialog(const std::string &title, const std::string &msg) const = 0;
-		// virtual DialogPtr showFileOpenDialog(const std::string &title, const std::string &filters) const;
-		// virtual DialogPtr showFileSaveDialog(const std::string &title, const std::string &filters) const;
+		virtual DialogPtr showFileOpenDialog(const std::string &title, const std::string &filters) const = 0;
+		virtual DialogPtr showFileSaveDialog(const std::string &title, const std::string &filters) const = 0;
 	};
 
 }}
