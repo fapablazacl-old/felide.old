@@ -119,23 +119,19 @@ namespace felide { namespace editor {
 			compiler->start();
 			compiler->wait();
 
+			std::string dialogMsg;
+			DialogIcon dialogIcon;
+
 			if (compiler->getExitCode() != 0) {
-				dialogFactory->showMessageDialog(
-					"felide.editor", 
-					compiler->getOutput(),
-					DialogIcon::Warning, 
-					DialogButton::Ok
-				);
+				dialogMsg = compiler->getOutput();
+				dialogIcon = DialogIcon::Error;
 			} else {
-				dialogFactory->showMessageDialog(
-					"felide.editor", 
-					"Compilation OK", 
-					DialogIcon::Information, 
-					DialogButton::Ok
-				);
+				dialogMsg = "Compilation OK";
+				dialogIcon = DialogIcon::Information;
 			}
 
-			return true;
+			dialogFactory->showMessageDialog("felide.editor", dialogMsg, dialogIcon, DialogButton::Ok);
+
 		} catch (std::exception &exp) {
 			dialogFactory->showMessageDialog(
 				"felide.editor", 

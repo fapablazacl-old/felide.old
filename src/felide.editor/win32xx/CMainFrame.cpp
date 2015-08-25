@@ -9,10 +9,10 @@
 
 namespace felide { namespace editor { namespace win32xx {
 
-    CMainFrame::CMainFrame() {
+    CMainFrame::CMainFrame(DialogFactory *factory) : MainFrame(factory) {
         this->SetView(this->tabbedMDI);
     }
-
+	
 	int CMainFrame::OnCreate(LPCREATESTRUCT pcs) {
 		int result = CFrame::OnCreate(pcs);
 
@@ -38,37 +38,14 @@ namespace felide { namespace editor { namespace win32xx {
         const int command = LOWORD(wParam);
 
         switch (command) {
-            case ID_FILE_NEW:       
-				this->handler->handleFileNew();
-				return TRUE;
-
-            case ID_FILE_OPEN:      
-				this->handler->handleFileOpen();
-				return TRUE;
-
-            case ID_FILE_SAVE:      
-				this->handler->handleFileSave();
-				return TRUE;
-
-            case ID_FILE_SAVEAS:    
-				this->handler->handleFileSaveAs();
-				return TRUE;
-
-            case ID_FILE_EXIT:      
-				this->handler->handleFileExit();
-				return TRUE;
-
-			case ID_BUILD_CLEAN:	
-				this->handler->handleBuildClean();
-				return TRUE;
-
-			case ID_BUILD_COMPILE:	
-				this->handler->handleBuildCompile();
-				return TRUE;
-
-			case ID_BUILD_LINK:		
-				this->handler->handleBuildLink();
-				return TRUE;
+            case ID_FILE_NEW:		this->handler->handleFileNew();			return TRUE;
+            case ID_FILE_OPEN:		this->handler->handleFileOpen();		return TRUE;
+            case ID_FILE_SAVE:		this->handler->handleFileSave();		return TRUE;
+            case ID_FILE_SAVEAS:	this->handler->handleFileSaveAs();		return TRUE;
+            case ID_FILE_EXIT:      this->handler->handleFileExit();		return TRUE;
+			case ID_BUILD_CLEAN:	this->handler->handleBuildClean();		return TRUE;
+			case ID_BUILD_COMPILE:	this->handler->handleBuildCompile();	return TRUE;
+			case ID_BUILD_LINK:		this->handler->handleBuildLink();		return TRUE;
 
             default: return FALSE;
         }
@@ -114,7 +91,7 @@ namespace felide { namespace editor { namespace win32xx {
   //  }
 	
 	Editor* CMainFrame::createEditor(ProjectItemPtr item) {
-
+		return nullptr;
 	}
 
 	Editor* CMainFrame::getCurrentEditor() {
@@ -139,9 +116,5 @@ namespace felide { namespace editor { namespace win32xx {
 
 	const MainFrameHandler* CMainFrame::getHandler() const {
 		return this->handler;
-	}
-
-	DialogFactory* CMainFrame::getDialogFactory() const {
-		return this->dialogFactory;
 	}
 }}}

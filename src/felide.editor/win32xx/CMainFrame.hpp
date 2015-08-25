@@ -37,8 +37,6 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual MainFrameHandler* getHandler() override;
 		virtual const MainFrameHandler* getHandler() const override;
 
-		virtual DialogFactory* getDialogFactory() const override;
-
     protected:
         virtual void OnInitialUpdate() override;
         virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam) override;
@@ -48,7 +46,6 @@ namespace felide { namespace editor { namespace win32xx {
 		CTabbedMDI tabbedMDI;
         EditorPtr textEditor;
 		MainFrameHandler *handler = nullptr;
-		DialogFactory *dialogFactory = nullptr;
     };
 }}}
 
