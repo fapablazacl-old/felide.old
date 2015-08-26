@@ -7,7 +7,6 @@
 
 namespace felide { namespace editor { namespace win32xx {
 
-	class CEditor;
 	class CTabbedEditorPanel : public CTabbedMDI {
 	public:
 		const int ID_MDI_EDITOR = 1;

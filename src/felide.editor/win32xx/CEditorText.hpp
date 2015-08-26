@@ -10,7 +10,7 @@
 
 namespace felide { namespace editor { namespace win32xx {
 
-	class CEditorText : public Editor, CEdit {
+	class CEditorText : public Editor, public CEdit {
 	public:
         CEditorText(ProjectItemPtr projectItem);
 		virtual ~CEditorText();

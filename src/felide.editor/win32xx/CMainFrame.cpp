@@ -1,5 +1,7 @@
 
 #include "CMainFrame.hpp"
+
+#include "CEditor.hpp"
 #include "felide/system/Process.hpp"
 #include "res/resource.h"
 
@@ -91,7 +93,11 @@ namespace felide { namespace editor { namespace win32xx {
   //  }
 	
 	Editor* CMainFrame::createEditor(ProjectItemPtr item) {
-		return nullptr;
+		CEditor* editor = new CEditor(std::move(item));
+
+		this->tabbedMDI.AddMDIChild(WndPtr(editor), "Test01");
+
+		return editor;
 	}
 
 	Editor* CMainFrame::getCurrentEditor() {
