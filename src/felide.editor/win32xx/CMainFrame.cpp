@@ -16,14 +16,7 @@ namespace felide { namespace editor { namespace win32xx {
     }
 	
 	int CMainFrame::OnCreate(LPCREATESTRUCT pcs) {
-		int result = CFrame::OnCreate(pcs);
-
-		/*
-		this->textEditor->setFont("Courier", 10);
-		this->textEditor->setTabWidth(4);
-		*/
-
-		return result;
+		return CFrame::OnCreate(pcs);
 	}
 
     CMainFrame::~CMainFrame() {}
@@ -123,4 +116,5 @@ namespace felide { namespace editor { namespace win32xx {
 	const MainFrameHandler* CMainFrame::getHandler() const {
 		return this->handler;
 	}
+
 }}}

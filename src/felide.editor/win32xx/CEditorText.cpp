@@ -51,4 +51,12 @@ namespace felide { namespace editor { namespace win32xx {
 	const ProjectItem* CEditorText::getProjectItem() const {
 		return this->projectItem.get();
 	}
+
+	void CEditorText::setTitle(const std::string &title) {
+		this->GetParent()->SetWindowTextA(title.c_str());
+	}
+
+	void CEditorText::SetTabbedMDI(CTabbedMDI *tabbedMdi) {
+		this->tabbedMdi = tabbedMdi;
+	}
 }}}

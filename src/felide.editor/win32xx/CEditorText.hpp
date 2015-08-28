@@ -4,6 +4,7 @@
 
 #include <wincore.h>
 #include <stdcontrols.h>
+#include <mdi.h>
 
 #include "felide/ProjectItem.hpp"
 #include "felide.editor/Editor.hpp"
@@ -18,6 +19,8 @@ namespace felide { namespace editor { namespace win32xx {
         // 
 
         virtual void PreCreate(CREATESTRUCT &cs) override;
+
+		void SetTabbedMDI(CTabbedMDI *tabbedMdi);
 
         // 
 
@@ -35,7 +38,10 @@ namespace felide { namespace editor { namespace win32xx {
 
 		virtual const ProjectItem* getProjectItem() const override;
 
+		virtual void setTitle(const std::string &title) override;
+
 	private:
+		CTabbedMDI *tabbedMdi;
 		ProjectItemPtr projectItem;
         CFont editorFont;
 	};

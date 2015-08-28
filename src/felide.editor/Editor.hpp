@@ -18,18 +18,20 @@ namespace felide { namespace editor {
 	public:
         virtual ~Editor() {}
 
-        virtual void setText(const std::string &text) {}
-        virtual std::string getText() const { return ""; }
+        virtual void setText(const std::string &text) = 0;
+        virtual std::string getText() const = 0;
 
-        virtual void setSavePoint() {}
-        virtual void emptyUndoBuffer() {}
-        virtual void clearAll() {}
-        virtual void setTabWidth(const int spaces) {}
+        virtual void setSavePoint() = 0;
+        virtual void emptyUndoBuffer() = 0;
+        virtual void clearAll() = 0;
+        virtual void setTabWidth(const int spaces) = 0;
 
         virtual void setFont(const std::string &name, const int size) {}
 
         virtual ProjectItem* getProjectItem() {return nullptr;}
         virtual const ProjectItem* getProjectItem() const {return nullptr;}
+
+		virtual void setTitle(const std::string &title) = 0;
 
     public:
         static Editor* new_(ProjectItemPtr item);

@@ -17,6 +17,9 @@ namespace felide { namespace editor {
 		auto item = std::make_unique<ProjectItem>();
 		auto editor = this->getFrame()->createEditor(std::move(item));
 
+		editor->setFont("Courier", 8);
+		editor->setTabWidth(4);
+
 		return true;
 	}
 
@@ -31,6 +34,11 @@ namespace felide { namespace editor {
 		auto filePath = boost::get<fs::path>(dialog->getData());
 		auto item = std::make_unique<ProjectItem>(filePath.string());
 		auto editor = this->getFrame()->createEditor(std::move(item));
+
+		editor->setTitle(editor->getProjectItem()->getName());
+		editor->setText(editor->getProjectItem()->open());
+		editor->setFont("Courier", 8);
+		editor->setTabWidth(4);
 
 		return true;
 	}
