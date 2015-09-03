@@ -8,6 +8,7 @@
  */
 
 #include "Process.hpp"
+#include "felide/Common.hpp"
 
 #include <sstream>
 #include <boost/algorithm/string/join.hpp>
@@ -40,14 +41,14 @@ namespace felide { namespace system {
 			sa.nLength = sizeof(SECURITY_ATTRIBUTES);
 			sa.lpSecurityDescriptor = &sd;
 			sa.bInheritHandle = TRUE;
-			
+
 			HANDLE hStdIn = 0, hStdOut = 0;
 			HANDLE hReadStdOut = 0, hWriteStdIn = 0;
 
 			BOOL result;
 			result = ::CreatePipe(&hStdIn, &hWriteStdIn, &sa, 0);
 			result = ::CreatePipe(&hReadStdOut, &hStdOut, &sa, 0);
-			
+
 			si->dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
 			si->wShowWindow = SW_HIDE;
 			si->hStdOutput = hStdOut;
@@ -71,7 +72,7 @@ namespace felide { namespace system {
 
 		std::string getOutput() {
 			PROCESS_INFORMATION pi = *this->pi;
-			
+
 			std::stringstream ss;
 
 			while (true) {
@@ -135,7 +136,7 @@ namespace felide { namespace system {
 
 			STARTUPINFO si = {0};
 			si.cb = sizeof(STARTUPINFO);
-			
+
 			PROCESS_INFORMATION pi = {0};
 
 			ProcessRedirectorPtr redirector;
@@ -167,7 +168,7 @@ namespace felide { namespace system {
 			PROCESS_INFORMATION pi = { 0 };
 			this->processInfo = pi;
 		}
-		
+
 		virtual int getExitCode() const override {
 			DWORD exitCode = 0;
 
@@ -187,7 +188,7 @@ namespace felide { namespace system {
 		virtual void start() override {
 			if (::ResumeThread(this->processInfo.hThread) == FALSE) {
 				throw std::runtime_error(std::to_string(::GetLastError()));
-			} 
+			}
 		}
 
 		virtual void terminate() override {

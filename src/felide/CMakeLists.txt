@@ -1,13 +1,14 @@
 
-SET(felide_src 
+SET(felide_src
 	Config.hpp
+	Common.hpp
 	ProjectItem.hpp ProjectItem.cpp
 	Project.hpp Project.cpp
 	Workspace.hpp Workspace.cpp
 	Toolchain.hpp Toolchain.cpp
 )
 
-SET(felide_system_src 
+SET(felide_system_src
 	system/Environment.hpp system/Environment.cpp
 	system/Module.hpp system/Module.cpp
 	system/Process.hpp system/Process.cpp
