@@ -25,7 +25,7 @@ namespace felide { namespace editor { namespace win32xx {
 					break;
 			}
 
-			int result = ::MessageBox(NULL, title.c_str(), msg.c_str(), MB_OK | flags);
+			int result = ::MessageBox(NULL, title.c_str(), msg.c_str(), flags);
 
 			switch (result) {
 				case IDOK:		
@@ -71,7 +71,7 @@ namespace felide { namespace editor { namespace win32xx {
 				filePath = CFile().SaveFileDialog(nullptr, 6UL, nullptr, "C/C++ Files\0*.c;*.cpp");
 			}
 
-			this->result = filePath == "" ? DialogResult::Cancel : DialogResult::Ok;
+			this->result = filePath==""?DialogResult::Cancel:DialogResult::Ok;
 			this->file = filePath.c_str();
 		}
 

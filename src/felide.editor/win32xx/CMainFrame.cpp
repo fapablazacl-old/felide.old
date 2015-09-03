@@ -87,8 +87,8 @@ namespace felide { namespace editor { namespace win32xx {
 	
 	Editor* CMainFrame::createEditor(ProjectItemPtr item) {
 		CEditor* editor = new CEditor(std::move(item));
-
-		this->tabbedMDI.AddMDIChild(WndPtr(editor), "Test01");
+		
+		this->tabbedMDI.AddMDIChild(WndPtr(editor), editor->getProjectItem()->getName().c_str());
 
 		return editor;
 	}
