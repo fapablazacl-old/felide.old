@@ -17,8 +17,8 @@ SET(felide_system_src
 
 ADD_DEFINITIONS(-DFELIDE_BUILD)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
-ADD_LIBRARY(felide SHARED ${felide_src} ${felide_system_src})
-SET_PROPERTY(TARGET felide PROPERTY CXX_STANDARD 11)
+ADD_LIBRARY(felide ${felide_src} ${felide_system_src})
+SET_PROPERTY(TARGET felide PROPERTY CXX_STANDARD 14)
 SOURCE_GROUP(\\ FILES ${felide_src})
 SOURCE_GROUP(\\system FILES ${felide_system_src})
 

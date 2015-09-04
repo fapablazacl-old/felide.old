@@ -10,42 +10,42 @@
 
 namespace felide { namespace qt5 {
 
-    class Editor : public QWidget {
+    class QEditor : public QWidget {
         Q_OBJECT
-    
+
     signals:
-        void titleUpdated(const Editor *editor);
-        
+        void titleUpdated(const QEditor *editor);
+
     public slots:
         void onUndo();
         void onRedo();
-        
+
         void onCut();
         void onCopy();
         void onPaste();
-        
+
     public:
-        explicit Editor(QWidget *parent, ProjectItem *item);
-        ~Editor();
-        
+        explicit QEditor(QWidget *parent, ProjectItem *item);
+        ~QEditor();
+
         void open();
         void save();
         void save(QString path);
-        
+
         ProjectItem* getItem();
-        
+
         const ProjectItem* getItem() const;
-        
+
     private:
         ProjectItem *item = nullptr;
         QsciScintilla *scintilla = nullptr;
     };
-    
-    inline ProjectItem* Editor::getItem() {
+
+    inline ProjectItem* QEditor::getItem() {
         return this->item;
     }
-    
-    inline const ProjectItem* Editor::getItem() const {
+
+    inline const ProjectItem* QEditor::getItem() const {
         return this->item;
     }
 }}

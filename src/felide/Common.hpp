@@ -14,13 +14,14 @@
 
 #if defined(__GNUG__)
 #include <utility>
-
+/*
 namespace std {
     template<typename Type, typename... Args>
     std::unique_ptr<Type> make_unique(Args&&... args) {
         return std::unique_ptr<Type>(new Type(std::forward<Args>(args)...));
     }
 }
+*/
 #endif
 
 #endif // __felide_common_hpp__

@@ -7,29 +7,29 @@
 #include <QTextEdit>
 #include <felide/ProjectItem.hpp>
 
-#include "Editor.hpp"
+#include "QEditor.hpp"
 
 namespace felide { namespace qt5 {
-    class TabbedEditor : public QWidget {
+    class QTabbedEditor : public QWidget {
         Q_OBJECT
-        
+
     public:
-        explicit TabbedEditor(QWidget *parent);
-        
+        explicit QTabbedEditor(QWidget *parent);
+
         void openEditor(ProjectItem *item);
         void openEditor(ProjectItem *item, const QString &title);
-        
-        void closeEditor(const Editor *editor);
-        
-        Editor* getCurrentEditor();
-        const Editor* getCurrentEditor() const;
-        
+
+        void closeEditor(const QEditor *editor);
+
+        QEditor* getCurrentEditor();
+        const QEditor* getCurrentEditor() const;
+
     public slots:
-        void editorTitledChanged(const Editor* editor);
-        
+        void editorTitledChanged(const QEditor* editor);
+
     private:
-        int getEditorIndex(const Editor* editor) const;
-        
+        int getEditorIndex(const QEditor* editor) const;
+
     private:
         QTabWidget *tabWidget = nullptr;
     };

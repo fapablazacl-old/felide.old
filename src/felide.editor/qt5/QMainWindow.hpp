@@ -8,16 +8,16 @@
 #include <felide/ProjectItem.hpp>
 
 #include "ui_MainWindow.h"
-#include "TabbedEditor.hpp"
+#include "QTabbedEditor.hpp"
 
 namespace felide { namespace qt5 {
 
-    class MainWindow : public QMainWindow {
+    class QMainWindow : public ::QMainWindow {
         Q_OBJECT
-        
+
     public:
-        MainWindow();
-        virtual ~MainWindow();
+        QMainWindow();
+        virtual ~QMainWindow();
 
     public slots:
         void handleFileNew();
@@ -29,13 +29,13 @@ namespace felide { namespace qt5 {
 
     private:
         void updateState();
-        
+
     private:
         std::unique_ptr<Ui_MainWindow> ui;
-        TabbedEditor *tabbedEditor = nullptr;
-        
+        QTabbedEditor *tabbedEditor = nullptr;
+
         std::list<ProjectItemPtr> items;
-        
+
         int untitledCount = 0;
     };
 }}
