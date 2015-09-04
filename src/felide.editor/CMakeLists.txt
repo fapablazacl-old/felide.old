@@ -46,10 +46,13 @@ IF (FELIDE_GUI_TOOLKIT_QT5)
 
 		qt5/QApplication.hpp
 		qt5/QApplication.cpp
+
+		qt5/QDialogFactory.hpp
+		qt5/QDialogFactory.cpp
 	)
 
 	QT5_WRAP_UI (felide_editor_qt5_ui
-		qt5/MainWindow.ui
+		qt5/QMainWindow.ui
 	)
 ENDIF()
 
@@ -75,6 +78,9 @@ SET (felide_editor_src
 
 	MainFrameHandler.hpp
 	MainFrameHandler.cpp
+
+	DialogFactory.hpp
+	DialogFactory.cpp
 )
 
 ADD_EXECUTABLE (felide.editor WIN32

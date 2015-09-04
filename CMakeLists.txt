@@ -32,6 +32,7 @@ IF (FELIDE_GUI_TOOLKIT_WIN32XX)
         SET (WIN32XX_LIBRARIES comctl32)
     ENDIF ()
 
+
 	IF (WIN32XX_FOUND)
 		IF (NOT SCINTILLA_INCLUDE_DIRS)
 		    MESSAGE (WARNING "Scintilla include location isn't defined (-DSCINTILLA_INCLUDE_DIRS). Using raw text editor widget.")
