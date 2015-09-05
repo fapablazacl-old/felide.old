@@ -11,7 +11,10 @@ SET(felide_src
 SET(felide_system_src
 	system/Environment.hpp system/Environment.cpp
 	system/Module.hpp system/Module.cpp
-	system/Process.hpp system/Process.cpp
+	system/Process.hpp 
+        system/ProcessWin32.cpp
+        system/ProcessUnix.cpp
+        
 	system/Library.hpp system/Library.cpp
 )
 

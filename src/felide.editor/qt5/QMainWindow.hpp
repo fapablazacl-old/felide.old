@@ -7,7 +7,7 @@
 #include <QMainWindow>
 #include <felide/ProjectItem.hpp>
 
-#include "ui_MainWindow.h"
+#include "ui_QMainWindow.h"
 #include "QTabbedEditor.hpp"
 
 namespace felide { namespace qt5 {
