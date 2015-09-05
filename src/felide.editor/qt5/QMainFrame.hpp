@@ -7,18 +7,29 @@
 #include <QMainWindow>
 #include <felide/ProjectItem.hpp>
 
-#include "ui_QMainWindow.h"
+#include "felide.editor/MainFrame.hpp"
+
+#include "ui_QMainFrame.h"
 #include "QTabbedEditor.hpp"
 
 namespace felide { namespace qt5 {
 
-    class QMainWindow : public ::QMainWindow {
+    class QMainFrame : public ::QMainWindow, public felide::editor::MainFrame {
         Q_OBJECT
 
     public:
-        QMainWindow();
-        virtual ~QMainWindow();
+        using MainFrame::close;
+    
+        QMainFrame(felide::editor::DialogFactory *factory);
+        virtual ~QMainFrame();
 
+    public:
+        virtual void close() override;
+        virtual felide::editor::Editor* createEditor(ProjectItemPtr item) override;
+        
+		virtual felide::editor::Editor* getCurrentEditor() override;
+		virtual const felide::editor::Editor* getCurrentEditor() const override;
+        
     public slots:
         void handleFileNew();
         void handleFileOpen();

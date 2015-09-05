@@ -8,9 +8,11 @@
 #include <Qsci/qscilexercpp.h>
 #include <felide/ProjectItem.hpp>
 
+#include "felide.editor/Editor.hpp"
+
 namespace felide { namespace qt5 {
 
-    class QEditor : public QWidget {
+    class QEditor : public QWidget, public felide::editor::Editor {
         Q_OBJECT
 
     signals:
@@ -35,6 +37,23 @@ namespace felide { namespace qt5 {
         ProjectItem* getItem();
 
         const ProjectItem* getItem() const;
+        
+    public:
+        virtual void setText(const std::string &text) override;
+        virtual std::string getText() const override;
+
+        virtual void setSavePoint() override;
+        virtual void emptyUndoBuffer() override;
+        virtual void clearAll() override;
+        virtual void setTabWidth(const int spaces) override;
+
+        virtual void setFont(const std::string &name, const int size) override;
+
+        virtual ProjectItem* getProjectItem() override;
+        virtual const ProjectItem* getProjectItem() const override;
+
+		virtual void setTitle(const std::string &title) override;
+        
 
     private:
         ProjectItem *item = nullptr;

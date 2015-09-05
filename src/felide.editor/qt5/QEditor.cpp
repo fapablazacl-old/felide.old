@@ -112,4 +112,41 @@ namespace felide { namespace qt5 {
     }
 
     QEditor::~QEditor() {}
+    
+    void QEditor::setText(const std::string &text) {
+        
+    }
+    
+    std::string QEditor::getText() const {
+        return "";
+    }
+
+    void QEditor::setSavePoint(){
+        
+    }
+    void QEditor::emptyUndoBuffer() {
+        
+    }
+    void QEditor::clearAll() {
+        
+    }
+    void QEditor::setTabWidth(const int spaces) {
+        
+    }
+
+    void QEditor::setFont(const std::string &name, const int size) {
+        
+    }
+
+    ProjectItem* QEditor::getProjectItem() {
+        return nullptr;
+    }
+    
+    const ProjectItem* QEditor::getProjectItem() const {
+        return nullptr;
+    }
+
+    void QEditor::setTitle(const std::string &title) {
+        
+    }
 }}

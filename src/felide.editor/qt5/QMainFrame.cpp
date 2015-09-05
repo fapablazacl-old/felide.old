@@ -1,5 +1,5 @@
 
-#include "QMainWindow.hpp"
+#include "QMainFrame.hpp"
 
 #include <iostream>
 #include <QAction>
@@ -7,20 +7,22 @@
 
 namespace felide { namespace qt5 {
 
-    QMainWindow::QMainWindow() {
+    using namespace felide::editor;
+
+    QMainFrame::QMainFrame(felide::editor::DialogFactory *factory) : MainFrame(factory) {
         this->ui = std::make_unique<Ui_MainWindow>();
         this->ui->setupUi(this);
-
+        
         this->tabbedEditor = new QTabbedEditor(this);
         this->setCentralWidget(tabbedEditor);
 
         // file menu
-        connect(this->ui->action_New, &QAction::triggered, this, &QMainWindow::handleFileNew);
-        connect(this->ui->action_Open, &QAction::triggered, this, &QMainWindow::handleFileOpen);
-        connect(this->ui->action_Save, &QAction::triggered, this, &QMainWindow::handleFileSave);
-        connect(this->ui->actionSave_As, &QAction::triggered, this, &QMainWindow::handleFileSaveAs);
-        connect(this->ui->actionClose, &QAction::triggered, this, &QMainWindow::handleFileClose);
-        connect(this->ui->action_Exit, &QAction::triggered, this, &QMainWindow::handleFileExit);
+        connect(this->ui->action_New, &QAction::triggered, this, &QMainFrame::handleFileNew);
+        connect(this->ui->action_Open, &QAction::triggered, this, &QMainFrame::handleFileOpen);
+        connect(this->ui->action_Save, &QAction::triggered, this, &QMainFrame::handleFileSave);
+        connect(this->ui->actionSave_As, &QAction::triggered, this, &QMainFrame::handleFileSaveAs);
+        connect(this->ui->actionClose, &QAction::triggered, this, &QMainFrame::handleFileClose);
+        connect(this->ui->action_Exit, &QAction::triggered, this, &QMainFrame::handleFileExit);
 
         // edit menu
         connect(this->ui->action_Undo, &QAction::triggered, [this]() {
@@ -46,9 +48,25 @@ namespace felide { namespace qt5 {
         this->updateState();
     }
 
-    QMainWindow::~QMainWindow() {}
+    QMainFrame::~QMainFrame() {}
 
-    void QMainWindow::handleFileNew() {
+    void QMainFrame::close() {
+        QMainWindow::close();
+    }
+
+    Editor* QMainFrame::createEditor(ProjectItemPtr item) {
+        return nullptr;
+    }
+
+    Editor* QMainFrame::getCurrentEditor() {
+        return nullptr;
+    }
+    
+    const Editor* QMainFrame::getCurrentEditor() const {
+        return nullptr;
+    }
+
+    void QMainFrame::handleFileNew() {
         int untitledCount = this->untitledCount;
 
         untitledCount ++;
@@ -65,7 +83,7 @@ namespace felide { namespace qt5 {
         this->updateState();
     }
 
-    void QMainWindow::handleFileOpen() {
+    void QMainFrame::handleFileOpen() {
         QString path = QFileDialog::getOpenFileName(this, "Open File...", "", "(*.cpp)");
 
         if (path.isEmpty()) {
@@ -82,7 +100,7 @@ namespace felide { namespace qt5 {
         this->updateState();
     }
 
-    void QMainWindow::handleFileSave() {
+    void QMainFrame::handleFileSave() {
         QEditor *editor = this->tabbedEditor->getCurrentEditor();
 
         if (!editor) {
@@ -96,7 +114,7 @@ namespace felide { namespace qt5 {
         }
     }
 
-    void QMainWindow::handleFileSaveAs() {
+    void QMainFrame::handleFileSaveAs() {
         QEditor *editor = this->tabbedEditor->getCurrentEditor();
 
         if (!editor) {
@@ -108,18 +126,18 @@ namespace felide { namespace qt5 {
         editor->save(path);
     }
 
-    void QMainWindow::handleFileClose() {
+    void QMainFrame::handleFileClose() {
         const QEditor *editor = this->tabbedEditor->getCurrentEditor();
         this->tabbedEditor->closeEditor(editor);
 
         this->updateState();
     }
 
-    void QMainWindow::handleFileExit() {
+    void QMainFrame::handleFileExit() {
         this->close();
     }
 
-    void QMainWindow::updateState() {
+    void QMainFrame::updateState() {
         const bool openedEditor = (this->tabbedEditor->getCurrentEditor()!=nullptr);
 
         this->ui->actionClose->setEnabled(openedEditor);

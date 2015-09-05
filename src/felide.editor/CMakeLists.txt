@@ -41,8 +41,8 @@ IF (FELIDE_GUI_TOOLKIT_QT5)
 		qt5/QEditor.hpp
 		qt5/QEditor.cpp
 
-		qt5/QMainWindow.hpp
-		qt5/QMainWindow.cpp
+		qt5/QMainFrame.hpp
+		qt5/QMainFrame.cpp
 
 		qt5/QApplication.hpp
 		qt5/QApplication.cpp
@@ -52,7 +52,7 @@ IF (FELIDE_GUI_TOOLKIT_QT5)
 	)
 
 	QT5_WRAP_UI (felide_editor_qt5_ui
-		qt5/QMainWindow.ui
+		qt5/QMainFrame.ui
 	)
 ENDIF()
 
