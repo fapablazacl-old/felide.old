@@ -6,9 +6,9 @@
 
 namespace felide { namespace editor { namespace qt5 {
 
-    class Application : public felide::editor::Application {
+    class QApplication : public felide::editor::Application {
     public:
-        virtual int run(int argc, char **argv) override;
+        virtual int execute(int argc, char **argv) override;
     };
 }}}
 
