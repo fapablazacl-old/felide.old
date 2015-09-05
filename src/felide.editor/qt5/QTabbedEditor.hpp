@@ -16,8 +16,8 @@ namespace felide { namespace qt5 {
     public:
         explicit QTabbedEditor(QWidget *parent);
 
-        void openEditor(ProjectItem *item);
-        void openEditor(ProjectItem *item, const QString &title);
+        QEditor* openEditor(ProjectItemPtr item);
+        QEditor* openEditor(ProjectItemPtr item, const QString &title);
 
         void closeEditor(const QEditor *editor);
 

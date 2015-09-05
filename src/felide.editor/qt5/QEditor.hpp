@@ -27,7 +27,7 @@ namespace felide { namespace qt5 {
         void onPaste();
 
     public:
-        explicit QEditor(QWidget *parent, ProjectItem *item);
+        explicit QEditor(QWidget *parent, ProjectItemPtr item);
         ~QEditor();
 
         void open();
@@ -56,16 +56,16 @@ namespace felide { namespace qt5 {
         
 
     private:
-        ProjectItem *item = nullptr;
+        ProjectItemPtr item = nullptr;
         QsciScintilla *scintilla = nullptr;
     };
 
     inline ProjectItem* QEditor::getItem() {
-        return this->item;
+        return this->item.get();
     }
 
     inline const ProjectItem* QEditor::getItem() const {
-        return this->item;
+        return this->item.get();
     }
 }}
 

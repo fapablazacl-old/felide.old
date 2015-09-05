@@ -19,30 +19,25 @@ namespace felide { namespace qt5 {
         this->setLayout(layout);
 
         connect(this->tabWidget, &QTabWidget::tabCloseRequested, [this](int index) {
-            /*
-            if (index < 0 || index >= this->tabWidget->count()) {
-                return;
-            }
-            */
-
             const QEditor* editor = static_cast<const QEditor*>(this->tabWidget->widget(index));
             this->closeEditor(editor);
         });
     }
 
-    void QTabbedEditor::openEditor(ProjectItem *item) {
+    QEditor* QTabbedEditor::openEditor(ProjectItemPtr item) {
         QString title = QString::fromStdString(item->getName());
-        this->openEditor(item, title);
+        return this->openEditor(std::move(item), title);
     }
 
-    void QTabbedEditor::openEditor(ProjectItem *item, const QString &title) {
-        QEditor *editor = new QEditor(this->tabWidget, item);
+    QEditor* QTabbedEditor::openEditor(ProjectItemPtr item, const QString &title) {
+        QEditor *editor = new QEditor(this->tabWidget, std::move(item));
 
         this->tabWidget->addTab(editor, title);
         this->tabWidget->setCurrentWidget(editor);
-
-
+        
         connect(editor, &QEditor::titleUpdated, this, &QTabbedEditor::editorTitledChanged);
+        
+        return editor;
     }
 
     QEditor* QTabbedEditor::getCurrentEditor() {

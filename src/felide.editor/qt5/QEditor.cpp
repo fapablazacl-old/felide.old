@@ -52,9 +52,9 @@ namespace felide { namespace qt5 {
         return editor;
     }
 
-    QEditor::QEditor(QWidget *parent, ProjectItem *item) : QWidget(parent) {
-        this->item = item;
-        this->scintilla = static_cast<QsciScintilla*>(createEditorWidget(this, item));
+    QEditor::QEditor(QWidget *parent, ProjectItemPtr item) : QWidget(parent) {
+        this->item = std::move(item);
+        this->scintilla = static_cast<QsciScintilla*>(createEditorWidget(this, item.get()));
 
         QGridLayout *layout = new QGridLayout(this);
         layout->addWidget(this->scintilla);
@@ -114,11 +114,11 @@ namespace felide { namespace qt5 {
     QEditor::~QEditor() {}
     
     void QEditor::setText(const std::string &text) {
-        
+        this->scintilla->setText(text.c_str());
     }
     
     std::string QEditor::getText() const {
-        return "";
+        return this->scintilla->text().toStdString();
     }
 
     void QEditor::setSavePoint(){
@@ -139,11 +139,11 @@ namespace felide { namespace qt5 {
     }
 
     ProjectItem* QEditor::getProjectItem() {
-        return nullptr;
+        return this->item.get();
     }
     
     const ProjectItem* QEditor::getProjectItem() const {
-        return nullptr;
+        return this->item.get();
     }
 
     void QEditor::setTitle(const std::string &title) {

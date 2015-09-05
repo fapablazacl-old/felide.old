@@ -30,6 +30,7 @@ namespace felide { namespace qt5 {
 		virtual felide::editor::Editor* getCurrentEditor() override;
 		virtual const felide::editor::Editor* getCurrentEditor() const override;
         
+        /*
     public slots:
         void handleFileNew();
         void handleFileOpen();
@@ -37,6 +38,7 @@ namespace felide { namespace qt5 {
         void handleFileSaveAs();
         void handleFileClose();
         void handleFileExit();
+        */
 
     private:
         void updateState();
@@ -45,9 +47,8 @@ namespace felide { namespace qt5 {
         std::unique_ptr<Ui_MainWindow> ui;
         QTabbedEditor *tabbedEditor = nullptr;
 
-        std::list<ProjectItemPtr> items;
-
-        int untitledCount = 0;
+        // std::list<ProjectItemPtr> items;
+        // int untitledCount = 0;
     };
 }}
 

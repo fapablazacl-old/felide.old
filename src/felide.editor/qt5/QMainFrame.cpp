@@ -17,34 +17,30 @@ namespace felide { namespace qt5 {
         this->setCentralWidget(tabbedEditor);
 
         // file menu
-        connect(this->ui->action_New, &QAction::triggered, this, &QMainFrame::handleFileNew);
-        connect(this->ui->action_Open, &QAction::triggered, this, &QMainFrame::handleFileOpen);
-        connect(this->ui->action_Save, &QAction::triggered, this, &QMainFrame::handleFileSave);
-        connect(this->ui->actionSave_As, &QAction::triggered, this, &QMainFrame::handleFileSaveAs);
-        connect(this->ui->actionClose, &QAction::triggered, this, &QMainFrame::handleFileClose);
-        connect(this->ui->action_Exit, &QAction::triggered, this, &QMainFrame::handleFileExit);
-
-        // edit menu
-        connect(this->ui->action_Undo, &QAction::triggered, [this]() {
-            this->tabbedEditor->getCurrentEditor()->onUndo();
+        connect(this->ui->action_New, &QAction::triggered, this, [this]() {
+            this->getHandler()->handleFileNew();
         });
-
-        connect(this->ui->action_Redo, &QAction::triggered, [this]() {
-            this->tabbedEditor->getCurrentEditor()->onRedo();
+        
+        connect(this->ui->action_Open, &QAction::triggered, this, [this]() {
+            this->getHandler()->handleFileOpen();
         });
-
-        connect(this->ui->action_Cut, &QAction::triggered, [this]() {
-            this->tabbedEditor->getCurrentEditor()->onCut();
+        
+        connect(this->ui->action_Save, &QAction::triggered, this, [this]() {
+            this->getHandler()->handleFileSave();
         });
-
-        connect(this->ui->actionC_opy, &QAction::triggered, [this]() {
-            this->tabbedEditor->getCurrentEditor()->onCopy();
+        
+        connect(this->ui->actionSave_As, &QAction::triggered, this, [this]() {
+            this->getHandler()->handleFileSaveAs();
         });
-
-        connect(this->ui->action_Paste, &QAction::triggered, [this]() {
-            this->tabbedEditor->getCurrentEditor()->onPaste();
+        
+        connect(this->ui->actionClose, &QAction::triggered, this, [this]() {
+            // this->getHandler()->handleFileClose();
         });
-
+        
+        connect(this->ui->action_Exit, &QAction::triggered, this, [this]() {
+            this->getHandler()->handleFileExit();
+        });
+        
         this->updateState();
     }
 
@@ -59,26 +55,26 @@ namespace felide { namespace qt5 {
     }
 
     Editor* QMainFrame::getCurrentEditor() {
-        return nullptr;
+        return this->tabbedEditor->getCurrentEditor();
     }
     
     const Editor* QMainFrame::getCurrentEditor() const {
-        return nullptr;
+        return this->tabbedEditor->getCurrentEditor();
     }
 
+    /*
     void QMainFrame::handleFileNew() {
-        int untitledCount = this->untitledCount;
-
-        untitledCount ++;
+        // int untitledCount = this->untitledCount;
+        // untitledCount ++;
 
         QString title = "";
-        title.sprintf("untitled%02d", untitledCount);
+        // title.sprintf("untitled%02d", untitledCount);
 
         auto projectItem = std::make_unique<ProjectItem>();
-        this->tabbedEditor->openEditor(projectItem.get(), title);
-        this->items.push_back(std::move(projectItem));
-
-        this->untitledCount = untitledCount;
+        this->tabbedEditor->openEditor(std::move(projectItem), title);
+        
+        // this->items.push_back(std::move(projectItem));
+        // this->untitledCount = untitledCount;
 
         this->updateState();
     }
@@ -95,7 +91,7 @@ namespace felide { namespace qt5 {
         QString title = QString::fromStdString(projectItem->getName());
         this->tabbedEditor->openEditor(projectItem.get(), title);
 
-        this->items.push_back(std::move(projectItem));
+        // this->items.push_back(std::move(projectItem));
 
         this->updateState();
     }
@@ -136,6 +132,7 @@ namespace felide { namespace qt5 {
     void QMainFrame::handleFileExit() {
         this->close();
     }
+    */
 
     void QMainFrame::updateState() {
         const bool openedEditor = (this->tabbedEditor->getCurrentEditor()!=nullptr);
