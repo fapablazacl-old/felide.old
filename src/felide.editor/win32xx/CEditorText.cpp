@@ -53,7 +53,14 @@ namespace felide { namespace editor { namespace win32xx {
 	}
 
 	void CEditorText::setTitle(const std::string &title) {
-		this->GetParent()->SetWindowTextA(title.c_str());
+		assert(this->tabbedMdi);
+
+		CTab *tab = this->tabbedMdi->GetTab();
+
+		const int tabIndex = tab->GetTabIndex(this);
+		tab->SetTabText(tabIndex, title.c_str());
+		this->tabbedMdi->RecalcLayout();
+		
 	}
 
 	void CEditorText::SetTabbedMDI(CTabbedMDI *tabbedMdi) {

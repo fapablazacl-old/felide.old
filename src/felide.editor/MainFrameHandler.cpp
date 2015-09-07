@@ -77,7 +77,8 @@ namespace felide { namespace editor {
 		auto content = editor->getText();
 
 		editor->getProjectItem()->save(content, filePath.string());
-
+		editor->setTitle(editor->getProjectItem()->getName());
+		
 		return true;
 	}
 

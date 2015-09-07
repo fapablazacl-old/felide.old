@@ -40,7 +40,6 @@ namespace felide { namespace editor { namespace win32xx {
 
     private:
 		CTabbedMDI tabbedMDI;
-        EditorPtr textEditor;
     };
 }}}
 

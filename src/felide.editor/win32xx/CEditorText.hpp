@@ -41,7 +41,7 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual void setTitle(const std::string &title) override;
 
 	private:
-		CTabbedMDI *tabbedMdi;
+		CTabbedMDI *tabbedMdi = nullptr;
 		ProjectItemPtr projectItem;
         CFont editorFont;
 	};

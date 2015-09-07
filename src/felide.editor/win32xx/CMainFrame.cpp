@@ -51,17 +51,23 @@ namespace felide { namespace editor { namespace win32xx {
 	Editor* CMainFrame::createEditor(ProjectItemPtr item) {
 		CEditor* editor = new CEditor(std::move(item));
 		
+		editor->SetTabbedMDI(&this->tabbedMDI);
+
 		this->tabbedMDI.AddMDIChild(WndPtr(editor), editor->getProjectItem()->getName().c_str());
 
 		return editor;
 	}
 
 	Editor* CMainFrame::getCurrentEditor() {
-		return this->textEditor.get();
+		Editor *editor = dynamic_cast<Editor*>(this->tabbedMDI.GetActiveMDIChild());
+
+		return editor;
 	}
 
 	const Editor* CMainFrame::getCurrentEditor() const {
-		return this->textEditor.get();
+		Editor *editor = dynamic_cast<Editor*>(this->tabbedMDI.GetActiveMDIChild());
+
+		return editor;
 	}
 
 	void CMainFrame::close() {
