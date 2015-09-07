@@ -12,7 +12,7 @@
 namespace felide { namespace editor { namespace win32xx {
 
     CMainFrame::CMainFrame(DialogFactory *factory) : MainFrame(factory) {
-        this->SetView(this->tabbedMDI);
+        this->SetView(this->editorPanel);
     }
 	
 	int CMainFrame::OnCreate(LPCREATESTRUCT pcs) {
@@ -48,24 +48,31 @@ namespace felide { namespace editor { namespace win32xx {
         }
     }
 	
+	LRESULT CMainFrame::OnNotify(WPARAM wParam, LPARAM lParam) {
+		HWND hWnd = ((NMHDR*)lParam)->hwndFrom;
+		// Editor* editor = dynamic_cast<Editor*>(this->editorPanel.GetMDIChildFromHwnd(hWnd));
+
+		return 0;
+	}
+
 	Editor* CMainFrame::createEditor(ProjectItemPtr item) {
 		CEditor* editor = new CEditor(std::move(item));
 		
-		editor->SetTabbedMDI(&this->tabbedMDI);
+		editor->SetTabbedMDI(&this->editorPanel);
 
-		this->tabbedMDI.AddMDIChild(WndPtr(editor), editor->getProjectItem()->getName().c_str());
+		this->editorPanel.AddMDIChild(WndPtr(editor), editor->getProjectItem()->getName().c_str());
 
 		return editor;
 	}
 
 	Editor* CMainFrame::getCurrentEditor() {
-		Editor *editor = dynamic_cast<Editor*>(this->tabbedMDI.GetActiveMDIChild());
+		Editor *editor = dynamic_cast<Editor*>(this->editorPanel.GetActiveMDIChild());
 
 		return editor;
 	}
 
 	const Editor* CMainFrame::getCurrentEditor() const {
-		Editor *editor = dynamic_cast<Editor*>(this->tabbedMDI.GetActiveMDIChild());
+		Editor *editor = dynamic_cast<Editor*>(this->editorPanel.GetActiveMDIChild());
 
 		return editor;
 	}

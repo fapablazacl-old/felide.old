@@ -37,9 +37,10 @@ namespace felide { namespace editor { namespace win32xx {
         virtual void OnInitialUpdate() override;
         virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam) override;
 		virtual int OnCreate(LPCREATESTRUCT pcs) override;
+		virtual LRESULT OnNotify(WPARAM wParam, LPARAM lParam) override;
 
     private:
-		CTabbedMDI tabbedMDI;
+		CTabbedEditorPanel editorPanel;
     };
 }}}
 

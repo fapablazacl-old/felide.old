@@ -10,27 +10,41 @@ namespace felide { namespace editor { namespace win32xx {
     CEditorText::~CEditorText() {}
 
     void CEditorText::PreCreate(CREATESTRUCT &cs) {
+		assert(this);
+
         cs.style = WS_CHILD | WS_VISIBLE | ES_MULTILINE | ES_AUTOHSCROLL | 
                     ES_AUTOVSCROLL | ES_NOHIDESEL | WS_HSCROLL | WS_VSCROLL;
     }
 
 	void CEditorText::setText(const std::string &text) {
+		assert(this);
+
 		this->SetWindowTextA(text.c_str());
 	}
 
     std::string CEditorText::getText() const {
+		assert(this);
+
 		return std::string(this->GetWindowTextA());
 	}
 
-	void CEditorText::setSavePoint() {}
+	void CEditorText::setSavePoint() {
+		assert(this);
+	}
 
-	void CEditorText::emptyUndoBuffer() {}
+	void CEditorText::emptyUndoBuffer() {
+		assert(this);
+	}
 
 	void CEditorText::clearAll() {
+		assert(this);
+
 		this->SetWindowTextA("");
 	}
 
 	void CEditorText::setFont(const std::string &name, const int size) {
+		assert(this);
+
         this->editorFont.CreatePointFont(size*10, name.c_str());
 
 		this->SetFont(&this->editorFont);
@@ -38,6 +52,8 @@ namespace felide { namespace editor { namespace win32xx {
 	}
 
 	void CEditorText::setTabWidth(const int spaces) {
+		assert(this);
+
 		const int factor = 4;
 
 		this->SetTabStops(spaces*factor);
@@ -45,14 +61,19 @@ namespace felide { namespace editor { namespace win32xx {
 	}
 
 	ProjectItem* CEditorText::getProjectItem() {
+		assert(this);
+
 		return this->projectItem.get();
 	}
 
 	const ProjectItem* CEditorText::getProjectItem() const {
+		assert(this);
+
 		return this->projectItem.get();
 	}
 
 	void CEditorText::setTitle(const std::string &title) {
+		assert(this);
 		assert(this->tabbedMdi);
 
 		CTab *tab = this->tabbedMdi->GetTab();
@@ -60,10 +81,11 @@ namespace felide { namespace editor { namespace win32xx {
 		const int tabIndex = tab->GetTabIndex(this);
 		tab->SetTabText(tabIndex, title.c_str());
 		this->tabbedMdi->RecalcLayout();
-		
 	}
 
 	void CEditorText::SetTabbedMDI(CTabbedMDI *tabbedMdi) {
+		assert(this);
+
 		this->tabbedMdi = tabbedMdi;
 	}
 }}}

@@ -14,6 +14,8 @@ namespace felide { namespace editor { namespace win32xx {
 	public:
         CTabbedEditorPanel();
 		virtual ~CTabbedEditorPanel();
+
+		CWnd* GetMDIChildFromHwnd(HWND hWnd);
 	};
 }}}
 
