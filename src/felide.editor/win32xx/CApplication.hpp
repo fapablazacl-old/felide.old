@@ -11,7 +11,7 @@
 namespace felide { namespace editor { namespace win32xx {
 	class CApplication : public felide::editor::Application {
 	public:
-		virtual int run(int argc, char **argv) override;
+		virtual int execute(int argc, char **argv) override;
 	};
 }}}
 

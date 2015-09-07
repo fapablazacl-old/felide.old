@@ -33,10 +33,6 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual const Editor* getCurrentEditor() const override;
 		virtual void close() override;
 
-		virtual void setHandler(MainFrameHandler *handler) override;
-		virtual MainFrameHandler* getHandler() override;
-		virtual const MainFrameHandler* getHandler() const override;
-
     protected:
         virtual void OnInitialUpdate() override;
         virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam) override;
@@ -45,7 +41,6 @@ namespace felide { namespace editor { namespace win32xx {
     private:
 		CTabbedMDI tabbedMDI;
         EditorPtr textEditor;
-		MainFrameHandler *handler = nullptr;
     };
 }}}
 
