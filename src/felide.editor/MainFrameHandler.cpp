@@ -2,6 +2,7 @@
 #include "felide/system/Process.hpp"
 #include "MainFrame.hpp"
 #include "MainFrameHandler.hpp"
+#include "Editor.hpp"
 
 #include <boost/variant/get.hpp>
 
@@ -154,6 +155,24 @@ namespace felide { namespace editor {
 	}
 
 	bool MainFrameHandler::handleBuildLink() {
+		return true;
+	}
+
+	bool MainFrameHandler::handleEditorTitleUpdated(Editor* editor) {
+		const ProjectItem* item = editor->getProjectItem();
+
+		std::string title = "";
+
+		if (item->hasPath()) {
+			title += item->getName();
+		} else {
+			title += "Untitled";
+		}
+
+		title += item->isModified()?"*":" ";
+
+		editor->setTitle(title);
+
 		return true;
 	}
 

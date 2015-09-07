@@ -5,6 +5,7 @@
 namespace felide { namespace editor {
 
 	class MainFrame;
+	class Editor;
 	class MainFrameHandler {
 	public:
 		explicit MainFrameHandler(MainFrame *frame);
@@ -19,6 +20,9 @@ namespace felide { namespace editor {
 		bool handleBuildCompile();
 		bool handleBuildLink();
 
+		bool handleEditorTitleUpdated(Editor* editor);
+
+	public:
 		MainFrame* getFrame();
 
 		const MainFrame* getFrame() const;
