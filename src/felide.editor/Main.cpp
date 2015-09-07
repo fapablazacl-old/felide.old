@@ -2,14 +2,7 @@
 #include "Application.hpp"
 
 int main(int argc, char **argv) {
-	int returnCode = 0;
-
-	{
-		auto app = felide::editor::Application::new_();
-		returnCode = app->run(argc, argv);
-	}
-	
-    return returnCode;
+    return felide::editor::Application::run(argc, argv);
 }
 
 #if defined(_WIN32)

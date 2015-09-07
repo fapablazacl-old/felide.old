@@ -1,6 +1,6 @@
 
-#ifndef __felide_editor_mainframecontroller_hpp__
-#define __felide_editor_mainframecontroller_hpp__
+#ifndef __felide_editor_mainframehandler_hpp__
+#define __felide_editor_mainframehandler_hpp__
 
 namespace felide { namespace editor {
 

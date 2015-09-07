@@ -1,22 +1,22 @@
 
 IF (FELIDE_GUI_TOOLKIT_WIN32XX)
-    SET(felide_editor_win32xx_src 
-        win32xx/CMainFrame.hpp 
+    SET(felide_editor_win32xx_src
+        win32xx/CMainFrame.hpp
         win32xx/CMainFrame.cpp
-        
-        win32xx/CApplication.hpp 
+
+        win32xx/CApplication.hpp
         win32xx/CApplication.cpp
-        
-		win32xx/CEditor.hpp 
+
+		win32xx/CEditor.hpp
         win32xx/CEditor.cpp
 
-		win32xx/CEditorSci.hpp 
+		win32xx/CEditorSci.hpp
         win32xx/CEditorSci.cpp
 
-		win32xx/CEditorText.hpp 
-        win32xx/CEditorText.cpp 
-        
-        win32xx/CModule.hpp 
+		win32xx/CEditorText.hpp
+        win32xx/CEditorText.cpp
+
+        win32xx/CModule.hpp
         win32xx/CModule.cpp
 
 		win32xx/CTabbedEditorPanel.hpp
@@ -25,8 +25,8 @@ IF (FELIDE_GUI_TOOLKIT_WIN32XX)
 		win32xx/CDialogFactory.hpp
 		win32xx/CDialogFactory.cpp
     )
-    
-    SET(felide_editor_win32xx_res_src 
+
+    SET(felide_editor_win32xx_res_src
         win32xx/res/Resource.h
         win32xx/res/Resource.rc
         win32xx/res/bitmap1.bmp
@@ -34,54 +34,60 @@ IF (FELIDE_GUI_TOOLKIT_WIN32XX)
 ENDIF ()
 
 IF (FELIDE_GUI_TOOLKIT_QT5)
-	SET (felide_editor_qt5_src 
-		qt5/TabbedEditor.hpp
-		qt5/TabbedEditor.cpp
+	SET (felide_editor_qt5_src
+		qt5/QTabbedEditor.hpp
+		qt5/QTabbedEditor.cpp
 
-		qt5/Editor.hpp
-		qt5/Editor.cpp
+		qt5/QEditor.hpp
+		qt5/QEditor.cpp
 
-		qt5/MainWindow.hpp
-		qt5/MainWindow.cpp
-		
-		qt5/Application.hpp
-		qt5/Application.cpp
+		qt5/QMainFrame.hpp
+		qt5/QMainFrame.cpp
+
+		qt5/QApplication.hpp
+		qt5/QApplication.cpp
+
+		qt5/QDialogFactory.hpp
+		qt5/QDialogFactory.cpp
 	)
 
 	QT5_WRAP_UI (felide_editor_qt5_ui
-		qt5/MainWindow.ui
+		qt5/QMainFrame.ui
 	)
 ENDIF()
 
 SET (felide_editor_gtk3mm_src )
 
-SET (felide_editor_src 
+SET (felide_editor_src
     Main.cpp
 
-	Application.hpp 
+	Application.hpp
 	Application.cpp
 
-	Editor.hpp 
+	Editor.hpp
 	Editor.cpp
 
 	View.hpp
 	View.cpp
 
-	Handler.hpp				
+	Handler.hpp
 	Handler.cpp
 
-	MainFrame.hpp			
+	MainFrame.hpp
 	MainFrame.cpp
 
 	MainFrameHandler.hpp
 	MainFrameHandler.cpp
+
+	DialogFactory.hpp
+	DialogFactory.cpp
 )
 
-ADD_EXECUTABLE (felide.editor WIN32 
-	${felide_editor_src} 
+ADD_EXECUTABLE (felide.editor WIN32
+	${felide_editor_src}
 	${felide_editor_win32xx_src}
 	${felide_editor_win32xx_res_src}
-    ${felide_editor_qt5_src} 
+    ${felide_editor_qt5_src}
     ${felide_editor_qt5_ui}
 )
 
@@ -94,4 +100,9 @@ IF (FELIDE_GUI_TOOLKIT_WIN32XX)
     SOURCE_GROUP(win32xx\\res FILES ${felide_editor_win32xx_res_src})
 ENDIF ()
 
-TARGET_LINK_LIBRARIES(felide.editor felide ${Boost_LIBRARIES} ${FELIDE_GUI_LIBRARIES})
+IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    SET(CLANG_LIBRARIES "stdc++")
+ENDIF()
+
+
+TARGET_LINK_LIBRARIES(felide.editor felide ${Boost_LIBRARIES} ${FELIDE_GUI_LIBRARIES} ${CLANG_LIBRARIES})

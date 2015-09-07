@@ -10,10 +10,14 @@
 #ifndef __felide_config_hpp__
 #define __felide_config_hpp__
 
-#if defined (FELIDE_BUILD)
-#  define FELIDE_API __declspec(dllexport)
-#else 
-#  define FELIDE_API __declspec(dllimport)
+#if defined (FELIDE_SHARED)
+    #if defined (FELIDE_BUILD)
+        #define FELIDE_API __declspec(dllexport)
+    #else
+        #define FELIDE_API __declspec(dllimport)
+    #endif
+#else
+    #define FELIDE_API
 #endif
 
 #endif	// __felide_config_hpp__
