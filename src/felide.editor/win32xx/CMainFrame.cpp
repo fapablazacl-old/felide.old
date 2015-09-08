@@ -31,6 +31,7 @@ namespace felide { namespace editor { namespace win32xx {
 
     BOOL CMainFrame::OnCommand(WPARAM wParam, LPARAM lParam) {
         const int command = LOWORD(wParam);
+		const int notification = HIWORD(wParam);
 
 		MainFrameHandler *handler = this->getHandler();
 
@@ -43,18 +44,19 @@ namespace felide { namespace editor { namespace win32xx {
 			case ID_BUILD_CLEAN:	handler->handleBuildClean();	return TRUE;
 			case ID_BUILD_COMPILE:	handler->handleBuildCompile();	return TRUE;
 			case ID_BUILD_LINK:		handler->handleBuildLink();		return TRUE;
-
-            default: return FALSE;
         }
+		/*
+		const HWND hWnd = reinterpret_cast<HWND>(lParam);
+
+		Editor* editor = dynamic_cast<Editor*>(this->editorPanel.GetMDIChildFromHwnd(hWnd));
+
+		if (editor && notification==EN_CHANGE) {
+			return TRUE;
+		}
+		*/
+		return FALSE;
     }
 	
-	LRESULT CMainFrame::OnNotify(WPARAM wParam, LPARAM lParam) {
-		HWND hWnd = ((NMHDR*)lParam)->hwndFrom;
-		// Editor* editor = dynamic_cast<Editor*>(this->editorPanel.GetMDIChildFromHwnd(hWnd));
-
-		return 0;
-	}
-
 	Editor* CMainFrame::createEditor(ProjectItemPtr item) {
 		CEditor* editor = new CEditor(std::move(item));
 		

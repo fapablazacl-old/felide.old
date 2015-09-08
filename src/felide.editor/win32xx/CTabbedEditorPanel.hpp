@@ -15,6 +15,10 @@ namespace felide { namespace editor { namespace win32xx {
         CTabbedEditorPanel();
 		virtual ~CTabbedEditorPanel();
 
+		virtual LRESULT OnNotify(WPARAM wParam, LPARAM lParam) override;
+
+		virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam) override;
+
 		CWnd* GetMDIChildFromHwnd(HWND hWnd);
 	};
 }}}
