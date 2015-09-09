@@ -206,4 +206,29 @@ namespace felide { namespace editor {
     bool MainFrameHandler::handleFileSaveAs() {
 		return this->handleFileSaveAs(this->getFrame()->getCurrentEditor());
 	}
+
+	bool MainFrameHandler::handleEditUndo() {
+		this->getFrame()->getCurrentEditor()->undo();
+		return true;
+	}
+
+	bool MainFrameHandler::handleEditRedo() {
+		this->getFrame()->getCurrentEditor()->redo();
+		return true;
+	}
+
+	bool MainFrameHandler::handleEditCut() {
+		this->getFrame()->getCurrentEditor()->cut();
+		return true;
+	}
+
+	bool MainFrameHandler::handleEditCopy() {
+		this->getFrame()->getCurrentEditor()->copy();
+		return true;
+	}
+
+	bool MainFrameHandler::handleEditPaste() {
+		this->getFrame()->getCurrentEditor()->paste();
+		return true;
+	}
 }}

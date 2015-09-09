@@ -36,11 +36,15 @@ namespace felide { namespace editor {
 		virtual int getId() const;
 		virtual void setId(const int id);
 
+		virtual void undo() = 0;
+		virtual void redo() = 0;
+
+		virtual void cut() = 0;
+		virtual void copy() = 0;
+		virtual void paste() = 0;
+
 	private:
 		int id = 0;
-		
-    public:
-        static Editor* new_(ProjectItemPtr item);
 	};
 }}
 
