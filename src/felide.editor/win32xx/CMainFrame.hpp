@@ -16,10 +16,10 @@
 #include "felide/system/Process.hpp"
 #include "felide.editor/Editor.hpp"
 #include "felide.editor/MainFrame.hpp"
-#include "felide.editor/win32xx/CTabbedEditorPanel.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
+	class CTabbedEditorPanel;
     class CMainFrame : public CFrame, public MainFrame {
     public:
         explicit CMainFrame(DialogFactory *factory);
@@ -39,7 +39,7 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual int OnCreate(LPCREATESTRUCT pcs) override;
 		
     private:
-		CTabbedEditorPanel editorPanel;
+		std::unique_ptr<CTabbedEditorPanel> editorPanel;
     };
 }}}
 

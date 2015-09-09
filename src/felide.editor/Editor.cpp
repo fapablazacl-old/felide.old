@@ -13,8 +13,16 @@ typedef felide::editor::win32xx::CEditorText CEditorImpl;
 
 namespace felide { namespace editor {
     Editor* Editor::new_(ProjectItemPtr projectItem) {
-        return new CEditorImpl(std::move(projectItem));
+        return new ::CEditorImpl(std::move(projectItem));
     }
+
+	int Editor::getId() const {
+		return this->id;
+	}
+
+	void Editor::setId(const int id) {
+		this->id = id;
+	}
 }}
 
 #endif 

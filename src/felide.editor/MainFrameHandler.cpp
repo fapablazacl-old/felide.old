@@ -14,12 +14,25 @@ namespace felide { namespace editor {
 		this->frame = frame;
 	}
 	
+	MainFrame* MainFrameHandler::getFrame() {
+		return this->frame;
+	}
+
+	const MainFrame* MainFrameHandler::getFrame() const {
+		return this->frame;
+	}
+
 	bool MainFrameHandler::handleFileNew() {
+		this->newFileCount++;
+
 		auto item = std::make_unique<ProjectItem>();
 		auto editor = this->getFrame()->createEditor(std::move(item));
 
 		editor->setFont("Courier", 8);
 		editor->setTabWidth(4);
+		editor->setId(this->newFileCount);
+
+		this->handleEditorTitleUpdated(editor);
 
 		return true;
 	}
@@ -56,6 +69,7 @@ namespace felide { namespace editor {
 		}
 
 		editor->getProjectItem()->save(editor->getText());
+		this->handleEditorTitleUpdated(editor);
 
 		return true;
 	}
@@ -79,6 +93,8 @@ namespace felide { namespace editor {
 
 		editor->getProjectItem()->save(content, filePath.string());
 		editor->setTitle(editor->getProjectItem()->getName());
+		
+		this->handleEditorTitleUpdated(editor);
 		
 		return true;
 	}
@@ -159,6 +175,8 @@ namespace felide { namespace editor {
 	}
 
 	bool MainFrameHandler::handleEditorTitleUpdated(Editor* editor) {
+		assert(editor);
+
 		const ProjectItem* item = editor->getProjectItem();
 
 		std::string title = "";
@@ -166,21 +184,13 @@ namespace felide { namespace editor {
 		if (item->hasPath()) {
 			title += item->getName();
 		} else {
-			title += "Untitled";
+			title += "Untitled " + std::to_string(editor->getId());
 		}
 
-		title += item->isModified()?"*":" ";
+		title += item->isModified()?"[*]":"";
 
 		editor->setTitle(title);
 
 		return true;
-	}
-
-	MainFrame* MainFrameHandler::getFrame() {
-		return this->frame;
-	}
-
-	const MainFrame* MainFrameHandler::getFrame() const {
-		return this->frame;
 	}
 }}

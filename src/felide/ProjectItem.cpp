@@ -82,7 +82,11 @@ namespace felide {
             throw std::runtime_error("The file could't be opened");
         }
 		
-		fs.write(content.c_str(), content.size() - 1);
+		if (content.size() > 0) {
+			fs.write(content.c_str(), content.size() - 1);
+		} else {
+			fs.write("", 1);
+		}
         
         this->impl->modified = false;
     }

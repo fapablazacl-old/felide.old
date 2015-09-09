@@ -4,7 +4,13 @@
 #include "CMainFrame.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
-    CTabbedEditorPanel::CTabbedEditorPanel() {}
+
+    CTabbedEditorPanel::CTabbedEditorPanel(CMainFrame *mainFrame) {
+		assert(mainFrame);
+
+		this->mainFrame = mainFrame;
+	}
+
     CTabbedEditorPanel::~CTabbedEditorPanel() {}
 
 	CWnd* CTabbedEditorPanel::GetMDIChildFromHwnd(HWND hWnd) {
@@ -22,25 +28,7 @@ namespace felide { namespace editor { namespace win32xx {
 
 		return result;
 	}
-
-	LRESULT CTabbedEditorPanel::OnNotify(WPARAM wParam, LPARAM lParam) {
-		NMHDR* nmhdr = reinterpret_cast<NMHDR*>(lParam);
-
-		switch (nmhdr->code) {
-
-			case EN_CHANGE: 
-			{
-				HWND hWnd = ((NMHDR*)lParam)->hwndFrom;
-				Editor* editor = dynamic_cast<Editor*>(this->GetMDIChildFromHwnd(hWnd));
-			}
-
-			default:
-				break;
-		}
-
-		return 0;
-	}
-
+	
 	BOOL CTabbedEditorPanel::OnCommand(WPARAM wParam, LPARAM lParam) {
 		const int notification = HIWORD(wParam);
 		const HWND hWnd = reinterpret_cast<HWND>(lParam);
@@ -48,9 +36,8 @@ namespace felide { namespace editor { namespace win32xx {
 		Editor* editor = dynamic_cast<Editor*>(this->GetMDIChildFromHwnd(hWnd));
 
 		if (editor && notification==EN_CHANGE) {
-			CMainFrame *mainFrame = dynamic_cast<CMainFrame *>(this->GetParent());
-
-			mainFrame->getHandler()->handleEditorTitleUpdated(editor);
+			editor->getProjectItem()->modify();
+			this->mainFrame->getHandler()->handleEditorTitleUpdated(editor);
 			
 			return TRUE;
 		}

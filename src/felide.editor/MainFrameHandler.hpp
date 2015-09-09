@@ -29,6 +29,7 @@ namespace felide { namespace editor {
 
 	private:
 		MainFrame *frame = nullptr;
+		int newFileCount = 0;
 	};
 }}
 

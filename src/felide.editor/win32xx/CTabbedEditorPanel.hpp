@@ -7,19 +7,21 @@
 
 namespace felide { namespace editor { namespace win32xx {
 
+	class CMainFrame;
 	class CTabbedEditorPanel : public CTabbedMDI {
 	public:
 		const int ID_MDI_EDITOR = 1;
 
 	public:
-        CTabbedEditorPanel();
+        explicit CTabbedEditorPanel(CMainFrame *mainframe);
 		virtual ~CTabbedEditorPanel();
-
-		virtual LRESULT OnNotify(WPARAM wParam, LPARAM lParam) override;
 
 		virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam) override;
 
 		CWnd* GetMDIChildFromHwnd(HWND hWnd);
+
+	private:
+		CMainFrame *mainFrame;
 	};
 }}}
 
