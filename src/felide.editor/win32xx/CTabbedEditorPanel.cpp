@@ -37,7 +37,7 @@ namespace felide { namespace editor { namespace win32xx {
 
 		if (editor && notification==EN_CHANGE) {
 			editor->getProjectItem()->modify();
-			this->mainFrame->getHandler()->handleEditorTitleUpdated(editor);
+			this->mainFrame->getHandler()->handleEditorChanged(editor);
 			
 			return TRUE;
 		}

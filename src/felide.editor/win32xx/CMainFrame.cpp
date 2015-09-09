@@ -42,6 +42,7 @@ namespace felide { namespace editor { namespace win32xx {
             case ID_FILE_OPEN:		handler->handleFileOpen();		return TRUE;
             case ID_FILE_SAVE:		handler->handleFileSave();		return TRUE;
             case ID_FILE_SAVEAS:	handler->handleFileSaveAs();	return TRUE;
+			case ID_FILE_SAVEALL:	handler->handleFileSaveAll();	return TRUE;
             case ID_FILE_EXIT:      handler->handleFileExit();		return TRUE;
 			case ID_BUILD_CLEAN:	handler->handleBuildClean();	return TRUE;
 			case ID_BUILD_COMPILE:	handler->handleBuildCompile();	return TRUE;

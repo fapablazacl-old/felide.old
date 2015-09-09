@@ -32,7 +32,7 @@ namespace felide { namespace editor {
 		editor->setTabWidth(4);
 		editor->setId(this->newFileCount);
 
-		this->handleEditorTitleUpdated(editor);
+		this->handleEditorChanged(editor);
 
 		return true;
 	}
@@ -49,37 +49,30 @@ namespace felide { namespace editor {
 		auto item = std::make_unique<ProjectItem>(filePath.string());
 		auto editor = this->getFrame()->createEditor(std::move(item));
 
-		editor->setTitle(editor->getProjectItem()->getName());
 		editor->setText(editor->getProjectItem()->open());
 		editor->setFont("Courier", 8);
 		editor->setTabWidth(4);
+
+		this->handleEditorChanged(editor);
 
 		return true;
 	}
 
     bool MainFrameHandler::handleFileSave(Editor *editor) {
-		// Editor* editor = this->getFrame()->getCurrentEditor();
+		assert(editor);
 
-		if (!editor) {
-			return true;
-		}
-
-		if (!editor->getProjectItem()->hasPath()) {
+		if (editor->getProjectItem()->hasPath()) {
+			editor->getProjectItem()->save(editor->getText());
+			this->handleEditorChanged(editor);
+		} else {
 			return this->handleFileSaveAs(editor);
 		}
-
-		editor->getProjectItem()->save(editor->getText());
-		this->handleEditorTitleUpdated(editor);
 
 		return true;
 	}
 
     bool MainFrameHandler::handleFileSaveAs(Editor *editor) {
-		// auto editor = this->getFrame()->getCurrentEditor();
-
-		if (!editor) {
-			return true;
-		}
+		assert(editor);
 
 		auto dialogFactory = this->getFrame()->getDialogFactory();
 		auto dialog = dialogFactory->showFileSaveDialog("Save File As ...", "");
@@ -94,7 +87,7 @@ namespace felide { namespace editor {
 		editor->getProjectItem()->save(content, filePath.string());
 		editor->setTitle(editor->getProjectItem()->getName());
 		
-		this->handleEditorTitleUpdated(editor);
+		this->handleEditorChanged(editor);
 		
 		return true;
 	}
@@ -174,7 +167,7 @@ namespace felide { namespace editor {
 		return true;
 	}
 
-	bool MainFrameHandler::handleEditorTitleUpdated(Editor* editor) {
+	bool MainFrameHandler::handleEditorChanged(Editor* editor) {
 		assert(editor);
 
 		const ProjectItem* item = editor->getProjectItem();
@@ -195,8 +188,10 @@ namespace felide { namespace editor {
 	}
 
 	bool MainFrameHandler::handleFileSaveAll() {
-		for (int i=0; i<this->getFrame()->getEditorCount(); i++) {
-			if (!this->handleFileSave(this->getFrame()->getEditor(i))) {
+		MainFrame *frame = this->getFrame();
+
+		for (int i=0; i<frame->getEditorCount(); i++) {
+			if (!this->handleFileSave(frame->getEditor(i))) {
 				return false;
 			}
 		}

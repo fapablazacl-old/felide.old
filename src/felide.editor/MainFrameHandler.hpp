@@ -25,7 +25,7 @@ namespace felide { namespace editor {
 		bool handleBuildCompile();
 		bool handleBuildLink();
 
-		bool handleEditorTitleUpdated(Editor* editor);
+		bool handleEditorChanged(Editor* editor);
 		
 	public:
 		MainFrame* getFrame();
