@@ -18,7 +18,11 @@ namespace felide { namespace editor { namespace win32xx {
     }
 	
 	int CMainFrame::OnCreate(LPCREATESTRUCT pcs) {
-		return CFrame::OnCreate(pcs);
+		int result = CFrame::OnCreate(pcs);
+
+		this->updateEnableStatus();
+
+		return result;
 	}
 
     CMainFrame::~CMainFrame() {}
@@ -29,7 +33,7 @@ namespace felide { namespace editor { namespace win32xx {
 
     void CMainFrame::OnInitialUpdate() {
         this->SetWindowTextA("felide.editor");
-		this->updateEnableStatus();
+		// this->updateEnableStatus();
     }
 
     BOOL CMainFrame::OnCommand(WPARAM wParam, LPARAM lParam) {
@@ -104,6 +108,8 @@ namespace felide { namespace editor { namespace win32xx {
 
 	void CMainFrame::updateEnableStatus() {
 		const UINT enable = this->getEditorCount()>0?MF_ENABLED:MF_DISABLED;
+
+		HMENU menu = this->GetReBar()->GetMenu()->GetHandle();
 
 		::EnableMenuItem(this->GetMenu()->GetHandle(), ID_FILE_SAVE, enable);
 		::EnableMenuItem(this->GetMenu()->GetHandle(), ID_FILE_SAVEAS, enable);
