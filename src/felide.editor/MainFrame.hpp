@@ -24,6 +24,8 @@ namespace felide { namespace editor {
 		virtual const Editor* getEditor(const int index) const = 0;
 
 		virtual void close() = 0;
+
+		virtual void updateEnableStatus() = 0;
 	};
 }}
 
