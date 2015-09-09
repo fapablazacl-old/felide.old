@@ -33,6 +33,10 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual const Editor* getCurrentEditor() const override;
 		virtual void close() override;
 
+		virtual int getEditorCount() const override;
+		virtual Editor* getEditor(const int index) override;
+		virtual const Editor* getEditor(const int index) const override;
+
     protected:
         virtual void OnInitialUpdate() override;
         virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam) override;

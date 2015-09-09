@@ -76,4 +76,22 @@ namespace felide { namespace editor { namespace win32xx {
 	void CMainFrame::close() {
 		CFrame::Close();
 	}
+
+	int CMainFrame::getEditorCount() const {
+		return this->editorPanel->GetMDIChildCount();
+	}
+
+	Editor* CMainFrame::getEditor(const int index) {
+		assert(index >= 0);
+		assert(index < this->getEditorCount());
+
+		return dynamic_cast<Editor*>(this->editorPanel->GetMDIChild(index));
+	}
+
+	const Editor* CMainFrame::getEditor(const int index) const {
+		assert(index >= 0);
+		assert(index < this->getEditorCount());
+
+		return dynamic_cast<Editor*>(this->editorPanel->GetMDIChild(index));
+	}
 }}}

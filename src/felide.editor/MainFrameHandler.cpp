@@ -57,15 +57,15 @@ namespace felide { namespace editor {
 		return true;
 	}
 
-    bool MainFrameHandler::handleFileSave() {
-		Editor* editor = this->getFrame()->getCurrentEditor();
+    bool MainFrameHandler::handleFileSave(Editor *editor) {
+		// Editor* editor = this->getFrame()->getCurrentEditor();
 
 		if (!editor) {
 			return true;
 		}
 
 		if (!editor->getProjectItem()->hasPath()) {
-			return this->handleFileSaveAs();
+			return this->handleFileSaveAs(editor);
 		}
 
 		editor->getProjectItem()->save(editor->getText());
@@ -74,8 +74,8 @@ namespace felide { namespace editor {
 		return true;
 	}
 
-    bool MainFrameHandler::handleFileSaveAs() {
-		auto editor = this->getFrame()->getCurrentEditor();
+    bool MainFrameHandler::handleFileSaveAs(Editor *editor) {
+		// auto editor = this->getFrame()->getCurrentEditor();
 
 		if (!editor) {
 			return true;
@@ -120,7 +120,7 @@ namespace felide { namespace editor {
 
 			auto item = editor->getProjectItem();
 			if (!item->hasPath() || item->isModified()) {
-				if (!this->handleFileSave()) {
+				if (!this->handleFileSave(editor)) {
 					return false;
 				}
 			}
@@ -192,5 +192,23 @@ namespace felide { namespace editor {
 		editor->setTitle(title);
 
 		return true;
+	}
+
+	bool MainFrameHandler::handleFileSaveAll() {
+		for (int i=0; i<this->getFrame()->getEditorCount(); i++) {
+			if (!this->handleFileSave(this->getFrame()->getEditor(i))) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	bool MainFrameHandler::handleFileSave() {
+		return this->handleFileSave(this->getFrame()->getCurrentEditor());
+	}
+
+    bool MainFrameHandler::handleFileSaveAs() {
+		return this->handleFileSaveAs(this->getFrame()->getCurrentEditor());
 	}
 }}
