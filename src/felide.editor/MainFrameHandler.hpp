@@ -12,16 +12,28 @@ namespace felide { namespace editor {
 
 		bool handleFileNew();
         bool handleFileOpen();
-        bool handleFileSave();
+        bool handleFileSave(Editor* editor);
+        bool handleFileSaveAs(Editor* editor);
+
+		bool handleFileSave();
         bool handleFileSaveAs();
+
+		bool handleFileSaveAll();
         bool handleFileExit();
 
 		bool handleBuildClean();
 		bool handleBuildCompile();
 		bool handleBuildLink();
 
-		bool handleEditorTitleUpdated(Editor* editor);
+		bool handleEditorChanged(Editor* editor);
 
+		bool handleEditUndo();
+		bool handleEditRedo();
+
+		bool handleEditCut();
+		bool handleEditCopy();
+		bool handleEditPaste();
+		
 	public:
 		MainFrame* getFrame();
 
@@ -29,6 +41,7 @@ namespace felide { namespace editor {
 
 	private:
 		MainFrame *frame = nullptr;
+		int newFileCount = 0;
 	};
 }}
 

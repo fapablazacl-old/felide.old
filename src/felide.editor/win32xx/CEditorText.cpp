@@ -88,4 +88,24 @@ namespace felide { namespace editor { namespace win32xx {
 
 		this->tabbedMdi = tabbedMdi;
 	}
+
+	void CEditorText::undo() {
+		this->Undo();
+	}
+
+	void CEditorText::redo() {
+		// TODO: Implement in some way.
+	}
+
+	void CEditorText::cut()  {
+		this->Cut();
+	}
+
+	void CEditorText::copy() {
+		this->Copy();
+	}
+
+	void CEditorText::paste() {
+		this->Paste();
+	}
 }}}

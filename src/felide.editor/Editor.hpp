@@ -26,15 +26,25 @@ namespace felide { namespace editor {
         virtual void clearAll() = 0;
         virtual void setTabWidth(const int spaces) = 0;
 
-        virtual void setFont(const std::string &name, const int size) {}
+        virtual void setFont(const std::string &name, const int size) = 0;
 
-        virtual ProjectItem* getProjectItem() {return nullptr;}
-        virtual const ProjectItem* getProjectItem() const {return nullptr;}
+        virtual ProjectItem* getProjectItem() = 0;
+        virtual const ProjectItem* getProjectItem() const = 0;
 
 		virtual void setTitle(const std::string &title) = 0;
 
-    public:
-        static Editor* new_(ProjectItemPtr item);
+		virtual int getId() const;
+		virtual void setId(const int id);
+
+		virtual void undo() = 0;
+		virtual void redo() = 0;
+
+		virtual void cut() = 0;
+		virtual void copy() = 0;
+		virtual void paste() = 0;
+
+	private:
+		int id = 0;
 	};
 }}
 

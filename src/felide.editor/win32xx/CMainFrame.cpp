@@ -1,6 +1,7 @@
 
 #include "CMainFrame.hpp"
 
+#include "CTabbedEditorPanel.hpp"
 #include "CEditor.hpp"
 #include "felide/system/Process.hpp"
 #include "res/resource.h"
@@ -12,11 +13,16 @@
 namespace felide { namespace editor { namespace win32xx {
 
     CMainFrame::CMainFrame(DialogFactory *factory) : MainFrame(factory) {
-        this->SetView(this->editorPanel);
+		this->editorPanel = std::make_unique<CTabbedEditorPanel>(this);
+        this->SetView(*this->editorPanel.get());
     }
 	
 	int CMainFrame::OnCreate(LPCREATESTRUCT pcs) {
-		return CFrame::OnCreate(pcs);
+		int result = CFrame::OnCreate(pcs);
+
+		this->updateEnableStatus();
+
+		return result;
 	}
 
     CMainFrame::~CMainFrame() {}
@@ -27,10 +33,12 @@ namespace felide { namespace editor { namespace win32xx {
 
     void CMainFrame::OnInitialUpdate() {
         this->SetWindowTextA("felide.editor");
+		// this->updateEnableStatus();
     }
 
     BOOL CMainFrame::OnCommand(WPARAM wParam, LPARAM lParam) {
         const int command = LOWORD(wParam);
+		const int notification = HIWORD(wParam);
 
 		MainFrameHandler *handler = this->getHandler();
 
@@ -39,45 +47,73 @@ namespace felide { namespace editor { namespace win32xx {
             case ID_FILE_OPEN:		handler->handleFileOpen();		return TRUE;
             case ID_FILE_SAVE:		handler->handleFileSave();		return TRUE;
             case ID_FILE_SAVEAS:	handler->handleFileSaveAs();	return TRUE;
+			case ID_FILE_SAVEALL:	handler->handleFileSaveAll();	return TRUE;
             case ID_FILE_EXIT:      handler->handleFileExit();		return TRUE;
 			case ID_BUILD_CLEAN:	handler->handleBuildClean();	return TRUE;
 			case ID_BUILD_COMPILE:	handler->handleBuildCompile();	return TRUE;
 			case ID_BUILD_LINK:		handler->handleBuildLink();		return TRUE;
-
-            default: return FALSE;
+			case ID_EDIT_UNDO:		handler->handleEditUndo();		return TRUE;
+			case ID_EDIT_REDO:		handler->handleEditRedo();		return TRUE;
+			case ID_EDIT_CUT:		handler->handleEditCut();		return TRUE;
+			case ID_EDIT_COPY:		handler->handleEditCopy();		return TRUE;
+			case ID_EDIT_PASTE:		handler->handleEditPaste();		return TRUE;
         }
+		
+		return FALSE;
     }
 	
-	LRESULT CMainFrame::OnNotify(WPARAM wParam, LPARAM lParam) {
-		HWND hWnd = ((NMHDR*)lParam)->hwndFrom;
-		// Editor* editor = dynamic_cast<Editor*>(this->editorPanel.GetMDIChildFromHwnd(hWnd));
-
-		return 0;
-	}
-
 	Editor* CMainFrame::createEditor(ProjectItemPtr item) {
 		CEditor* editor = new CEditor(std::move(item));
 		
-		editor->SetTabbedMDI(&this->editorPanel);
+		editor->SetTabbedMDI(this->editorPanel.get());
 
-		this->editorPanel.AddMDIChild(WndPtr(editor), editor->getProjectItem()->getName().c_str());
+		this->editorPanel->AddMDIChild(WndPtr(editor), editor->getProjectItem()->getName().c_str());
 
 		return editor;
 	}
 
 	Editor* CMainFrame::getCurrentEditor() {
-		Editor *editor = dynamic_cast<Editor*>(this->editorPanel.GetActiveMDIChild());
+		Editor *editor = dynamic_cast<Editor*>(this->editorPanel->GetActiveMDIChild());
 
 		return editor;
 	}
 
 	const Editor* CMainFrame::getCurrentEditor() const {
-		Editor *editor = dynamic_cast<Editor*>(this->editorPanel.GetActiveMDIChild());
+		Editor *editor = dynamic_cast<Editor*>(this->editorPanel->GetActiveMDIChild());
 
 		return editor;
 	}
 
 	void CMainFrame::close() {
 		CFrame::Close();
+	}
+
+	int CMainFrame::getEditorCount() const {
+		return this->editorPanel->GetMDIChildCount();
+	}
+
+	Editor* CMainFrame::getEditor(const int index) {
+		assert(index >= 0);
+		assert(index < this->getEditorCount());
+
+		return dynamic_cast<Editor*>(this->editorPanel->GetMDIChild(index));
+	}
+
+	const Editor* CMainFrame::getEditor(const int index) const {
+		assert(index >= 0);
+		assert(index < this->getEditorCount());
+
+		return dynamic_cast<Editor*>(this->editorPanel->GetMDIChild(index));
+	}
+
+	void CMainFrame::updateEnableStatus() {
+		const UINT enable = this->getEditorCount()>0?MF_ENABLED:MF_DISABLED;
+
+		HMENU menu = this->GetReBar()->GetMenu()->GetHandle();
+
+		::EnableMenuItem(this->GetMenu()->GetHandle(), ID_FILE_SAVE, enable);
+		::EnableMenuItem(this->GetMenu()->GetHandle(), ID_FILE_SAVEAS, enable);
+		::EnableMenuItem(this->GetMenu()->GetHandle(), ID_FILE_SAVEALL, enable);
+		::EnableMenuItem(this->GetMenu()->GetHandle(), ID_FILE_CLOSE, enable);
 	}
 }}}

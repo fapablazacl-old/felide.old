@@ -19,7 +19,13 @@ namespace felide { namespace editor {
 		virtual Editor* getCurrentEditor() = 0;
 		virtual const Editor* getCurrentEditor() const = 0;
 
+		virtual int getEditorCount() const = 0;
+		virtual Editor* getEditor(const int index) = 0;
+		virtual const Editor* getEditor(const int index) const = 0;
+
 		virtual void close() = 0;
+
+		virtual void updateEnableStatus() = 0;
 	};
 }}
 
