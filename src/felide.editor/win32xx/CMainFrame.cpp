@@ -20,8 +20,6 @@ namespace felide { namespace editor { namespace win32xx {
 	int CMainFrame::OnCreate(LPCREATESTRUCT pcs) {
 		int result = CFrame::OnCreate(pcs);
 
-		this->updateEnableStatus();
-
 		return result;
 	}
 
@@ -33,7 +31,7 @@ namespace felide { namespace editor { namespace win32xx {
 
     void CMainFrame::OnInitialUpdate() {
         this->SetWindowTextA("felide.editor");
-		// this->updateEnableStatus();
+		this->updateEnableStatus();
     }
 
     BOOL CMainFrame::OnCommand(WPARAM wParam, LPARAM lParam) {
@@ -107,13 +105,19 @@ namespace felide { namespace editor { namespace win32xx {
 	}
 
 	void CMainFrame::updateEnableStatus() {
+
+		HMENU menu = this->GetMenuBar()->GetMenu();
+		assert(menu);
+
 		const UINT enable = this->getEditorCount()>0?MF_ENABLED:MF_DISABLED;
 
-		HMENU menu = this->GetReBar()->GetMenu()->GetHandle();
+		int menuItems[] = {
+			ID_FILE_SAVE, ID_FILE_SAVEAS, ID_FILE_SAVEALL, ID_FILE_CLOSE, 
+			ID_EDIT_UNDO, ID_EDIT_REDO, ID_EDIT_CUT, ID_EDIT_COPY, ID_EDIT_PASTE,
+		};
 
-		::EnableMenuItem(this->GetMenu()->GetHandle(), ID_FILE_SAVE, enable);
-		::EnableMenuItem(this->GetMenu()->GetHandle(), ID_FILE_SAVEAS, enable);
-		::EnableMenuItem(this->GetMenu()->GetHandle(), ID_FILE_SAVEALL, enable);
-		::EnableMenuItem(this->GetMenu()->GetHandle(), ID_FILE_CLOSE, enable);
+		for (int menuItem : menuItems) {
+			::EnableMenuItem(menu, menuItem, enable);
+		}
 	}
 }}}
