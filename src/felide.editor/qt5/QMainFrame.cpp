@@ -51,7 +51,7 @@ namespace felide { namespace qt5 {
     }
 
     Editor* QMainFrame::createEditor(ProjectItemPtr item) {
-        return nullptr;
+    	return this->tabbedEditor->openEditor(std::move(item));
     }
 
     Editor* QMainFrame::getCurrentEditor() {
