@@ -12,29 +12,25 @@ namespace felide { namespace editor { namespace qt5 {
             int result = 0;
             
             // Icon
-            switch (icons) {
-                case DialogIcon::Information:	
-					result = QMessageBox::information(nullptr, title.c_str(), msg.c_str());
-					break;
-
-				case DialogIcon::Warning:		
-					result = QMessageBox::warning(nullptr, title.c_str(), msg.c_str());
-					break;
-
-				case DialogIcon::Error:			
-					result = QMessageBox::critical(nullptr, title.c_str(), msg.c_str());
-					break;
+            if (icons == DialogIcon::Information) {
+                result = QMessageBox::information(nullptr, title.c_str(), msg.c_str());
+                
+            } else if (icons == DialogIcon::Warning) {
+                result = QMessageBox::warning(nullptr, title.c_str(), msg.c_str());
+                
+            } else if (icons == DialogIcon::Error) {
+                result = QMessageBox::critical(nullptr, title.c_str(), msg.c_str());
+                
+            } else {
+                
             }
             
             // Convert result
-            switch (result) {
-                case QMessageBox::Ok:
-                    this->result = DialogResult::Ok;
-                    break;
+            if (result == QMessageBox::Ok) {
+                this->result = DialogResult::Ok;
                 
-                case QMessageBox::Cancel:
-                    this->result = DialogResult::Cancel;
-                    break;
+            } else if (result == QMessageBox::Cancel) {
+                this->result = DialogResult::Cancel;
             }
         }
         

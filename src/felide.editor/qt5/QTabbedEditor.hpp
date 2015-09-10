@@ -1,6 +1,6 @@
 
-#ifndef __felide_qt5_tabbededitor_hpp__
-#define __felide_qt5_tabbededitor_hpp__
+#ifndef __felide_editor_qt5_qtabbededitor_hpp__
+#define __felide_editor_qt5_qtabbededitor_hpp__
 
 #include <QWidget>
 #include <QTabWidget>
@@ -9,7 +9,8 @@
 
 #include "QEditor.hpp"
 
-namespace felide { namespace qt5 {
+namespace felide { namespace editor { namespace qt5 {
+
     class QTabbedEditor : public QWidget {
         Q_OBJECT
 
@@ -24,6 +25,14 @@ namespace felide { namespace qt5 {
         QEditor* getCurrentEditor();
         const QEditor* getCurrentEditor() const;
 
+        const int getEditorCount() const;
+        
+        Editor* getEditor(const int index);
+        
+        const Editor* getEditor(const int index) const;
+        
+        void setEditorTitle(Editor *editor, const QString &title);
+        
     public slots:
         void editorTitledChanged(const QEditor* editor);
 
@@ -33,6 +42,7 @@ namespace felide { namespace qt5 {
     private:
         QTabWidget *tabWidget = nullptr;
     };
-}}
+    
+}}}
 
 #endif // __felide_qt5_tabbededitor_hpp__

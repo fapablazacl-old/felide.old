@@ -1,6 +1,6 @@
 
-#ifndef __felide_editor_qt5_application_hpp__
-#define __felide_editor_qt5_application_hpp__
+#ifndef __felide_editor_qt5_qapplication_hpp__
+#define __felide_editor_qt5_qapplication_hpp__
 
 #include "felide.editor/Application.hpp"
 #include "felide.editor/qt5/QDialogFactory.hpp"

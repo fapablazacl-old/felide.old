@@ -1,10 +1,12 @@
 
 #include "felide.editor/qt5/QEditor.hpp"
+#include "felide.editor/qt5/QTabbedEditor.hpp"
 
 #include <QGridLayout>
+#include <QTabWidget>
 #include <boost/filesystem/path.hpp>
 
-namespace felide { namespace qt5 {
+namespace felide { namespace editor { namespace qt5 {
     namespace fs = boost::filesystem;
 
     static std::string getLang(const std::string &ext) {
@@ -40,6 +42,9 @@ namespace felide { namespace qt5 {
     }
 
     static QWidget* createEditorWidget(QWidget *parent, ProjectItem *item) {
+        assert(parent);
+        assert(item);
+        
         std::string lang = getLang(fs::path(item->getPath()).extension().string());
 
         QsciScintilla *editor = new QsciScintilla(parent);
@@ -54,14 +59,14 @@ namespace felide { namespace qt5 {
 
     QEditor::QEditor(QWidget *parent, ProjectItemPtr item) : QWidget(parent) {
         this->item = std::move(item);
-        this->scintilla = static_cast<QsciScintilla*>(createEditorWidget(this, item.get()));
-
+        this->scintilla = static_cast<QsciScintilla*>(createEditorWidget(this, this->item.get()));
+        
         QGridLayout *layout = new QGridLayout(this);
         layout->addWidget(this->scintilla);
         this->setLayout(layout);
 
         this->open();
-
+        
         connect(this->scintilla, &QsciScintilla::textChanged, [this]() {
             this->item->modify();
             this->titleUpdated(this);
@@ -91,26 +96,6 @@ namespace felide { namespace qt5 {
         this->titleUpdated(this);
     }
 
-    void QEditor::onUndo() {
-        this->scintilla->undo();
-    }
-
-    void QEditor::onRedo() {
-        this->scintilla->redo();
-    }
-
-    void QEditor::onCut() {
-        this->scintilla->cut();
-    }
-
-    void QEditor::onCopy() {
-        this->scintilla->copy();
-    }
-
-    void QEditor::onPaste() {
-        this->scintilla->paste();
-    }
-
     QEditor::~QEditor() {}
     
     void QEditor::setText(const std::string &text) {
@@ -122,31 +107,71 @@ namespace felide { namespace qt5 {
     }
 
     void QEditor::setSavePoint(){
-        
+        // TODO:
     }
+    
     void QEditor::emptyUndoBuffer() {
-        
+        // TODO:
     }
+    
     void QEditor::clearAll() {
-        
+        this->scintilla->clear();
     }
+    
     void QEditor::setTabWidth(const int spaces) {
-        
+        this->scintilla->setTabWidth(spaces);
     }
 
     void QEditor::setFont(const std::string &name, const int size) {
-        
+        QFont font = QFont(name.c_str(), size);
+
+        if (scintilla->lexer()) {
+            scintilla->lexer()->setDefaultFont(font);
+            scintilla->lexer()->setFont(font);
+        } else {
+            scintilla->setFont(font);
+        }
     }
 
     ProjectItem* QEditor::getProjectItem() {
+        assert(this->item.get());
+        
         return this->item.get();
     }
     
     const ProjectItem* QEditor::getProjectItem() const {
+        assert(this->item.get());
+        
         return this->item.get();
     }
 
     void QEditor::setTitle(const std::string &title) {
-        
+        assert(this->tabbedEditor);
+        this->tabbedEditor->setEditorTitle(this, title.c_str());
     }
-}}
+
+    void QEditor::undo() {
+        assert(this->scintilla);
+        this->scintilla->undo();
+    }
+
+    void QEditor::redo() {
+        assert(this->scintilla);
+        this->scintilla->redo();
+    }
+
+    void QEditor::cut() {
+        assert(this->scintilla);
+        this->scintilla->cut();
+    }
+
+    void QEditor::copy() {
+        assert(this->scintilla);
+        this->scintilla->copy();
+    }
+
+    void QEditor::paste() {
+        assert(this->scintilla);
+        this->scintilla->paste();
+    }
+}}}

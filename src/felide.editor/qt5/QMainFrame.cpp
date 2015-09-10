@@ -5,7 +5,7 @@
 #include <QAction>
 #include <QFileDialog>
 
-namespace felide { namespace qt5 {
+namespace felide { namespace editor { namespace qt5 {
 
     using namespace felide::editor;
 
@@ -41,7 +41,7 @@ namespace felide { namespace qt5 {
             this->getHandler()->handleFileExit();
         });
         
-        this->updateState();
+        this->updateEnableStatus();
     }
 
     QMainFrame::~QMainFrame() {}
@@ -61,81 +61,9 @@ namespace felide { namespace qt5 {
     const Editor* QMainFrame::getCurrentEditor() const {
         return this->tabbedEditor->getCurrentEditor();
     }
-
-    /*
-    void QMainFrame::handleFileNew() {
-        // int untitledCount = this->untitledCount;
-        // untitledCount ++;
-
-        QString title = "";
-        // title.sprintf("untitled%02d", untitledCount);
-
-        auto projectItem = std::make_unique<ProjectItem>();
-        this->tabbedEditor->openEditor(std::move(projectItem), title);
-        
-        // this->items.push_back(std::move(projectItem));
-        // this->untitledCount = untitledCount;
-
-        this->updateState();
-    }
-
-    void QMainFrame::handleFileOpen() {
-        QString path = QFileDialog::getOpenFileName(this, "Open File...", "", "(*.cpp)");
-
-        if (path.isEmpty()) {
-            return;
-        }
-
-        auto projectItem = std::make_unique<ProjectItem>(path.toStdString());
-
-        QString title = QString::fromStdString(projectItem->getName());
-        this->tabbedEditor->openEditor(projectItem.get(), title);
-
-        // this->items.push_back(std::move(projectItem));
-
-        this->updateState();
-    }
-
-    void QMainFrame::handleFileSave() {
-        QEditor *editor = this->tabbedEditor->getCurrentEditor();
-
-        if (!editor) {
-            return;
-        }
-
-        if (!editor->getItem()->hasPath()) {
-            this->handleFileSaveAs();
-        } else {
-            editor->save();
-        }
-    }
-
-    void QMainFrame::handleFileSaveAs() {
-        QEditor *editor = this->tabbedEditor->getCurrentEditor();
-
-        if (!editor) {
-            return;
-        }
-
-        QString path = QFileDialog::getSaveFileName(this, "Save File...", "", "(*.cpp)");
-
-        editor->save(path);
-    }
-
-    void QMainFrame::handleFileClose() {
-        const QEditor *editor = this->tabbedEditor->getCurrentEditor();
-        this->tabbedEditor->closeEditor(editor);
-
-        this->updateState();
-    }
-
-    void QMainFrame::handleFileExit() {
-        this->close();
-    }
-    */
-
-    void QMainFrame::updateState() {
-        const bool openedEditor = (this->tabbedEditor->getCurrentEditor()!=nullptr);
+    
+    void QMainFrame::updateEnableStatus() {
+        const bool openedEditor = (this->getEditorCount() > 0);
 
         this->ui->actionClose->setEnabled(openedEditor);
         this->ui->action_Undo->setEnabled(openedEditor);
@@ -144,4 +72,16 @@ namespace felide { namespace qt5 {
         this->ui->actionC_opy->setEnabled(openedEditor);
         this->ui->action_Paste->setEnabled(openedEditor);
     }
-}}
+    
+    int QMainFrame::getEditorCount() const {
+        return 0;
+    }
+    
+    Editor* QMainFrame::getEditor(const int index) {
+        return nullptr;
+    }
+    
+    const Editor* QMainFrame::getEditor(const int index) const {
+        return nullptr;
+    }
+}}}

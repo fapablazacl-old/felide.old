@@ -12,8 +12,8 @@ namespace felide { namespace editor { namespace qt5 {
     
     int QApplication::execute(int argc, char **argv) {
         ::QApplication app(argc, argv);
-
-        felide::qt5::QMainFrame mainFrame(&this->dialogFactory);
+        
+        QMainFrame mainFrame(&this->dialogFactory);
 
         mainFrame.show();
 

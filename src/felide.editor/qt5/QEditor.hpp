@@ -1,6 +1,6 @@
 
-#ifndef __felide_qt5_editor_hpp__
-#define __felide_qt5_editor_hpp__
+#ifndef __felide_editor_qt5_qeditor_hpp__
+#define __felide_editor_qt5_qeditor_hpp__
 
 #include <QWidget>
 #include <Qsci/qsciscintilla.h>
@@ -10,21 +10,14 @@
 
 #include "felide.editor/Editor.hpp"
 
-namespace felide { namespace qt5 {
+namespace felide { namespace editor { namespace qt5 {
 
+    class QTabbedEditor;
     class QEditor : public QWidget, public felide::editor::Editor {
         Q_OBJECT
 
     signals:
         void titleUpdated(const QEditor *editor);
-
-    public slots:
-        void onUndo();
-        void onRedo();
-
-        void onCut();
-        void onCopy();
-        void onPaste();
 
     public:
         explicit QEditor(QWidget *parent, ProjectItemPtr item);
@@ -37,6 +30,8 @@ namespace felide { namespace qt5 {
         ProjectItem* getItem();
 
         const ProjectItem* getItem() const;
+        
+        void setTabbedEditor(QTabbedEditor *tabbedEditor);
         
     public:
         virtual void setText(const std::string &text) override;
@@ -54,10 +49,17 @@ namespace felide { namespace qt5 {
 
 		virtual void setTitle(const std::string &title) override;
         
+        virtual void undo() override;
+        virtual void redo() override;
+
+        virtual void cut() override;
+        virtual void copy() override;
+        virtual void paste() override;
 
     private:
         ProjectItemPtr item = nullptr;
         QsciScintilla *scintilla = nullptr;
+        QTabbedEditor *tabbedEditor = nullptr;
     };
 
     inline ProjectItem* QEditor::getItem() {
@@ -67,6 +69,10 @@ namespace felide { namespace qt5 {
     inline const ProjectItem* QEditor::getItem() const {
         return this->item.get();
     }
-}}
+    
+    inline void QEditor::setTabbedEditor(QTabbedEditor *tabbedEditor) {
+        this->tabbedEditor = tabbedEditor;
+    }
+}}}
 
 #endif // __felide_editor_hpp__
