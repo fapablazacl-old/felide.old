@@ -2,10 +2,13 @@
 #ifndef __felide_editor_mainframehandler_hpp__
 #define __felide_editor_mainframehandler_hpp__
 
+#include "felide/ProjectItem.hpp"
+
 namespace felide { namespace editor {
 
 	class MainFrame;
 	class Editor;
+
 	class MainFrameHandler {
 	public:
 		explicit MainFrameHandler(MainFrame *frame);
@@ -19,6 +22,10 @@ namespace felide { namespace editor {
         bool handleFileSaveAs();
 
 		bool handleFileSaveAll();
+
+		bool handleFileClose();
+		bool handleFileClose(Editor *editor);
+
         bool handleFileExit();
 
 		bool handleBuildClean();
@@ -33,7 +40,10 @@ namespace felide { namespace editor {
 		bool handleEditCut();
 		bool handleEditCopy();
 		bool handleEditPaste();
-		
+
+    protected:
+        Editor* createEditor(ProjectItemPtr item);
+
 	public:
 		MainFrame* getFrame();
 

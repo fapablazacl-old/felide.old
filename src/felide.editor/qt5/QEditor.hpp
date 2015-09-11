@@ -23,16 +23,12 @@ namespace felide { namespace editor { namespace qt5 {
         explicit QEditor(QWidget *parent, ProjectItemPtr item);
         ~QEditor();
 
-        void open();
-        void save();
-        void save(QString path);
-
         ProjectItem* getItem();
 
         const ProjectItem* getItem() const;
-        
+
         void setTabbedEditor(QTabbedEditor *tabbedEditor);
-        
+
     public:
         virtual void setText(const std::string &text) override;
         virtual std::string getText() const override;
@@ -48,7 +44,7 @@ namespace felide { namespace editor { namespace qt5 {
         virtual const ProjectItem* getProjectItem() const override;
 
 		virtual void setTitle(const std::string &title) override;
-        
+
         virtual void undo() override;
         virtual void redo() override;
 
@@ -69,7 +65,7 @@ namespace felide { namespace editor { namespace qt5 {
     inline const ProjectItem* QEditor::getItem() const {
         return this->item.get();
     }
-    
+
     inline void QEditor::setTabbedEditor(QTabbedEditor *tabbedEditor) {
         this->tabbedEditor = tabbedEditor;
     }

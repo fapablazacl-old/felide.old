@@ -1,10 +1,12 @@
 
 #include "felide.editor/qt5/QEditor.hpp"
 #include "felide.editor/qt5/QTabbedEditor.hpp"
+#include "felide.editor/qt5/QMainFrame.hpp"
 
 #include <QGridLayout>
 #include <QTabWidget>
 #include <boost/filesystem/path.hpp>
+#include <iostream>
 
 namespace felide { namespace editor { namespace qt5 {
     namespace fs = boost::filesystem;
@@ -44,7 +46,7 @@ namespace felide { namespace editor { namespace qt5 {
     static QWidget* createEditorWidget(QWidget *parent, ProjectItem *item) {
         assert(parent);
         assert(item);
-        
+
         std::string lang = getLang(fs::path(item->getPath()).extension().string());
 
         QsciScintilla *editor = new QsciScintilla(parent);
@@ -60,48 +62,30 @@ namespace felide { namespace editor { namespace qt5 {
     QEditor::QEditor(QWidget *parent, ProjectItemPtr item) : QWidget(parent) {
         this->item = std::move(item);
         this->scintilla = static_cast<QsciScintilla*>(createEditorWidget(this, this->item.get()));
-        
+
         QGridLayout *layout = new QGridLayout(this);
         layout->addWidget(this->scintilla);
         this->setLayout(layout);
 
-        this->open();
-        
         connect(this->scintilla, &QsciScintilla::textChanged, [this]() {
+            throw std::runtime_error("");
+                /*
             this->item->modify();
-            this->titleUpdated(this);
+
+            auto mainFrame = static_cast<QMainFrame*>(this->tabbedEditor->parent());
+            auto editor = static_cast<Editor*>(this);
+
+            mainFrame->getHandler()->handleEditorChanged(editor);
+            */
         });
     }
 
-    void QEditor::open() {
-        if (item->hasPath()) {
-            QString text = QString::fromStdString(item->open());
-            this->scintilla->setText(text);
-        }
-
-        this->titleUpdated(this);
-    }
-
-    void QEditor::save() {
-        QString text = this->scintilla->text();
-        this->item->save(text.toStdString());
-
-        this->titleUpdated(this);
-    }
-
-    void QEditor::save(QString path) {
-        QString text = this->scintilla->text();
-        this->item->save(text.toStdString(), path.toStdString());
-
-        this->titleUpdated(this);
-    }
-
     QEditor::~QEditor() {}
-    
+
     void QEditor::setText(const std::string &text) {
         this->scintilla->setText(text.c_str());
     }
-    
+
     std::string QEditor::getText() const {
         return this->scintilla->text().toStdString();
     }
@@ -109,15 +93,15 @@ namespace felide { namespace editor { namespace qt5 {
     void QEditor::setSavePoint(){
         // TODO:
     }
-    
+
     void QEditor::emptyUndoBuffer() {
         // TODO:
     }
-    
+
     void QEditor::clearAll() {
         this->scintilla->clear();
     }
-    
+
     void QEditor::setTabWidth(const int spaces) {
         this->scintilla->setTabWidth(spaces);
     }
@@ -135,13 +119,13 @@ namespace felide { namespace editor { namespace qt5 {
 
     ProjectItem* QEditor::getProjectItem() {
         assert(this->item.get());
-        
+
         return this->item.get();
     }
-    
+
     const ProjectItem* QEditor::getProjectItem() const {
         assert(this->item.get());
-        
+
         return this->item.get();
     }
 

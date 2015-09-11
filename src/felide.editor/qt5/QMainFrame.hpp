@@ -20,21 +20,22 @@ namespace felide { namespace editor { namespace qt5 {
 
     public:
         using MainFrame::close;
-    
+
         QMainFrame(felide::editor::DialogFactory *factory);
         virtual ~QMainFrame();
 
     public:
         virtual void close() override;
         virtual felide::editor::Editor* createEditor(ProjectItemPtr item) override;
-        
+        virtual void closeEditor(Editor* editor) override;
+
 		virtual felide::editor::Editor* getCurrentEditor() override;
 		virtual const felide::editor::Editor* getCurrentEditor() const override;
-        
+
         virtual int getEditorCount() const override;
 		virtual Editor* getEditor(const int index) override;
 		virtual const Editor* getEditor(const int index) const override;
-        
+
 		virtual void updateEnableStatus() override;
 
     private:

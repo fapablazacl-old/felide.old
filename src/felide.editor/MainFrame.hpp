@@ -15,9 +15,11 @@ namespace felide { namespace editor {
 		virtual ~MainFrame();
 
 		virtual Editor* createEditor(ProjectItemPtr item) = 0;
+		virtual void closeEditor(Editor* editor) = 0;
 
 		virtual Editor* getCurrentEditor() = 0;
 		virtual const Editor* getCurrentEditor() const = 0;
+
 
 		virtual int getEditorCount() const = 0;
 		virtual Editor* getEditor(const int index) = 0;
