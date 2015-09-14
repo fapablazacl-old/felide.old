@@ -25,7 +25,8 @@ namespace felide { namespace editor {
 
 		bool handleFileClose();
 		bool handleFileClose(Editor *editor);
-
+        bool handleFileCloseAll();
+        
         bool handleFileExit();
 
 		bool handleBuildClean();

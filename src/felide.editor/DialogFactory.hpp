@@ -8,14 +8,16 @@ namespace felide { namespace editor {
 
 	enum class DialogIcon {
 		Default,
-		Information = 1,
-		Warning = 2,
-		Error = 3
+        Question, 
+		Information,
+		Warning,
+		Error
 	};
 
 	enum class DialogButton {
 		Ok = 1,
-		OkCancel = 2,
+		OkCancel,
+        YesNoCancel
 	};
 
 	class DialogFactory {

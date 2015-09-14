@@ -55,7 +55,7 @@ namespace felide { namespace editor { namespace qt5 {
         applyLexer(editor, lexer);
 
         editor->setCaretLineVisible(true);
-
+        
         return editor;
     }
 
@@ -66,17 +66,14 @@ namespace felide { namespace editor { namespace qt5 {
         QGridLayout *layout = new QGridLayout(this);
         layout->addWidget(this->scintilla);
         this->setLayout(layout);
-
+        
         connect(this->scintilla, &QsciScintilla::textChanged, [this]() {
-            throw std::runtime_error("");
-                /*
             this->item->modify();
 
             auto mainFrame = static_cast<QMainFrame*>(this->tabbedEditor->parent());
             auto editor = static_cast<Editor*>(this);
 
             mainFrame->getHandler()->handleEditorChanged(editor);
-            */
         });
     }
 
@@ -157,5 +154,11 @@ namespace felide { namespace editor { namespace qt5 {
     void QEditor::paste() {
         assert(this->scintilla);
         this->scintilla->paste();
+    }
+    
+    void QEditor::setFocus() {
+        assert(this->scintilla);
+        
+        this->scintilla->setFocus();
     }
 }}}

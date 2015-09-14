@@ -11,18 +11,37 @@ namespace felide { namespace editor { namespace qt5 {
         QMessageBoxDialog(const std::string &title, const std::string &msg, DialogIcon icons, DialogButton buttons) {
             int result = 0;
             
-            // Icon
-            if (icons == DialogIcon::Information) {
-                result = QMessageBox::information(nullptr, title.c_str(), msg.c_str());
+            // Buttons
+            QMessageBox::StandardButtons qbuttons;
+            
+            if (buttons == DialogButton::Ok) {
+                qbuttons = QMessageBox::Ok;
                 
-            } else if (icons == DialogIcon::Warning) {
-                result = QMessageBox::warning(nullptr, title.c_str(), msg.c_str());
+            } else if (buttons == DialogButton::OkCancel) {
+                qbuttons = QMessageBox::Ok | QMessageBox::Cancel;
                 
-            } else if (icons == DialogIcon::Error) {
-                result = QMessageBox::critical(nullptr, title.c_str(), msg.c_str());
+            } else if (buttons == DialogButton::YesNoCancel) {
+                qbuttons = QMessageBox::Yes |  QMessageBox::No | QMessageBox::Cancel;
                 
             } else {
+                assert(false);
+            }
+            
+            // Icon
+            if (icons == DialogIcon::Information) {
+                result = QMessageBox::information(nullptr, title.c_str(), msg.c_str(), qbuttons);
                 
+            } else if (icons == DialogIcon::Warning) {
+                result = QMessageBox::warning(nullptr, title.c_str(), msg.c_str(), qbuttons);
+                
+            } else if (icons == DialogIcon::Error) {
+                result = QMessageBox::critical(nullptr, title.c_str(), msg.c_str(), qbuttons);
+                
+            } else if (icons == DialogIcon::Question) {
+                result = QMessageBox::question(nullptr, title.c_str(), msg.c_str(), qbuttons);
+                
+            } else {
+                assert(false);
             }
             
             // Convert result
@@ -31,6 +50,13 @@ namespace felide { namespace editor { namespace qt5 {
                 
             } else if (result == QMessageBox::Cancel) {
                 this->result = DialogResult::Cancel;
+                
+            } else if (result == QMessageBox::Yes) {
+                this->result = DialogResult::Yes;
+                
+            } else if (result == QMessageBox::No) {
+                this->result = DialogResult::No;
+                
             }
         }
         

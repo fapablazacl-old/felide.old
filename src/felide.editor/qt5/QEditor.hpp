@@ -30,6 +30,9 @@ namespace felide { namespace editor { namespace qt5 {
         void setTabbedEditor(QTabbedEditor *tabbedEditor);
 
     public:
+        void setFocus();
+        
+    public:
         virtual void setText(const std::string &text) override;
         virtual std::string getText() const override;
 

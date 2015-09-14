@@ -39,7 +39,8 @@ namespace felide { namespace editor { namespace qt5 {
 
         this->tabWidget->addTab(editor, title);
         this->tabWidget->setCurrentWidget(editor);
-
+        editor->setFocus();
+        
         connect(editor, &QEditor::titleUpdated, this, &QTabbedEditor::editorTitledChanged);
 
         return editor;
@@ -64,7 +65,7 @@ namespace felide { namespace editor { namespace qt5 {
 
         return static_cast<const QEditor*>(widget);
     }
-
+    
     void QTabbedEditor::closeEditor(const QEditor *editor) {
         assert(editor);
 

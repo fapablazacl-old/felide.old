@@ -11,7 +11,9 @@
 namespace felide { namespace editor {
 	enum class DialogResult {
 		Cancel,
-		Ok
+		Ok,
+        Yes, 
+        No
 	};
 
 	typedef boost::variant<std::string, boost::filesystem::path> DialogData;

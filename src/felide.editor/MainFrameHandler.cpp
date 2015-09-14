@@ -4,6 +4,7 @@
 #include "felide/system/Process.hpp"
 #include "MainFrame.hpp"
 #include "Editor.hpp"
+#include "Dialog.hpp"
 
 #include <boost/variant/get.hpp>
 
@@ -102,7 +103,11 @@ namespace felide { namespace editor {
 
     bool MainFrameHandler::handleFileExit() {
         assert(this);
-
+        
+        if (!this->handleFileCloseAll()) {
+            return false;
+        }
+        
 		this->getFrame()->close();
 
 		return true;
@@ -282,14 +287,60 @@ namespace felide { namespace editor {
     bool MainFrameHandler::handleFileClose() {
         assert(this);
 
-        this->handleFileClose(this->getFrame()->getCurrentEditor());
+        return this->handleFileClose(this->getFrame()->getCurrentEditor());
     }
 
     bool MainFrameHandler::handleFileClose(Editor *editor) {
         assert(this);
         assert(editor);
-
+        
+        // ask for changes
+        ProjectItem *item = editor->getProjectItem();
+        
+        if (item->isModified()) {
+            DialogFactory *factory = this->getFrame()->getDialogFactory();
+            assert(factory);
+            
+            const std::string message = "Do you want to save the changes of the file '" + item->getName() + "' ?";
+            
+            DialogPtr dialog = factory->showMessageDialog("felide.editor", message, DialogIcon::Question, DialogButton::YesNoCancel);
+            
+            DialogResult result = dialog->getResult();
+            
+            if (result == DialogResult::Cancel) {
+                return false;
+            } else if (result == DialogResult::Yes) {
+                if (!this->handleFileSave(editor)) {
+                    return false;
+                }
+            } else if (result == DialogResult::No) {
+                
+            } else {
+                assert(false);
+            }
+        }
+        
         this->getFrame()->closeEditor(editor);
         this->getFrame()->updateEnableStatus();
+        
+        return true;
+    }
+    
+    bool MainFrameHandler::handleFileCloseAll() {
+        assert(this);
+        
+        MainFrame *frame = this->getFrame();
+        assert(frame);
+        
+        for (int i=0; i<frame->getEditorCount(); i++) {
+            Editor *editor = frame->getEditor(i);
+            assert(editor);
+            
+            if (!this->handleFileClose(editor)) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }}
