@@ -18,6 +18,8 @@ namespace felide { namespace editor { namespace win32xx {
     }
 	
 	int CMainFrame::OnCreate(LPCREATESTRUCT pcs) {
+		assert(this);
+
 		int result = CFrame::OnCreate(pcs);
 
 		return result;
@@ -26,15 +28,21 @@ namespace felide { namespace editor { namespace win32xx {
     CMainFrame::~CMainFrame() {}
 
     void CMainFrame::OnDestroy() {
+		assert(this);
+
         ::PostQuitMessage(0);
     }
 
     void CMainFrame::OnInitialUpdate() {
+		assert(this);
+
         this->SetWindowTextA("felide.editor");
 		this->updateEnableStatus();
     }
 
     BOOL CMainFrame::OnCommand(WPARAM wParam, LPARAM lParam) {
+		assert(this);
+
         const int command = LOWORD(wParam);
 		const int notification = HIWORD(wParam);
 
@@ -61,9 +69,11 @@ namespace felide { namespace editor { namespace win32xx {
     }
 	
 	Editor* CMainFrame::createEditor(ProjectItemPtr item) {
+		assert(this);
+
 		CEditor* editor = new CEditor(std::move(item));
 		
-		editor->SetTabbedMDI(this->editorPanel.get());
+		editor->SetEditorPanel(this->editorPanel.get());
 
 		this->editorPanel->AddMDIChild(WndPtr(editor), editor->getProjectItem()->getName().c_str());
 
@@ -71,18 +81,24 @@ namespace felide { namespace editor { namespace win32xx {
 	}
 
 	Editor* CMainFrame::getCurrentEditor() {
+		assert(this);
+
 		Editor *editor = dynamic_cast<Editor*>(this->editorPanel->GetActiveMDIChild());
 
 		return editor;
 	}
 
 	const Editor* CMainFrame::getCurrentEditor() const {
+		assert(this);
+
 		Editor *editor = dynamic_cast<Editor*>(this->editorPanel->GetActiveMDIChild());
 
 		return editor;
 	}
 
 	void CMainFrame::close() {
+		assert(this);
+
 		CFrame::Close();
 	}
 
@@ -91,6 +107,7 @@ namespace felide { namespace editor { namespace win32xx {
 	}
 
 	Editor* CMainFrame::getEditor(const int index) {
+		assert(this);
 		assert(index >= 0);
 		assert(index < this->getEditorCount());
 
@@ -98,6 +115,7 @@ namespace felide { namespace editor { namespace win32xx {
 	}
 
 	const Editor* CMainFrame::getEditor(const int index) const {
+		assert(this);
 		assert(index >= 0);
 		assert(index < this->getEditorCount());
 
@@ -105,6 +123,7 @@ namespace felide { namespace editor { namespace win32xx {
 	}
 
 	void CMainFrame::updateEnableStatus() {
+		assert(this);
 
 		HMENU menu = this->GetMenuBar()->GetMenu();
 		assert(menu);
@@ -119,5 +138,12 @@ namespace felide { namespace editor { namespace win32xx {
 		for (int menuItem : menuItems) {
 			::EnableMenuItem(menu, menuItem, enable);
 		}
+	}
+
+	void CMainFrame::closeEditor(Editor *editor) {
+		assert(this);
+		assert(editor);
+
+		this->editorPanel->CloseEditor(static_cast<CEditor*>(editor));
 	}
 }}}

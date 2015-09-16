@@ -31,6 +31,7 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual Editor* createEditor(ProjectItemPtr item) override;
 		virtual Editor* getCurrentEditor() override;
 		virtual const Editor* getCurrentEditor() const override;
+		virtual void closeEditor(Editor *editor) override;
 		virtual void close() override;
 
 		virtual int getEditorCount() const override;

@@ -11,6 +11,7 @@
 
 namespace felide { namespace editor { namespace win32xx {
 
+	class CTabbedEditorPanel;
 	class CEditorText : public Editor, public CEdit {
 	public:
         CEditorText(ProjectItemPtr projectItem);
@@ -20,7 +21,9 @@ namespace felide { namespace editor { namespace win32xx {
 
         virtual void PreCreate(CREATESTRUCT &cs) override;
 
-		void SetTabbedMDI(CTabbedMDI *tabbedMdi);
+		virtual void OnClose() override;
+
+		void SetEditorPanel(CTabbedEditorPanel *editorPanel);
 
         // 
 
@@ -48,7 +51,7 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual void paste() override;
 
 	private:
-		CTabbedMDI *tabbedMdi = nullptr;
+		CTabbedEditorPanel *editorPanel = nullptr;
 		ProjectItemPtr projectItem;
         CFont editorFont;
 	};

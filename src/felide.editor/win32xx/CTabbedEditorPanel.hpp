@@ -5,6 +5,8 @@
 #include <toolbar.h>
 #include <tab.h>
 
+#include "CEditor.hpp"
+
 namespace felide { namespace editor { namespace win32xx {
 
 	class CMainFrame;
@@ -20,8 +22,14 @@ namespace felide { namespace editor { namespace win32xx {
 
 		CWnd* GetMDIChildFromHwnd(HWND hWnd);
 
+		void CloseEditor(CEditor* editor);
+
+		CMainFrame *getMainFrame();
+
+		const CMainFrame *getMainFrame() const;
+
 	private:
-		CMainFrame *mainFrame;
+		CMainFrame *mainFrame = nullptr;
 	};
 }}}
 

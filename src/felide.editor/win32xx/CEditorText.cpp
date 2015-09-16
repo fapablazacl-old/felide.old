@@ -1,5 +1,7 @@
 
 #include "CEditorText.hpp"
+#include "CTabbedEditorPanel.hpp"
+#include "CMainFrame.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
@@ -74,19 +76,32 @@ namespace felide { namespace editor { namespace win32xx {
 
 	void CEditorText::setTitle(const std::string &title) {
 		assert(this);
-		assert(this->tabbedMdi);
+		assert(this->editorPanel);
 
-		CTab *tab = this->tabbedMdi->GetTab();
+		CTab *tab = this->editorPanel->GetTab();
 
 		const int tabIndex = tab->GetTabIndex(this);
 		tab->SetTabText(tabIndex, title.c_str());
-		this->tabbedMdi->RecalcLayout();
+		this->editorPanel->RecalcLayout();
 	}
 
-	void CEditorText::SetTabbedMDI(CTabbedMDI *tabbedMdi) {
+	void CEditorText::SetEditorPanel(CTabbedEditorPanel *editorPanel) {
 		assert(this);
 
-		this->tabbedMdi = tabbedMdi;
+		this->editorPanel = editorPanel;
+	}
+
+	void CEditorText::OnClose() {
+		assert(this);
+		assert(this->editorPanel);
+
+		this->editorPanel->getMainFrame()->getHandler()->handleFileClose(this);
+
+		/*
+		if (this->editorPanel->getMainFrame()->getHandler()->handleFileClose(this)) {
+			CEdit::OnClose();
+		}
+		*/
 	}
 
 	void CEditorText::undo() {
