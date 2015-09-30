@@ -307,17 +307,21 @@ namespace felide { namespace editor {
             
             DialogResult result = dialog->getResult();
             
-            if (result == DialogResult::Cancel) {
-                return false;
-            } else if (result == DialogResult::Yes) {
-                if (!this->handleFileSave(editor)) {
-                    return false;
-                }
-            } else if (result == DialogResult::No) {
-                
-            } else {
-                assert(false);
-            }
+			switch (result) {
+				case DialogResult::Yes:
+					if (!this->handleFileSave(editor)) {
+						return false;
+					} 
+					break;
+					
+				case DialogResult::No:
+					break;
+
+				case DialogResult::Cancel:
+					return false;
+
+				default: assert(false);
+			}
         }
         
         this->getFrame()->closeEditor(editor);

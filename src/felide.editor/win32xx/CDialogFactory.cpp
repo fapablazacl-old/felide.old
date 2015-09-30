@@ -12,29 +12,29 @@ namespace felide { namespace editor { namespace win32xx {
 			UINT flags = MB_OK;
 
 			switch (icons) {
-				case DialogIcon::Information:	
-					flags |= MB_ICONINFORMATION;	
-					break;
+				case DialogIcon::Question:		flags |= MB_ICONQUESTION;		break;
+				case DialogIcon::Information:	flags |= MB_ICONINFORMATION;	break;
+				case DialogIcon::Warning:		flags |= MB_ICONWARNING;		break;
+				case DialogIcon::Error:			flags |= MB_ICONERROR;			break;
 
-				case DialogIcon::Warning:		
-					flags |= MB_ICONWARNING;		
-					break;
-
-				case DialogIcon::Error:			
-					flags |= MB_ICONERROR;			
-					break;
+				default: assert(false); break;
 			}
 
-			int result = ::MessageBox(NULL, title.c_str(), msg.c_str(), flags);
+			switch (buttons) {
+				case DialogButton::YesNoCancel:		flags |= MB_YESNOCANCEL;		break;
+				case DialogButton::Ok :				flags |= MB_OK;					break;
+				case DialogButton::OkCancel:		flags |= MB_OKCANCEL;			break;
+
+				default: assert(false); break;
+			}
+
+			int result = ::MessageBox(NULL, msg.c_str(), title.c_str(), flags);
 
 			switch (result) {
-				case IDOK:		
-					this->result = DialogResult::Ok;		
-					break;
-
-				case IDCANCEL:	
-					this->result = DialogResult::Cancel;	
-					break;
+				case IDOK:		this->result = DialogResult::Ok;		break;
+				case IDCANCEL:	this->result = DialogResult::Cancel;	break;
+				case IDYES:		this->result = DialogResult::Yes;		break;
+				case IDNO:		this->result = DialogResult::No;		break;
 			}
 		}
 

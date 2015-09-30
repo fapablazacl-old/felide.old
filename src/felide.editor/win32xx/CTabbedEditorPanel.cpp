@@ -51,12 +51,6 @@ namespace felide { namespace editor { namespace win32xx {
 	}
 
 	void CTabbedEditorPanel::CloseEditor(CEditor* editor) {
-		/*
-		if (!this->mainFrame->getHandler()->handleFileClose(editor)) {
-			return;
-		}
-		*/
-
 		int index = -1;
 		bool found = false;
 
