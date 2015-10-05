@@ -5,8 +5,8 @@
 
 namespace felide { namespace editor { namespace win32xx {
 
-    CEditorText::CEditorText(ProjectItemPtr projectItem) {
-		this->projectItem = std::move(projectItem);
+    CEditorText::CEditorText(ProjectItemPtr projectItem) : CEditor(std::move(projectItem)) {
+		
 	}
 
     CEditorText::~CEditorText() {}
@@ -21,13 +21,13 @@ namespace felide { namespace editor { namespace win32xx {
 	void CEditorText::setText(const std::string &text) {
 		assert(this);
 
-		this->SetWindowTextA(text.c_str());
+		CEdit::SetWindowTextA(text.c_str());
 	}
 
     std::string CEditorText::getText() const {
 		assert(this);
 
-		return std::string(this->GetWindowTextA());
+		return std::string(CEdit::GetWindowTextA());
 	}
 
 	void CEditorText::setSavePoint() {
@@ -41,7 +41,7 @@ namespace felide { namespace editor { namespace win32xx {
 	void CEditorText::clearAll() {
 		assert(this);
 
-		this->SetWindowTextA("");
+		CEdit::SetWindowTextA("");
 	}
 
 	void CEditorText::setFont(const std::string &name, const int size) {
@@ -49,8 +49,8 @@ namespace felide { namespace editor { namespace win32xx {
 
         this->editorFont.CreatePointFont(size*10, name.c_str());
 
-		this->SetFont(&this->editorFont);
-		this->Invalidate();
+		CEdit::SetFont(&this->editorFont);
+		CEdit::Invalidate();
 	}
 
 	void CEditorText::setTabWidth(const int spaces) {
@@ -59,43 +59,26 @@ namespace felide { namespace editor { namespace win32xx {
 		const int factor = 4;
 
 		this->SetTabStops(spaces*factor);
-		this->Invalidate();
-	}
 
-	ProjectItem* CEditorText::getProjectItem() {
-		assert(this);
-
-		return this->projectItem.get();
-	}
-
-	const ProjectItem* CEditorText::getProjectItem() const {
-		assert(this);
-
-		return this->projectItem.get();
+		CEdit::Invalidate();
 	}
 
 	void CEditorText::setTitle(const std::string &title) {
 		assert(this);
-		assert(this->editorPanel);
-
-		CTab *tab = this->editorPanel->GetTab();
+		
+		CTab *tab = this->GetEditorPanel()->GetTab();
 
 		const int tabIndex = tab->GetTabIndex(this);
 		tab->SetTabText(tabIndex, title.c_str());
-		this->editorPanel->RecalcLayout();
-	}
-
-	void CEditorText::SetEditorPanel(CTabbedEditorPanel *editorPanel) {
-		assert(this);
-
-		this->editorPanel = editorPanel;
+		this->GetEditorPanel()->RecalcLayout();
 	}
 
 	void CEditorText::OnClose() {
 		assert(this);
-		assert(this->editorPanel);
 
-		this->editorPanel->getMainFrame()->getHandler()->handleFileClose(this);
+		throw int(0);
+
+		this->GetEditorPanel()->getMainFrame()->getHandler()->handleFileClose(this);
 
 		/*
 		if (this->editorPanel->getMainFrame()->getHandler()->handleFileClose(this)) {
@@ -122,5 +105,9 @@ namespace felide { namespace editor { namespace win32xx {
 
 	void CEditorText::paste() {
 		this->Paste();
+	}
+
+	void CEditorText::OnDestroy() {
+		throw int(0);
 	}
 }}}

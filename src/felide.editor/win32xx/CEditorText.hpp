@@ -7,26 +7,24 @@
 #include <mdi.h>
 
 #include "felide/ProjectItem.hpp"
-#include "felide.editor/Editor.hpp"
+#include "felide.editor/win32xx/CEditorText.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
 	class CTabbedEditorPanel;
-	class CEditorText : public Editor, public CEdit {
+	class CEditorText : public CEditor, public CEdit {
 	public:
         CEditorText(ProjectItemPtr projectItem);
 		virtual ~CEditorText();
 
         // 
-
         virtual void PreCreate(CREATESTRUCT &cs) override;
 
 		virtual void OnClose() override;
 
-		void SetEditorPanel(CTabbedEditorPanel *editorPanel);
+		virtual void OnDestroy() override;
 
         // 
-
 		virtual void setText(const std::string &text) override;
         virtual std::string getText() const override;
 
@@ -36,10 +34,6 @@ namespace felide { namespace editor { namespace win32xx {
 
 		virtual void setFont(const std::string &name, const int size) override;
 		virtual void setTabWidth(const int spaces) override;
-
-		virtual ProjectItem* getProjectItem() override;
-
-		virtual const ProjectItem* getProjectItem() const override;
 
 		virtual void setTitle(const std::string &title) override;
 
@@ -51,8 +45,6 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual void paste() override;
 
 	private:
-		CTabbedEditorPanel *editorPanel = nullptr;
-		ProjectItemPtr projectItem;
         CFont editorFont;
 	};
 }}}

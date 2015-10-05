@@ -1,7 +1,7 @@
 
 #if defined(FELIDE_GUI_CODEEDIT_SCI)
 
-#include "EditorSci.hpp"
+#include "CEditorSci.hpp"
 
 #include <Scintilla.h>
 #include <SciLexer.h>
@@ -24,24 +24,28 @@ namespace felide { namespace editor { namespace win32xx {
         "using virtual void volatile wchar_t while xor xor_eq "
         "override final ";
 
-    void Scintilla::PreCreate(CREATESTRUCT &cs) {
+
+	CEditorSci::CEditorSci(ProjectItemPtr projectItem) : CEditor(std::move(projectItem)) {
+	}
+
+    void CEditorSci::PreCreate(CREATESTRUCT &cs) {
         cs.style = WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_CLIPCHILDREN;
         cs.lpszClass = "Scintilla";
     }
 
-    void Scintilla::SetAStyle(int style, COLORREF fore) {
+    void CEditorSci::SetAStyle(int style, COLORREF fore) {
         this->SetAStyle(style, fore, white, -1, nullptr);
     }
 
-    void Scintilla::SetAStyle(int style, COLORREF fore, COLORREF back) {
+    void CEditorSci::SetAStyle(int style, COLORREF fore, COLORREF back) {
         this->SetAStyle(style, fore, back, -1, nullptr);
     }
 
-    void Scintilla::SetAStyle(int style, COLORREF fore, COLORREF back, int size) {
+    void CEditorSci::SetAStyle(int style, COLORREF fore, COLORREF back, int size) {
         this->SetAStyle(style, fore, back, size, nullptr);
     }
 
-    void Scintilla::SetAStyle(int style, COLORREF fore, COLORREF back, int size, const char *face) {
+    void CEditorSci::SetAStyle(int style, COLORREF fore, COLORREF back, int size, const char *face) {
 	    this->SendEditor(SCI_STYLESETFORE, style, fore);
 	    this->SendEditor(SCI_STYLESETBACK, style, back);
 
@@ -54,19 +58,19 @@ namespace felide { namespace editor { namespace win32xx {
         }
     }
 
-    LRESULT Scintilla::SendEditor(UINT Msg) {
+    LRESULT CEditorSci::SendEditor(UINT Msg) const {
         return this->SendEditor(Msg, 0, 0);
     }
 
-    LRESULT Scintilla::SendEditor(UINT Msg, WPARAM wParam) {
+    LRESULT CEditorSci::SendEditor(UINT Msg, WPARAM wParam) const {
         return this->SendEditor(Msg, wParam, 0);
     }
 
-    LRESULT Scintilla::SendEditor(UINT Msg, WPARAM wParam, LPARAM lParam) {
+    LRESULT CEditorSci::SendEditor(UINT Msg, WPARAM wParam, LPARAM lParam) const {
         return this->SendMessage(Msg, wParam, lParam);
     }
 
-    void Scintilla::OnInitialUpdate() {
+    void CEditorSci::OnInitialUpdate() {
 	    this->SetAStyle(STYLE_DEFAULT, black, white, 10, "Courier New");
 	    this->SendEditor(SCI_STYLECLEARALL);
 
@@ -121,6 +125,35 @@ namespace felide { namespace editor { namespace win32xx {
         this->SendEditor(SCI_SETTABWIDTH, 4);
         this->SendEditor(SCI_SETUSETABS, 0);
     }
+
+    void CEditorSci::setText(const std::string &text) {
+        this->SendEditor(SCI_SETTEXT, 0, (LPARAM)text.c_str());
+    }
+
+    std::string CEditorSci::getText() const {
+        std::string content;
+        const int length = this->SendEditor(SCI_GETTEXTLENGTH);
+        content.resize(length);
+        this->SendEditor(SCI_GETTEXT, length, (LPARAM)content.c_str());
+
+        return content;
+    }
+
+    void CEditorSci::setSavePoint() {
+        this->SendEditor(SCI_SETSAVEPOINT);
+    }
+
+    void CEditorSci::emptyUndoBuffer() {
+        this->SendEditor(SCI_EMPTYUNDOBUFFER);
+    }
+
+    void CEditorSci::clearAll() { 
+        this->SendEditor(SCI_CLEARALL);
+    }
+
+	void CEditorSci::SetEditorPanel(CTabbedEditorPanel *editorPanel) {
+		this->editorPanel = editorPanel;
+	}
 }}}
 
 #endif 

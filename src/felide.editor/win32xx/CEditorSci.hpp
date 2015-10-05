@@ -4,7 +4,8 @@
 #ifndef __felide_editor_win32xx_editorsci_hpp__
 #define __felide_editor_win32xx_editorsci_hpp__
 
-#include "Editor.hpp"
+#include "felide.editor/Editor.hpp"
+#include "felide.editor/win32xx/CEditor.hpp"
 
 #include <string>
 #include <wincore.h>
@@ -12,46 +13,47 @@
 #include <SciLexer.h>
 
 namespace felide { namespace editor { namespace win32xx { 
-    class Scintilla : public Editor {
+
+	class CTabbedEditorPanel;
+
+    class CEditorSci : public CEditor, public CWnd {
     public:
+		CEditorSci(ProjectItemPtr projectItem);
+
         virtual void PreCreate(CREATESTRUCT &cs) override;
 
         virtual void OnInitialUpdate() override;
 
-        LRESULT SendEditor(UINT Msg);
-        LRESULT SendEditor(UINT Msg, WPARAM wParam);
-        LRESULT SendEditor(UINT Msg, WPARAM wParam, LPARAM lParam);
+        LRESULT SendEditor(UINT Msg) const;
+        LRESULT SendEditor(UINT Msg, WPARAM wParam) const;
+        LRESULT SendEditor(UINT Msg, WPARAM wParam, LPARAM lParam) const;
 
         void SetAStyle(int style, COLORREF fore);
         void SetAStyle(int style, COLORREF fore, COLORREF back);
         void SetAStyle(int style, COLORREF fore, COLORREF back, int size);
         void SetAStyle(int style, COLORREF fore, COLORREF back, int size, const char *face);
 
+		void SetEditorPanel(CTabbedEditorPanel *editorPanel);
+
     public:
-        virtual void SetText(const CString &text) {
-            this->SendEditor(SCI_SETTEXT, 0, (LPARAM)text.c_str());
-        }
+		virtual void setText(const std::string &text) override;
+        virtual std::string getText() const override;
 
-        virtual CString GetText() override {
-            std::string content;
-            const int length = this->SendEditor(SCI_GETTEXTLENGTH);
-            content.resize(length);
-            this->SendEditor(SCI_GETTEXT, length, (LPARAM)content.c_str());
+        virtual void setSavePoint() override;
+        virtual void emptyUndoBuffer() override;
+        virtual void clearAll() override;
 
-            return content.c_str();
-        }
+		virtual void setFont(const std::string &name, const int size) override;
+		virtual void setTabWidth(const int spaces) override;
 
-        virtual void SetSavePoint() override {
-            this->SendEditor(SCI_SETSAVEPOINT);
-        }
+		virtual void setTitle(const std::string &title) override;
 
-        virtual void EmptyUndoBuffer() override {
-            this->SendEditor(SCI_EMPTYUNDOBUFFER);
-        }
+		virtual void undo() override;
+		virtual void redo() override;
 
-        virtual void ClearAll() override { 
-            this->SendEditor(SCI_CLEARALL);
-        }
+		virtual void cut() override;
+		virtual void copy() override;
+		virtual void paste() override;
     };
 }}}
 
