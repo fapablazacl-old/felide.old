@@ -14,9 +14,7 @@ namespace felide { namespace editor { namespace win32xx {
     }
 
     CModule::~CModule() {
-        if (this->module) {
-            ::FreeLibrary(this->module);
-        }
+		::FreeLibrary(this->module);
     }
 
     void* CModule::getAddress(const std::string &procName) {

@@ -14,7 +14,7 @@ namespace felide { namespace editor { namespace win32xx {
         void* getAddress(const std::string &procName);
 
     private:
-        HMODULE module = NULL;
+        HMODULE module = nullptr;
     };
     typedef std::unique_ptr<CModule> CModulePtr;
 

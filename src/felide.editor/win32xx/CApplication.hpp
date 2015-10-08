@@ -6,7 +6,6 @@
 
 #include "felide.editor/Application.hpp"
 #include "felide.editor/win32xx/CMainFrame.hpp"
-#include "felide.editor/win32xx/CModule.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 	class CApplication : public felide::editor::Application {
