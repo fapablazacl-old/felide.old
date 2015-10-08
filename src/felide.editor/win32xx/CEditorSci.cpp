@@ -25,7 +25,7 @@ namespace felide { namespace editor { namespace win32xx {
         "override final ";
 
 
-	CEditorSci::CEditorSci(ProjectItemPtr projectItem) : CEditor(std::move(projectItem)) {
+	CEditorSci::CEditorSci(ProjectItemPtr projectItem) : CEditorBase(std::move(projectItem)) {
 	}
 
     void CEditorSci::PreCreate(CREATESTRUCT &cs) {
@@ -151,8 +151,32 @@ namespace felide { namespace editor { namespace win32xx {
         this->SendEditor(SCI_CLEARALL);
     }
 
-	void CEditorSci::SetEditorPanel(CTabbedEditorPanel *editorPanel) {
-		this->editorPanel = editorPanel;
+	void CEditorSci::setFont(const std::string &name, const int size) {
+
+	}
+
+	void CEditorSci::setTabWidth(const int spaces) {
+	}
+
+	void CEditorSci::setTitle(const std::string &title) {
+	}
+
+	void CEditorSci::undo() {
+	}
+	
+	void CEditorSci::redo() {
+
+	}
+
+	void CEditorSci::cut() {
+
+	}
+	
+	void CEditorSci::copy() {
+	}
+
+	void CEditorSci::paste() {
+
 	}
 }}}
 

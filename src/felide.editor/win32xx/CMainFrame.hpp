@@ -16,6 +16,7 @@
 #include "felide/system/Process.hpp"
 #include "felide.editor/Editor.hpp"
 #include "felide.editor/MainFrame.hpp"
+#include "felide.editor/win32xx/CEditorFactory.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
@@ -47,6 +48,7 @@ namespace felide { namespace editor { namespace win32xx {
 		
     private:
 		std::unique_ptr<CTabbedEditorPanel> editorPanel;
+		CEditorFactoryPtr editorFactory;
     };
 }}}
 

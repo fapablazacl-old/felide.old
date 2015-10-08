@@ -12,7 +12,6 @@ namespace felide { namespace editor { namespace win32xx {
 		}
 
 		virtual BOOL InitInstance() override {
-			scintillaModule = std::make_unique<CModule>("SciLexer.dll");
 			mainFrame->Create();
 
 			return TRUE;
@@ -21,7 +20,6 @@ namespace felide { namespace editor { namespace win32xx {
     private:
 		std::unique_ptr<CDialogFactory> dialogFactory;
 		std::unique_ptr<CMainFrame> mainFrame;
-        CModulePtr scintillaModule;
 	};
 
 	int CApplication::execute(int argc, char **argv) {

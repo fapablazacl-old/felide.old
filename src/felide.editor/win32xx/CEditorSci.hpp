@@ -5,7 +5,7 @@
 #define __felide_editor_win32xx_editorsci_hpp__
 
 #include "felide.editor/Editor.hpp"
-#include "felide.editor/win32xx/CEditor.hpp"
+#include "felide.editor/win32xx/CEditorBase.hpp"
 
 #include <string>
 #include <wincore.h>
@@ -14,9 +14,7 @@
 
 namespace felide { namespace editor { namespace win32xx { 
 
-	class CTabbedEditorPanel;
-
-    class CEditorSci : public CEditor, public CWnd {
+    class CEditorSci : public virtual CEditorBase, public virtual CWnd {
     public:
 		CEditorSci(ProjectItemPtr projectItem);
 
@@ -32,8 +30,6 @@ namespace felide { namespace editor { namespace win32xx {
         void SetAStyle(int style, COLORREF fore, COLORREF back);
         void SetAStyle(int style, COLORREF fore, COLORREF back, int size);
         void SetAStyle(int style, COLORREF fore, COLORREF back, int size, const char *face);
-
-		void SetEditorPanel(CTabbedEditorPanel *editorPanel);
 
     public:
 		virtual void setText(const std::string &text) override;
@@ -59,4 +55,4 @@ namespace felide { namespace editor { namespace win32xx {
 
 #endif // __felide_editor_win32xx_editorsci_hpp__
 
-#endif	
+#endif	// 

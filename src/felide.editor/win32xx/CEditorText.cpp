@@ -5,7 +5,7 @@
 
 namespace felide { namespace editor { namespace win32xx {
 
-    CEditorText::CEditorText(ProjectItemPtr projectItem) : CEditor(std::move(projectItem)) {
+    CEditorText::CEditorText(ProjectItemPtr projectItem) : CEditorBase(std::move(projectItem)) {
 		
 	}
 
@@ -68,7 +68,7 @@ namespace felide { namespace editor { namespace win32xx {
 		
 		CTab *tab = this->GetEditorPanel()->GetTab();
 
-		const int tabIndex = tab->GetTabIndex(this);
+		const int tabIndex = tab->GetTabIndex(static_cast<CEdit*>(this));
 		tab->SetTabText(tabIndex, title.c_str());
 		this->GetEditorPanel()->RecalcLayout();
 	}

@@ -1,18 +1,40 @@
 
 #include "CMainFrame.hpp"
 
-#include "CTabbedEditorPanel.hpp"
-#include "CEditor.hpp"
-#include "felide/system/Process.hpp"
-#include "res/resource.h"
-
-#include <file.h>
 #include <string>
 #include <boost/filesystem.hpp>
+#include <file.h>
+
+#include "felide/system/Process.hpp"
+#include "felide.editor/win32xx/CEditor.hpp"
+#include "felide.editor/win32xx/CTabbedEditorPanel.hpp"
+
+#include "res/resource.h"
+
+#if defined(FELIDE_GUI_CODEEDIT_SCI)
+#include "felide.editor/win32xx/CEditorSci.hpp"
+#include "felide.editor/win32xx/CEditorSciFactory.hpp"
+
+namespace felide { namespace editor { namespace win32xx {
+	typedef CEditorSciFactory CEditorFactory_Selected;
+}}}
+	
+#else 
+#include "felide.editor/win32xx/CEditorText.hpp"
+#include "felide.editor/win32xx/CEditorFactoryImpl.hpp"
+
+namespace felide { namespace editor { namespace win32xx {
+	typedef CEditorFactory<CEditorText> CEditorFactory_Selected;
+}}}
+
+#endif
 
 namespace felide { namespace editor { namespace win32xx {
 
     CMainFrame::CMainFrame(DialogFactory *factory) : MainFrame(factory) {
+
+		this->editorFactory = std::make_unique<CEditorFactory_Selected>();
+
 		this->editorPanel = std::make_unique<CTabbedEditorPanel>(this);
         this->SetView(*this->editorPanel.get());
     }
@@ -74,7 +96,7 @@ namespace felide { namespace editor { namespace win32xx {
 	Editor* CMainFrame::createEditor(ProjectItemPtr item) {
 		assert(this);
 
-		CEditor* editor = new CEditor(std::move(item));
+		CEditor* editor = this->editorFactory->createEditor(std::move(item));
 		
 		editor->SetEditorPanel(this->editorPanel.get());
 
@@ -147,6 +169,6 @@ namespace felide { namespace editor { namespace win32xx {
 		assert(this);
 		assert(editor);
 
-		this->editorPanel->CloseEditor(static_cast<CEditor*>(editor));
+		this->editorPanel->CloseEditor(dynamic_cast<CEditor*>(editor));
 	}
 }}}

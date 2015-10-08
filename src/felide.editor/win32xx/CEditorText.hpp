@@ -7,12 +7,12 @@
 #include <mdi.h>
 
 #include "felide/ProjectItem.hpp"
-#include "felide.editor/win32xx/CEditorText.hpp"
+#include "felide.editor/win32xx/CEditorBase.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
 	class CTabbedEditorPanel;
-	class CEditorText : public CEditor, public CEdit {
+	class CEditorText : public CEditorBase, public CEdit {
 	public:
         CEditorText(ProjectItemPtr projectItem);
 		virtual ~CEditorText();

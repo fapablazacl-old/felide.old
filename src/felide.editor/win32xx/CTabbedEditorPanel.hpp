@@ -5,17 +5,16 @@
 #include <toolbar.h>
 #include <tab.h>
 
-#include "CEditor.hpp"
+namespace felide {  namespace editor {  namespace win32xx {
 
-namespace felide { namespace editor { namespace win32xx {
-
+	class CEditor;
 	class CMainFrame;
 	class CTabbedEditorPanel : public CTabbedMDI {
 	public:
 		const int ID_MDI_EDITOR = 1;
 
 	public:
-        explicit CTabbedEditorPanel(CMainFrame *mainframe);
+		explicit CTabbedEditorPanel(CMainFrame *mainframe);
 		virtual ~CTabbedEditorPanel();
 
 		virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam) override;

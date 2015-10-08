@@ -57,7 +57,7 @@ namespace felide { namespace editor { namespace win32xx {
 		for (int i=0; i<this->GetMDIChildCount(); ++i) {
 			const CWnd *child = this->GetMDIChild(i);
 
-			if (editor == child) {
+			if (static_cast<CWnd*>(editor) == child) {
 				index = i;
 				found = true;
 

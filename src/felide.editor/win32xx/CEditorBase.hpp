@@ -6,12 +6,13 @@
 // #include "CEditorText.hpp"
 
 #include <wincore.h>
-#include "felide.editor/Editor.hpp"
+
+#include "felide.editor/win32xx/CEditor.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
 	class CTabbedEditorPanel;
-	class CEditorBase : public Editor {
+	class CEditorBase : public virtual CEditor {
 	public:
 		CEditorBase(ProjectItemPtr projectItem);
 

@@ -6,12 +6,10 @@ namespace felide { namespace editor { namespace win32xx {
     CModule::CModule(const std::string &name) {
         HMODULE module = ::LoadLibraryA(name.c_str());
 
-		/*
         if (!module) {
             throw std::runtime_error("Can't load module '" + name + "'.");
         }
-		*/
-
+		
         this->module = module;
     }
 

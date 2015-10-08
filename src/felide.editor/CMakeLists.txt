@@ -10,8 +10,20 @@ IF (FELIDE_GUI_TOOLKIT_WIN32XX)
 		win32xx/CEditor.hpp
         win32xx/CEditor.cpp
 
+		win32xx/CEditorFactory.hpp
+        win32xx/CEditorFactory.cpp
+
+		win32xx/CEditorFactoryImpl.hpp
+        win32xx/CEditorFactoryImpl.cpp
+
+		win32xx/CEditorBase.hpp
+        win32xx/CEditorBase.cpp
+
 		win32xx/CEditorSci.hpp
         win32xx/CEditorSci.cpp
+
+		win32xx/CEditorSciFactory.hpp
+        win32xx/CEditorSciFactory.cpp
 
 		win32xx/CEditorText.hpp
         win32xx/CEditorText.cpp
@@ -21,7 +33,7 @@ IF (FELIDE_GUI_TOOLKIT_WIN32XX)
 
 		win32xx/CTabbedEditorPanel.hpp
 		win32xx/CTabbedEditorPanel.cpp
-
+		
 		win32xx/CDialogFactory.hpp
 		win32xx/CDialogFactory.cpp
     )
@@ -103,6 +115,5 @@ ENDIF ()
 IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     SET(CLANG_LIBRARIES "stdc++")
 ENDIF()
-
 
 TARGET_LINK_LIBRARIES(felide.editor felide ${Boost_LIBRARIES} ${FELIDE_GUI_LIBRARIES} ${CLANG_LIBRARIES})
