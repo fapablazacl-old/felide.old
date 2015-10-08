@@ -23,11 +23,11 @@ namespace felide {
         
         ~ProjectItem();
         
-        //! Sets the modification flag to 'true'
-        void modify();
+        //! Sets the dirty flag to the specified value
+        void setModifyFlag(const bool modifyFlag);
         
         //! Get the current modification flag
-        bool isModified() const;
+        bool getModifyFlag() const;
         
         //! Open the current file. Throws a std::runtime_error exception if the ProjectItem has no file associated.
         std::string open();

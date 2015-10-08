@@ -41,7 +41,7 @@ namespace felide { namespace editor { namespace win32xx {
 		Editor* editor = dynamic_cast<Editor*>(this->GetMDIChildFromHwnd(hWnd));
 
 		if (editor && notification==EN_CHANGE) {
-			editor->getProjectItem()->modify();
+			editor->getProjectItem()->setModifyFlag(true);
 			this->mainFrame->getHandler()->handleEditorChanged(editor);
 			
 			return TRUE;

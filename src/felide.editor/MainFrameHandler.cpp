@@ -131,7 +131,7 @@ namespace felide { namespace editor {
 			}
 
 			auto item = editor->getProjectItem();
-			if (!item->hasPath() || item->isModified()) {
+			if (!item->hasPath() || item->getModifyFlag()) {
 				if (!this->handleFileSave(editor)) {
 					return false;
 				}
@@ -202,7 +202,7 @@ namespace felide { namespace editor {
 			title += "Untitled " + std::to_string(editor->getId());
 		}
 
-		title += item->isModified()?"[*]":"";
+		title += item->getModifyFlag()?"[*]":"";
 
 		editor->setTitle(title);
 
@@ -281,6 +281,8 @@ namespace felide { namespace editor {
             editor->setText(editor->getProjectItem()->open());
 		}
 
+		editor->getProjectItem()->setModifyFlag(false);
+
         return editor;
 	}
 
@@ -297,7 +299,7 @@ namespace felide { namespace editor {
         // ask for changes
         ProjectItem *item = editor->getProjectItem();
         
-        if (item->isModified()) {
+        if (item->getModifyFlag()) {
             DialogFactory *factory = this->getFrame()->getDialogFactory();
             assert(factory);
             

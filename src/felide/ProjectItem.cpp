@@ -38,11 +38,11 @@ namespace felide {
 		delete this->impl;
 	}
     
-    void ProjectItem::modify() {
-        this->impl->modified = true;
+    void ProjectItem::setModifyFlag(const bool modifyFlag) {
+        this->impl->modified = modifyFlag;
     }
-        
-    bool ProjectItem::isModified() const {
+	
+    bool ProjectItem::getModifyFlag() const {
         return this->impl->modified;
     }
     
