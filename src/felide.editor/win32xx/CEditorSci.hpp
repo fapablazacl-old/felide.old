@@ -42,8 +42,6 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual void setFont(const std::string &name, const int size) override;
 		virtual void setTabWidth(const int spaces) override;
 
-		virtual void setTitle(const std::string &title) override;
-
 		virtual void undo() override;
 		virtual void redo() override;
 

@@ -2,9 +2,6 @@
 #ifndef __felide_editor_win32xx_ceditorbase_hpp__
 #define __felide_editor_win32xx_ceditorbase_hpp__
 
-// #include "CEditorSci.hpp"
-// #include "CEditorText.hpp"
-
 #include <wincore.h>
 
 #include "felide.editor/win32xx/CEditor.hpp"
@@ -19,11 +16,12 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual ProjectItem* getProjectItem() override;
 		virtual const ProjectItem* getProjectItem() const override;
 
-		void SetEditorPanel(CTabbedEditorPanel *editorPanel);
+		virtual void setTitle(const std::string &title) override;
 
-		CTabbedEditorPanel *GetEditorPanel();
-
-		const CTabbedEditorPanel *GetEditorPanel() const;
+	public:
+		virtual void SetEditorPanel(CTabbedEditorPanel *editorPanel) override;
+		virtual CTabbedEditorPanel *GetEditorPanel() override;
+		virtual const CTabbedEditorPanel *GetEditorPanel() const override;
 
 	private:
 		ProjectItemPtr projectItem;

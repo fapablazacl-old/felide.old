@@ -1,6 +1,8 @@
 
 #include "CEditorBase.hpp"
 
+#include "felide.editor/win32xx/CTabbedEditorPanel.hpp"
+
 namespace felide { namespace editor { namespace win32xx {
 
 	CEditorBase::CEditorBase(ProjectItemPtr projectItem) {
@@ -13,6 +15,16 @@ namespace felide { namespace editor { namespace win32xx {
 
 	const ProjectItem* CEditorBase::getProjectItem() const {
 		return this->projectItem.get();
+	}
+
+	void CEditorBase::setTitle(const std::string &title) {
+		assert(this);
+		
+		CTab *tab = this->GetEditorPanel()->GetTab();
+
+		const int tabIndex = tab->GetTabIndex(static_cast<CWnd*>(this));
+		tab->SetTabText(tabIndex, title.c_str());
+		this->GetEditorPanel()->RecalcLayout();
 	}
 
 	void CEditorBase::SetEditorPanel(CTabbedEditorPanel *editorPanel) {

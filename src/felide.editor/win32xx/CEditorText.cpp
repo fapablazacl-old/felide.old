@@ -1,12 +1,10 @@
 
 #include "CEditorText.hpp"
-#include "CTabbedEditorPanel.hpp"
 #include "CMainFrame.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
-    CEditorText::CEditorText(ProjectItemPtr projectItem) : CEditorBase(std::move(projectItem)) {
-		
+    CEditorText::CEditorText(ProjectItemPtr projectItem) : CEditorBase(std::move(projectItem)) {	
 	}
 
     CEditorText::~CEditorText() {}
@@ -63,30 +61,6 @@ namespace felide { namespace editor { namespace win32xx {
 		CEdit::Invalidate();
 	}
 
-	void CEditorText::setTitle(const std::string &title) {
-		assert(this);
-		
-		CTab *tab = this->GetEditorPanel()->GetTab();
-
-		const int tabIndex = tab->GetTabIndex(static_cast<CEdit*>(this));
-		tab->SetTabText(tabIndex, title.c_str());
-		this->GetEditorPanel()->RecalcLayout();
-	}
-
-	void CEditorText::OnClose() {
-		assert(this);
-
-		throw int(0);
-
-		this->GetEditorPanel()->getMainFrame()->getHandler()->handleFileClose(this);
-
-		/*
-		if (this->editorPanel->getMainFrame()->getHandler()->handleFileClose(this)) {
-			CEdit::OnClose();
-		}
-		*/
-	}
-
 	void CEditorText::undo() {
 		this->Undo();
 	}
@@ -107,7 +81,4 @@ namespace felide { namespace editor { namespace win32xx {
 		this->Paste();
 	}
 
-	void CEditorText::OnDestroy() {
-		throw int(0);
-	}
 }}}

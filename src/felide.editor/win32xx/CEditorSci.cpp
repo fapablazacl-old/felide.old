@@ -158,9 +158,6 @@ namespace felide { namespace editor { namespace win32xx {
 	void CEditorSci::setTabWidth(const int spaces) {
 	}
 
-	void CEditorSci::setTitle(const std::string &title) {
-	}
-
 	void CEditorSci::undo() {
 	}
 	
