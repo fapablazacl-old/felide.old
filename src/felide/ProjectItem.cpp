@@ -47,6 +47,8 @@ namespace felide {
     }
     
     std::string ProjectItem::open() {
+		typedef std::istreambuf_iterator<char> fstream_iterator;
+
         std::string line;
         std::string content;
         
@@ -56,14 +58,9 @@ namespace felide {
         if (!fs.is_open()) {
             throw std::runtime_error("");
         }
-        
-        while (!fs.eof()) {
-            std::getline(fs, line);
-            
-            content += line;
-            content += "\r\n";
-        }
-        
+
+		content.assign(fstream_iterator(fs), fstream_iterator());
+
         this->impl->modified = false;
 
         return content;
