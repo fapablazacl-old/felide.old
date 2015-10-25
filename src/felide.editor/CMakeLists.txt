@@ -95,7 +95,7 @@ SET (felide_editor_src
 	felide/DialogFactory.cpp
 )
 
-ADD_EXECUTABLE (felide.editor WIN32
+ADD_LIBRARY (felide.editor SHARED
 	${felide_editor_src}
 	${felide_editor_win32xx_src}
 	${felide_editor_win32xx_res_src}
