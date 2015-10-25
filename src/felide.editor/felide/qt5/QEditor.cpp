@@ -1,7 +1,7 @@
 
-#include "felide.editor/qt5/QEditor.hpp"
-#include "felide.editor/qt5/QTabbedEditor.hpp"
-#include "felide.editor/qt5/QMainFrame.hpp"
+#include "felide/qt5/QEditor.hpp"
+#include "felide/qt5/QTabbedEditor.hpp"
+#include "felide/qt5/QMainFrame.hpp"
 
 #include <QGridLayout>
 #include <QTabWidget>
@@ -68,8 +68,8 @@ namespace felide { namespace editor { namespace qt5 {
         this->setLayout(layout);
         
         connect(this->scintilla, &QsciScintilla::textChanged, [this]() {
-            this->item->modify();
-
+            this->item->setModifyFlag(true);
+            
             auto mainFrame = static_cast<QMainFrame*>(this->tabbedEditor->parent());
             auto editor = static_cast<Editor*>(this);
 

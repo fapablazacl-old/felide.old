@@ -1,6 +1,6 @@
 
-#include "felide.editor/qt5/QApplication.hpp"
-#include "felide.editor/qt5/QMainFrame.hpp"
+#include "felide/qt5/QApplication.hpp"
+#include "felide/qt5/QMainFrame.hpp"
 
 namespace felide { namespace editor { namespace qt5 {
     

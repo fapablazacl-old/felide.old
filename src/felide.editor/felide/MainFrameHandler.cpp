@@ -272,8 +272,8 @@ namespace felide { namespace editor {
 	    assert(this);
 
         Editor* editor = this->getFrame()->createEditor(std::move(item));
-
-		editor->setFont("Courier", 10);
+        
+		editor->setFont("Monospace", 10);
 		editor->setTabWidth(4);
 		editor->setId(this->newFileCount);
 
@@ -309,25 +309,26 @@ namespace felide { namespace editor {
             
             DialogResult result = dialog->getResult();
             
-			switch (result) {
-				case DialogResult::Yes:
-					if (!this->handleFileSave(editor)) {
-						return false;
-					} 
-					break;
-					
-				case DialogResult::No:
-					break;
-
-				case DialogResult::Cancel:
-					return false;
-
-				default: assert(false);
-			}
+            if (result == DialogResult::Yes) {
+                if (!this->handleFileSave(editor)) {
+                    return false;
+                } 
+                
+            } else if (result == DialogResult::No) {
+                
+                
+            } else if (result == DialogResult::Cancel) {
+                return false;
+                
+            } else {
+                assert(false);
+            }
         }
         
-        this->getFrame()->closeEditor(editor);
-        this->getFrame()->updateEnableStatus();
+        MainFrame *frame = this->getFrame();
+        
+        frame->closeEditor(editor);
+        frame->updateEnableStatus();
         
         return true;
     }

@@ -8,7 +8,7 @@
 #include <Qsci/qscilexercpp.h>
 #include <felide/ProjectItem.hpp>
 
-#include "felide.editor/Editor.hpp"
+#include "felide/Editor.hpp"
 
 namespace felide { namespace editor { namespace qt5 {
 

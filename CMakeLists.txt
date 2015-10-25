@@ -14,11 +14,6 @@ SET (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 FIND_PACKAGE (Boost COMPONENTS filesystem system REQUIRED)
 
-# Fix for std::unique_ptr on clang and gcc
-# IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-#    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y")
-# ENDIF()
-
 IF (FELIDE_GUI_TOOLKIT_WIN32XX)
 	ADD_DEFINITIONS(-DFELIDE_GUI_TOOLKIT_WIN32XX)
 
@@ -77,7 +72,16 @@ ENDIF ()
 
 # Include dirs
 INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/src)
 
-ADD_SUBDIRECTORY (src/felide)
+INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/src/felide.core)
+
+ADD_SUBDIRECTORY (src/felide.core)
+ADD_SUBDIRECTORY (src/felide.core.qt5)
+ADD_SUBDIRECTORY (src/felide.core.win32)
+ADD_SUBDIRECTORY (src/felide.core.gtk3)
 ADD_SUBDIRECTORY (src/felide.editor)
+ADD_SUBDIRECTORY (src/felide.editor.qt5)
+ADD_SUBDIRECTORY (src/felide.editor.win32)
+ADD_SUBDIRECTORY (src/felide.editor.gtk3)
+ADD_SUBDIRECTORY (src/felide.ide)
+ADD_SUBDIRECTORY (src/felide)

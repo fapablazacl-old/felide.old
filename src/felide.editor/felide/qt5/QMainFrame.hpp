@@ -7,8 +7,8 @@
 #include <QMainWindow>
 
 #include "felide/ProjectItem.hpp"
-#include "felide.editor/MainFrame.hpp"
-#include "felide.editor/Editor.hpp"
+#include "felide/MainFrame.hpp"
+#include "felide/Editor.hpp"
 
 #include "ui_QMainFrame.h"
 #include "QTabbedEditor.hpp"
