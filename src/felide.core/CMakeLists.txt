@@ -39,7 +39,7 @@ SET (felide_view_src
 	felide/view/DialogFactory.cpp
 )
 
-ADD_DEFINITIONS(-DFELIDE_BUILD)
+ADD_DEFINITIONS(-DFELIDE_BUILD -DFELIDE_SHARED)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 ADD_LIBRARY(felide.core ${felide_src} ${felide_system_src} ${felide_view_src})
 SET_PROPERTY(TARGET felide.core PROPERTY CXX_STANDARD 14)

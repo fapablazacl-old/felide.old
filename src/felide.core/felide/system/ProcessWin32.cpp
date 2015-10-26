@@ -18,9 +18,9 @@
 
 namespace felide { namespace system {
 	static bool isWinNT() {
-		OSVERSIONINFO osv = {0};
+		OSVERSIONINFOW osv = {0};
 		osv.dwOSVersionInfoSize = sizeof(osv);
-		GetVersionEx(&osv);
+		GetVersionExW(&osv);
 		return (osv.dwPlatformId == VER_PLATFORM_WIN32_NT);
 	}
 

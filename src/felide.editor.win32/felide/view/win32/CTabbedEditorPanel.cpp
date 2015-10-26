@@ -1,6 +1,6 @@
 
+#include "felide/view/win32/CEditor.hpp"
 #include "CTabbedEditorPanel.hpp"
-#include "CEditor.hpp"
 #include "CMainFrame.hpp"
 
 namespace felide { namespace editor { namespace win32xx {

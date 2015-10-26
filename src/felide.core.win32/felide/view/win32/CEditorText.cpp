@@ -1,6 +1,5 @@
 
 #include "CEditorText.hpp"
-#include "CMainFrame.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 

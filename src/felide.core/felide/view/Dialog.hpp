@@ -8,6 +8,8 @@
 #include <boost/variant/variant.hpp>
 #include <boost/filesystem/path.hpp>
 
+#include "felide/Config.hpp"
+
 namespace felide { namespace editor {
 	enum class DialogResult {
 		Cancel,
@@ -19,9 +21,9 @@ namespace felide { namespace editor {
 	typedef boost::variant<std::string, boost::filesystem::path> DialogData;
 	typedef std::list<DialogData> DialogDataList;
 
-	class Dialog {
+	class FELIDE_API Dialog {
 	public:
-		virtual ~Dialog() {}
+		virtual ~Dialog();
 		virtual DialogResult getResult() const = 0;
 		virtual DialogData getData() const = 0;
 		virtual DialogDataList getDataList() const = 0;

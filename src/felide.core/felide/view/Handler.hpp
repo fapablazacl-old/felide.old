@@ -12,4 +12,4 @@ namespace felide { namespace editor {
 	*/
 }}
 
-#endif // __felide_editor_controller_hpp__
+#endif // __felide_editor_handler_hpp__

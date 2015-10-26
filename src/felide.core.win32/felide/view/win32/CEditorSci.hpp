@@ -4,8 +4,8 @@
 #ifndef __felide_editor_win32xx_editorsci_hpp__
 #define __felide_editor_win32xx_editorsci_hpp__
 
-#include "felide.editor/Editor.hpp"
-#include "felide.editor/win32xx/CEditorBase.hpp"
+#include "felide/view/Editor.hpp"
+#include "CEditorBase.hpp"
 
 #include <string>
 #include <wincore.h>

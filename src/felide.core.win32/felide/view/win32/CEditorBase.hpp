@@ -4,7 +4,7 @@
 
 #include <wincore.h>
 
-#include "felide.editor/win32xx/CEditor.hpp"
+#include "CEditor.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 

@@ -6,8 +6,8 @@
 #include <stdcontrols.h>
 #include <mdi.h>
 
+#include "CEditorBase.hpp"
 #include "felide/ProjectItem.hpp"
-#include "felide.editor/win32xx/CEditorBase.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 

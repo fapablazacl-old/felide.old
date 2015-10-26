@@ -2,22 +2,16 @@
 #ifndef __felide_editor_application_hpp__
 #define __felide_editor_application_hpp__
 
-#include <memory>
-
-#include "DialogFactory.hpp"
+#include "felide/Config.hpp"
 
 namespace felide { namespace editor {
 
-    class Application {
+    class FELIDE_API Application {
     public:
         Application();
         virtual ~Application();
         
-        virtual void initialize(int argc, char **argv);
-        virtual int execute(int argc, char **argv) = 0;
-        
-    public:
-        static int run(int argc, char **argv);
+        virtual int run(int argc, char **argv) = 0;
     };
 }}
 

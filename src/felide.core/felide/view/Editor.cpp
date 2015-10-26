@@ -2,6 +2,9 @@
 #include "Editor.hpp"
 
 namespace felide { namespace editor {
+
+	Editor::~Editor() {}
+
 	int Editor::getId() const {
 		return this->id;
 	}

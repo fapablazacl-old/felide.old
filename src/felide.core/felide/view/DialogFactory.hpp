@@ -20,9 +20,9 @@ namespace felide { namespace editor {
         YesNoCancel
 	};
 
-	class DialogFactory {
+	class FELIDE_API DialogFactory {
 	public:
-		virtual ~DialogFactory() {}
+		virtual ~DialogFactory();
 		virtual DialogPtr showMessageDialog(const std::string &title, const std::string &msg, DialogIcon icons, DialogButton buttons) const = 0;
 		virtual DialogPtr showInputDialog(const std::string &title, const std::string &msg) const = 0;
 		virtual DialogPtr showFileOpenDialog(const std::string &title, const std::string &filters) const = 0;

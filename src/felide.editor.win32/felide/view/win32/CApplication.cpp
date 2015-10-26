@@ -1,7 +1,8 @@
 
+#include "felide/view/win32/CDialogFactory.hpp"
+
 #include "CApplication.hpp"
 #include "CMainFrame.hpp"
-#include "CDialogFactory.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 	class CApplicationImpl : public CWinApp {
@@ -22,7 +23,7 @@ namespace felide { namespace editor { namespace win32xx {
 		std::unique_ptr<CMainFrame> mainFrame;
 	};
 
-	int CApplication::execute(int argc, char **argv) {
+	int CApplication::run(int argc, char **argv) {
         CApplicationImpl app;
 		return app.Run();
 	}

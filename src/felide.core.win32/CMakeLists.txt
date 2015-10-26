@@ -1,5 +1,4 @@
 
-
 SET (felide_view_win32_src
 	felide/view/win32/CDialogFactory.hpp
 	felide/view/win32/CDialogFactory.cpp
@@ -17,8 +16,12 @@ SET (felide_view_win32_src
 	felide/view/win32/CEditorSciFactory.cpp
 	felide/view/win32/CEditorText.hpp
 	felide/view/win32/CEditorText.cpp
+	felide/view/win32/CModule.hpp
+	felide/view/win32/CModule.cpp
 )
 
-
 ADD_LIBRARY(felide.core.win32 SHARED ${felide_view_win32_src})
-TARGET_LINK_LIBRARIES(felide.core.win32 -lstdc++)
+
+SOURCE_GROUP(\\ FILES ${felide_view_win32_src})
+
+TARGET_LINK_LIBRARIES(felide.core.win32 felide.core comctl32)

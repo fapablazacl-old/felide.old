@@ -1,4 +1,8 @@
 
-ADD_EXECUTABLE(felide Felide.cpp)
+SET (felide_src Felide.cpp)
 
-TARGET_LINK_LIBRARIES(felide felide.core stdc++)
+SOURCE_GROUP(\\ FILES ${felide_src})
+
+ADD_EXECUTABLE(felide ${felide_src})
+
+TARGET_LINK_LIBRARIES(felide felide.core)

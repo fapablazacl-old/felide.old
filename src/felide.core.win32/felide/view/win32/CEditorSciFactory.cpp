@@ -1,4 +1,6 @@
 
+#if defined(FELIDE_GUI_CODEEDIT_SCI)
+
 #include "CEditorSciFactory.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
@@ -9,3 +11,5 @@ namespace felide { namespace editor { namespace win32xx {
 
 	CEditorSciFactory::~CEditorSciFactory() {}
 }}}
+
+#endif

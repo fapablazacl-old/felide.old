@@ -3,7 +3,7 @@
 #ifndef __felide_editor_win32xx_ceditorfactoryimpl_hpp__
 #define __felide_editor_win32xx_ceditorfactoryimpl_hpp__
 
-#include "felide.editor/win32xx/CEditorFactory.hpp"
+#include "CEditorFactory.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 

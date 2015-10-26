@@ -6,14 +6,14 @@
 #include <file.h>
 
 #include "felide/system/Process.hpp"
-#include "felide.editor/win32xx/CEditor.hpp"
-#include "felide.editor/win32xx/CTabbedEditorPanel.hpp"
+#include "felide/view/win32/CEditor.hpp"
 
+#include "CTabbedEditorPanel.hpp"
 #include "res/resource.h"
 
 #if defined(FELIDE_GUI_CODEEDIT_SCI)
-#include "felide.editor/win32xx/CEditorSci.hpp"
-#include "felide.editor/win32xx/CEditorSciFactory.hpp"
+#include "felide/view/win32/CEditorSci.hpp"
+#include "felide/view/win32/CEditorSciFactory.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 	typedef CEditorSciFactory CEditorFactory_Selected;

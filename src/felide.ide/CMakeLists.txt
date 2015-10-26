@@ -1,4 +1,3 @@
 
-
-ADD_EXECUTABLE(felide.ide WIN32 Application.cpp)
-TARGET_LINK_LIBRARIES(felide.ide -lstdc++)
+ADD_LIBRARY(felide.ide SHARED Application.cpp)
+TARGET_LINK_LIBRARIES(felide.ide felide.core)

@@ -6,7 +6,7 @@
 #include <wincore.h>
 #include <memory>
 
-#include "felide.editor/Editor.hpp"
+#include "felide/view/Editor.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 

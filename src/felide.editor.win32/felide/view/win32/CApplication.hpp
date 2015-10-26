@@ -4,13 +4,13 @@
 
 #include <wincore.h>
 
-#include "felide.editor/Application.hpp"
-#include "felide.editor/win32xx/CMainFrame.hpp"
+#include "felide/Application.hpp"
+#include "CMainFrame.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 	class CApplication : public felide::editor::Application {
 	public:
-		virtual int execute(int argc, char **argv) override;
+		virtual int run(int argc, char **argv) override;
 	};
 }}}
 

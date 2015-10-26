@@ -2,9 +2,9 @@
 #include "MainFrameHandler.hpp"
 
 #include "felide/system/Process.hpp"
+#include "felide/view/Editor.hpp"
+#include "felide/view/Dialog.hpp"
 #include "MainFrame.hpp"
-#include "Editor.hpp"
-#include "Dialog.hpp"
 
 #include <boost/variant/get.hpp>
 

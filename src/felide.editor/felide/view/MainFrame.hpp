@@ -2,9 +2,10 @@
 #ifndef __felide_editor_mainframe_hpp__
 #define __felide_editor_mainframe_hpp__
 
-#include "View.hpp"
+#include "felide/view/View.hpp"
+#include "felide/view/Editor.hpp"
+
 #include "MainFrameHandler.hpp"
-#include "Editor.hpp"
 
 namespace felide { namespace editor {
 

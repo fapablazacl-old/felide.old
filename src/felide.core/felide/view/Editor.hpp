@@ -11,9 +11,9 @@ namespace felide { namespace editor {
     /**
      * @brief Generic source editor component interface.
      */
-	class Editor {
+	class FELIDE_API Editor {
 	public:
-        virtual ~Editor() {}
+        virtual ~Editor();
 
         virtual void setText(const std::string &text) = 0;
         virtual std::string getText() const = 0;

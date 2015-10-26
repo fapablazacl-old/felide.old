@@ -1,11 +1,12 @@
-#pragma once
+
+#if defined(FELIDE_GUI_CODEEDIT_SCI)
 
 #ifndef __felide_editor_win32xx_ceditorscifactory_hpp__
 #define __felide_editor_win32xx_ceditorscifactory_hpp__
 
-#include "felide.editor/win32xx/CModule.hpp"
-#include "felide.editor/win32xx/CEditorSci.hpp"
-#include "felide.editor/win32xx/CEditorFactoryImpl.hpp"
+#include "CModule.hpp"
+#include "CEditorSci.hpp"
+#include "CEditorFactoryImpl.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
@@ -20,3 +21,5 @@ namespace felide { namespace editor { namespace win32xx {
 }}}
 
 #endif // __felide_editor_win32xx_ceditorscifactory_hpp__
+
+#endif

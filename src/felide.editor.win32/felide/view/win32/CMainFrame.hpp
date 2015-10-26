@@ -14,9 +14,9 @@
 
 #include "felide/ProjectItem.hpp"
 #include "felide/system/Process.hpp"
-#include "felide.editor/Editor.hpp"
-#include "felide.editor/MainFrame.hpp"
-#include "felide.editor/win32xx/CEditorFactory.hpp"
+#include "felide/view/Editor.hpp"
+#include "felide/view/MainFrame.hpp"
+#include "felide/view/win32/CEditorFactory.hpp"
 
 namespace felide { namespace editor { namespace win32xx {
 
