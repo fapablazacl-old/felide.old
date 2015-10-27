@@ -171,4 +171,18 @@ namespace felide { namespace editor { namespace win32xx {
 
 		this->editorPanel->CloseEditor(dynamic_cast<CEditor*>(editor));
 	}
+	
+	void CMainFrame::setEditorTitle(Editor* editor, const std::string &title) {
+		CTab *tab = this->editorPanel->GetTab();
+		
+		const int tabIndex = tab->GetTabIndex(dynamic_cast<CEditor*>(editor));
+		tab->SetTabText(tabIndex, title.c_str());
+		
+		this->editorPanel->RecalcLayout();
+	}
+	
+	std::string CMainFrame::getEditorTitle(Editor* editor) const {
+		// TODO: Implement
+		return "";
+	}
 }}}

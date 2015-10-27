@@ -40,6 +40,9 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual const Editor* getEditor(const int index) const override;
 
 		virtual void updateEnableStatus() override;
+		
+		virtual void setEditorTitle(Editor* editor, const std::string &title) override;
+		virtual std::string getEditorTitle(Editor* editor) const override;
 
     protected:
         virtual void OnInitialUpdate() override;

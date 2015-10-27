@@ -41,10 +41,13 @@ SET (felide_view_src
 
 ADD_DEFINITIONS(-DFELIDE_BUILD -DFELIDE_SHARED)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
-ADD_LIBRARY(felide.core ${felide_src} ${felide_system_src} ${felide_view_src})
+ADD_LIBRARY(felide.core SHARED ${felide_src} ${felide_system_src} ${felide_view_src})
 SET_PROPERTY(TARGET felide.core PROPERTY CXX_STANDARD 14)
 SOURCE_GROUP(\\         FILES ${felide_src})
 SOURCE_GROUP(\\system   FILES ${felide_system_src})
 SOURCE_GROUP(\\view     FILES ${felide_view_src})
 
 TARGET_LINK_LIBRARIES(felide.core ${Boost_LIBRARIES})
+
+# INSTALL(TARGETS felide.core DESTINATION ".")
+INSTALL(TARGETS felide.core RUNTIME DESTINATION ".")

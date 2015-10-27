@@ -17,19 +17,18 @@ namespace felide { namespace editor { namespace win32xx {
 		return this->projectItem.get();
 	}
 
+	/*
 	void CEditorBase::setTitle(const std::string &title) {
 		assert(this);
-	
-
-		/*
-
+		
 		CTab *tab = this->GetEditorPanel()->GetTab();
 
 		const int tabIndex = tab->GetTabIndex(static_cast<CWnd*>(this));
 		tab->SetTabText(tabIndex, title.c_str());
 		this->GetEditorPanel()->RecalcLayout();
-		*/
+		
 	}
+	*/
 
 	void CEditorBase::SetEditorPanel(CTabbedEditorPanel *editorPanel) {
 		this->editorPanel = editorPanel;

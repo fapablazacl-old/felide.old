@@ -5,7 +5,6 @@
 #include "felide/Config.hpp"
 
 namespace felide { namespace editor {
-
     class FELIDE_API Application {
     public:
         Application();

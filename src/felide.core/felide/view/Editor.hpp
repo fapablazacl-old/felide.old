@@ -28,8 +28,6 @@ namespace felide { namespace editor {
         virtual ProjectItem* getProjectItem() = 0;
         virtual const ProjectItem* getProjectItem() const = 0;
 
-		virtual void setTitle(const std::string &title) = 0;
-
 		virtual int getId() const;
 		virtual void setId(const int id);
 

@@ -16,7 +16,7 @@ namespace felide { namespace editor { namespace win32xx {
 		virtual ProjectItem* getProjectItem() override;
 		virtual const ProjectItem* getProjectItem() const override;
 
-		virtual void setTitle(const std::string &title) override;
+		// virtual void setTitle(const std::string &title) override;
 
 	public:
 		virtual void SetEditorPanel(CTabbedEditorPanel *editorPanel) override;
