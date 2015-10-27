@@ -10,7 +10,7 @@
 namespace felide { namespace editor {
 
 	class MainFrameHandler;
-	class MainFrame : public View<MainFrameHandler> {
+	class FELIDE_API MainFrame : public View<MainFrameHandler> {
 	public:
 		MainFrame(DialogFactory *dialogFactory);
 		virtual ~MainFrame();

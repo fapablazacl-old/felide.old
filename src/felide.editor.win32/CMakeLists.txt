@@ -26,4 +26,6 @@ ADD_LIBRARY (
     ${felide_editor_win32xx_res_src}
 )
 
-TARGET_LINK_LIBRARIES(felide.editor.win32 felide.core felide.core.win32)
+SET_PROPERTY (TARGET felide.editor.win32 PROPERTY CXX_STANDARD 14)
+
+TARGET_LINK_LIBRARIES(felide.editor.win32 felide.core felide.editor felide.core.win32)

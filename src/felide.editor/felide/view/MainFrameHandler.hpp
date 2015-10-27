@@ -9,7 +9,7 @@ namespace felide { namespace editor {
 	class MainFrame;
 	class Editor;
 
-	class MainFrameHandler {
+	class FELIDE_API MainFrameHandler {
 	public:
 		explicit MainFrameHandler(MainFrame *frame);
 

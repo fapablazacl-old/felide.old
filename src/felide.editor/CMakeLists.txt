@@ -6,6 +6,8 @@ SET (felide_editor_src
 	felide/view/MainFrameHandler.cpp
 )
 
+ADD_DEFINITIONS(-DFELIDE_BUILD -DFELIDE_SHARED)
+
 ADD_LIBRARY (felide.editor SHARED
 	${felide_editor_src}
 )

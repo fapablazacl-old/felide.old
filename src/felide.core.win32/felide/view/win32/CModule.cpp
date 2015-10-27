@@ -18,6 +18,6 @@ namespace felide { namespace editor { namespace win32xx {
     }
 
     void* CModule::getAddress(const std::string &procName) {
-        return ::GetProcAddress(this->module, procName.c_str());
+        return reinterpret_cast<void*>(::GetProcAddress(this->module, procName.c_str()));
     }
 }}}
