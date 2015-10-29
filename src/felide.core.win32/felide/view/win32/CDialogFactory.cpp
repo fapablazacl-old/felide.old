@@ -5,6 +5,8 @@
 
 namespace felide { namespace editor { namespace win32xx {
 
+	using namespace Win32xx;
+
 	class CMessageBoxDialog : public Dialog {
 	public:
 		explicit CMessageBoxDialog(const std::string &title, const std::string &msg, DialogIcon icons, DialogButton buttons) {

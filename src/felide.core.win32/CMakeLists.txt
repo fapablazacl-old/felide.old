@@ -26,4 +26,4 @@ SET_PROPERTY (TARGET felide.core.win32 PROPERTY CXX_STANDARD 14)
 
 SOURCE_GROUP(\\ FILES ${felide_view_win32_src})
 
-# TARGET_LINK_LIBRARIES(felide.core.win32 felide.core comctl32)
+TARGET_LINK_LIBRARIES(felide.core.win32 felide.core comctl32)

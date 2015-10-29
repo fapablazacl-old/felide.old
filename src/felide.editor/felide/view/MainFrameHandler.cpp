@@ -96,7 +96,6 @@ namespace felide { namespace editor {
 		editor->getProjectItem()->save(content, filePath.string());
 		
 		this->getFrame()->setEditorTitle(editor, editor->getProjectItem()->getName());
-		// editor->setTitle(editor->getProjectItem()->getName());
 
 		this->handleEditorChanged(editor);
 
@@ -207,7 +206,6 @@ namespace felide { namespace editor {
 		title += item->getModifyFlag()?"[*]":"";
 
 		this->getFrame()->setEditorTitle(editor, title);
-		// editor->setTitle(title);
 
 		return true;
 	}

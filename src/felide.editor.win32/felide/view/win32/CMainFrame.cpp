@@ -93,6 +93,10 @@ namespace felide { namespace editor { namespace win32xx {
 		return FALSE;
     }
 	
+	void CMainFrame::OnClose() {
+		this->getHandler()->handleFileExit();
+	}
+	
 	Editor* CMainFrame::createEditor(ProjectItemPtr item) {
 		assert(this);
 
@@ -185,4 +189,6 @@ namespace felide { namespace editor { namespace win32xx {
 		// TODO: Implement
 		return "";
 	}
+	
+	
 }}}
