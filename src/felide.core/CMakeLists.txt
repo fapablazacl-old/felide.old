@@ -37,6 +37,10 @@ SET (felide_view_src
     felide/view/Dialog.cpp
 	felide/view/DialogFactory.hpp
 	felide/view/DialogFactory.cpp
+    felide/view/MainFrame.hpp
+	felide/view/MainFrame.cpp
+    felide/view/MainFrameHandler.hpp
+	felide/view/MainFrameHandler.cpp
 )
 
 ADD_DEFINITIONS(-DFELIDE_BUILD -DFELIDE_SHARED)

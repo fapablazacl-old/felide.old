@@ -6,9 +6,9 @@
 #include <list>
 #include <QMainWindow>
 
-#include "felide/ProjectItem.hpp"
-#include "felide/MainFrame.hpp"
-#include "felide/Editor.hpp"
+#include <felide/ProjectItem.hpp>
+#include <felide/view/Editor.hpp>
+#include <felide/view/MainFrame.hpp>
 
 #include "ui_QMainFrame.h"
 #include "QTabbedEditor.hpp"

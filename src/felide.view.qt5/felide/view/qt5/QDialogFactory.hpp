@@ -2,7 +2,7 @@
 #ifndef __felide_editor_qt5_qdialogfactory_hpp__
 #define __felide_editor_qt5_qdialogfactory_hpp__
 
-#include "felide/DialogFactory.hpp"
+#include <felide/view/DialogFactory.hpp>
 
 namespace felide { namespace editor { namespace qt5 {
 

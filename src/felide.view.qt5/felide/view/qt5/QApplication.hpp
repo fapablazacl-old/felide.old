@@ -2,8 +2,8 @@
 #ifndef __felide_editor_qt5_qapplication_hpp__
 #define __felide_editor_qt5_qapplication_hpp__
 
-#include "felide/Application.hpp"
-#include "felide/qt5/QDialogFactory.hpp"
+#include <felide/Application.hpp>
+#include "QDialogFactory.hpp"
 
 namespace felide { namespace editor { namespace qt5 {
 
@@ -11,8 +11,8 @@ namespace felide { namespace editor { namespace qt5 {
     public:
         QApplication();
     
-        virtual void initialize(int argc, char **argv) override;
-        virtual int execute(int argc, char **argv) override;
+        virtual void initialize(int argc, char **argv);
+        virtual int execute(int argc, char **argv);
         
     private:
         QDialogFactory dialogFactory;

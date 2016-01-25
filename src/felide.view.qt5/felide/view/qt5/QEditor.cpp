@@ -1,7 +1,7 @@
 
-#include "felide/qt5/QEditor.hpp"
-#include "felide/qt5/QTabbedEditor.hpp"
-#include "felide/qt5/QMainFrame.hpp"
+#include "QEditor.hpp"
+#include "QTabbedEditor.hpp"
+#include "QMainFrame.hpp"
 
 #include <QGridLayout>
 #include <QTabWidget>

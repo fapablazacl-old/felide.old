@@ -4,8 +4,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 PROJECT (felide)
 
 # Project options
-OPTION (FELIDE_GEN_QT5 OFF)
-OPTION (FELIDE_GEN_WIN32 OFF)
+OPTION (FELIDE_GEN_QT5 "Enable QT5 based user interface" OFF)
+OPTION (FELIDE_GEN_WIN32 "Enable ray WinAPI-based user interface" OFF)
 
 # Boost
 ADD_DEFINITIONS(-DBOOST_ALL_NO_LIB)
@@ -32,4 +32,3 @@ ENDIF()
 IF (FELIDE_GEN_QT5)
     ADD_SUBDIRECTORY (felide.view.qt5)
 ENDIF()
-

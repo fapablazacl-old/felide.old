@@ -7,8 +7,7 @@
 #include <Qsci/qscilexer.h>
 #include <Qsci/qscilexercpp.h>
 #include <felide/ProjectItem.hpp>
-
-#include "felide/Editor.hpp"
+#include <felide/view/Editor.hpp>
 
 namespace felide { namespace editor { namespace qt5 {
 
@@ -46,7 +45,7 @@ namespace felide { namespace editor { namespace qt5 {
         virtual ProjectItem* getProjectItem() override;
         virtual const ProjectItem* getProjectItem() const override;
 
-		virtual void setTitle(const std::string &title) override;
+		virtual void setTitle(const std::string &title);
 
         virtual void undo() override;
         virtual void redo() override;

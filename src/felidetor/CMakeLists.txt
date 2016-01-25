@@ -1,10 +1,7 @@
 
 SET (felide_editor_src
     felidetor.cpp
-	felide/view/MainFrame.hpp
-	felide/view/MainFrame.cpp
-	felide/view/MainFrameHandler.hpp
-	felide/view/MainFrameHandler.cpp
+
 )
 
 ADD_DEFINITIONS(-DFELIDE_BUILD -DFELIDE_SHARED)
