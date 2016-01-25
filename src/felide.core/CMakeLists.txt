@@ -50,4 +50,5 @@ SOURCE_GROUP(\\view     FILES ${felide_view_src})
 TARGET_LINK_LIBRARIES(felide.core ${Boost_LIBRARIES})
 
 # INSTALL(TARGETS felide.core DESTINATION ".")
-INSTALL(TARGETS felide.core RUNTIME DESTINATION ".")
+# INSTALL(TARGETS felide.core RUNTIME DESTINATION ".")
+
