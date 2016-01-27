@@ -3,9 +3,10 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 
 PROJECT (felide)
 
-# Project options
-OPTION (FELIDE_GEN_QT5 "Enable QT5 based user interface" OFF)
-OPTION (FELIDE_GEN_WIN32 "Enable ray WinAPI-based user interface" OFF)
+OPTION (FELIDE_GEN_QT5      "Enable QT5 based user interface"           OFF)
+OPTION (FELIDE_GEN_WIN32    "Enable ray WinAPI-based user interface"    OFF)
+
+SET (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 # Boost
 ADD_DEFINITIONS(-DBOOST_ALL_NO_LIB)
@@ -18,17 +19,7 @@ FIND_PACKAGE (Boost COMPONENTS filesystem system REQUIRED)
 
 # Include dirs
 INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES (.)
+INCLUDE_DIRECTORIES (felide)
 
-INCLUDE_DIRECTORIES (felide.core)
-
-ADD_SUBDIRECTORY (felide.core)
 ADD_SUBDIRECTORY (felide)
-ADD_SUBDIRECTORY (felidetor)
-
-IF (FELIDE_GEN_WIN32)
-    ADD_SUBDIRECTORY (felide.view.win32)
-ENDIF()
-
-IF (FELIDE_GEN_QT5)
-    ADD_SUBDIRECTORY (felide.view.qt5)
-ENDIF()

@@ -9,10 +9,7 @@ namespace felide { namespace editor { namespace qt5 {
 
     class QApplication : public felide::editor::Application {
     public:
-        QApplication();
-    
-        virtual void initialize(int argc, char **argv);
-        virtual int execute(int argc, char **argv);
+        virtual int run(int argc, char **argv);
         
     private:
         QDialogFactory dialogFactory;

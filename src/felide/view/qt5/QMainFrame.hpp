@@ -38,6 +38,9 @@ namespace felide { namespace editor { namespace qt5 {
 
 		virtual void updateEnableStatus() override;
 
+        virtual void setEditorTitle(Editor *editor, const std::string &title) override;
+		virtual std::string getEditorTitle(Editor *editor) const  override;
+		
     private:
         std::unique_ptr<Ui_MainWindow> ui;
         QTabbedEditor *tabbedEditor = nullptr;

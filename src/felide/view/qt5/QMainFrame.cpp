@@ -91,4 +91,12 @@ namespace felide { namespace editor { namespace qt5 {
     const Editor* QMainFrame::getEditor(const int index) const {
         return this->tabbedEditor->getEditor(index);
     }
+    
+    void QMainFrame::setEditorTitle(Editor *editor, const std::string &title)  {
+    
+    }
+    
+    std::string QMainFrame::getEditorTitle(Editor *editor) const {
+        return "";
+    }
 }}}
