@@ -3,15 +3,14 @@
 
 #if defined(FELIDE_VIEW_QT5)
 #include <felide/view/qt5/QApplication.hpp>
+typedef felide::editor::qt5::QApplication App;
 #endif 
 
 #if defined(FELIDE_VIEW_WIN32)
 #include <felide/view/win32/CApplication.hpp>
+typedef felide::editor::win32xx::CApplication App;
 #endif 
 
 int main(int argc, char **argv) {
-    felide::editor::qt5::QApplication app;
-    return app.run(argc, argv);
-    
-    return 0;
+	return App().run(argc, argv);
 }
