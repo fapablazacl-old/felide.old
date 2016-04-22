@@ -5,6 +5,7 @@
 #include <memory>
 #include <list>
 #include <QMainWindow>
+#include <QToolBox>
 
 #include <felide/ProjectItem.hpp>
 #include <felide/view/Editor.hpp>

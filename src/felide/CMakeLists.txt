@@ -14,16 +14,14 @@ IF (FELIDE_GEN_QT5)
 	INCLUDE_DIRECTORIES(${QSCINTILLA_INCLUDE_DIR})
 	
 	SET (felide_view_qt5_src
-        view/qt5/QApplication.hpp
-	    view/qt5/QApplication.cpp
-	    view/qt5/QDialogFactory.hpp
-	    view/qt5/QDialogFactory.cpp
-	    view/qt5/QEditor.hpp
-	    view/qt5/QEditor.cpp
-	    view/qt5/QTabbedEditor.hpp
-	    view/qt5/QTabbedEditor.cpp
-	    view/qt5/QMainFrame.hpp
-	    view/qt5/QMainFrame.cpp
+        view/qt5/QApplication.hpp view/qt5/QApplication.cpp
+	    view/qt5/QDialogFactory.hpp view/qt5/QDialogFactory.cpp
+	    view/qt5/QEditor.hpp view/qt5/QEditor.cpp
+	    view/qt5/QTabbedEditor.hpp view/qt5/QTabbedEditor.cpp
+	    view/qt5/QMainFrame.hpp view/qt5/QMainFrame.cpp
+        view/qt5/QMainPanel.hpp view/qt5/QMainPanel.cpp
+        view/qt5/QWorkspaceView.hpp view/qt5/QWorkspaceView.cpp
+        view/qt5/QWorkspaceModel.hpp view/qt5/QWorkspaceModel.cpp
 	)
 
 	QT5_WRAP_UI (felide_view_qt5_ui

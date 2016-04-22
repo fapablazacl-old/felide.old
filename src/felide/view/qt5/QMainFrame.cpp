@@ -4,6 +4,7 @@
 #include <iostream>
 #include <QAction>
 #include <QFileDialog>
+#include <QDockWidget>
 
 namespace felide { namespace editor { namespace qt5 {
 
@@ -13,10 +14,17 @@ namespace felide { namespace editor { namespace qt5 {
         this->ui = std::make_unique<Ui_MainWindow>();
         this->ui->setupUi(this);
 
+        // setup main control
         this->tabbedEditor = new QTabbedEditor(this);
         this->setCentralWidget(tabbedEditor);
-
-        // file menu
+        
+        // setup dock windows
+        auto *dock = new QDockWidget("Test01", this);
+        dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+        dock->setWidget(new QTextEdit("This is a test text", dock));
+        
+        this->addDockWidget(Qt::LeftDockWidgetArea, dock);
+        
         connect(this->ui->action_New, &QAction::triggered, this, [this]() {
             this->getHandler()->handleFileNew();
         });
@@ -40,7 +48,8 @@ namespace felide { namespace editor { namespace qt5 {
         connect(this->ui->action_Exit, &QAction::triggered, this, [this]() {
             this->getHandler()->handleFileExit();
         });
-
+        
+        // update menubar status
         this->updateEnableStatus();
     }
 
@@ -93,7 +102,7 @@ namespace felide { namespace editor { namespace qt5 {
     }
     
     void QMainFrame::setEditorTitle(Editor *editor, const std::string &title)  {
-    
+        
     }
     
     std::string QMainFrame::getEditorTitle(Editor *editor) const {
