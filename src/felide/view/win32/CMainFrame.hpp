@@ -6,11 +6,11 @@
 #include <functional>
 #include <memory>
 
-#include <wincore.h>
-#include <frame.h>
-#include <mdi.h>
-#include <toolbar.h>
-#include <tab.h>
+#include "wxx_wincore.h"
+#include "wxx_frame.h"
+#include "wxx_mdi.h"
+#include "wxx_toolbar.h"
+#include "wxx_tab.h"
 
 #include "felide/ProjectItem.hpp"
 #include "felide/system/Process.hpp"
@@ -18,7 +18,7 @@
 #include "felide/view/MainFrame.hpp"
 #include "felide/view/win32/CEditorFactory.hpp"
 
-namespace felide { namespace editor { namespace win32xx {
+namespace felide { namespace view { namespace win32xx {
 
 	class CTabbedEditorPanel;
     class CMainFrame : public CFrame, public MainFrame {
@@ -47,7 +47,7 @@ namespace felide { namespace editor { namespace win32xx {
     protected:
         virtual void OnInitialUpdate() override;
         virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam) override;
-		virtual int OnCreate(LPCREATESTRUCT pcs) override;
+		virtual int OnCreate(CREATESTRUCT &cs) override;
 		virtual void OnClose() override;
 		
     private:

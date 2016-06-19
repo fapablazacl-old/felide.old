@@ -6,7 +6,7 @@
 #include <string>
 #include "felide/ProjectItem.hpp"
 
-namespace felide { namespace editor {
+namespace felide { namespace view {
 	
     /**
      * @brief Generic source editor component interface.

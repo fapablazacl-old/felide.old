@@ -4,7 +4,7 @@
 
 #include "felide/ProjectItem.hpp"
 
-namespace felide { namespace editor {
+namespace felide { namespace view {
 
 	class MainFrame;
 	class Editor;
@@ -15,8 +15,8 @@ namespace felide { namespace editor {
 
 		bool handleFileNew();
         bool handleFileOpen();
-        bool handleFileSave(Editor* editor);
-        bool handleFileSaveAs(Editor* editor);
+        bool handleFileSave(Editor* view);
+        bool handleFileSaveAs(Editor* view);
 
 		bool handleFileSave();
         bool handleFileSaveAs();
@@ -24,7 +24,7 @@ namespace felide { namespace editor {
 		bool handleFileSaveAll();
 
 		bool handleFileClose();
-		bool handleFileClose(Editor *editor);
+		bool handleFileClose(Editor *view);
         bool handleFileCloseAll();
         
         bool handleFileExit();
@@ -33,7 +33,7 @@ namespace felide { namespace editor {
 		bool handleBuildCompile();
 		bool handleBuildLink();
 
-		bool handleEditorChanged(Editor* editor);
+		bool handleEditorChanged(Editor* view);
 
 		bool handleEditUndo();
 		bool handleEditRedo();

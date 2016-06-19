@@ -8,7 +8,7 @@
 #include "CEditorSci.hpp"
 #include "CEditorFactoryImpl.hpp"
 
-namespace felide { namespace editor { namespace win32xx {
+namespace felide { namespace view { namespace win32xx {
 
 	class CEditorSciFactory : public CEditorFactoryImpl<CEditorSci> {
 	public:

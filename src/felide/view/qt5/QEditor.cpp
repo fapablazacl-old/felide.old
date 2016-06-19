@@ -8,7 +8,7 @@
 #include <boost/filesystem/path.hpp>
 #include <iostream>
 
-namespace felide { namespace editor { namespace qt5 {
+namespace felide { namespace view { namespace qt5 {
     namespace fs = boost::filesystem;
 
     static std::string getLang(const std::string &ext) {
@@ -21,11 +21,11 @@ namespace felide { namespace editor { namespace qt5 {
         return lang;
     }
 
-    static QsciLexer* selectLexer(QWidget *editor, const std::string &lang) {
+    static QsciLexer* selectLexer(QWidget *view, const std::string &lang) {
         QsciLexer *lexer = nullptr;
 
         if (lang == "c++") {
-            lexer = new QsciLexerCPP(editor);
+            lexer = new QsciLexerCPP(view);
         }
 
         return lexer;
@@ -49,14 +49,14 @@ namespace felide { namespace editor { namespace qt5 {
 
         std::string lang = getLang(fs::path(item->getPath()).extension().string());
 
-        QsciScintilla *editor = new QsciScintilla(parent);
-        QsciLexer *lexer = selectLexer(editor, lang);
+        QsciScintilla *view = new QsciScintilla(parent);
+        QsciLexer *lexer = selectLexer(view, lang);
 
-        applyLexer(editor, lexer);
+        applyLexer(view, lexer);
 
-        editor->setCaretLineVisible(true);
+        view->setCaretLineVisible(true);
         
-        return editor;
+        return view;
     }
 
     QEditor::QEditor(QWidget *parent, ProjectItemPtr item) : QWidget(parent) {
@@ -71,9 +71,9 @@ namespace felide { namespace editor { namespace qt5 {
             this->item->setModifyFlag(true);
             
             auto mainFrame = static_cast<QMainFrame*>(this->tabbedEditor->parent());
-            auto editor = static_cast<Editor*>(this);
+            auto view = static_cast<Editor*>(this);
 
-            mainFrame->getHandler()->handleEditorChanged(editor);
+            mainFrame->getHandler()->handleEditorChanged(view);
         });
     }
 

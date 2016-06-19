@@ -1,10 +1,12 @@
 
+#pragma once
+
 #ifndef __felide_editor_win32xx_cdialogfactory_hpp__
 #define __felide_editor_win32xx_cdialogfactory_hpp__
 
 #include "felide/view/DialogFactory.hpp"
 
-namespace felide { namespace editor { namespace win32xx {
+namespace felide { namespace view { namespace win32xx {
 
 	class CDialogFactory : public DialogFactory {
 	public:
@@ -18,4 +20,4 @@ namespace felide { namespace editor { namespace win32xx {
 
 }}}
 
-#endif // __felide_editor_win32xx_cdialogfactory_hpp__
+#endif 

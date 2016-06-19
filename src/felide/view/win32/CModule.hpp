@@ -4,9 +4,9 @@
 
 #include <memory>
 #include <string>
-#include <wincore.h>
+#include "wxx_wincore.h"
 
-namespace felide { namespace editor { namespace win32xx { 
+namespace felide { namespace view { namespace win32xx { 
     class CModule {
     public:
         explicit CModule(const std::string &name);
@@ -16,8 +16,8 @@ namespace felide { namespace editor { namespace win32xx {
     private:
         HMODULE module = nullptr;
     };
-    typedef std::unique_ptr<CModule> CModulePtr;
 
+    typedef std::unique_ptr<CModule> CModulePtr;
 }}}
 
 #endif  // __FELIDE_EDITOR_WIN32XX_MODULEWIN32XX_HPP__

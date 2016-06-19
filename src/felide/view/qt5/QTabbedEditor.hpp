@@ -9,7 +9,7 @@
 
 #include "QEditor.hpp"
 
-namespace felide { namespace editor { namespace qt5 {
+namespace felide { namespace view { namespace qt5 {
 
     class QTabbedEditor : public QWidget {
         Q_OBJECT
@@ -20,7 +20,7 @@ namespace felide { namespace editor { namespace qt5 {
         QEditor* openEditor(ProjectItemPtr item);
         QEditor* openEditor(ProjectItemPtr item, const QString &title);
 
-        void closeEditor(const QEditor *editor);
+        void closeEditor(const QEditor *view);
 
         QEditor* getCurrentEditor();
         const QEditor* getCurrentEditor() const;
@@ -31,13 +31,13 @@ namespace felide { namespace editor { namespace qt5 {
         
         const Editor* getEditor(const int index) const;
         
-        void setEditorTitle(Editor *editor, const QString &title);
+        void setEditorTitle(Editor *view, const QString &title);
         
     public slots:
-        void editorTitledChanged(const QEditor* editor);
+        void editorTitledChanged(const QEditor* view);
 
     private:
-        int getEditorIndex(const QEditor* editor) const;
+        int getEditorIndex(const QEditor* view) const;
 
     private:
         QTabWidget *tabWidget = nullptr;

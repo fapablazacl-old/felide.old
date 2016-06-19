@@ -2,7 +2,7 @@
 #ifndef __felide_editor_handler_hpp__
 #define __felide_editor_handler_hpp__
 
-namespace felide { namespace editor {
+namespace felide { namespace view {
 	/*
 	template<typename View>
 	class Controller {

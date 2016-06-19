@@ -9,14 +9,14 @@
 #include <felide/ProjectItem.hpp>
 #include <felide/view/Editor.hpp>
 
-namespace felide { namespace editor { namespace qt5 {
+namespace felide { namespace view { namespace qt5 {
 
     class QTabbedEditor;
-    class QEditor : public QWidget, public felide::editor::Editor {
+    class QEditor : public QWidget, public felide::view::Editor {
         Q_OBJECT
 
     signals:
-        void titleUpdated(const QEditor *editor);
+        void titleUpdated(const QEditor *view);
 
     public:
         explicit QEditor(QWidget *parent, ProjectItemPtr item);

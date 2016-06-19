@@ -5,9 +5,9 @@
 #include <felide/Application.hpp>
 #include "QDialogFactory.hpp"
 
-namespace felide { namespace editor { namespace qt5 {
+namespace felide { namespace view { namespace qt5 {
 
-    class QApplication : public felide::editor::Application {
+    class QApplication : public felide::view::Application {
     public:
         virtual int run(int argc, char **argv);
         

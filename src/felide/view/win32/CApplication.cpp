@@ -4,7 +4,7 @@
 #include "CApplication.hpp"
 #include "CMainFrame.hpp"
 
-namespace felide { namespace editor { namespace win32xx {
+namespace felide { namespace view { namespace win32xx {
 	class CApplicationImpl : public CWinApp {
 	public:
 		CApplicationImpl() {

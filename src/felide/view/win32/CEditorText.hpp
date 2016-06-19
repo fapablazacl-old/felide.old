@@ -2,14 +2,14 @@
 #ifndef __felide_editor_win32xx_editortext_hpp__
 #define __felide_editor_win32xx_editortext_hpp__
 
-#include <wincore.h>
-#include <stdcontrols.h>
-#include <mdi.h>
+#include "wxx_wincore.h"
+#include "wxx_stdcontrols.h"
+#include "wxx_mdi.h"
 
 #include "CEditorBase.hpp"
 #include "felide/ProjectItem.hpp"
 
-namespace felide { namespace editor { namespace win32xx {
+namespace felide { namespace view { namespace win32xx {
 
 	class CTabbedEditorPanel;
 	class CEditorText : public CEditorBase, public CEdit {

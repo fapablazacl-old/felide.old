@@ -4,7 +4,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
-namespace felide { namespace editor { namespace qt5 {
+namespace felide { namespace view { namespace qt5 {
     
     class QMessageBoxDialog : public Dialog {
     public:

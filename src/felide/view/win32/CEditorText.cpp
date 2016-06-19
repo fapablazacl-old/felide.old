@@ -1,7 +1,7 @@
 
 #include "CEditorText.hpp"
 
-namespace felide { namespace editor { namespace win32xx {
+namespace felide { namespace view { namespace win32xx {
 
     CEditorText::CEditorText(ProjectItemPtr projectItem) : CEditorBase(std::move(projectItem)) {	
 	}
@@ -46,7 +46,7 @@ namespace felide { namespace editor { namespace win32xx {
 
         this->editorFont.CreatePointFont(size*10, name.c_str());
 
-		CEdit::SetFont(&this->editorFont);
+		CEdit::SetFont((HFONT)this->editorFont.GetHandle());
 		CEdit::Invalidate();
 	}
 

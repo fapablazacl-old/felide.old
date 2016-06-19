@@ -7,7 +7,7 @@
 
 #include "felide/ProjectItem.hpp"
 
-namespace felide { namespace editor { namespace win32xx {
+namespace felide { namespace view { namespace win32xx {
 	class CEditor;
 	class CEditorFactory {
 	public:

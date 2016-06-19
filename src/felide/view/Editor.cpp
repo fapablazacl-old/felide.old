@@ -1,7 +1,7 @@
 
 #include "Editor.hpp"
 
-namespace felide { namespace editor {
+namespace felide { namespace view {
 
 	Editor::~Editor() {}
 

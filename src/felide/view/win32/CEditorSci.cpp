@@ -3,11 +3,11 @@
 
 #include "CEditorSci.hpp"
 
-#include <Scintilla.h>
-#include <SciLexer.h>
+#include "Scintilla.h"
+#include "SciLexer.h"
 #include <map>
 
-namespace felide { namespace editor { namespace win32xx { 
+namespace felide { namespace view { namespace win32xx { 
 
     const COLORREF black = RGB(0,0,0);
     const COLORREF white = RGB(0xff, 0xff, 0xff);

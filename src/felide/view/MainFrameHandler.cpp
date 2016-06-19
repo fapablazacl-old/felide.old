@@ -8,7 +8,7 @@
 
 #include <boost/variant/get.hpp>
 
-namespace felide { namespace editor {
+namespace felide { namespace view {
 
 	namespace fs = boost::filesystem;
 
@@ -36,9 +36,9 @@ namespace felide { namespace editor {
 		this->newFileCount++;
 
 		auto item = std::make_unique<ProjectItem>();
-		auto editor = this->createEditor(std::move(item));
+		auto view = this->createEditor(std::move(item));
 
-		this->handleEditorChanged(editor);
+		this->handleEditorChanged(view);
         this->getFrame()->updateEnableStatus();
 
 		return true;
@@ -57,31 +57,31 @@ namespace felide { namespace editor {
 		auto filePath = boost::get<fs::path>(dialog->getData());
 		auto item = std::make_unique<ProjectItem>(filePath.string());
 
-		auto editor = this->createEditor(std::move(item));
+		auto view = this->createEditor(std::move(item));
 
-		this->handleEditorChanged(editor);
+		this->handleEditorChanged(view);
 		this->getFrame()->updateEnableStatus();
 
 		return true;
 	}
 
-    bool MainFrameHandler::handleFileSave(Editor *editor) {
+    bool MainFrameHandler::handleFileSave(Editor *view) {
         assert(this);
-		assert(editor);
+		assert(view);
 
-		if (editor->getProjectItem()->hasPath()) {
-			editor->getProjectItem()->save(editor->getText());
-			this->handleEditorChanged(editor);
+		if (view->getProjectItem()->hasPath()) {
+			view->getProjectItem()->save(view->getText());
+			this->handleEditorChanged(view);
 		} else {
-			return this->handleFileSaveAs(editor);
+			return this->handleFileSaveAs(view);
 		}
 
 		return true;
 	}
 
-    bool MainFrameHandler::handleFileSaveAs(Editor *editor) {
+    bool MainFrameHandler::handleFileSaveAs(Editor *view) {
         assert(this);
-		assert(editor);
+		assert(view);
 
 		auto dialogFactory = this->getFrame()->getDialogFactory();
 		auto dialog = dialogFactory->showFileSaveDialog("Save File As ...", "");
@@ -91,13 +91,13 @@ namespace felide { namespace editor {
 		}
 
 		auto filePath = boost::get<fs::path>(dialog->getData());
-		auto content = editor->getText();
+		auto content = view->getText();
 
-		editor->getProjectItem()->save(content, filePath.string());
+		view->getProjectItem()->save(content, filePath.string());
 		
-		this->getFrame()->setEditorTitle(editor, editor->getProjectItem()->getName());
+		this->getFrame()->setEditorTitle(view, view->getProjectItem()->getName());
 
-		this->handleEditorChanged(editor);
+		this->handleEditorChanged(view);
 
 		return true;
 	}
@@ -126,14 +126,14 @@ namespace felide { namespace editor {
 		auto dialogFactory = this->getFrame()->getDialogFactory();
 
 		try {
-			auto *editor = this->getFrame()->getCurrentEditor();
-			if (!editor) {
+			auto *view = this->getFrame()->getCurrentEditor();
+			if (!view) {
 				return true;
 			}
 
-			auto item = editor->getProjectItem();
+			auto item = view->getProjectItem();
 			if (!item->hasPath() || item->getModifyFlag()) {
-				if (!this->handleFileSave(editor)) {
+				if (!this->handleFileSave(view)) {
 					return false;
 				}
 			}
@@ -189,23 +189,23 @@ namespace felide { namespace editor {
 		return true;
 	}
 
-	bool MainFrameHandler::handleEditorChanged(Editor* editor) {
+	bool MainFrameHandler::handleEditorChanged(Editor* view) {
 	    assert(this);
-		assert(editor);
+		assert(view);
 
-		const ProjectItem* item = editor->getProjectItem();
+		const ProjectItem* item = view->getProjectItem();
 
 		std::string title = "";
 
 		if (item->hasPath()) {
 			title += item->getName();
 		} else {
-			title += "Untitled " + std::to_string(editor->getId());
+			title += "Untitled " + std::to_string(view->getId());
 		}
 
 		title += item->getModifyFlag()?"[*]":"";
 
-		this->getFrame()->setEditorTitle(editor, title);
+		this->getFrame()->setEditorTitle(view, title);
 
 		return true;
 	}
@@ -272,19 +272,19 @@ namespace felide { namespace editor {
 	Editor* MainFrameHandler::createEditor(ProjectItemPtr item) {
 	    assert(this);
 
-        Editor* editor = this->getFrame()->createEditor(std::move(item));
+        Editor* view = this->getFrame()->createEditor(std::move(item));
         
-		editor->setFont("Monospace", 10);
-		editor->setTabWidth(4);
-		editor->setId(this->newFileCount);
+		view->setFont("Monospace", 10);
+		view->setTabWidth(4);
+		view->setId(this->newFileCount);
 
-		if (editor->getProjectItem()->hasPath()) {
-            editor->setText(editor->getProjectItem()->open());
+		if (view->getProjectItem()->hasPath()) {
+            view->setText(view->getProjectItem()->open());
 		}
 
-		editor->getProjectItem()->setModifyFlag(false);
+		view->getProjectItem()->setModifyFlag(false);
 
-        return editor;
+        return view;
 	}
 
     bool MainFrameHandler::handleFileClose() {
@@ -293,12 +293,12 @@ namespace felide { namespace editor {
         return this->handleFileClose(this->getFrame()->getCurrentEditor());
     }
 
-    bool MainFrameHandler::handleFileClose(Editor *editor) {
+    bool MainFrameHandler::handleFileClose(Editor *view) {
         assert(this);
-        assert(editor);
+        assert(view);
         
         // ask for changes
-        ProjectItem *item = editor->getProjectItem();
+        ProjectItem *item = view->getProjectItem();
         
         if (item->getModifyFlag()) {
             DialogFactory *factory = this->getFrame()->getDialogFactory();
@@ -311,7 +311,7 @@ namespace felide { namespace editor {
             DialogResult result = dialog->getResult();
             
             if (result == DialogResult::Yes) {
-                if (!this->handleFileSave(editor)) {
+                if (!this->handleFileSave(view)) {
                     return false;
                 } 
                 
@@ -328,7 +328,7 @@ namespace felide { namespace editor {
         
         MainFrame *frame = this->getFrame();
         
-        frame->closeEditor(editor);
+        frame->closeEditor(view);
         frame->updateEnableStatus();
         
         return true;
@@ -341,10 +341,10 @@ namespace felide { namespace editor {
         assert(frame);
         
         for (int i=0; i<frame->getEditorCount(); i++) {
-            Editor *editor = frame->getEditor(i);
-            assert(editor);
+            Editor *view = frame->getEditor(i);
+            assert(view);
             
-            if (!this->handleFileClose(editor)) {
+            if (!this->handleFileClose(view)) {
                 return false;
             }
         }

@@ -6,11 +6,11 @@
 #include <QFileDialog>
 #include <QDockWidget>
 
-namespace felide { namespace editor { namespace qt5 {
+namespace felide { namespace view { namespace qt5 {
 
-    using namespace felide::editor;
+    using namespace felide::view;
 
-    QMainFrame::QMainFrame(felide::editor::DialogFactory *factory) : MainFrame(factory) {
+    QMainFrame::QMainFrame(felide::view::DialogFactory *factory) : MainFrame(factory) {
         this->ui = std::make_unique<Ui_MainWindow>();
         this->ui->setupUi(this);
 
@@ -63,8 +63,8 @@ namespace felide { namespace editor { namespace qt5 {
     	return this->tabbedEditor->openEditor(std::move(item));
     }
 
-    void QMainFrame::closeEditor(Editor* editor) {
-        this->tabbedEditor->closeEditor(static_cast<QEditor*>(editor));
+    void QMainFrame::closeEditor(Editor* view) {
+        this->tabbedEditor->closeEditor(static_cast<QEditor*>(view));
     }
 
     Editor* QMainFrame::getCurrentEditor() {
@@ -101,11 +101,11 @@ namespace felide { namespace editor { namespace qt5 {
         return this->tabbedEditor->getEditor(index);
     }
     
-    void QMainFrame::setEditorTitle(Editor *editor, const std::string &title)  {
+    void QMainFrame::setEditorTitle(Editor *view, const std::string &title)  {
         
     }
     
-    std::string QMainFrame::getEditorTitle(Editor *editor) const {
+    std::string QMainFrame::getEditorTitle(Editor *view) const {
         return "";
     }
 }}}

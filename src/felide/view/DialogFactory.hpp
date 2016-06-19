@@ -4,7 +4,7 @@
 
 #include "Dialog.hpp"
 
-namespace felide { namespace editor {
+namespace felide { namespace view {
 
 	enum class DialogIcon {
 		Default,

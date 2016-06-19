@@ -10,7 +10,7 @@
 
 #include "felide/Config.hpp"
 
-namespace felide { namespace editor {
+namespace felide { namespace view {
 	enum class DialogResult {
 		Cancel,
 		Ok,

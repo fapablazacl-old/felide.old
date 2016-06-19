@@ -5,6 +5,8 @@ IF (FELIDE_GEN_QT5)
 	FIND_PACKAGE(Qt5Widgets REQUIRED)
 	FIND_PACKAGE(QScintilla REQUIRED)
 	
+	add_definitions(-DQSCINTILLA_DLL)
+
 	SET (CMAKE_AUTOUIC ON)
 	SET (CMAKE_INCLUDE_CURRENT_DIR ON)
 	SET (CMAKE_AUTOMOC ON)
@@ -60,11 +62,17 @@ IF (FELIDE_GEN_WIN32)
 	INCLUDE_DIRECTORIES (${WIN32XX_INCLUDE_DIRS})
 	INCLUDE_DIRECTORIES (${SCINTILLA_INCLUDE_DIRS})
 
-	SET (FELIDE_VIEW_WIN32_LIBRARIES )
+	SET (FELIDE_VIEW_WIN32_LIBRARIES comctl32)
 
 	SET (felide_view_win32_src
+		view/win32/CApplication.hpp
+	    view/win32/CApplication.cpp
 	    view/win32/CDialogFactory.hpp
 	    view/win32/CDialogFactory.cpp
+		view/win32/CTabbedEditorPanel.hpp
+	    view/win32/CTabbedEditorPanel.cpp
+		view/win32/CMainFrame.hpp
+	    view/win32/CMainFrame.cpp
 	    view/win32/CEditor.hpp
 	    view/win32/CEditor.cpp
 	    view/win32/CEditorBase.hpp
@@ -149,6 +157,5 @@ SOURCE_GROUP(\\view\\qt5    FILES ${felide_view_qt5_src})
 SOURCE_GROUP(\\view\\win32  FILES ${felide_view_win32_src})
 
 TARGET_LINK_LIBRARIES(felide ${Boost_LIBRARIES} ${FELIDE_VIEW_QT5_LIBRARIES} ${FELIDE_VIEW_WIN32_LIBRARIES})
-# TARGET_LINK_LIBRARIES(felide ${Boost_LIBRARIES}  ${FELIDE_VIEW_QT5_LIBRARIES})
 
-INSTALL(TARGETS felide DESTINATION "bin")
+INSTALL(TARGETS felide DESTINATION ".")

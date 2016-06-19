@@ -2,10 +2,10 @@
 #ifndef __felide_editor_win32xx_tabbededitorpanel_hpp__
 #define __felide_editor_win32xx_tabbededitorpanel_hpp__
 
-#include <toolbar.h>
-#include <tab.h>
+#include "wxx_toolbar.h"
+#include "wxx_tab.h"
 
-namespace felide {  namespace editor {  namespace win32xx {
+namespace felide {  namespace view {  namespace win32xx {
 
 	class CEditor;
 	class CMainFrame;

@@ -1,9 +1,11 @@
 
 #include "CDialogFactory.hpp"
 
-#include <file.h>
+#include "wxx_file.h"
+#include "wxx_dialog.h"
+#include "wxx_commondlg.h"
 
-namespace felide { namespace editor { namespace win32xx {
+namespace felide { namespace view { namespace win32xx {
 
 	using namespace Win32xx;
 
@@ -66,11 +68,12 @@ namespace felide { namespace editor { namespace win32xx {
 			CString filePath = "";
 
 			if (type == CFileDialogType::Open) {
-				filePath = CFile().OpenFileDialog(nullptr, 6UL, nullptr, "C/C++ Files\0*.c;*.cpp");
+				
+				// filePath = CFile().OpenFileDialog(nullptr, 6UL, nullptr, "C/C++ Files\0*.c;*.cpp");
 			}
 
 			if (type == CFileDialogType::Save) {
-				filePath = CFile().SaveFileDialog(nullptr, 6UL, nullptr, "C/C++ Files\0*.c;*.cpp");
+				// filePath = CFile().SaveFileDialog(nullptr, 6UL, nullptr, "C/C++ Files\0*.c;*.cpp");
 			}
 
 			this->result = filePath==""?DialogResult::Cancel:DialogResult::Ok;

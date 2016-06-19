@@ -5,7 +5,7 @@
 #include <memory>
 #include "DialogFactory.hpp"
 
-namespace felide { namespace editor {
+namespace felide { namespace view {
     
 	template<typename Handler>
 	class View {

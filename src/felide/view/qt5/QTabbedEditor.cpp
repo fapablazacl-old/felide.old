@@ -9,7 +9,7 @@
 #include <Qsci/qscilexer.h>
 #include <Qsci/qscilexercpp.h>
 
-namespace felide { namespace editor { namespace qt5 {
+namespace felide { namespace view { namespace qt5 {
 
     QTabbedEditor::QTabbedEditor(QWidget *parent) : QWidget(parent) {
         this->tabWidget = new QTabWidget(this);
@@ -20,30 +20,32 @@ namespace felide { namespace editor { namespace qt5 {
         this->setLayout(layout);
 
         connect(this->tabWidget, &QTabWidget::tabCloseRequested, [this](int index) {
-            auto editor = static_cast<QEditor*>(this->tabWidget->widget(index));
+            auto view = static_cast<QEditor*>(this->tabWidget->widget(index));
             auto mainFrame = static_cast<QMainFrame*>(this->parent());
 
-            mainFrame->getHandler()->handleFileClose(editor);
+            mainFrame->getHandler()->handleFileClose(view);
         });
     }
 
     QEditor* QTabbedEditor::openEditor(ProjectItemPtr item) {
-        QString title = QString::fromStdString(item->getName());
+		std::string name = item->getName() + " ";
+
+        QString title = QString::fromStdString(name);
         return this->openEditor(std::move(item), title);
     }
 
     QEditor* QTabbedEditor::openEditor(ProjectItemPtr item, const QString &title) {
-        QEditor *editor = new QEditor(this->tabWidget, std::move(item));
+        QEditor *view = new QEditor(this->tabWidget, std::move(item));
 
-        editor->setTabbedEditor(this);
+        view->setTabbedEditor(this);
 
-        this->tabWidget->addTab(editor, title);
-        this->tabWidget->setCurrentWidget(editor);
-        editor->setFocus();
+        this->tabWidget->addTab(view, title);
+        this->tabWidget->setCurrentWidget(view);
+        view->setFocus();
         
-        connect(editor, &QEditor::titleUpdated, this, &QTabbedEditor::editorTitledChanged);
+        QObject::connect(view, &QEditor::titleUpdated, this, &QTabbedEditor::editorTitledChanged);
 
-        return editor;
+        return view;
     }
 
     QEditor* QTabbedEditor::getCurrentEditor() {
@@ -66,21 +68,21 @@ namespace felide { namespace editor { namespace qt5 {
         return static_cast<const QEditor*>(widget);
     }
     
-    void QTabbedEditor::closeEditor(const QEditor *editor) {
-        assert(editor);
+    void QTabbedEditor::closeEditor(const QEditor *view) {
+        assert(view);
 
-        const int editorIndex = this->getEditorIndex(editor);
+        const int editorIndex = this->getEditorIndex(view);
         this->tabWidget->removeTab(editorIndex);
     }
 
-    int QTabbedEditor::getEditorIndex(const QEditor* editor) const {
-        assert(editor);
+    int QTabbedEditor::getEditorIndex(const QEditor* view) const {
+        assert(view);
 
         int index = 0;
         bool found = false;
 
         for (index=0; index<this->tabWidget->count(); index++) {
-            if (this->tabWidget->widget(index) == editor) {
+            if (this->tabWidget->widget(index) == view) {
                 found = true;
                 break;
             }
@@ -93,12 +95,12 @@ namespace felide { namespace editor { namespace qt5 {
         }
     }
 
-    void QTabbedEditor::editorTitledChanged(const QEditor* editor) {
-        assert(editor);
+    void QTabbedEditor::editorTitledChanged(const QEditor* view) {
+        assert(view);
 
         auto mainFrame = static_cast<QMainFrame*>(this->parent());
 
-        mainFrame->getHandler()->handleEditorChanged(const_cast<QEditor*>(editor));
+        mainFrame->getHandler()->handleEditorChanged(const_cast<QEditor*>(view));
     }
 
     const int QTabbedEditor::getEditorCount() const {
@@ -113,8 +115,8 @@ namespace felide { namespace editor { namespace qt5 {
         return dynamic_cast<Editor*>(this->tabWidget->widget(index));
     }
 
-    void QTabbedEditor::setEditorTitle(Editor *editor, const QString &title) {
-        const int index = this->getEditorIndex(static_cast<QEditor*>(editor));
+    void QTabbedEditor::setEditorTitle(Editor *view, const QString &title) {
+        const int index = this->getEditorIndex(static_cast<QEditor*>(view));
         this->tabWidget->setTabText(index, title);
     }
 }}}

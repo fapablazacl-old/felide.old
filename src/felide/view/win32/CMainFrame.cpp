@@ -3,7 +3,8 @@
 
 #include <string>
 #include <boost/filesystem.hpp>
-#include <file.h>
+
+#include "wxx_file.h"
 
 #include "felide/system/Process.hpp"
 #include "felide/view/win32/CEditor.hpp"
@@ -15,7 +16,7 @@
 #include "felide/view/win32/CEditorSci.hpp"
 #include "felide/view/win32/CEditorSciFactory.hpp"
 
-namespace felide { namespace editor { namespace win32xx {
+namespace felide { namespace view { namespace win32xx {
 	typedef CEditorSciFactory CEditorFactory_Selected;
 }}}
 	
@@ -23,13 +24,13 @@ namespace felide { namespace editor { namespace win32xx {
 #include "felide.editor/win32xx/CEditorText.hpp"
 #include "felide.editor/win32xx/CEditorFactoryImpl.hpp"
 
-namespace felide { namespace editor { namespace win32xx {
+namespace felide { namespace view { namespace win32xx {
 	typedef CEditorFactory<CEditorText> CEditorFactory_Selected;
 }}}
 
 #endif
 
-namespace felide { namespace editor { namespace win32xx {
+namespace felide { namespace view { namespace win32xx {
 
     CMainFrame::CMainFrame(DialogFactory *factory) : MainFrame(factory) {
 
@@ -39,10 +40,10 @@ namespace felide { namespace editor { namespace win32xx {
         this->SetView(*this->editorPanel.get());
     }
 	
-	int CMainFrame::OnCreate(LPCREATESTRUCT pcs) {
+	int CMainFrame::OnCreate(CREATESTRUCT &cs) {
 		assert(this);
 
-		int result = CFrame::OnCreate(pcs);
+		int result = CFrame::OnCreate(cs);
 
 		return result;
 	}
@@ -104,7 +105,7 @@ namespace felide { namespace editor { namespace win32xx {
 		
 		editor->SetEditorPanel(this->editorPanel.get());
 
-		this->editorPanel->AddMDIChild(WndPtr(editor), editor->getProjectItem()->getName().c_str());
+		this->editorPanel->AddMDIChild(editor, editor->getProjectItem()->getName().c_str());
 
 		return editor;
 	}
@@ -128,7 +129,7 @@ namespace felide { namespace editor { namespace win32xx {
 	void CMainFrame::close() {
 		assert(this);
 
-		CFrame::Close();
+		this->CloseWindow();
 	}
 
 	int CMainFrame::getEditorCount() const {
@@ -154,7 +155,7 @@ namespace felide { namespace editor { namespace win32xx {
 	void CMainFrame::updateEnableStatus() {
 		assert(this);
 
-		HMENU menu = this->GetMenuBar()->GetMenu();
+		HMENU menu = this->GetMenuBar().GetMenu();
 		assert(menu);
 
 		const UINT enable = this->getEditorCount()>0?MF_ENABLED:MF_DISABLED;
@@ -177,10 +178,10 @@ namespace felide { namespace editor { namespace win32xx {
 	}
 	
 	void CMainFrame::setEditorTitle(Editor* editor, const std::string &title) {
-		CTab *tab = this->editorPanel->GetTab();
+		CTab &tab = this->editorPanel->GetTab();
 		
-		const int tabIndex = tab->GetTabIndex(dynamic_cast<CEditor*>(editor));
-		tab->SetTabText(tabIndex, title.c_str());
+		const int tabIndex = tab.GetTabIndex(dynamic_cast<CEditor*>(editor));
+		tab.SetTabText(tabIndex, title.c_str());
 		
 		this->editorPanel->RecalcLayout();
 	}

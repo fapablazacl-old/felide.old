@@ -2,11 +2,10 @@
 #ifndef __felide_editor_win32xx_ceditorbase_hpp__
 #define __felide_editor_win32xx_ceditorbase_hpp__
 
-#include <wincore.h>
-
+#include "wxx_wincore.h"
 #include "CEditor.hpp"
 
-namespace felide { namespace editor { namespace win32xx {
+namespace felide { namespace view { namespace win32xx {
 
 	class CTabbedEditorPanel;
 	class CEditorBase : public virtual CEditor {
@@ -29,4 +28,4 @@ namespace felide { namespace editor { namespace win32xx {
 	};
 }}}
 
-#endif	// __felide_editor_win32xx_ceditor_hpp__
+#endif

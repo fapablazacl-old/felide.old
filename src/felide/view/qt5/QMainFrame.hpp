@@ -14,24 +14,24 @@
 #include "ui_QMainFrame.h"
 #include "QTabbedEditor.hpp"
 
-namespace felide { namespace editor { namespace qt5 {
+namespace felide { namespace view { namespace qt5 {
 
-    class QMainFrame : public ::QMainWindow, public felide::editor::MainFrame {
+    class QMainFrame : public ::QMainWindow, public felide::view::MainFrame {
         Q_OBJECT
 
     public:
         using MainFrame::close;
 
-        QMainFrame(felide::editor::DialogFactory *factory);
+        QMainFrame(felide::view::DialogFactory *factory);
         virtual ~QMainFrame();
 
     public:
         virtual void close() override;
-        virtual felide::editor::Editor* createEditor(ProjectItemPtr item) override;
-        virtual void closeEditor(Editor* editor) override;
+        virtual felide::view::Editor* createEditor(ProjectItemPtr item) override;
+        virtual void closeEditor(Editor* view) override;
 
-		virtual felide::editor::Editor* getCurrentEditor() override;
-		virtual const felide::editor::Editor* getCurrentEditor() const override;
+		virtual felide::view::Editor* getCurrentEditor() override;
+		virtual const felide::view::Editor* getCurrentEditor() const override;
 
         virtual int getEditorCount() const override;
 		virtual Editor* getEditor(const int index) override;
@@ -39,8 +39,8 @@ namespace felide { namespace editor { namespace qt5 {
 
 		virtual void updateEnableStatus() override;
 
-        virtual void setEditorTitle(Editor *editor, const std::string &title) override;
-		virtual std::string getEditorTitle(Editor *editor) const  override;
+        virtual void setEditorTitle(Editor *view, const std::string &title) override;
+		virtual std::string getEditorTitle(Editor *view) const  override;
 		
     private:
         std::unique_ptr<Ui_MainWindow> ui;

@@ -5,14 +5,15 @@
 #define __felide_editor_win32xx_editorsci_hpp__
 
 #include "felide/view/Editor.hpp"
-#include "CEditorBase.hpp"
 
 #include <string>
-#include <wincore.h>
-#include <Scintilla.h>
-#include <SciLexer.h>
 
-namespace felide { namespace editor { namespace win32xx { 
+#include "wxx_wincore.h"
+#include "Scintilla.h"
+#include "SciLexer.h"
+#include "CEditorBase.hpp"
+
+namespace felide { namespace view { namespace win32xx { 
 
     class CEditorSci : public virtual CEditorBase, public virtual CWnd {
     public:

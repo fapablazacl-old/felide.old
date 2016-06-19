@@ -4,7 +4,7 @@
 
 #include <QDockWidget>
 
-namespace felide { namespace editor { namespace qt5 {
+namespace felide { namespace view { namespace qt5 {
 
     int QApplication::run(int argc, char **argv) {
         ::QApplication app(argc, argv);

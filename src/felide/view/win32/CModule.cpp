@@ -1,7 +1,7 @@
 
 #include "CModule.hpp"
 
-namespace felide { namespace editor { namespace win32xx { 
+namespace felide { namespace view { namespace win32xx { 
 
     CModule::CModule(const std::string &name) {
         HMODULE module = ::LoadLibraryA(name.c_str());

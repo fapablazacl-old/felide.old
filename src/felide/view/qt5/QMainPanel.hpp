@@ -6,7 +6,7 @@
 #include <QWidget>
 #include <QToolBox>
 
-namespace felide { namespace editor { namespace qt5 {
+namespace felide { namespace view { namespace qt5 {
     
     class QMainPanel : public QWidget {
         Q_OBJECT

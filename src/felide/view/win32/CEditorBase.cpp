@@ -3,7 +3,7 @@
 
 // #include "felide.editor/win32xx/CTabbedEditorPanel.hpp"
 
-namespace felide { namespace editor { namespace win32xx {
+namespace felide { namespace view { namespace win32xx {
 
 	CEditorBase::CEditorBase(ProjectItemPtr projectItem) {
 		this->projectItem = std::move(projectItem);

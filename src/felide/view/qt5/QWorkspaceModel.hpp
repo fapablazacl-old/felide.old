@@ -9,7 +9,7 @@
 
 #include "felide/Workspace.hpp"
 
-namespace felide { namespace editor { namespace qt5 {
+namespace felide { namespace view { namespace qt5 {
     
     class QWorkspaceModel : public QAbstractItemModel {
         Q_OBJECT

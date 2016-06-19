@@ -4,7 +4,7 @@
 
 #include "felide/Config.hpp"
 
-namespace felide { namespace editor {
+namespace felide { namespace view {
     class FELIDE_API Application {
     public:
         Application();
