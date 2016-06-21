@@ -11,7 +11,8 @@ namespace felide { namespace view {
 
 	class FELIDE_API MainFrameHandler {
 	public:
-		explicit MainFrameHandler(MainFrame *frame);
+		MainFrameHandler() {}
+		explicit MainFrameHandler(MainFrame *frame) : m_frame(frame) {}
 
 		bool handleFileNew();
         bool handleFileOpen();
@@ -46,13 +47,21 @@ namespace felide { namespace view {
         Editor* createEditor(ProjectItemPtr item);
 
 	public:
-		MainFrame* getFrame();
+		MainFrame* getFrame() {
+			return m_frame;
+		}
 
-		const MainFrame* getFrame() const;
+		const MainFrame* getFrame() const {
+			return m_frame;
+		}
+
+		void setFrame(MainFrame *frame) {
+			m_frame = frame;
+		}
 
 	private:
-		MainFrame *frame = nullptr;
-		int newFileCount = 0;
+		MainFrame *m_frame = nullptr;
+		int m_newFileCount = 0;
 	};
 }}
 

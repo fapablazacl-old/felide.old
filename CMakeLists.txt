@@ -1,25 +1,24 @@
 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
+cmake_minimum_required(VERSION 3.1)
 
-PROJECT (felide)
+project (felide)
 
-OPTION (FELIDE_GEN_QT5      "Enable QT5 based user interface"       OFF)
-OPTION (FELIDE_GEN_WIN32    "Enable WinAPI-based user interface"    OFF)
+option (FELIDE_GEN_QT5      "Enable QT5 based user interface"       OFF)
+option (FELIDE_GEN_WIN32    "Enable WinAPI-based user interface"    OFF)
 
-SET (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/src/cmake)
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/src/cmake)
 
 # Boost
-ADD_DEFINITIONS(-DBOOST_ALL_NO_LIB)
+add_definitions(-DBOOST_ALL_NO_LIB)
 
-SET (Boost_USE_STATIC_LIBS OFF)
-SET (Boost_USE_MULTITHREADED ON)
-SET (Boost_USE_STATIC_RUNTIME OFF)
+set (Boost_USE_STATIC_LIBS OFF)
+set (Boost_USE_MULTITHREADED ON)
+set (Boost_USE_STATIC_RUNTIME OFF)
 
-FIND_PACKAGE (Boost COMPONENTS filesystem system REQUIRED)
+find_package (Boost COMPONENTS filesystem system REQUIRED)
 
 # Include dirs
-INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES (src)
+include_directories (${Boost_INCLUDE_DIRS})
+include_directories (src)
 
-ADD_SUBDIRECTORY (src/felide)
-
+add_subdirectory (src/felide)

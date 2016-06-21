@@ -6,6 +6,7 @@
 #include "felide/view/Editor.hpp"
 
 #include "MainFrameHandler.hpp"
+#include <vector>
 
 namespace felide { namespace view {
 
@@ -31,6 +32,29 @@ namespace felide { namespace view {
 		virtual void close() = 0;
 
 		virtual void updateEnableStatus() = 0;
+
+		/**
+		 * @brief Get a Vector containing all the available editors, by value.
+		 */
+		std::vector<Editor*> getEditors() {
+			std::vector<Editor*> editors(this->getEditorCount());
+
+			for (int i=0; i<this->getEditorCount(); i++) {
+				editors[i] = this->getEditor(i);
+			}
+
+			return editors;
+		}
+
+		std::vector<const Editor*> getEditors() const {
+			std::vector<const Editor*> editors(this->getEditorCount());
+
+			for (int i=0; i<this->getEditorCount(); i++) {
+				editors[i] = this->getEditor(i);
+			}
+
+			return editors;
+		}
 	};
 }}
 

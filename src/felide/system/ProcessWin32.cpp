@@ -10,7 +10,6 @@
 #if defined(_WIN32)
 
 #include "Process.hpp"
-#include "felide/Common.hpp"
 
 #include <sstream>
 #include <boost/algorithm/string/join.hpp>

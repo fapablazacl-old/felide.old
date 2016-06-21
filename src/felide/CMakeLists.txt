@@ -1,21 +1,21 @@
 
-IF (FELIDE_GEN_QT5)
+if (FELIDE_GEN_QT5)
 	# Qt5Widgets
 	
-	FIND_PACKAGE(Qt5Widgets REQUIRED)
-	FIND_PACKAGE(QScintilla REQUIRED)
+	find_package(Qt5Widgets REQUIRED)
+	find_package(QScintilla REQUIRED)
 	
 	add_definitions(-DQSCINTILLA_DLL)
 
-	SET (CMAKE_AUTOUIC ON)
-	SET (CMAKE_INCLUDE_CURRENT_DIR ON)
-	SET (CMAKE_AUTOMOC ON)
+	set (CMAKE_AUTOUIC ON)
+	set (CMAKE_INCLUDE_CURRENT_DIR ON)
+	set (CMAKE_AUTOMOC ON)
     
-	SET (FELIDE_VIEW_QT5_LIBRARIES Qt5::Widgets ${QSCINTILLA_LIBRARY})
+	set (FELIDE_VIEW_QT5_LIBRARIES Qt5::Widgets ${QSCINTILLA_LIBRARY})
 	
-	INCLUDE_DIRECTORIES(${QSCINTILLA_INCLUDE_DIR})
+	include_directories(${QSCINTILLA_INCLUDE_DIR})
 	
-	SET (felide_view_qt5_src
+	set (felide_view_qt5_src
         view/qt5/QApplication.hpp view/qt5/QApplication.cpp
 	    view/qt5/QDialogFactory.hpp view/qt5/QDialogFactory.cpp
 	    view/qt5/QEditor.hpp view/qt5/QEditor.cpp
@@ -30,74 +30,59 @@ IF (FELIDE_GEN_QT5)
 	    view/qt5/QMainFrame.ui
 	)
 
-	ADD_DEFINITIONS(-DFELIDE_VIEW_QT5)
-ENDIF()
+	add_definitions(-DFELIDE_VIEW_QT5)
+endif()
 
-IF (FELIDE_GEN_WIN32)
-	# Win32xx
-	IF (NOT WIN32XX_INCLUDE_DIRS)
-	    MESSAGE (ERROR_MESSAGE "Win32++ include location isn't defined. Please define the WIN32XX_INCLUDE_DIRS variable.")
-	    SET (WIN32XX_FOUND 0)
-	    SET (WIN32XX_LIBRARIES )
-	ELSE ()
-	    SET (WIN32XX_FOUND 1)
-	    SET (WIN32XX_LIBRARIES comctl32)
-	ENDIF ()
+if (FELIDE_GEN_WIN32)
 
-	IF (NOT SCINTILLA_INCLUDE_DIRS)
-	    MESSAGE (WARNING "Scintilla include location isn't defined (-DSCINTILLA_INCLUDE_DIRS). Using raw text editor widget.")
-	    SET (SCINTILLA_FOUND 0)
-	    SET (SCINTILLA_LIBRARIES)
-	ELSE ()
-	    SET (SCINTILLA_FOUND 1)
-	    SET (SCINTILLA_LIBRARIES)
-	ENDIF ()
+	# Force the C++ compiler to use UNICODE instead of ANSI
+	add_definitions(-DUNICODE)
+	add_definitions(-D_UNICODE)
 
-	IF (SCINTILLA_FOUND)
-	    ADD_DEFINITIONS(-DFELIDE_GUI_CODEEDIT_SCI)
-	ELSE ()
-	    ADD_DEFINITIONS(-DFELIDE_GUI_CODEEDIT_TEXT)
-	ENDIF ()
+	# disable those annoying Visual C++ warnings about deprecation..
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
-	INCLUDE_DIRECTORIES (${WIN32XX_INCLUDE_DIRS})
-	INCLUDE_DIRECTORIES (${SCINTILLA_INCLUDE_DIRS})
+	# WCL
+	if (NOT WCL_INCLUDE_DIRS)
+	    MESSAGE (ERROR_MESSAGE "WCL include location isn't defined. Please define the WCL_INCLUDE_DIRS variable.")
+	    set (WCL_FOUND 0)
+	    set (WCL_LIBRARIES )
+	else()
+	    set (WCL_FOUND 1)
+	    set (WCL_LIBRARIES comctl32)
+	endif ()
 
-	SET (FELIDE_VIEW_WIN32_LIBRARIES comctl32)
+	if (NOT SCINTILLA_INCLUDE_DIRS)
+	    MESSAGE (ERROR_MESSAGE "Scintilla include location isn't defined (-DSCINTILLA_INCLUDE_DIRS).")
+	    set (SCINTILLA_FOUND 0)
+	    set (SCINTILLA_LIBRARIES)
+	else()
+	    set (SCINTILLA_FOUND 1)
+	    set (SCINTILLA_LIBRARIES)
+	endif ()
+	
+	include_directories(${WCL_INCLUDE_DIRS})
+	include_directories(${SCINTILLA_INCLUDE_DIRS})
 
-	SET (felide_view_win32_src
-		view/win32/CApplication.hpp
-	    view/win32/CApplication.cpp
-	    view/win32/CDialogFactory.hpp
-	    view/win32/CDialogFactory.cpp
-		view/win32/CTabbedEditorPanel.hpp
-	    view/win32/CTabbedEditorPanel.cpp
-		view/win32/CMainFrame.hpp
-	    view/win32/CMainFrame.cpp
-	    view/win32/CEditor.hpp
-	    view/win32/CEditor.cpp
-	    view/win32/CEditorBase.hpp
-	    view/win32/CEditorBase.cpp
-	    view/win32/CEditorFactory.hpp
-	    view/win32/CEditorFactory.cpp
-	    view/win32/CEditorFactoryImpl.hpp
-	    view/win32/CEditorFactoryImpl.cpp
-	    view/win32/CEditorSci.hpp
-	    view/win32/CEditorSci.cpp
-	    view/win32/CEditorSciFactory.hpp
-	    view/win32/CEditorSciFactory.cpp
-	    view/win32/CEditorText.hpp
-	    view/win32/CEditorText.cpp
-	    view/win32/CModule.hpp
-	    view/win32/CModule.cpp
+	set (FELIDE_VIEW_WIN32_LIBRARIES comctl32)
+
+	set (felide_view_win32_src
+		view/win/AppImpl.hpp
+		view/win/AppImpl.cpp
+		view/win/IdeApp.cpp 
+		view/win/IdeApp.hpp 
+		view/win/Main.cpp 
+		view/win/WMainFrame.cpp 
+		view/win/WMainFrame.hpp 
+		view/win/WMainFrame.ui.cpp 
 	)
 	
-	ADD_DEFINITIONS(-DFELIDE_VIEW_WIN32)
-ENDIF()
+	add_definitions(-DFELIDE_VIEW_WIN32)
+endif()
 
 
-SET(felide_src
+set(felide_src
     Config.hpp
-    Common.hpp
     ProjectItem.hpp 
     ProjectItem.cpp
     Project.hpp 
@@ -106,12 +91,14 @@ SET(felide_src
     Workspace.cpp
     Toolchain.hpp 
     Toolchain.cpp
-    Application.hpp 
-    Application.cpp
+    App.hpp 
+    App.cpp
+	LexerConstants.cpp 
+	LexerConstants.hpp 
     felide.cpp
 )
 
-SET(felide_system_src
+set(felide_system_src
     system/Environment.hpp 
     system/Environment.cpp
     system/Module.hpp 
@@ -123,13 +110,11 @@ SET(felide_system_src
     system/Library.cpp
 )
 
-SET (felide_view_src
+set (felide_view_src
     view/Editor.hpp
     view/Editor.cpp
     view/View.hpp
     view/View.cpp
-    view/Handler.hpp
-    view/Handler.cpp
     view/Dialog.hpp
     view/Dialog.cpp
     view/DialogFactory.hpp
@@ -141,7 +126,7 @@ SET (felide_view_src
 )
 
 
-ADD_EXECUTABLE(felide 
+add_executable(felide 
   ${felide_src} 
   ${felide_system_src} 
   ${felide_view_src} 
@@ -149,13 +134,13 @@ ADD_EXECUTABLE(felide
   ${felide_view_win32_src}
 )
 
-SET_PROPERTY(TARGET felide PROPERTY CXX_STANDARD 14)
-SOURCE_GROUP(\\             FILES ${felide_src})
-SOURCE_GROUP(\\system       FILES ${felide_system_src})
-SOURCE_GROUP(\\view         FILES ${felide_view_src})
-SOURCE_GROUP(\\view\\qt5    FILES ${felide_view_qt5_src})
-SOURCE_GROUP(\\view\\win32  FILES ${felide_view_win32_src})
+set_property(TARGET felide PROPERTY CXX_STANDARD 14)
+source_group(\\             FILES ${felide_src})
+source_group(\\system       FILES ${felide_system_src})
+source_group(\\view         FILES ${felide_view_src})
+source_group(\\view\\qt5    FILES ${felide_view_qt5_src})
+source_group(\\view\\wcl  FILES ${felide_view_win32_src})
 
-TARGET_LINK_LIBRARIES(felide ${Boost_LIBRARIES} ${FELIDE_VIEW_QT5_LIBRARIES} ${FELIDE_VIEW_WIN32_LIBRARIES})
+target_link_libraries(felide ${Boost_LIBRARIES} ${FELIDE_VIEW_QT5_LIBRARIES} ${FELIDE_VIEW_WIN32_LIBRARIES})
 
-INSTALL(TARGETS felide DESTINATION ".")
+install(TARGETS felide DESTINATION ".")
