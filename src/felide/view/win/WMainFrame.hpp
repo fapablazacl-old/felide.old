@@ -9,9 +9,12 @@
 #include <wcl/ImageList.hpp>
 #include <wcl/AcceleratorTable.hpp>
 #include <wcl/Scintilla.hpp>
+#include <wcl/ex/TabbedPanel.hpp>
 #include <memory>
 
-#include "AppImpl.hpp"
+#include "felide/view/MainFrame.hpp"
+
+#include "WAppImpl.hpp"
 
 namespace gen {
 
@@ -41,7 +44,7 @@ namespace gen {
 
 namespace felide { namespace view { namespace win {
 
-	class WMainFrame : public wcl::Frame {
+	class WMainFrame : public wcl::Frame, public MainFrame {
 	public:
 		enum {
 			ID_FILE_NEW = 1000,
@@ -86,11 +89,26 @@ namespace felide { namespace view { namespace win {
 			ID_HELP_ABOUT = 7000,
 		};
 
+	public:
+		virtual Editor* createEditor(ProjectItemPtr item) override;
+		virtual void closeEditor(Editor* view) override;
+
+		virtual Editor* getCurrentEditor() override;
+		virtual const Editor* getCurrentEditor() const override;
+
+		virtual int getEditorCount() const override;
+		virtual Editor* getEditor(const int index) override;
+		virtual const Editor* getEditor(const int index) const override;
+		
+		virtual void setEditorTitle(Editor *view, const std::string &title) override;
+		virtual std::string getEditorTitle(Editor *view) const override;
+		
+		virtual void close() override;
+
+		virtual void updateEnableStatus() override;
 
 	public:
-		explicit WMainFrame(AppImpl *app);
-
-		void initMenuBar();
+		explicit WMainFrame(WAppImpl *app);
 
 		void OnFileExit();
 	
@@ -107,11 +125,6 @@ namespace felide { namespace view { namespace win {
 			return m_acceleratorTable.get();
 		}
 
-		// int getLexer(const std::string &ext);
-
-	public:
-		void SetFile(const std::string &filename, const std::string &content);
-
 	private:
 		wcl::MenuPtr m_menu;
 		// wcl::TreeViewPtr m_treeView;
@@ -119,10 +132,9 @@ namespace felide { namespace view { namespace win {
 		wcl::AcceleratorTablePtr m_acceleratorTable;
 		wcl::Scintilla m_textEditor;
 		wcl::Sizer m_sizer;
+		wcl::ex::TabbedPanel m_tabbedPanel;
 
-		std::string m_filename;
-
-		AppImpl *m_app = nullptr;
+		WAppImpl *m_app = nullptr;
 	};
 }}}
 

@@ -288,7 +288,7 @@ namespace felide { namespace view {
             
             const std::string message = "Do you want to save the changes of the file '" + item->getName() + "' ?";
             
-            DialogPtr dialog = factory->showMessageDialog("felide.editor", message, DialogIcon::Question, DialogButton::YesNoCancel);
+            DialogPtr dialog = factory->showMessageDialog("felide", message, DialogIcon::Question, DialogButton::YesNoCancel);
             
             DialogResult result = dialog->getResult();
             

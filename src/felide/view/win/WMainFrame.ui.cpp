@@ -4,6 +4,7 @@
 #include <map>
 #include <wcl/gen/Menu.hpp>
 #include <wcl/Bitmap.hpp>
+#include <wcl/Edit.hpp>
 
 namespace felide { namespace view { namespace win {
 
@@ -125,10 +126,21 @@ namespace felide { namespace view { namespace win {
 
 		// m_sizer.Add(m_treeView.get(), wcl::SizerStyle::Expand);
 
-		m_textEditor.Create(L"", WS_CHILD | WS_VISIBLE, 0, 0, 10, 10, this->GetHandle());
-		m_textEditor.SetStyle(STYLE_DEFAULT, wcl::ScintillaColors::Black, wcl::ScintillaColors::White, 8, "Courier");
-		m_textEditor.SetTabWidth(4);
+		//m_textEditor.Create(L"", WS_CHILD | WS_VISIBLE, 0, 0, 10, 10, this->GetHandle());
+		//m_textEditor.SetStyle(STYLE_DEFAULT, wcl::ScintillaColors::Black, wcl::ScintillaColors::White, 8, "Courier");
+		//m_textEditor.SetTabWidth(4);
 
-		m_sizer.Add(&m_textEditor, wcl::SizerStyle::Expand);
+		m_tabbedPanel.CreateEx(WS_EX_CLIENTEDGE, L"", WS_CHILD | WS_VISIBLE | SS_SIMPLE, 10, 10, 300, 300, this->GetHandle());
+
+		auto sci1 = std::make_unique<wcl::Scintilla>();
+		sci1->CreateEx(WS_EX_CLIENTEDGE, L"Test Text", WS_CHILD, 10, 10, 50, 50, this->GetHandle());
+
+		//auto sci2 = std::make_unique<wcl::Scintilla>();
+		//sci2->CreateEx(WS_EX_CLIENTEDGE, L"Test Text 2", WS_CHILD, 10, 10, 50, 50, this->GetHandle());
+
+		// m_tabbedPanel.Insert(L"Test!", std::move(sci1));
+		// m_tabbedPanel.Insert(L"Test!", std::move(sci2));
+
+		m_sizer.Add(&m_tabbedPanel, wcl::SizerStyle::Expand);
 	}
 }}}

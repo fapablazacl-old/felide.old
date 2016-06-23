@@ -67,14 +67,15 @@ if (FELIDE_GEN_WIN32)
 	set (FELIDE_VIEW_WIN32_LIBRARIES comctl32)
 
 	set (felide_view_win32_src
-		view/win/AppImpl.hpp
-		view/win/AppImpl.cpp
-		view/win/IdeApp.cpp 
-		view/win/IdeApp.hpp 
-		view/win/Main.cpp 
+		view/win/WAppImpl.hpp
+		view/win/WAppImpl.cpp
 		view/win/WMainFrame.cpp 
 		view/win/WMainFrame.hpp 
 		view/win/WMainFrame.ui.cpp 
+		view/win/WDialogFactory.cpp 
+		view/win/WDialogFactory.hpp 
+		view/win/WEditor.cpp 
+		view/win/WEditor.hpp 
 	)
 	
 	add_definitions(-DFELIDE_VIEW_WIN32)

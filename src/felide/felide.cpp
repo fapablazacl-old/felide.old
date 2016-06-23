@@ -1,18 +1,14 @@
-//
-//#include <iostream>
-//
-//#if defined(FELIDE_VIEW_QT5)
-//#include <felide/view/qt5/QApplication.hpp>
-//typedef felide::view::qt5::QApplication App;
-//#endif 
-//
-//#if defined(FELIDE_VIEW_WIN32)
-//
-//#endif 
-//
 
 #include "felide/App.hpp"
 
+#include <iostream>
+
 int main(int argc, char **argv) {
-	return felide::App::getInstance()->run(argc, argv);
+
+	try {
+		return felide::App::getInstance()->run(argc, argv);
+
+	} catch (const std::exception &exp) {
+		std::cout << exp.what() << std::endl;
+	}
 }

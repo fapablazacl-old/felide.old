@@ -11,7 +11,7 @@
 namespace felide { namespace view {
 
 	class MainFrameHandler;
-	class FELIDE_API MainFrame : public View<MainFrameHandler> {
+	class MainFrame : public View<MainFrameHandler> {
 	public:
 		MainFrame(DialogFactory *dialogFactory);
 		virtual ~MainFrame();

@@ -1,18 +1,18 @@
 
-#include "AppImpl.hpp"
+#include "WAppImpl.hpp"
 #include "WMainFrame.hpp"
 
 namespace felide { namespace view { namespace win {
 
-	AppImpl::AppImpl() {
+	WAppImpl::WAppImpl() {
 
 		// Load another win32 controls here
 		this->Load("SciLexer.dll");
 	}
 
-	AppImpl::~AppImpl() {}
+	WAppImpl::~WAppImpl() {}
 
-	int AppImpl::run(int argc, char **argv) {
+	int WAppImpl::run(int argc, char **argv) {
 		WMainFrame frame(this);
 
 		std::string title = this->getTitle();
@@ -26,7 +26,7 @@ namespace felide { namespace view { namespace win {
 
 namespace felide {
 	App* App::getInstance() {
-		static felide::view::win::AppImpl app;
+		static felide::view::win::WAppImpl app;
 		return &app;
 	}
 }
