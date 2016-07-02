@@ -91,7 +91,7 @@ namespace felide {
 		}
 
 		std::string getTitle() const {
-			return "wcl::IDE";
+			return "felide";
 		}
 
 	public:

@@ -18,7 +18,11 @@ namespace felide { namespace view {
 		DialogFactory* getDialogFactory() const {
 			return m_dialogFactory;
 		}
-        
+
+        Handler* getHandler() {
+            return &m_handler;
+        }
+
 	protected:
 		DialogFactory *m_dialogFactory = nullptr;
         Handler m_handler;

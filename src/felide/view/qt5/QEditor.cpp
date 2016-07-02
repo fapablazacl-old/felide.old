@@ -72,8 +72,6 @@ namespace felide { namespace view { namespace qt5 {
             
             auto mainFrame = static_cast<QMainFrame*>(this->tabbedEditor->parent());
             auto view = static_cast<Editor*>(this);
-
-            mainFrame->getHandler()->handleEditorChanged(view);
         });
     }
 

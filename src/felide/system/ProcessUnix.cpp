@@ -10,7 +10,6 @@
 #if defined(__linux__)
 
 #include "Process.hpp"
-#include "felide/Common.hpp"
 
 namespace felide { namespace system {
     

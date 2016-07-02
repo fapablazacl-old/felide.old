@@ -14,4 +14,14 @@ namespace felide { namespace view { namespace qt5 {
 
         return app.exec();    
     }
+    
+
 }}}
+
+namespace felide {    
+    App* App::getInstance() {
+        static felide::view::qt5::QApplication app;
+        
+        return &app;
+    }
+}

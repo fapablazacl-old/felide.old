@@ -2,12 +2,11 @@
 #ifndef __felide_editor_qt5_qapplication_hpp__
 #define __felide_editor_qt5_qapplication_hpp__
 
-#include <felide/Application.hpp>
+#include "felide/App.hpp"
 #include "QDialogFactory.hpp"
 
 namespace felide { namespace view { namespace qt5 {
-
-    class QApplication : public felide::view::Application {
+    class QApplication : public App {
     public:
         virtual int run(int argc, char **argv);
         
