@@ -1,10 +1,22 @@
 
 #include "WEditor.hpp"
+#include <iostream>
 
 namespace felide { namespace view { namespace win {
 
 	WEditor::WEditor(ProjectItemPtr item) {
 		m_item = std::move(item);
+	}
+
+	LRESULT WEditor::Procedure(UINT Msg, WPARAM wParam, LPARAM lParam) {
+		switch (Msg) {
+
+		case WM_CHAR:
+			std::cout << "WEditor::Procedure(WM_CHAR): Notify dirty flag" << std::endl;
+			break;
+		}
+
+		return Scintilla::Procedure(Msg, wParam, lParam);
 	}
 
 	void WEditor::setText(const std::string &text) {
@@ -33,6 +45,7 @@ namespace felide { namespace view { namespace win {
 
 	void WEditor::setFont(const std::string &name, const int size) {
 		//! TODO: Add custom code here
+		std::cout << "WEditor::setFont: Not implemented." << std::endl;
 	}
 
 	ProjectItem* WEditor::getProjectItem() {

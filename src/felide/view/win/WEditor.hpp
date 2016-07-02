@@ -12,6 +12,9 @@ namespace felide { namespace view { namespace win {
 		explicit WEditor(ProjectItemPtr item);
 
 	public:
+		virtual LRESULT Procedure(UINT Msg, WPARAM wParam, LPARAM lParam);
+
+	public:
 		virtual void setText(const std::string &text) override;
 		virtual std::string getText() const override;
 
@@ -31,7 +34,7 @@ namespace felide { namespace view { namespace win {
 		virtual void cut() override;
 		virtual void copy() override;
 		virtual void paste() override;
-
+		
 	private:
 		ProjectItemPtr m_item;
 	};
