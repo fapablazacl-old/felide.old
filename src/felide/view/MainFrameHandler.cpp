@@ -8,6 +8,7 @@
 #include "MainFrame.hpp"
 
 #include <boost/variant/get.hpp>
+#include <iostream>
 
 namespace felide { namespace view {
 
@@ -29,6 +30,10 @@ namespace felide { namespace view {
 
     bool MainFrameHandler::handleFileOpen() {
         assert(this);
+        
+        std::string filters = m_frame->getApp()->getConfig()->buildFilter(';');
+        
+        std::cout << filters << std::endl;
         
 		auto dialogFactory = m_frame->getApp()->getDialogFactory();
 		auto dialog = dialogFactory->showFileOpenDialog("Open File", "");
