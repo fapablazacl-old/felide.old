@@ -1,6 +1,7 @@
 
 #include "MainFrameHandler.hpp"
 
+#include "felide/App.hpp"
 #include "felide/system/Process.hpp"
 #include "felide/view/Editor.hpp"
 #include "felide/view/Dialog.hpp"
@@ -28,8 +29,8 @@ namespace felide { namespace view {
 
     bool MainFrameHandler::handleFileOpen() {
         assert(this);
-
-		auto dialogFactory = m_frame->getDialogFactory();
+        
+		auto dialogFactory = m_frame->getApp()->getDialogFactory();
 		auto dialog = dialogFactory->showFileOpenDialog("Open File", "");
 
 		if (dialog->getResult() == DialogResult::Cancel) {
@@ -65,7 +66,7 @@ namespace felide { namespace view {
         assert(this);
 		assert(view);
 
-		auto dialogFactory = m_frame->getDialogFactory();
+		auto dialogFactory = m_frame->getApp()->getDialogFactory();
 		auto dialog = dialogFactory->showFileSaveDialog("Save File As ...", "");
 
 		if (dialog->getResult() == DialogResult::Cancel) {
@@ -105,7 +106,7 @@ namespace felide { namespace view {
 	bool MainFrameHandler::handleBuildCompile() {
 	    assert(this);
 
-		auto dialogFactory = m_frame->getDialogFactory();
+		auto dialogFactory = m_frame->getApp()->getDialogFactory();
 
 		try {
 			auto *view = m_frame->getCurrentEditor();
@@ -283,7 +284,7 @@ namespace felide { namespace view {
         ProjectItem *item = view->getProjectItem();
         
         if (item->getModifyFlag()) {
-            DialogFactory *factory = m_frame->getDialogFactory();
+            DialogFactory *factory = m_frame->getApp()->getDialogFactory();
             assert(factory);
             
             const std::string message = "Do you want to save the changes of the file '" + item->getName() + "' ?";

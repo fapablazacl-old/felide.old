@@ -16,35 +16,67 @@
 
 namespace felide { namespace view { namespace qt5 {
 
-    class MainFrameImpl : public ::QMainWindow, public MainFrame {
+    class AppImpl;
+    class MainFrameImpl : public QMainWindow, public MainFrame {
         Q_OBJECT
 
     public:
         using MainFrame::close;
 
-        explicit MainFrameImpl(DialogFactory *factory);
-        virtual ~MainFrameImpl();
+        explicit MainFrameImpl(AppImpl *appImpl);
+        virtual ~MainFrameImpl() {}
 
     public:
-        virtual void close() override;
-        virtual felide::view::Editor* createEditor(ProjectItemPtr item) override;
-        virtual void closeEditor(Editor* view) override;
+        virtual App* getApp() override;
+        
+        virtual const App* getApp() const override;
+        
+        virtual void close() override {
+            QMainWindow::close();
+        }
+        
+        virtual Editor* createEditor(ProjectItemPtr item) override {
+            return m_tabbedEditor->openEditor(std::move(item));
+        }
+        
+        virtual void closeEditor(Editor* view) override {
+            m_tabbedEditor->closeEditor(static_cast<EditorImpl*>(view));
+        }
 
-		virtual felide::view::Editor* getCurrentEditor() override;
-		virtual const felide::view::Editor* getCurrentEditor() const override;
+        virtual Editor* getCurrentEditor() override {
+            return m_tabbedEditor->getCurrentEditor();
+        }
+        
+        virtual const Editor* getCurrentEditor() const override {
+            return m_tabbedEditor->getCurrentEditor();
+        }
 
-        virtual int getEditorCount() const override;
-		virtual Editor* getEditor(const int index) override;
-		virtual const Editor* getEditor(const int index) const override;
+        virtual int getEditorCount() const override {
+            return m_tabbedEditor->getEditorCount();
+        }
+        
+        virtual Editor* getEditor(const int index) override {
+            return m_tabbedEditor->getEditor(index);
+        }
+        
+        virtual const Editor* getEditor(const int index) const override {
+            return m_tabbedEditor->getEditor(index);
+        }
 
-		virtual void updateEnableStatus() override;
-
-        virtual void setEditorTitle(Editor *view, const std::string &title) override;
-		virtual std::string getEditorTitle(Editor *view) const  override;
+        virtual void setEditorTitle(Editor *view, const std::string &title) override {
+            
+        }
+        
+        virtual std::string getEditorTitle(Editor *view) const  override {
+            return "";
+        }
+        
+        virtual void updateEnableStatus() override;
 		
     private:
         std::unique_ptr<Ui_MainWindow> m_ui;
         TabbedEditor *m_tabbedEditor = nullptr;
+        AppImpl *m_appImpl = nullptr;
     };
 }}}
 

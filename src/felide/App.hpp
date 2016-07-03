@@ -3,8 +3,10 @@
 #include <string>
 #include <map>
 #include <vector>
+
 #include "felide/Config.hpp"
 #include "felide/LexerConstants.hpp"
+#include "felide/view/DialogFactory.hpp"
 
 namespace felide {
 
@@ -94,6 +96,10 @@ namespace felide {
 			return "felide";
 		}
 
+        virtual felide::view::DialogFactory* getDialogFactory() = 0;
+        
+        virtual const felide::view::DialogFactory* getDialogFactory() const = 0;
+        
 	public:
 		// implemented in the toolkit-specific implementation...
 		static App* getInstance();

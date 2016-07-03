@@ -6,11 +6,13 @@
 #include <QFileDialog>
 #include <QDockWidget>
 
+#include "AppImpl.hpp"
+
 namespace felide { namespace view { namespace qt5 {
 
-    using namespace felide::view;
-
-    MainFrameImpl::MainFrameImpl(felide::view::DialogFactory *factory) : MainFrame(factory) {
+    MainFrameImpl::MainFrameImpl(AppImpl *appImpl) {
+        m_appImpl = appImpl;
+        
         m_ui = std::make_unique<Ui_MainWindow>();
         m_ui->setupUi(this);
 
@@ -19,11 +21,11 @@ namespace felide { namespace view { namespace qt5 {
         this->setCentralWidget(m_tabbedEditor);
         
         // setup dock windows
-        auto *dock = new QDockWidget("Test01", this);
-        dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-        dock->setWidget(new QTextEdit("This is a test text", dock));
-        
-        this->addDockWidget(Qt::LeftDockWidgetArea, dock);
+//        auto *dock = new QDockWidget("Test01", this);
+//        dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+//        dock->setWidget(new QTextEdit("This is a test text", dock));
+//
+//        this->addDockWidget(Qt::LeftDockWidgetArea, dock);
         
         connect(m_ui->action_New, &QAction::triggered, this, [this]() {
             this->getHandler()->handleFileNew();
@@ -53,28 +55,6 @@ namespace felide { namespace view { namespace qt5 {
         this->updateEnableStatus();
     }
 
-    MainFrameImpl::~MainFrameImpl() {}
-
-    void MainFrameImpl::close() {
-        QMainWindow::close();
-    }
-
-    Editor* MainFrameImpl::createEditor(ProjectItemPtr item) {
-    	return m_tabbedEditor->openEditor(std::move(item));
-    }
-
-    void MainFrameImpl::closeEditor(Editor* view) {
-        m_tabbedEditor->closeEditor(static_cast<EditorImpl*>(view));
-    }
-
-    Editor* MainFrameImpl::getCurrentEditor() {
-        return m_tabbedEditor->getCurrentEditor();
-    }
-
-    const Editor* MainFrameImpl::getCurrentEditor() const {
-        return m_tabbedEditor->getCurrentEditor();
-    }
-
     void MainFrameImpl::updateEnableStatus() {
         const bool openedEditor = (this->getEditorCount() > 0);
 
@@ -88,24 +68,12 @@ namespace felide { namespace view { namespace qt5 {
         m_ui->actionC_opy->setEnabled(openedEditor);
         m_ui->action_Paste->setEnabled(openedEditor);
     }
-
-    int MainFrameImpl::getEditorCount() const {
-        return m_tabbedEditor->getEditorCount();
-    }
-
-    Editor* MainFrameImpl::getEditor(const int index) {
-        return m_tabbedEditor->getEditor(index);
-    }
-
-    const Editor* MainFrameImpl::getEditor(const int index) const {
-        return m_tabbedEditor->getEditor(index);
+    
+    App* MainFrameImpl::getApp() {
+        return m_appImpl;
     }
     
-    void MainFrameImpl::setEditorTitle(Editor *view, const std::string &title)  {
-        
-    }
-    
-    std::string MainFrameImpl::getEditorTitle(Editor *view) const {
-        return "";
+    const App* MainFrameImpl::getApp() const {
+        return m_appImpl;
     }
 }}}

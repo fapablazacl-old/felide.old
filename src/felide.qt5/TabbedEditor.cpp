@@ -1,7 +1,10 @@
 
 #include "TabbedEditor.hpp"
+
 #include "EditorImpl.hpp"
 #include "MainFrameImpl.hpp"
+
+#include <cassert>
 #include <iostream>
 #include <stdexcept>
 #include <QGridLayout>

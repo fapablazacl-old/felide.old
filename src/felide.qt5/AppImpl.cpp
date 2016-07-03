@@ -9,7 +9,7 @@ namespace felide { namespace view { namespace qt5 {
     int AppImpl::run(int argc, char **argv) {
         ::QApplication app(argc, argv);
         
-        MainFrameImpl mainFrame(&m_dialogFactory);
+        MainFrameImpl mainFrame(this);
         mainFrame.show();
 
         return app.exec();    

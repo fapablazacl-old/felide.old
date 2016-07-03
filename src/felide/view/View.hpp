@@ -4,27 +4,20 @@
 
 #include <memory>
 
-#include "DialogFactory.hpp"
-
 namespace felide { namespace view {
     
 	template<typename Handler>
 	class View {
 	public:
-		explicit View(DialogFactory *dialogFactory) : m_dialogFactory(dialogFactory) {}
+		explicit View() {}
 		
 		virtual ~View() {}
-        
-		DialogFactory* getDialogFactory() const {
-			return m_dialogFactory;
-		}
 
         Handler* getHandler() {
             return &m_handler;
         }
 
 	protected:
-		DialogFactory *m_dialogFactory = nullptr;
         Handler m_handler;
 	};
 }}

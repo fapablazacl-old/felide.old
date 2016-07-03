@@ -8,14 +8,20 @@
 #include "MainFrameHandler.hpp"
 #include <vector>
 
-namespace felide { namespace view {
+namespace felide {
+    class App;
+}
 
+namespace felide { namespace view {
 	class MainFrameHandler;
 	class MainFrame : public View<MainFrameHandler> {
 	public:
-		MainFrame(DialogFactory *dialogFactory);
+		MainFrame();
 		virtual ~MainFrame();
 
+        virtual App* getApp() = 0;
+        virtual const App* getApp() const = 0;
+        
 		virtual Editor* createEditor(ProjectItemPtr item) = 0;
 		virtual void closeEditor(Editor* view) = 0;
 
