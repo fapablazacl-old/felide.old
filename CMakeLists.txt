@@ -6,6 +6,7 @@ project (felide)
 option (FELIDE_GEN_QT5      "Enable QT5 based user interface"       OFF)
 option (FELIDE_GEN_WIN32    "Enable WinAPI-based user interface"    OFF)
 
+set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/src/cmake)
 
 # Boost
@@ -20,5 +21,23 @@ find_package (Boost COMPONENTS filesystem system REQUIRED)
 # Include dirs
 include_directories (${Boost_INCLUDE_DIRS})
 include_directories (src)
+
+if (FELIDE_GEN_QT5)
+    set (CMAKE_AUTOUIC ON)
+    set (CMAKE_INCLUDE_CURRENT_DIR ON)
+    set (CMAKE_AUTOMOC ON)
+    
+    find_package(Qt5Widgets REQUIRED)
+    find_package(QScintilla REQUIRED)
+    
+    add_definitions(-DQSCINTILLA_DLL)
+
+    set (FELIDE_QT5_LIBRARIES felide.qt5 Qt5::Widgets ${QSCINTILLA_LIBRARY})
+    
+    include_directories(${QSCINTILLA_INCLUDE_DIR})
+    include_directories(${Qt5Widgets_INCLUDE_DIRS})
+    
+    add_subdirectory (src/felide.qt5)
+endif()
 
 add_subdirectory (src/felide)

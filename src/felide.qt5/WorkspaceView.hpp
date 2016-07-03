@@ -11,19 +11,19 @@
 
 namespace felide { namespace view { namespace qt5 {
 
-    class QWorkspaceWidget : public QWidget {
+    class WorkspaceView : public QWidget {
         Q_OBJECT
     public:
-        QWorkspaceWidget(QWidget *parent = nullptr, Workspace *workspace = nullptr);
+        WorkspaceView(QWidget *parent = nullptr, Workspace *m_workspace = nullptr);
         
-        void setWorkspace(Workspace *workspace);
+        void setWorkspace(Workspace *m_workspace);
         
         Workspace* getWorkspace() {
-            return workspace;
+            return m_workspace;
         }
 
         const Workspace* getWorkspace() const {
-            return workspace;
+            return m_workspace;
         }
         
     signals:
@@ -31,8 +31,8 @@ namespace felide { namespace view { namespace qt5 {
     public slots:
         
     private:
-        Workspace *workspace = nullptr;
-        QTreeView *treeView = nullptr;
+        Workspace *m_workspace = nullptr;
+        QTreeView *m_treeView = nullptr;
     };
 }}}
 

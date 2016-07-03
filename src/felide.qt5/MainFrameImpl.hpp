@@ -11,19 +11,19 @@
 #include <felide/view/Editor.hpp>
 #include <felide/view/MainFrame.hpp>
 
-#include "ui_QMainFrame.h"
-#include "QTabbedEditor.hpp"
+#include "ui_MainFrame.h"
+#include "TabbedEditor.hpp"
 
 namespace felide { namespace view { namespace qt5 {
 
-    class QMainFrame : public ::QMainWindow, public felide::view::MainFrame {
+    class MainFrameImpl : public ::QMainWindow, public MainFrame {
         Q_OBJECT
 
     public:
         using MainFrame::close;
 
-        QMainFrame(felide::view::DialogFactory *factory);
-        virtual ~QMainFrame();
+        explicit MainFrameImpl(DialogFactory *factory);
+        virtual ~MainFrameImpl();
 
     public:
         virtual void close() override;
@@ -43,8 +43,8 @@ namespace felide { namespace view { namespace qt5 {
 		virtual std::string getEditorTitle(Editor *view) const  override;
 		
     private:
-        std::unique_ptr<Ui_MainWindow> ui;
-        QTabbedEditor *tabbedEditor = nullptr;
+        std::unique_ptr<Ui_MainWindow> m_ui;
+        TabbedEditor *m_tabbedEditor = nullptr;
     };
 }}}
 

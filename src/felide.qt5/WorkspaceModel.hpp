@@ -11,10 +11,10 @@
 
 namespace felide { namespace view { namespace qt5 {
     
-    class QWorkspaceModel : public QAbstractItemModel {
+    class WorkspaceModel : public QAbstractItemModel {
         Q_OBJECT
     public:
-        explicit QWorkspaceModel(Workspace *workspace);
+        explicit WorkspaceModel(Workspace *m_workspace);
         
         virtual QVariant data(const QModelIndex &index, int role) const override;
         virtual Qt::ItemFlags flags(const QModelIndex &index) const override;
@@ -26,7 +26,7 @@ namespace felide { namespace view { namespace qt5 {
         
         
     private:
-        Workspace *workspace = nullptr;
+        Workspace *m_workspace = nullptr;
         
     signals:
         

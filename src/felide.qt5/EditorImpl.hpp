@@ -11,22 +11,22 @@
 
 namespace felide { namespace view { namespace qt5 {
 
-    class QTabbedEditor;
-    class QEditor : public QWidget, public felide::view::Editor {
+    class TabbedEditor;
+    class EditorImpl : public QWidget, public felide::view::Editor {
         Q_OBJECT
 
     signals:
-        void titleUpdated(const QEditor *view);
+        void titleUpdated(const EditorImpl *view);
 
     public:
-        explicit QEditor(QWidget *parent, ProjectItemPtr item);
-        ~QEditor();
+        explicit EditorImpl(QWidget *parent, ProjectItemPtr m_item);
+        ~EditorImpl();
 
         ProjectItem* getItem();
 
         const ProjectItem* getItem() const;
 
-        void setTabbedEditor(QTabbedEditor *tabbedEditor);
+        void setTabbedEditor(TabbedEditor *m_tabbedEditor);
 
     public:
         void setFocus();
@@ -55,21 +55,21 @@ namespace felide { namespace view { namespace qt5 {
         virtual void paste() override;
 
     private:
-        ProjectItemPtr item = nullptr;
-        QsciScintilla *scintilla = nullptr;
-        QTabbedEditor *tabbedEditor = nullptr;
+        ProjectItemPtr m_item = nullptr;
+        QsciScintilla *m_scintilla = nullptr;
+        TabbedEditor *m_tabbedEditor = nullptr;
     };
 
-    inline ProjectItem* QEditor::getItem() {
-        return this->item.get();
+    inline ProjectItem* EditorImpl::getItem() {
+        return this->m_item.get();
     }
 
-    inline const ProjectItem* QEditor::getItem() const {
-        return this->item.get();
+    inline const ProjectItem* EditorImpl::getItem() const {
+        return this->m_item.get();
     }
 
-    inline void QEditor::setTabbedEditor(QTabbedEditor *tabbedEditor) {
-        this->tabbedEditor = tabbedEditor;
+    inline void EditorImpl::setTabbedEditor(TabbedEditor *tabbedEditor) {
+        this->m_tabbedEditor = tabbedEditor;
     }
 }}}
 

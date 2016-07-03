@@ -1,15 +1,15 @@
 
-#include "QApplication.hpp"
-#include "QMainFrame.hpp"
+#include "AppImpl.hpp"
+#include "MainFrameImpl.hpp"
 
 #include <QDockWidget>
 
 namespace felide { namespace view { namespace qt5 {
 
-    int QApplication::run(int argc, char **argv) {
+    int AppImpl::run(int argc, char **argv) {
         ::QApplication app(argc, argv);
         
-        QMainFrame mainFrame(&this->dialogFactory);
+        MainFrameImpl mainFrame(&m_dialogFactory);
         mainFrame.show();
 
         return app.exec();    
@@ -20,7 +20,7 @@ namespace felide { namespace view { namespace qt5 {
 
 namespace felide {    
     App* App::getInstance() {
-        static felide::view::qt5::QApplication app;
+        static felide::view::qt5::AppImpl app;
         
         return &app;
     }

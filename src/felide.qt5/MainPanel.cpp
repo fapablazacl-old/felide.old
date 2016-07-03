@@ -1,8 +1,9 @@
-#include "QMainPanel.hpp"
+
+#include "MainPanel.hpp"
 
 namespace felide { namespace view { namespace qt5 {
 
-    QMainPanel::QMainPanel(QWidget *parent) : QWidget(parent) {
+    MainPanel::MainPanel(QWidget *parent) : QWidget(parent) {
         
         
         /*

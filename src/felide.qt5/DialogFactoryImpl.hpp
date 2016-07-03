@@ -5,11 +5,10 @@
 #include <felide/view/DialogFactory.hpp>
 
 namespace felide { namespace view { namespace qt5 {
-
     
-    class QDialogFactory : public DialogFactory {
+    class DialogFactoryImpl : public DialogFactory {
     public:
-        virtual ~QDialogFactory() {}
+        virtual ~DialogFactoryImpl() {}
         
         virtual DialogPtr showMessageDialog(const std::string &title, const std::string &msg, DialogIcon icons, DialogButton buttons) const override;
 		virtual DialogPtr showInputDialog(const std::string &title, const std::string &msg) const override;

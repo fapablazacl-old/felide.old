@@ -1,5 +1,5 @@
 
-#include "QDialogFactory.hpp"
+#include "DialogFactoryImpl.hpp"
 
 #include <QMessageBox>
 #include <QFileDialog>
@@ -46,22 +46,22 @@ namespace felide { namespace view { namespace qt5 {
             
             // Convert result
             if (result == QMessageBox::Ok) {
-                this->result = DialogResult::Ok;
+                m_result = DialogResult::Ok;
                 
             } else if (result == QMessageBox::Cancel) {
-                this->result = DialogResult::Cancel;
+                m_result = DialogResult::Cancel;
                 
             } else if (result == QMessageBox::Yes) {
-                this->result = DialogResult::Yes;
+                m_result = DialogResult::Yes;
                 
             } else if (result == QMessageBox::No) {
-                this->result = DialogResult::No;
+                m_result = DialogResult::No;
                 
             }
         }
         
         virtual DialogResult getResult() const override {
-            return this->result;
+            return m_result;
         }
         
         virtual DialogData getData() const override {
@@ -73,7 +73,7 @@ namespace felide { namespace view { namespace qt5 {
         }
         
     private:
-        DialogResult result;
+        DialogResult m_result;
     };
     
     enum class QFileDialogType {
@@ -96,44 +96,44 @@ namespace felide { namespace view { namespace qt5 {
                     break;
             }
             
-            this->result = path!="" ? DialogResult::Ok : DialogResult::Cancel;
-            this->file = path.toStdString();
+            m_result = path!="" ? DialogResult::Ok : DialogResult::Cancel;
+            m_file = path.toStdString();
         }
         
         virtual DialogResult getResult() const override {
-            return this->result;
+            return m_result;
         }
         
         virtual DialogData getData() const override {
-            return DialogData(this->file);
+            return DialogData(m_file);
         }
         
         virtual DialogDataList getDataList() const override {
             DialogDataList dataList = {
-                DialogData(this->file)
+                DialogData(m_file)
             };
             
             return dataList;
         }
         
     private: 
-        DialogResult result;
-        boost::filesystem::path file;
+        DialogResult m_result;
+        boost::filesystem::path m_file;
     };
     
-    DialogPtr QDialogFactory::showMessageDialog(const std::string &title, const std::string &msg, DialogIcon icons, DialogButton buttons) const {
+    DialogPtr DialogFactoryImpl::showMessageDialog(const std::string &title, const std::string &msg, DialogIcon icons, DialogButton buttons) const {
         return std::make_unique<QMessageBoxDialog>(title, msg, icons, buttons);
     }
     
-    DialogPtr QDialogFactory::showInputDialog(const std::string &title, const std::string &msg) const {
+    DialogPtr DialogFactoryImpl::showInputDialog(const std::string &title, const std::string &msg) const {
         return DialogPtr();
     }
     
-    DialogPtr QDialogFactory::showFileOpenDialog(const std::string &title, const std::string &filters) const {
+    DialogPtr DialogFactoryImpl::showFileOpenDialog(const std::string &title, const std::string &filters) const {
         return std::make_unique<QFileDialog>(title, filters, QFileDialogType::Open);
     }
     
-	DialogPtr QDialogFactory::showFileSaveDialog(const std::string &title, const std::string &filters) const {
+	DialogPtr DialogFactoryImpl::showFileSaveDialog(const std::string &title, const std::string &filters) const {
         return std::make_unique<QFileDialog>(title, filters, QFileDialogType::Save);
     }
 }}}

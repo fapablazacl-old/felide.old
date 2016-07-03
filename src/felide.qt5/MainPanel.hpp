@@ -8,13 +8,13 @@
 
 namespace felide { namespace view { namespace qt5 {
     
-    class QMainPanel : public QWidget {
+    class MainPanel : public QWidget {
         Q_OBJECT
     public:
-        explicit QMainPanel(QWidget *parent = 0);
+        explicit MainPanel(QWidget *parent = 0);
         
     private:
-        QToolBox *toolBox = nullptr;
+        QToolBox *m_toolBox = nullptr;
         
         
     signals:

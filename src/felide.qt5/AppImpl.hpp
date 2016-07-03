@@ -3,15 +3,15 @@
 #define __felide_editor_qt5_qapplication_hpp__
 
 #include "felide/App.hpp"
-#include "QDialogFactory.hpp"
+#include "DialogFactoryImpl.hpp"
 
 namespace felide { namespace view { namespace qt5 {
-    class QApplication : public App {
+    class AppImpl : public App {
     public:
         virtual int run(int argc, char **argv);
         
     private:
-        QDialogFactory dialogFactory;
+        DialogFactoryImpl m_dialogFactory;
     };
 }}}
 
