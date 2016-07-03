@@ -31,12 +31,10 @@ namespace felide { namespace view {
     bool MainFrameHandler::handleFileOpen() {
         assert(this);
         
-        std::string filters = m_frame->getApp()->getConfig()->buildFilter(';');
-        
-        std::cout << filters << std::endl;
+        auto filters = m_frame->getApp()->getConfig()->getFilters();
         
 		auto dialogFactory = m_frame->getApp()->getDialogFactory();
-		auto dialog = dialogFactory->showFileOpenDialog("Open File", "");
+		auto dialog = dialogFactory->showFileOpenDialog("Open File", filters);
 
 		if (dialog->getResult() == DialogResult::Cancel) {
 			return false;
@@ -71,8 +69,9 @@ namespace felide { namespace view {
         assert(this);
 		assert(view);
 
+        auto filters = m_frame->getApp()->getConfig()->getFilters();
 		auto dialogFactory = m_frame->getApp()->getDialogFactory();
-		auto dialog = dialogFactory->showFileSaveDialog("Save File As ...", "");
+		auto dialog = dialogFactory->showFileSaveDialog("Save File As ...", filters);
 
 		if (dialog->getResult() == DialogResult::Cancel) {
 			return false;

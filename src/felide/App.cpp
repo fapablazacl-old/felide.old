@@ -100,8 +100,24 @@ namespace felide {
 
 		return filter;
 	}
-
-	std::string Config::buildFilter(const char fieldSeparator) const {
+    
+    std::vector<felide::view::Filter> Config::getFilters() const {
+        std::vector<felide::view::Filter> filters(languages.size());
+        
+        for (int i=0; i<filters.size(); i++) {
+            
+            felide::view::Filter filter;
+            
+            filter.desc = languages[i].filterHint;
+            filter.extensions = languages[i].extensions;
+            
+            filters[i] = filter;
+        }
+        
+        return filters;
+    }
+    
+    std::string Config::buildFilter(const char fieldSeparator) const {
 		std::string filter;
 
 		for (const Language &lang : languages) {

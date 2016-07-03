@@ -56,13 +56,15 @@ namespace felide {
 		 */
 		static Language load(const std::string &file, const LexerConstants &constants);
 	};
-
+    
 	/**
 	 * IDE - wide configuration settings
 	 */
 	struct Config {
 		std::vector<Language> languages;
-
+        
+        std::vector<felide::view::Filter> getFilters() const;
+        
 		/** 
 		 * @brief Build a filter suitable for Windows API File Dialogs
 		 */

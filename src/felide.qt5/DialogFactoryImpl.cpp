@@ -4,11 +4,15 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+#include <iostream>
+#include <boost/algorithm/string.hpp>
+#include <boost/range/algorithm/transform.hpp>
+
 namespace felide { namespace view { namespace qt5 {
     
-    class QMessageBoxDialog : public Dialog {
+    class MessageBoxDialog : public Dialog {
     public:
-        QMessageBoxDialog(const std::string &title, const std::string &msg, DialogIcon icons, DialogButton buttons) {
+        MessageBoxDialog(const std::string &title, const std::string &msg, DialogIcon icons, DialogButton buttons) {
             int result = 0;
             
             // Buttons
@@ -81,18 +85,22 @@ namespace felide { namespace view { namespace qt5 {
         Save
     };
     
-    class QFileDialog : public Dialog {
+    class FileDialog : public Dialog {
     public:
-        QFileDialog(const std::string &title, const std::string &filters, QFileDialogType dialogType) {
+        FileDialog(const std::string &title, const std::vector<Filter> &filters, QFileDialogType dialogType) {
             QString path = "";
+            
+            const std::string filter = this->buildFilter(filters);
+            
+            std::cout << filter << std::endl;
             
             switch (dialogType) {
                 case QFileDialogType::Open:
-                    path = ::QFileDialog::getOpenFileName(nullptr, title.c_str(), "", "(*.cpp)");
+                    path = QFileDialog::getOpenFileName(nullptr, title.c_str(), "", filter.c_str());
                     break;
                 
                 case QFileDialogType::Save:
-                    path = ::QFileDialog::getSaveFileName(nullptr, title.c_str(), "", "(*.cpp)");
+                    path = QFileDialog::getSaveFileName(nullptr, title.c_str(), "", filter.c_str());
                     break;
             }
             
@@ -116,24 +124,46 @@ namespace felide { namespace view { namespace qt5 {
             return dataList;
         }
         
+    private:
+        std::string buildFilter(const std::vector<Filter> &filters) {
+            
+            std::vector<std::string> filterParts;
+            
+            for (const Filter &filter : filters) {
+                
+                std::vector<std::string> extensions;
+                
+                extensions.resize(filter.extensions.size());
+                
+                boost::range::transform(filter.extensions, std::begin(extensions), [](const std::string &ext) {
+                    return "*."  + ext;
+                });
+                
+                std::string wildcards = boost::algorithm::join(extensions, " ");
+                filterParts.push_back(filter.desc + "(" + wildcards + ")");
+            }
+            
+            return boost::join(filterParts, ";;");
+        }
+        
     private: 
         DialogResult m_result;
         boost::filesystem::path m_file;
     };
     
     DialogPtr DialogFactoryImpl::showMessageDialog(const std::string &title, const std::string &msg, DialogIcon icons, DialogButton buttons) const {
-        return std::make_unique<QMessageBoxDialog>(title, msg, icons, buttons);
+        return std::make_unique<MessageBoxDialog>(title, msg, icons, buttons);
     }
     
     DialogPtr DialogFactoryImpl::showInputDialog(const std::string &title, const std::string &msg) const {
         return DialogPtr();
     }
     
-    DialogPtr DialogFactoryImpl::showFileOpenDialog(const std::string &title, const std::string &filters) const {
-        return std::make_unique<QFileDialog>(title, filters, QFileDialogType::Open);
+    DialogPtr DialogFactoryImpl::showFileOpenDialog(const std::string &title, const std::vector<Filter> &filters) const {
+        return std::make_unique<FileDialog>(title, filters, QFileDialogType::Open);
     }
     
-	DialogPtr DialogFactoryImpl::showFileSaveDialog(const std::string &title, const std::string &filters) const {
-        return std::make_unique<QFileDialog>(title, filters, QFileDialogType::Save);
+	DialogPtr DialogFactoryImpl::showFileSaveDialog(const std::string &title, const std::vector<Filter> &filters) const {
+        return std::make_unique<FileDialog>(title, filters, QFileDialogType::Save);
     }
 }}}
