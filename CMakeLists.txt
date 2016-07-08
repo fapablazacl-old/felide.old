@@ -40,4 +40,7 @@ if (FELIDE_GEN_QT5)
     add_subdirectory (src/felide.qt5)
 endif()
 
+add_subdirectory (src/felide.proj.cmake)
+add_subdirectory (src/felide.proj.impl)
+
 add_subdirectory (src/felide)

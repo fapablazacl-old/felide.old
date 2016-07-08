@@ -12,15 +12,16 @@
 
 #include <memory>
 #include <string>
+#include <list>
 
-#include "Config.hpp"
-#include "Project.hpp"
+#include "felide/Config.hpp"
+#include "felide/Project.hpp"
 
 namespace felide { 
 
 	class FELIDE_API Workspace {
 	public:
-		virtual ~Workspace() = 0;
+        virtual ~Workspace() {}
 		
 		virtual int getProjectCount() const = 0;
 		virtual Project* getProject(int i) = 0;
@@ -32,6 +33,11 @@ namespace felide {
 		
 		virtual std::string getName() const = 0;
 		virtual void setName(const std::string &name) = 0;
+        
+        virtual std::string getPath() const = 0;
+        
+    protected:
+        std::string execute(const std::list<std::string> &commandList);
 	};
 	
 	typedef std::unique_ptr<Workspace> WorkspacePtr;

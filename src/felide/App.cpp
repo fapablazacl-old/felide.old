@@ -178,8 +178,8 @@ namespace felide {
 	}
 
     App::App() {
-		m_constants.load("scintilla.json");
-		m_config.load("ide.json", m_constants);
+		// m_constants.load("scintilla.json");
+		// m_config.load("ide.json", m_constants);
 	}
     
     App::~App() {}

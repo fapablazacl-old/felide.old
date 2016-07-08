@@ -62,6 +62,7 @@ set(felide_src
     App.cpp
     LexerConstants.cpp 
     LexerConstants.hpp 
+    Collection.hpp
     felide.cpp
 )
 
@@ -105,6 +106,7 @@ source_group(\\view         FILES ${felide_view_src})
 source_group(\\view\\qt5    FILES ${felide_view_qt5_src})
 source_group(\\view\\wcl    FILES ${felide_view_win32_src})
 
-target_link_libraries(felide ${Boost_LIBRARIES} ${FELIDE_QT5_LIBRARIES} ${FELIDE_WIN32_LIBRARIES})
+target_link_libraries(felide ${Boost_LIBRARIES} ${FELIDE_QT5_LIBRARIES} ${FELIDE_WIN32_LIBRARIES} felide.proj.cmake)
 
-install(TARGETS felide DESTINATION ".")
+install (TARGETS felide DESTINATION ".")
+install (FILES  )

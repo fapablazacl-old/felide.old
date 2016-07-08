@@ -15,10 +15,7 @@ set (sources
     MainPanel.hpp MainPanel.cpp
     WorkspaceView.hpp WorkspaceView.cpp
     WorkspaceModel.hpp WorkspaceModel.cpp
-)
-
-QT5_WRAP_UI (felide_view_qt5_ui
-    MainFrame.ui
+    OutputWindow.hpp OutputWindow.cpp
 )
 
 add_library(${target} ${sources})

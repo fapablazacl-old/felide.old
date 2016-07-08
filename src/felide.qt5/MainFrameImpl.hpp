@@ -4,15 +4,20 @@
 
 #include <memory>
 #include <list>
+#include <iostream>
 #include <QMainWindow>
 #include <QToolBox>
+#include <QTextEdit>
+#include <QPlainTextEdit>
+#include <QDockWidget>
 
-#include <felide/ProjectItem.hpp>
-#include <felide/view/Editor.hpp>
-#include <felide/view/MainFrame.hpp>
+#include "felide/ProjectItem.hpp"
+#include "felide/view/Editor.hpp"
+#include "felide/view/MainFrame.hpp"
+#include "felide/Workspace.hpp"
 
-#include "ui_MainFrame.h"
 #include "TabbedEditor.hpp"
+#include "WorkspaceView.hpp"
 
 namespace felide { namespace view { namespace qt5 {
 
@@ -26,6 +31,13 @@ namespace felide { namespace view { namespace qt5 {
         explicit MainFrameImpl(AppImpl *appImpl);
         virtual ~MainFrameImpl() {}
 
+    private:
+        void setupDockUI();
+        
+        void setupMenuHandlers();
+        
+        void setupMenus();
+        
     public:
         virtual App* getApp() override;
         
@@ -64,19 +76,67 @@ namespace felide { namespace view { namespace qt5 {
         }
 
         virtual void setEditorTitle(Editor *view, const std::string &title) override {
-            
+            m_tabbedEditor->setEditorTitle(view, title.c_str());
         }
         
         virtual std::string getEditorTitle(Editor *view) const  override {
+            std::cout << "MainFrameImpl::getEditorTitle: Not implemented" << std::endl;
+            
             return "";
         }
         
         virtual void updateEnableStatus() override;
 		
+    public:
+        void loadDefaultWorkspace();
+        
     private:
-        std::unique_ptr<Ui_MainWindow> m_ui;
         TabbedEditor *m_tabbedEditor = nullptr;
         AppImpl *m_appImpl = nullptr;
+        WorkspacePtr m_workspace;
+        
+        enum ActionIdentifiers {
+            MenuSeparator = -1,
+            FileNew,
+            FileOpen,
+            FileSave,
+            FileSaveAs,
+            FileSaveAll,
+            FileClose,
+            FileExit,
+
+            EditUndo,
+            EditRedo,
+            EditCut,
+            EditCopy,
+            EditPaste,
+
+            ViewWorkspace,
+            ViewOutput,
+            ViewTotal,
+
+            BuildClean,
+            BuildExecute,
+            
+            HelpAbout,
+            HelpTotal
+        };
+        
+        QAction *m_actions[HelpTotal] = {};
+        
+        QMenu *m_fileMenu = nullptr;
+        QMenu *m_editMenu = nullptr;
+        QMenu *m_viewMenu = nullptr;
+        QMenu *m_buildMenu = nullptr;
+        QMenu *m_helpMenu = nullptr;
+        
+        QMenuBar *m_menuBar = nullptr;
+        
+        QDockWidget *m_workspaceDock = nullptr;
+        QDockWidget *m_outputDock = nullptr;        
+
+        WorkspaceView *m_workspaceView = nullptr;
+        QPlainTextEdit *m_outputTextEdit = nullptr;
     };
 }}}
 

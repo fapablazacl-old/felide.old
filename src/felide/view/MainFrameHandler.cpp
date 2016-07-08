@@ -147,7 +147,7 @@ namespace felide { namespace view {
 
 			std::string dialogMsg;
 			DialogIcon dialogIcon;
-
+            
 			if (compiler->getExitCode() != 0) {
 				dialogMsg = compiler->getOutput();
 				dialogIcon = DialogIcon::Error;

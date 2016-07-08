@@ -11,21 +11,39 @@
 
 #include "Process.hpp"
 
+#include <stdio.h>
+#include <boost/algorithm/string/join.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
+
+
 namespace felide { namespace system {
     
-	class ProcessWin32 : public Process {
+	class ProcessUnix : public Process {
 	public:
-		ProcessWin32(ProcessFlags::Enum flags, const std::string &name) {
+		ProcessUnix(ProcessFlags::Enum flags, const std::string &name) {
+            this->construct(flags, name, {});
 		}
 
-		ProcessWin32(ProcessFlags::Enum flags, const std::string &name, const std::list<std::string> &args) {
+		ProcessUnix(ProcessFlags::Enum flags, const std::string &name, const std::list<std::string> &args) {
+            this->construct(flags, name, args);
 		}
         
-		virtual ~ProcessWin32() {
+        void construct(ProcessFlags::Enum flags, const std::string &name, const std::list<std::string> &args) {
+            std::string command = name  + " " + boost::algorithm::join(args, " ");
+            
+            boost::algorithm::trim_all(command);
+            
+            m_command = command;
+        }
+        
+		virtual ~ProcessUnix() {
+            if (m_handle) {
+                pclose(m_handle);
+            }
 		}
 
 		virtual int getExitCode() const override {
-			return 0;
+			return m_exitCode;
 		}
 
 		virtual void wait() override {
@@ -33,9 +51,20 @@ namespace felide { namespace system {
 		}
 
 		virtual void start() override {
+            m_handle = popen(m_command.c_str(), "r");
+            
+            const int buffer_length = 256;
+            char buffer[buffer_length];
+            
+            while (m_handle && !feof(m_handle)) {
+                if (fgets(buffer, buffer_length, m_handle)) {
+                    m_output += buffer;
+                }
+            }
 		}
 
-		virtual void terminate() override {
+        virtual void terminate() override {
+            
 		}
 
 		virtual std::string getOutput() const override {
@@ -43,15 +72,18 @@ namespace felide { namespace system {
 		}
 
 	private:
-		
+        std::string m_command;
+        std::string m_output;
+        int m_exitCode = 0;
+        FILE *m_handle = nullptr;
 	};
     
 	ProcessPtr Process::open(ProcessFlags::Enum flags, const std::string &processName) {
-		return ProcessPtr();
+		return std::make_unique<ProcessUnix>(flags, processName);
 	}
 
 	ProcessPtr Process::open(ProcessFlags::Enum flags, const std::string &processName, const std::list<std::string> &args) {
-		return ProcessPtr();
+		return std::make_unique<ProcessUnix>(flags, processName, args);
 	}
 }}
 

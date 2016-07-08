@@ -6,6 +6,7 @@
 
 #include <QWidget>
 #include <QTreeView>
+#include <QFileSystemModel>
 
 #include "felide/Workspace.hpp"
 
@@ -33,6 +34,7 @@ namespace felide { namespace view { namespace qt5 {
     private:
         Workspace *m_workspace = nullptr;
         QTreeView *m_treeView = nullptr;
+        QFileSystemModel *m_fileModel = nullptr;
     };
 }}}
 

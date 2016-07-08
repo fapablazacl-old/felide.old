@@ -68,10 +68,14 @@ namespace felide { namespace view { namespace qt5 {
         this->setLayout(layout);
         
         connect(m_scintilla, &QsciScintilla::textChanged, [this]() {
+            std::cout << "Editor Changed!" << std::endl;
+            
             m_item->setModifyFlag(true);
             
             auto mainFrame = static_cast<MainFrameImpl*>(m_tabbedEditor->parent());
             auto view = static_cast<EditorImpl*>(this);
+            
+            mainFrame->getHandler()->handleEditorChanged(view);
         });
     }
 
