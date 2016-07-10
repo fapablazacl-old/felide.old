@@ -3,14 +3,15 @@ cmake_minimum_required(VERSION 3.1)
 
 project (felide)
 
-option (FELIDE_GEN_QT5      "Enable QT5 based user interface"       OFF)
-option (FELIDE_GEN_WIN32    "Enable WinAPI-based user interface"    OFF)
+option (FELIDE_GEN_QT5 	"Enable QT5 based user interface"       OFF)
+option (FELIDE_GEN_WCL 	"Enable WinAPI-based user interface"	OFF)
 
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/src/cmake)
 
 # Boost
 add_definitions(-DBOOST_ALL_NO_LIB)
+add_definitions(-D_SCL_SECURE_NO_WARNINGS)
 
 set (Boost_USE_STATIC_LIBS OFF)
 set (Boost_USE_MULTITHREADED ON)
@@ -39,6 +40,34 @@ if (FELIDE_GEN_QT5)
     
     add_subdirectory (src/felide.qt5)
 endif()
+
+if (FELIDE_GEN_WCL)
+    # WCL
+    if (NOT WCL_INCLUDE_DIRS)
+        message (ERROR_MESSAGE "WCL include location isn't defined. Please define the WCL_INCLUDE_DIRS variable.")
+        set (WCL_FOUND 0)
+        set (WCL_LIBRARIES )
+    else()
+        set (WCL_FOUND 1)
+        set (WCL_LIBRARIES comctl32)
+    endif ()
+
+    if (NOT SCINTILLA_INCLUDE_DIRS)
+        message (ERROR_MESSAGE "Scintilla include location isn't defined (-DSCINTILLA_INCLUDE_DIRS).")
+        set (SCINTILLA_FOUND 0)
+        set (SCINTILLA_LIBRARIES)
+    else()
+        set (SCINTILLA_FOUND 1)
+        set (SCINTILLA_LIBRARIES)
+    endif ()
+    
+    set (FELIDE_WCL_LIBRARIES felide.wcl comctl32)
+
+    include_directories(${WCL_INCLUDE_DIRS})
+    include_directories(${SCINTILLA_INCLUDE_DIRS})
+
+    add_subdirectory (src/felide.wcl)
+endif ()
 
 add_subdirectory (src/felide.proj.cmake)
 add_subdirectory (src/felide.proj.impl)

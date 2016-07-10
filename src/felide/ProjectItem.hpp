@@ -13,9 +13,17 @@
 #include "Config.hpp"
 #include <memory>
 #include <string>
+#include <boost/signals2/signal.hpp>
 
 namespace felide { 
+
+    class FELIDE_API ProjectItem;
+    typedef boost::signals2::signal<void (ProjectItem *item)> ProjectItemSignal;
+
     class FELIDE_API ProjectItem {
+    public:
+        ProjectItemSignal* getModifiedSignal();
+
     public:
         ProjectItem();
         
@@ -48,8 +56,8 @@ namespace felide {
         void new_();
         
     private:
-		struct Private;
-		Private* impl = nullptr;
+        struct Private;
+        Private* m_impl = nullptr;
     };
     
     typedef std::unique_ptr<ProjectItem> ProjectItemPtr;
