@@ -43,32 +43,27 @@ endif()
 
 if (FELIDE_GEN_WCL)
     # WCL
-    if (NOT WCL_INCLUDE_DIRS)
-        message (ERROR_MESSAGE "WCL include location isn't defined. Please define the WCL_INCLUDE_DIRS variable.")
-        set (WCL_FOUND 0)
-        set (WCL_LIBRARIES )
-    else()
-        set (WCL_FOUND 1)
-        set (WCL_LIBRARIES comctl32)
-    endif ()
+    set (WCL_LIBRARIES comctl32)
+
+    set (SCINTILLA_FOUND 0)
+    set (SCINTILLA_LIBRARIES)
 
     if (NOT SCINTILLA_INCLUDE_DIRS)
         message (ERROR_MESSAGE "Scintilla include location isn't defined (-DSCINTILLA_INCLUDE_DIRS).")
         set (SCINTILLA_FOUND 0)
         set (SCINTILLA_LIBRARIES)
-    else()
-        set (SCINTILLA_FOUND 1)
-        set (SCINTILLA_LIBRARIES)
     endif ()
     
     set (FELIDE_WCL_LIBRARIES felide.wcl comctl32)
 
-    include_directories(${WCL_INCLUDE_DIRS})
     include_directories(${SCINTILLA_INCLUDE_DIRS})
 
+    add_subdirectory (src/wcl)
+    add_subdirectory (src/wclc)
     add_subdirectory (src/felide.wcl)
 endif ()
 
+add_subdirectory (src/pom)
 add_subdirectory (src/felide.proj.cmake)
 add_subdirectory (src/felide.proj.impl)
 
