@@ -6,20 +6,20 @@
 
 namespace felide { namespace view {
     
-	template<typename Handler>
-	class View {
-	public:
-		explicit View() {}
-		
-		virtual ~View() {}
+    template<typename Handler>
+    class View {
+    public:
+        explicit View() {}
+        
+        virtual ~View() {}
 
         Handler* getHandler() {
             return &m_handler;
         }
 
-	protected:
+    protected:
         Handler m_handler;
-	};
+    };
 }}
 
 #endif 

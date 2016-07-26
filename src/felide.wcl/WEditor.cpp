@@ -11,13 +11,13 @@ namespace felide { namespace view { namespace win {
     }
 
     LRESULT WEditor::Procedure(UINT Msg, WPARAM wParam, LPARAM lParam) {
-	switch (Msg) {
-	case WM_CHAR:
+    switch (Msg) {
+    case WM_CHAR:
             m_item->setModifyFlag(true);
-	    break;
-	}
+        break;
+    }
 
-	return Scintilla::Procedure(Msg, wParam, lParam);
+    return Scintilla::Procedure(Msg, wParam, lParam);
     }
 
     void WEditor::setLexer(const Lexer &lexer) {
@@ -30,7 +30,7 @@ namespace felide { namespace view { namespace win {
         this->SendMessage_(SCI_SETSTYLEBITS, 7);
         this->SendMessage_(SCI_SETKEYWORDS, 0, (LPARAM)keywords.c_str());
         this->SendMessage_(SCI_SETUSETABS, 0);
-	this->SendMessage_(SCI_SETTABWIDTH, 4);
+    this->SendMessage_(SCI_SETTABWIDTH, 4);
 
         for (const auto &pair : lexer.colors) {
             const Color c = pair.second;

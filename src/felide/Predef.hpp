@@ -10,10 +10,10 @@
 #ifndef __felide_predef_hpp__
 #define __felide_predef_hpp__
     #ifndef FELIDE_API
-	#define FELIDE_API
+    #define FELIDE_API
     #else
         #if defined (FELIDE_SHARED) && defined(_WIN32)
-	    #if defined (FELIDE_BUILD)
+        #if defined (FELIDE_BUILD)
                 #define FELIDE_API __declspec(dllexport)
             #else
                 #define FELIDE_API __declspec(dllimport)
@@ -21,5 +21,5 @@
         #else
             #define FELIDE_API
         #endif
-    #endif	
+    #endif    
 #endif

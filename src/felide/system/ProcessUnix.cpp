@@ -18,15 +18,15 @@
 
 namespace felide { namespace system {
     
-	class ProcessUnix : public Process {
-	public:
-		ProcessUnix(ProcessFlags::Enum flags, const std::string &name) {
+    class ProcessUnix : public Process {
+    public:
+        ProcessUnix(ProcessFlags::Enum flags, const std::string &name) {
             this->construct(flags, name, {});
-		}
+        }
 
-		ProcessUnix(ProcessFlags::Enum flags, const std::string &name, const std::list<std::string> &args) {
+        ProcessUnix(ProcessFlags::Enum flags, const std::string &name, const std::list<std::string> &args) {
             this->construct(flags, name, args);
-		}
+        }
         
         void construct(ProcessFlags::Enum flags, const std::string &name, const std::list<std::string> &args) {
             std::string command = name  + " " + boost::algorithm::join(args, " ");
@@ -36,21 +36,21 @@ namespace felide { namespace system {
             m_command = command;
         }
         
-		virtual ~ProcessUnix() {
+        virtual ~ProcessUnix() {
             if (m_handle) {
                 pclose(m_handle);
             }
-		}
+        }
 
-		virtual int getExitCode() const override {
-			return m_exitCode;
-		}
+        virtual int getExitCode() const override {
+            return m_exitCode;
+        }
 
-		virtual void wait() override {
+        virtual void wait() override {
             
-		}
+        }
 
-		virtual void start() override {
+        virtual void start() override {
             m_handle = popen(m_command.c_str(), "r");
             
             const int buffer_length = 256;
@@ -61,30 +61,30 @@ namespace felide { namespace system {
                     m_output += buffer;
                 }
             }
-		}
+        }
 
         virtual void terminate() override {
             
-		}
+        }
 
-		virtual std::string getOutput() const override {
-			return "";
-		}
+        virtual std::string getOutput() const override {
+            return "";
+        }
 
-	private:
+    private:
         std::string m_command;
         std::string m_output;
         int m_exitCode = 0;
         FILE *m_handle = nullptr;
-	};
+    };
     
-	ProcessPtr Process::open(ProcessFlags::Enum flags, const std::string &processName) {
-		return std::make_unique<ProcessUnix>(flags, processName);
-	}
+    ProcessPtr Process::open(ProcessFlags::Enum flags, const std::string &processName) {
+        return std::make_unique<ProcessUnix>(flags, processName);
+    }
 
-	ProcessPtr Process::open(ProcessFlags::Enum flags, const std::string &processName, const std::list<std::string> &args) {
-		return std::make_unique<ProcessUnix>(flags, processName, args);
-	}
+    ProcessPtr Process::open(ProcessFlags::Enum flags, const std::string &processName, const std::list<std::string> &args) {
+        return std::make_unique<ProcessUnix>(flags, processName, args);
+    }
 }}
 
 #endif

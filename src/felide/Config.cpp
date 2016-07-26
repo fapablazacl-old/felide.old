@@ -38,7 +38,7 @@ namespace felide {
         std::wstring extension = path.extension().wstring();
 
         // remove dot
-        extension.erase(0, 1);	
+        extension.erase(0, 1);    
 
         // search
         auto langIt = boost::find_if(languages, [extension, filename](const Language &lang){
@@ -63,13 +63,13 @@ namespace felide {
 
         pt::ptree tree;
         pt::read_json(file, tree);
-	
+    
         for (const pt::ptree::value_type &value : tree.get_child("languages")) {
             const auto &langNode = value.second;
             const auto langFile = langNode.get<std::string>("");
-		
+        
             auto lang = Language::load(langFile, constants);
-		
+        
             languages.push_back(lang);
         }
     }

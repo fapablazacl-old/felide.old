@@ -14,13 +14,13 @@
 #include <felide/system/Module.hpp>
 
 namespace felide { namespace system {
-	/**
-	 * @brief Dynamically loaded executable module library (.so on Unix, .dll on Windows)
-	 */
-	class FELIDE_API Library : public Module {
-	public:
-		virtual ~Library();
-	};
+    /**
+     * @brief Dynamically loaded executable module library (.so on Unix, .dll on Windows)
+     */
+    class FELIDE_API Library : public Module {
+    public:
+        virtual ~Library();
+    };
 }}
 
 #endif

@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.1)
 
 project (felide)
 
-option (FELIDE_GEN_QT5 	"Enable QT5 based user interface"       OFF)
-option (FELIDE_GEN_WCL 	"Enable WinAPI-based user interface"	OFF)
+option (FELIDE_GEN_QT5     "Enable QT5 based user interface"       OFF)
+option (FELIDE_GEN_WCL     "Enable WinAPI-based user interface"    OFF)
 
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/src/cmake)

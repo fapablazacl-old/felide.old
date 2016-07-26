@@ -10,6 +10,6 @@
 #include <felide/system/Environment.hpp>
 
 namespace felide { namespace system {
-	Environment::~Environment() {
-	}
+    Environment::~Environment() {
+    }
 }}

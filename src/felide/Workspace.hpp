@@ -19,28 +19,28 @@
 
 namespace felide { 
 
-	class FELIDE_API Workspace {
-	public:
+    class FELIDE_API Workspace {
+    public:
         virtual ~Workspace() {}
-		
-		virtual int getProjectCount() const = 0;
-		virtual Project* getProject(int i) = 0;
-		virtual const Project* getProject(int i) const = 0;
-		
-		virtual void addProject(ProjectPtr project) = 0;
-		virtual void removeProject(ProjectPtr project) = 0;
-		virtual void deleteProject(ProjectPtr project) = 0;
-		
-		virtual std::string getName() const = 0;
-		virtual void setName(const std::string &name) = 0;
+        
+        virtual int getProjectCount() const = 0;
+        virtual Project* getProject(int i) = 0;
+        virtual const Project* getProject(int i) const = 0;
+        
+        virtual void addProject(ProjectPtr project) = 0;
+        virtual void removeProject(ProjectPtr project) = 0;
+        virtual void deleteProject(ProjectPtr project) = 0;
+        
+        virtual std::string getName() const = 0;
+        virtual void setName(const std::string &name) = 0;
         
         virtual std::string getPath() const = 0;
         
     protected:
         std::string execute(const std::list<std::string> &commandList);
-	};
-	
-	typedef std::unique_ptr<Workspace> WorkspacePtr;
+    };
+    
+    typedef std::unique_ptr<Workspace> WorkspacePtr;
 }
 
-#endif	// __FELIDE_WORKSPACE_HPP__
+#endif    // __FELIDE_WORKSPACE_HPP__

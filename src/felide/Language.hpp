@@ -12,16 +12,16 @@ namespace felide {
      */
     struct Language {
         //! The language name
-        std::string name;	
+        std::string name;    
 
-        //! The hint shown in the file open/save dialog to describe the filter.	
-        std::string filterHint;	
+        //! The hint shown in the file open/save dialog to describe the filter.    
+        std::string filterHint;    
 
         //! A list of extensions, without dots, handled by the language.
-        std::vector<std::string> extensions;	
+        std::vector<std::string> extensions;    
 
         //! Information needed by the lexer for syntax coloring
-        Lexer lexer;	
+        Lexer lexer;    
 
         /**
         * @brief Load the language configuration from the specified JSON file.

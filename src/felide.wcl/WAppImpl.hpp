@@ -12,16 +12,16 @@ namespace felide { namespace view { namespace win {
         virtual ~WAppImpl();
 
         virtual WDialogFactory* getDialogFactory() {
-	    return &m_dialogFactory;
-	}
+        return &m_dialogFactory;
+    }
 
         virtual const WDialogFactory* getDialogFactory() const {
-	    return &m_dialogFactory;
-	}
+        return &m_dialogFactory;
+    }
 
         virtual int run(int argc, char **argv) override;
 
     protected:
-	WDialogFactory m_dialogFactory;
+    WDialogFactory m_dialogFactory;
     };
 }}}

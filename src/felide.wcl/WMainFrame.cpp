@@ -24,7 +24,7 @@ namespace felide { namespace view { namespace win {
     }
 
     void WMainFrame::OnFileExit() {
-	this->PostMessage_(WM_QUIT);
+    this->PostMessage_(WM_QUIT);
     }
 
     void WMainFrame::OnCommand(const int commandId) {
@@ -37,7 +37,7 @@ namespace felide { namespace view { namespace win {
             case ID_FILE_CLOSE: m_handler.handleFileCloseAll(); break;
             case ID_FILE_CLOSEALL: m_handler.handleFileClose(); break;
             case ID_FILE_EXIT: m_handler.handleFileExit(); break;
-	}
+    }
     }
 
     void WMainFrame::OnSize(const int width, const int height) {
@@ -45,16 +45,16 @@ namespace felide { namespace view { namespace win {
     }
 
     Editor* WMainFrame::createEditor(ProjectItemPtr item) {
-	auto weditor = std::make_unique<WEditor>(std::move(item));
+    auto weditor = std::make_unique<WEditor>(std::move(item));
 
-	weditor->Create(L"", WS_CHILD | WS_VISIBLE, 0, 0, 10, 10, this->GetHandle());
+    weditor->Create(L"", WS_CHILD | WS_VISIBLE, 0, 0, 10, 10, this->GetHandle());
 
-	auto editor = weditor.get();
-	auto name = weditor->getProjectItem()->getName();
+    auto editor = weditor.get();
+    auto name = weditor->getProjectItem()->getName();
 
-	m_tabbedPanel.AppendTab(std::wstring(name.begin(), name.end()), std::move(weditor));
+    m_tabbedPanel.AppendTab(std::wstring(name.begin(), name.end()), std::move(weditor));
 
-	return editor;
+    return editor;
     }
 
     void WMainFrame::closeEditor(Editor* view) {
@@ -62,37 +62,37 @@ namespace felide { namespace view { namespace win {
     }
 
     Editor* WMainFrame::getCurrentEditor() {
-	return dynamic_cast<Editor*>(m_tabbedPanel.GetCurrentTab()->GetWindow());
+    return dynamic_cast<Editor*>(m_tabbedPanel.GetCurrentTab()->GetWindow());
     }
 
     const Editor* WMainFrame::getCurrentEditor() const {
-	return dynamic_cast<const Editor*>(m_tabbedPanel.GetCurrentTab()->GetWindow());
+    return dynamic_cast<const Editor*>(m_tabbedPanel.GetCurrentTab()->GetWindow());
     }
 
     int WMainFrame::getEditorCount() const {
-	return m_tabbedPanel.GetTabCount();
+    return m_tabbedPanel.GetTabCount();
     }
 
     Editor* WMainFrame::getEditor(const int index) {
-	return dynamic_cast<Editor*>(m_tabbedPanel.GetTab(index)->GetWindow());
+    return dynamic_cast<Editor*>(m_tabbedPanel.GetTab(index)->GetWindow());
     }
 
     const Editor* WMainFrame::getEditor(const int index) const {
-	return dynamic_cast<const Editor*>(m_tabbedPanel.GetTab(index)->GetWindow());
+    return dynamic_cast<const Editor*>(m_tabbedPanel.GetTab(index)->GetWindow());
     }
-		
+        
     void WMainFrame::setEditorTitle(Editor *view, const std::string &title) {
-	auto window = dynamic_cast<const wcl::Window*>(view);
-	m_tabbedPanel.GetTab(window)->SetText(std::wstring(title.begin(), title.end()));
+    auto window = dynamic_cast<const wcl::Window*>(view);
+    m_tabbedPanel.GetTab(window)->SetText(std::wstring(title.begin(), title.end()));
     }
 
     std::string WMainFrame::getEditorTitle(Editor *view) const {
-	auto window = dynamic_cast<const wcl::Window*>(view);
-	auto wtitle = m_tabbedPanel.GetTab(window)->GetText();
+    auto window = dynamic_cast<const wcl::Window*>(view);
+    auto wtitle = m_tabbedPanel.GetTab(window)->GetText();
 
-	return std::string(wtitle.begin(), wtitle.end());
+    return std::string(wtitle.begin(), wtitle.end());
     }
-		
+        
     void WMainFrame::close() {
         this->Close();
     }

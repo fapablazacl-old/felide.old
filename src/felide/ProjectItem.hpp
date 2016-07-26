@@ -63,4 +63,4 @@ namespace felide {
     typedef std::unique_ptr<ProjectItem> ProjectItemPtr;
 }
 
-#endif	// __FELIDE_PROJECTITEM_HPP__
+#endif    // __FELIDE_PROJECTITEM_HPP__

@@ -33,36 +33,36 @@ namespace felide { namespace view {
         
         auto filters = m_frame->getApp()->getConfig()->getFilters();
         
-	auto dialogFactory = m_frame->getApp()->getDialogFactory();
-	auto dialog = dialogFactory->showFileOpenDialog("Open File", filters);
+    auto dialogFactory = m_frame->getApp()->getDialogFactory();
+    auto dialog = dialogFactory->showFileOpenDialog("Open File", filters);
 
-	if (dialog->getResult() == DialogResult::Cancel) {
+    if (dialog->getResult() == DialogResult::Cancel) {
             return false;
-	}
+    }
 
-	auto filePath = boost::get<fs::path>(dialog->getData());
-	auto item = std::make_unique<ProjectItem>(filePath.string());
+    auto filePath = boost::get<fs::path>(dialog->getData());
+    auto item = std::make_unique<ProjectItem>(filePath.string());
 
-	auto view = this->createEditor(std::move(item));
+    auto view = this->createEditor(std::move(item));
 
-	this->handleEditorChanged(view);
-	m_frame->updateEnableStatus();
+    this->handleEditorChanged(view);
+    m_frame->updateEnableStatus();
 
-	return true;
+    return true;
     }
 
     bool MainFrameHandler::handleFileSave(Editor *view) {
         assert(this);
-	assert(view);
+    assert(view);
 
-	if (view->getProjectItem()->hasPath()) {
+    if (view->getProjectItem()->hasPath()) {
             view->getProjectItem()->save(view->getText());
             this->handleEditorChanged(view);
-	} else {
+    } else {
             return this->handleFileSaveAs(view);
         }
 
-	return true;
+    return true;
     }
 
     bool MainFrameHandler::handleFileSaveAs(Editor *view) {
@@ -74,14 +74,14 @@ namespace felide { namespace view {
         auto dialog = dialogFactory->showFileSaveDialog("Save File As ...", filters);
 
         if (dialog->getResult() == DialogResult::Cancel) {
-	    return false;
+        return false;
         }
 
         auto filePath = boost::get<fs::path>(dialog->getData());
         auto content = view->getText();
 
         view->getProjectItem()->save(content, filePath.string());
-		
+        
         m_frame->setEditorTitle(view, view->getProjectItem()->getName());
 
         this->handleEditorChanged(view);
@@ -102,96 +102,96 @@ namespace felide { namespace view {
     }
 
     bool MainFrameHandler::handleBuildClean() {
-	assert(this);
+    assert(this);
         return true;
     }
 
     bool MainFrameHandler::handleBuildCompile() {
-	assert(this);
+    assert(this);
 
-	auto dialogFactory = m_frame->getApp()->getDialogFactory();
+    auto dialogFactory = m_frame->getApp()->getDialogFactory();
 
-	try {
-	    auto *view = m_frame->getCurrentEditor();
-	    if (!view) {
+    try {
+        auto *view = m_frame->getCurrentEditor();
+        if (!view) {
                 return true;
-	    }
+        }
 
-	    auto item = view->getProjectItem();
-	    if (!item->hasPath() || item->getModifyFlag()) {
-		if (!this->handleFileSave(view)) {
-		    return false;
-		}
-	    }
+        auto item = view->getProjectItem();
+        if (!item->hasPath() || item->getModifyFlag()) {
+        if (!this->handleFileSave(view)) {
+            return false;
+        }
+        }
 
-	    namespace fs = boost::filesystem;
+        namespace fs = boost::filesystem;
 
-	    fs::path path = item->getPath();
-	    fs::path parentPath = path.parent_path().string();
+        fs::path path = item->getPath();
+        fs::path parentPath = path.parent_path().string();
 
-	    // setup command line parameters
-	    std::list<std::string> args = {
+        // setup command line parameters
+        std::list<std::string> args = {
                 item->getPath(),
                 "-o" + (parentPath / path.stem()).string() + ".exe",
                 "-O0",
                 "-Wall",
                 "-lstdc++"
-	    };
+        };
 
-	    namespace felsys = felide::system;
+        namespace felsys = felide::system;
 
-	    auto compiler = felsys::Process::open(felsys::ProcessFlags::Redirect, "gcc", args);
-	    compiler->start();
-	    compiler->wait();
+        auto compiler = felsys::Process::open(felsys::ProcessFlags::Redirect, "gcc", args);
+        compiler->start();
+        compiler->wait();
 
-	    std::string dialogMsg;
-	    DialogIcon dialogIcon;
+        std::string dialogMsg;
+        DialogIcon dialogIcon;
             
-	    if (compiler->getExitCode() != 0) {
+        if (compiler->getExitCode() != 0) {
                 dialogMsg = compiler->getOutput();
                 dialogIcon = DialogIcon::Error;
-	    } else {
+        } else {
                 dialogMsg = "Compilation OK";
                 dialogIcon = DialogIcon::Information;
-	    }
+        }
 
-	    dialogFactory->showMessageDialog("felide.editor", dialogMsg, dialogIcon, DialogButton::Ok);
+        dialogFactory->showMessageDialog("felide.editor", dialogMsg, dialogIcon, DialogButton::Ok);
 
-	} catch (std::exception &exp) {
+    } catch (std::exception &exp) {
             dialogFactory->showMessageDialog(
                 "felide.editor",
                 "Runtime Error" + std::string(exp.what()),
                 DialogIcon::Error,
                 DialogButton::Ok
             );
-	}
+    }
 
-	return true;
+    return true;
     }
 
     bool MainFrameHandler::handleBuildLink() {
-	assert(this);
+    assert(this);
         return true;
     }
 
     bool MainFrameHandler::handleEditorChanged(Editor* view) {
-	assert(this);
-	assert(view);
+    assert(this);
+    assert(view);
 
-	const ProjectItem* item = view->getProjectItem();
+    const ProjectItem* item = view->getProjectItem();
 
         // update title
-	std::string title = "";
+    std::string title = "";
 
-	if (item->hasPath()) {
-	    title += item->getName();
-	} else {
-	    title += "Untitled " + std::to_string(view->getId());
-	}
+    if (item->hasPath()) {
+        title += item->getName();
+    } else {
+        title += "Untitled " + std::to_string(view->getId());
+    }
 
-	title += item->getModifyFlag()?"[*]":"";
+    title += item->getModifyFlag()?"[*]":"";
 
-	m_frame->setEditorTitle(view, title);
+    m_frame->setEditorTitle(view, title);
 
         // update lexer
         if (item->hasPath()) {
@@ -205,70 +205,70 @@ namespace felide { namespace view {
             }
         }
 
-	return true;
+    return true;
     }
 
     bool MainFrameHandler::handleFileSaveAll() {
-	assert(this);
+    assert(this);
 
-	MainFrame *frame = m_frame;
+    MainFrame *frame = m_frame;
 
-	for (int i=0; i<frame->getEditorCount(); i++) {
-	    if (!this->handleFileSave(frame->getEditor(i))) {
+    for (int i=0; i<frame->getEditorCount(); i++) {
+        if (!this->handleFileSave(frame->getEditor(i))) {
                 return false;
-	    }
-	}
+        }
+    }
 
-	return true;
+    return true;
     }
 
     bool MainFrameHandler::handleFileSave() {
-	assert(this);
+    assert(this);
 
-	return this->handleFileSave(m_frame->getCurrentEditor());
+    return this->handleFileSave(m_frame->getCurrentEditor());
     }
 
     bool MainFrameHandler::handleFileSaveAs() {
         assert(this);
 
-	return this->handleFileSaveAs(m_frame->getCurrentEditor());
+    return this->handleFileSaveAs(m_frame->getCurrentEditor());
     }
 
     bool MainFrameHandler::handleEditUndo() {
-	assert(this);
+    assert(this);
 
-	m_frame->getCurrentEditor()->undo();
-	return true;
+    m_frame->getCurrentEditor()->undo();
+    return true;
     }
 
     bool MainFrameHandler::handleEditRedo() {
-	m_frame->getCurrentEditor()->redo();
-	return true;
+    m_frame->getCurrentEditor()->redo();
+    return true;
     }
 
     bool MainFrameHandler::handleEditCut() {
-	assert(this);
+    assert(this);
 
-	m_frame->getCurrentEditor()->cut();
-	return true;
+    m_frame->getCurrentEditor()->cut();
+    return true;
     }
 
     bool MainFrameHandler::handleEditCopy() {
-	assert(this);
+    assert(this);
 
-	m_frame->getCurrentEditor()->copy();
-	return true;
+    m_frame->getCurrentEditor()->copy();
+    return true;
     }
 
     bool MainFrameHandler::handleEditPaste() {
-	assert(this);
+    assert(this);
 
-	m_frame->getCurrentEditor()->paste();
-	return true;
+    m_frame->getCurrentEditor()->paste();
+    return true;
     }
 
     Editor* MainFrameHandler::createEditor(ProjectItemPtr itemPtr) {
-	assert(this);
+    assert(this);
 
         Editor *view = m_frame->createEditor(std::move(itemPtr));
         ProjectItem *item = view->getProjectItem();
@@ -336,7 +336,7 @@ namespace felide { namespace view {
     
     bool MainFrameHandler::handleFileCloseAll() {
         assert(this);
-	assert(m_frame);
+    assert(m_frame);
 
         for (int i=0; i<m_frame->getEditorCount(); i++) {
             Editor *view = m_frame->getEditor(i);

@@ -14,56 +14,56 @@
 #include <string>
 
 namespace felide { namespace system {
-	/**
-	* @brief Accessor and manipulator for temporal environment variables of processes.
-	 */
-	class FELIDE_API Environment {
-	public:
-		virtual ~Environment();
-		
-		/**
-		 * @brief Gets the total variable count of the environment accesor/manipulator.
-		 */
-		virtual int getVariableCount() const = 0;
-		
-		/**
-		 * @brief Gets the variable name located at the specified index. 
-		 * 
-		 * That index will be interpreted as an zero-based index. 
-		 * If no such location exist, exception std::runtime_error is thrown.
-		 */
-		virtual std::string getVariable(const int index) const = 0;
-		
-		/**
-		 * @brief Gets the variable value located at the specified index. 
-		 *
-		 * If no such location exist, exception std::runtime_error is thrown.
-		 */
-		virtual std::string getVariableValue(const int index) const = 0;
-		
-		/**
-		 * @brief Gets the value of the specified variable.
-		 *
-		 * If no such variable exist, exception std::runtime_error is thrown.
-		 */
-		virtual std::string getVariableValue(const std::string &variableName) const = 0;
-		
-		/**
-		 * @brief Sets the value of the specified variable. 
-		 *
-		 * If the variable previously exists, the old value is replaced with the new one. 
-		 * If no such variable exist, a new environment variable its created with a empty string value, and 
-		 * located at the 'Environment::getValueCount' zero-based position.
-		 */
-		virtual void setVariableValue(const std::string &variableName, const std::string &variableValue) = 0;
-		
-		/**
-		 * @brief 
-		 * 
-		 * 
-		 */
-		virtual void appendVariableValue(const std::string &variableName, const std::string &variableValue) = 0;
-	};
+    /**
+    * @brief Accessor and manipulator for temporal environment variables of processes.
+     */
+    class FELIDE_API Environment {
+    public:
+        virtual ~Environment();
+        
+        /**
+         * @brief Gets the total variable count of the environment accesor/manipulator.
+         */
+        virtual int getVariableCount() const = 0;
+        
+        /**
+         * @brief Gets the variable name located at the specified index. 
+         * 
+         * That index will be interpreted as an zero-based index. 
+         * If no such location exist, exception std::runtime_error is thrown.
+         */
+        virtual std::string getVariable(const int index) const = 0;
+        
+        /**
+         * @brief Gets the variable value located at the specified index. 
+         *
+         * If no such location exist, exception std::runtime_error is thrown.
+         */
+        virtual std::string getVariableValue(const int index) const = 0;
+        
+        /**
+         * @brief Gets the value of the specified variable.
+         *
+         * If no such variable exist, exception std::runtime_error is thrown.
+         */
+        virtual std::string getVariableValue(const std::string &variableName) const = 0;
+        
+        /**
+         * @brief Sets the value of the specified variable. 
+         *
+         * If the variable previously exists, the old value is replaced with the new one. 
+         * If no such variable exist, a new environment variable its created with a empty string value, and 
+         * located at the 'Environment::getValueCount' zero-based position.
+         */
+        virtual void setVariableValue(const std::string &variableName, const std::string &variableValue) = 0;
+        
+        /**
+         * @brief 
+         * 
+         * 
+         */
+        virtual void appendVariableValue(const std::string &variableName, const std::string &variableValue) = 0;
+    };
 }}
 
-#endif	// __FELIDE_PROTO_SYSTEM_ENVIRONMENT_HPP__
+#endif    // __FELIDE_PROTO_SYSTEM_ENVIRONMENT_HPP__

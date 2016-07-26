@@ -20,23 +20,23 @@ namespace felide { namespace view { namespace win {
         }
 
         virtual std::string getText() const override {
-	    return this->GetText();
+        return this->GetText();
         }
 
         virtual void setSavePoint() override {
-	    this->SetSavePoint();
+        this->SetSavePoint();
         }
 
         virtual void emptyUndoBuffer() override {
-	    this->EmptyUndoBuffer();
+        this->EmptyUndoBuffer();
         }
 
         virtual void clearAll() override {
-	    this->ClearAll();
+        this->ClearAll();
         }
 
         virtual void setTabWidth(const int spaces) override {
-	    this->SetTabWidth(spaces);
+        this->SetTabWidth(spaces);
         }
 
         virtual ProjectItem* getProjectItem() override {
@@ -56,15 +56,15 @@ namespace felide { namespace view { namespace win {
         }
 
         virtual void cut() override {
-	    this->Cut();
+        this->Cut();
         }
 
         virtual void copy() override {
-	    this->Copy();
+        this->Copy();
         }
 
         virtual void paste() override {
-	    this->Paste();
+        this->Paste();
         }
         
         virtual void setLexer(const Lexer &lexer) override;

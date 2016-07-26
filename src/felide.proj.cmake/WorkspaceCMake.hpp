@@ -21,13 +21,13 @@ namespace felide {
         WorkspaceCMake();
         
         virtual int getProjectCount() const override;
-		virtual Project* getProject(int i) override;
-		virtual const Project* getProject(int i) const override;
-		
-		virtual void addProject(ProjectPtr project)  override;
-		virtual void removeProject(ProjectPtr project)  override;
-		virtual void deleteProject(ProjectPtr project)  override;
-		
+        virtual Project* getProject(int i) override;
+        virtual const Project* getProject(int i) const override;
+        
+        virtual void addProject(ProjectPtr project)  override;
+        virtual void removeProject(ProjectPtr project)  override;
+        virtual void deleteProject(ProjectPtr project)  override;
+        
         virtual void setName(const std::string &name)  override {
             m_name = name;
         }

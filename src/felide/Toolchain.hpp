@@ -16,13 +16,13 @@
 #include "ProjectItem.hpp"
 
 namespace felide {
-	class FELIDE_API Toolchain {
-	public:
-		/**
-		 * @brief Build a single item
-		 */
-		void build(ProjectItem *item);
-	};
+    class FELIDE_API Toolchain {
+    public:
+        /**
+         * @brief Build a single item
+         */
+        void build(ProjectItem *item);
+    };
 }
 
-#endif	// __felide_toolchain_hpp__
+#endif    // __felide_toolchain_hpp__

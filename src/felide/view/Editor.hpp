@@ -7,7 +7,7 @@
 #include "felide/ProjectItem.hpp"
 
 namespace felide { namespace view {
-	
+    
     /**
      * @brief Generic source editor component interface.
      */
@@ -39,10 +39,10 @@ namespace felide { namespace view {
         virtual void setLexer(const Lexer &lexer) = 0;
 
     private:
-	int id = 0;
+    int id = 0;
     };
 
     typedef std::unique_ptr<Editor> EditorPtr;
 }}
 
-#endif	// __felide_editor_editor_hpp__
+#endif    // __felide_editor_editor_hpp__

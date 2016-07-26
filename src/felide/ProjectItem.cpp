@@ -54,7 +54,7 @@ namespace felide {
             m_impl->modifiedSignal(this);
         }
     }
-	
+    
     bool ProjectItem::getModifyFlag() const {
         assert(m_impl);
 
@@ -99,11 +99,11 @@ namespace felide {
         if (!fs.is_open()) {
             throw std::runtime_error("The file could't be opened");
         }
-		
+        
         if (content.size() > 0) {
             fs.write(content.c_str(), content.size() - 1);
         } else {
-	    fs.write("", 1);
+        fs.write("", 1);
         }
         
         m_impl->modified = false;

@@ -5,27 +5,27 @@
 namespace felide { namespace view { namespace win {
 
     WAppImpl::WAppImpl() {
-	// Load another win32 controls here
-	this->Load("SciLexer.dll");
+    // Load another win32 controls here
+    this->Load("SciLexer.dll");
     }
 
     WAppImpl::~WAppImpl() {}
 
     int WAppImpl::run(int argc, char **argv) {
-	WMainFrame frame(this);
+    WMainFrame frame(this);
 
-	std::string title = this->getTitle();
+    std::string title = this->getTitle();
 
-	frame.Create(std::wstring(title.begin(), title.end()), WS_OVERLAPPEDWINDOW);
-	frame.Show();
+    frame.Create(std::wstring(title.begin(), title.end()), WS_OVERLAPPEDWINDOW);
+    frame.Show();
 
-	return this->Run();
+    return this->Run();
     }
 }}}
 
 namespace felide {
     App* App::getInstance() {
-	static felide::view::win::WAppImpl app;
-	return &app;
+    static felide::view::win::WAppImpl app;
+    return &app;
     }
 }
