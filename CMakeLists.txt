@@ -17,7 +17,7 @@ set (Boost_USE_STATIC_LIBS OFF)
 set (Boost_USE_MULTITHREADED ON)
 set (Boost_USE_STATIC_RUNTIME OFF)
 
-find_package (Boost 1.61.0 COMPONENTS filesystem system REQUIRED)
+find_package (Boost 1.59.0 COMPONENTS filesystem system REQUIRED)
 
 # Include dirs
 include_directories (${Boost_INCLUDE_DIRS})

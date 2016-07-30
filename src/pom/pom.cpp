@@ -24,8 +24,8 @@ int main() {
     executable->language = &lang;
     executable->items.emplace_back(new Item("myexe.cpp"));
 
-    //BuilderGCC builder;
-    //builder.build(&ws);
+    BuilderGCC builder;
+    builder.build(&ws);
 
     return 0;
 }

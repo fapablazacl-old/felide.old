@@ -3,9 +3,10 @@ set (target pom)
 
 set (sources 
 	pom.hpp pom.cpp
-	#Builder.hpp Builder.cpp 
-	#BuilderGCC.hpp BuilderGCC.cpp 
+	Builder.hpp Builder.cpp 
+	BuilderGCC.hpp BuilderGCC.cpp 
 	#BuilderVC.hpp BuilderVC.cpp 
+
 	Item.hpp Item.cpp 
 	Language.hpp Language.cpp 
 	Project.hpp Project.cpp 
