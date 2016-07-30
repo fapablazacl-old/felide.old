@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.0)
 
 project (felide)
 
@@ -17,7 +17,7 @@ set (Boost_USE_STATIC_LIBS OFF)
 set (Boost_USE_MULTITHREADED ON)
 set (Boost_USE_STATIC_RUNTIME OFF)
 
-find_package (Boost COMPONENTS filesystem system REQUIRED)
+find_package (Boost 1.61.0 COMPONENTS filesystem system REQUIRED)
 
 # Include dirs
 include_directories (${Boost_INCLUDE_DIRS})
