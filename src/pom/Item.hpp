@@ -9,10 +9,9 @@ namespace felide { namespace pom {
     struct Item {
         typedef std::unique_ptr<Item> Ptr;
 
-        std::string name;
         std::string path;
 
-        Item(std::string name_, std::string path_);
+        Item(std::string path_);
     };
 }}
 
