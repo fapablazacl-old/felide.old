@@ -9,9 +9,12 @@
 namespace felide { namespace pom {
     struct Project;
     struct Workspace {
-        std::string name;
-        std::string path;
+        Workspace();
+        Workspace(const std::string &path, const std::string &name);
+        ~Workspace();
 
+        std::string path;
+        std::string name;
         std::vector<std::unique_ptr<Project>> projects;
     };
 }}

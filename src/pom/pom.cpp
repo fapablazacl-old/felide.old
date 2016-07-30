@@ -11,10 +11,9 @@ int main() {
 
     Language lang;
 
-    Workspace ws;
-    ws.name = "test_workspace";
-    ws.projects.emplace_back(new Project("mylib", "assets/simplews/mylib/mylib.project", ProjectType::StaticLibrary));
-    ws.projects.emplace_back(new Project("myexe", "assets/simplews/myexe/myexe.project", ProjectType::ConsoleExecutable));
+    Workspace ws("assets", "simplews");
+    ws.projects.emplace_back(new Project("mylib", ProjectType::StaticLibrary));
+    ws.projects.emplace_back(new Project("myexe", ProjectType::ConsoleExecutable));
 
     Project *library = ws.projects[0].get();
     library->language = &lang;
