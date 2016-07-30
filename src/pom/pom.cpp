@@ -3,8 +3,8 @@
 #include "Workspace.hpp"
 #include "Project.hpp"
 #include "Item.hpp"
-//#include "BuilderGCC.hpp"
-//#include "BuilderVC.hpp"
+#include "BuilderGCC.hpp"
+#include "BuilderVC.hpp"
 
 int main() {
     using namespace felide::pom;
