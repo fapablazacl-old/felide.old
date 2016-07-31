@@ -6,26 +6,34 @@
 #include "BuilderGCC.hpp"
 #include "BuilderVC.hpp"
 
+#include <iostream>
+
 int main() {
-    using namespace felide::pom;
 
-    Language lang;
+    try {
+        using namespace felide::pom;
 
-    Workspace ws("assets", "simplews");
-    ws.projects.emplace_back(new Project("mylib", ProjectType::StaticLibrary));
-    ws.projects.emplace_back(new Project("myexe", ProjectType::ConsoleExecutable));
+        Language lang;
 
-    Project *library = ws.projects[0].get();
-    library->language = &lang;
-    library->items.emplace_back(new Item("mylib.hpp"));
-    library->items.emplace_back(new Item("mylib.cpp"));
+        Workspace ws("assets", "simplews");
+        ws.projects.emplace_back(new Project("mylib", ProjectType::StaticLibrary));
+        ws.projects.emplace_back(new Project("myexe", ProjectType::ConsoleExecutable));
 
-    Project *executable = ws.projects[1].get();
-    executable->language = &lang;
-    executable->items.emplace_back(new Item("myexe.cpp"));
+        Project *library = ws.projects[0].get();
+        library->language = &lang;
+        library->items.emplace_back(new Item("mylib.hpp"));
+        library->items.emplace_back(new Item("mylib.cpp"));
 
-    BuilderGCC builder;
-    builder.build(&ws);
+        Project *executable = ws.projects[1].get();
+        executable->language = &lang;
+        executable->items.emplace_back(new Item("myexe.cpp"));
+
+        BuilderVC builder;
+        builder.build(&ws);
+
+    } catch (const std::exception &exp) {
+        std::cout << exp.what() << std::endl;
+    }
 
     return 0;
 }

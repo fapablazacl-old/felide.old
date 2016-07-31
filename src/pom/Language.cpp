@@ -5,8 +5,8 @@
 #include <boost/filesystem/path.hpp>
 
 namespace felide { namespace pom {
-    bool Language::isItemCompilable(const Item *item) const {
-        const boost::filesystem::path fspath(item->path);
+    bool Language::isCompilable(const Item *item) const {
+        const boost::filesystem::path fspath(item->file);
         const std::string ext = fspath.extension().string();
 
         return ext == ".cpp";

@@ -6,7 +6,7 @@ namespace felide { namespace pom {
     struct Item;
     class Language {
     public:
-        bool isItemCompilable(const Item *item) const;
+        bool isCompilable(const Item *item) const;
     };
 }}
 

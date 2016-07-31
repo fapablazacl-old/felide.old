@@ -7,12 +7,19 @@
 
 namespace felide { namespace pom {
     struct Item {
-        typedef std::unique_ptr<Item> Ptr;
-
-        std::string path;
+        std::string file;
 
         Item(std::string path_);
+
+        /**
+         * @brief Compute the object file name
+         */
+        std::string getObject() const {
+            return file + ".obj";
+        }
     };
+
+    typedef std::unique_ptr<Item> ItemPtr;
 }}
 
 #endif
