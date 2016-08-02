@@ -17,6 +17,7 @@
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/adaptor/filtered.hpp>
 #include <boost/range/adaptor/transformed.hpp>
+#include <boost/range/adaptor/copied.hpp>
 
 namespace fs = boost::filesystem;
 
@@ -24,6 +25,7 @@ namespace felide { namespace pom {
 
     using boost::adaptors::filtered;
     using boost::adaptors::transformed;
+    using boost::adaptors::copied;
 
     static std::string getLinkCommand(const ProjectType::Enum type) {
         switch (type) {
@@ -49,7 +51,7 @@ namespace felide { namespace pom {
 
         for (const std::string &include : includes) {
             fs::path path = fs::path(vcinstalldir) / include;
-            m_includes.push_back(path.string());
+            m_includes.push_back("\"" + path.string() + "\"");
         }
     }
 
@@ -69,20 +71,23 @@ namespace felide { namespace pom {
             const Language *lang = project->language;
 
             // collect compilable items
-            auto compilables = project->items | filtered([&](ItemPtr &item) { 
+            auto compilables = project->items | filtered([&](ItemPtr &item) {
                 return lang->isCompilable(item.get()); 
             });
              
             // get dependency include paths
-            auto includeOptions = project->dependencies | transformed([&](Project *dependency) { 
+            auto dependencyIncludes = project->dependencies | transformed([&](Project *dependency) {
                 const fs::path projectPath = basePath / dependency->name;
                 return "/I " + projectPath.string(); 
             });
 
             // TODO: insert first the compiler default include paths
-            boost::copy(includeOptions, std::back_inserter(m_includes));
+            std::vector<std::string> includes;
 
-            std::string includeOption = boost::join(includeOptions, " ");
+            boost::copy(m_includes, std::back_inserter(includes));
+            boost::copy(dependencyIncludes, std::back_inserter(includes));
+
+            std::string includeOption = boost::join(includes, " ");
 
             // build compile commands
             auto compileCommands = compilables | transformed([&](ItemPtr &item){ 
