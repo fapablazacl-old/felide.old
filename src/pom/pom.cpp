@@ -8,8 +8,7 @@
 
 #include <iostream>
 
-int main() {
-
+int main(int argc, char **argv) {
     try {
         using namespace felide::pom;
 
@@ -18,7 +17,8 @@ int main() {
         Workspace ws("assets", "simplews");
         ws.projects.emplace_back(new Project("mylib", ProjectType::StaticLibrary));
         ws.projects.emplace_back(new Project("myexe", ProjectType::ConsoleExecutable));
-
+        ws.projects[1]->dependencies.push_back(ws.projects[0].get());
+        
         Project *library = ws.projects[0].get();
         library->language = &lang;
         library->items.emplace_back(new Item("mylib.hpp"));
@@ -31,9 +31,10 @@ int main() {
         BuilderVC builder;
         builder.build(&ws);
 
+        return EXIT_SUCCESS;
     } catch (const std::exception &exp) {
         std::cout << exp.what() << std::endl;
-    }
 
-    return 0;
+        return EXIT_FAILURE;
+    }
 }
