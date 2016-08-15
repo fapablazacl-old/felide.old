@@ -10,7 +10,6 @@ namespace felide { namespace pom {
 #if defined(_DEBUG)
             std::cout << command << std::endl;
 #endif
-
             const int result = std::system(command.c_str());
 
             if (result) {

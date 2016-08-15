@@ -68,3 +68,4 @@ add_subdirectory (src/felide.proj.cmake)
 add_subdirectory (src/felide.proj.impl)
 
 add_subdirectory (src/felide)
+add_subdirectory (src/model)
