@@ -12,7 +12,9 @@
 
 #include <string>
 #include <memory>
-#include "ProjectItem.hpp"
+
+#include "felide/ProjectItem.hpp"
+#include "felide/Collection.hpp"
 
 namespace felide { 
     class FELIDE_API Project {

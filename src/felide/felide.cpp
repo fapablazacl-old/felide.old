@@ -4,7 +4,6 @@
 #include <iostream>
 
 int main(int argc, char **argv) {
-
     try {
         return felide::App::getInstance()->run(argc, argv);
 

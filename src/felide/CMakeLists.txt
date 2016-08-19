@@ -7,7 +7,7 @@ set(felide_src
     Toolchain.hpp Toolchain.cpp
     App.hpp App.cpp
     LexerConstants.cpp LexerConstants.hpp 
-    Collection.hpp
+    Collection.hpp Dictionary.hpp
     Lexer.hpp Lexer.cpp
     Language.hpp Language.cpp
     LexerConstants.hpp LexerConstants.cpp
