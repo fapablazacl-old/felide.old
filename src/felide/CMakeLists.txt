@@ -42,16 +42,22 @@ set (felide_view_src
     view/MainFrameHandler.cpp
 )
 
+set (felide_view_gen_src
+    view/gen/Menu.hpp
+    view/gen/Menu.cpp
+)
 
 add_executable(felide 
     ${felide_src} 
     ${felide_system_src} 
     ${felide_view_src} 
+    ${felide_view_gen_src}
 )
 
 source_group(\\             FILES ${felide_src})
 source_group(\\system       FILES ${felide_system_src})
 source_group(\\view         FILES ${felide_view_src})
+source_group(\\view\\gen    FILES ${felide_view_gen_src})
 
 target_link_libraries(felide ${Boost_LIBRARIES} ${FELIDE_QT5_LIBRARIES} ${FELIDE_WCL_LIBRARIES} felide.proj.cmake)
 
