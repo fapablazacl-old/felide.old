@@ -13,6 +13,10 @@ namespace felide { namespace view { namespace gen {
     Menu::Menu(std::string key_, std::vector<Menu> childs_) 
         : key(key_), childs(std::move(childs_)) {}
 
+    Menu::Menu(std::string key_, Shortcut shortcut_) : key(key_), shortcut(shortcut_) {}
+
+    Menu::Menu(std::string key_, Shortcut shortcut_, MenuStatus status_) : key(key_), shortcut(shortcut_), status(status_) {}
+
     //Menu::Menu(std::string key_, std::string shortcut_) 
     //    : key(key_), shortcut(shortcut_) {}
 
