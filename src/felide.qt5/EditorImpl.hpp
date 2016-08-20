@@ -42,6 +42,8 @@ namespace felide { namespace view { namespace qt5 {
 
         virtual void setFont(const std::string &name, const int size) override;
 
+        virtual void setLexer(const Lexer &lexer) override {}
+        
         virtual ProjectItem* getProjectItem() override;
         virtual const ProjectItem* getProjectItem() const override;
 

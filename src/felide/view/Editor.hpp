@@ -37,6 +37,8 @@ namespace felide { namespace view {
         virtual void paste() = 0;
 
         virtual void setLexer(const Lexer &lexer) = 0;
+        
+        virtual void setFont(const std::string &name, const int size) {}
 
     private:
     int id = 0;

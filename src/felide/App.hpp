@@ -17,20 +17,20 @@ namespace felide {
     public:
         App();
         virtual ~App() {}
-        
+
         virtual int run(int argc, char **argv) = 0;
 
-    Config* getConfig() {
+        Config* getConfig() {
             return &m_config;
-    }
+        }
 
-    const Config* getConfig() const {
+        const Config* getConfig() const {
             return &m_config;
-    }
+        }
 
-    std::string getTitle() const {
+        std::string getTitle() const {
             return "felide";
-    }
+        }
 
         virtual felide::view::DialogFactory* getDialogFactory() = 0;
         
