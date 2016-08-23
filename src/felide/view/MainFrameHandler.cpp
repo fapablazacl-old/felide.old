@@ -138,24 +138,24 @@ namespace felide { namespace view {
                     "-lstdc++"
             };
 
-            namespace felsys = felide::system;
+            //namespace felsys = felide::system;
 
-            auto compiler = felsys::Process::open(felsys::ProcessFlags::Redirect, "gcc", args);
-            compiler->start();
-            compiler->wait();
+            //auto compiler = felsys::Process::open(felsys::ProcessFlags::Redirect, "gcc", args);
+            //compiler->start();
+            //compiler->wait();
 
-            std::string dialogMsg;
-            DialogIcon dialogIcon;
-            
-            if (compiler->getExitCode() != 0) {
-                    dialogMsg = compiler->getOutput();
-                    dialogIcon = DialogIcon::Error;
-            } else {
-                    dialogMsg = "Compilation OK";
-                    dialogIcon = DialogIcon::Information;
-            }
+            //std::string dialogMsg;
+            //DialogIcon dialogIcon;
+            //
+            //if (compiler->getExitCode() != 0) {
+            //        dialogMsg = compiler->getOutput();
+            //        dialogIcon = DialogIcon::Error;
+            //} else {
+            //        dialogMsg = "Compilation OK";
+            //        dialogIcon = DialogIcon::Information;
+            //}
 
-            dialogFactory->showMessageDialog("felide.editor", dialogMsg, dialogIcon, DialogButton::Ok);
+            //dialogFactory->showMessageDialog("felide.editor", dialogMsg, dialogIcon, DialogButton::Ok);
 
         } catch (std::exception &exp) {
                 dialogFactory->showMessageDialog(

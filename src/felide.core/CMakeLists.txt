@@ -6,6 +6,8 @@ set (sources
     "felide/core/Application.hpp" 
     "felide/core/Plugin.cpp" 
     "felide/core/Plugin.hpp" 
+    "felide/core/PluginLibrary.cpp" 
+    "felide/core/PluginLibrary.hpp" 
     "felide/core/PluginManager.cpp" 
     "felide/core/PluginManager.hpp" 
     "felide/core/PluginManagerImpl.cpp" 

@@ -26,18 +26,6 @@ set(felide_src
     felide.cpp
 )
 
-set(felide_system_src
-    system/Environment.hpp 
-    system/Environment.cpp
-    system/Module.hpp 
-    system/Module.cpp
-    system/Process.hpp 
-    system/ProcessWin32.cpp
-    system/ProcessUnix.cpp
-    system/Library.hpp 
-    system/Library.cpp
-)
-
 set (felide_view_src
     view/Editor.hpp
     view/Editor.cpp
@@ -74,7 +62,6 @@ add_executable(felide
 )
 
 source_group(\\             FILES ${felide_src})
-source_group(\\system       FILES ${felide_system_src})
 source_group(\\view         FILES ${felide_view_src})
 source_group(\\view\\gen    FILES ${felide_view_gen_src})
 

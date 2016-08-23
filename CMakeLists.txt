@@ -63,6 +63,8 @@ if (FELIDE_GEN_WCL)
     add_subdirectory (src/felide.wcl)
 endif ()
 
+include_directories(src/felide.system)
+
 add_subdirectory (src/pom)
 add_subdirectory (src/felide.proj.cmake)
 add_subdirectory (src/felide.proj.impl)
