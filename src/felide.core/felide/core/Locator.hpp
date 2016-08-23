@@ -10,14 +10,8 @@
 namespace felide {  namespace core {
     class Locator {
     public:
-        void addPath(const std::string &path) {
-            m_paths.push_back(path);
-        }
-
-        std::string locate(const std::string &name);
-
-    private:
-        std::list<std::string> m_paths;
+        virtual ~Locator();
+        virtual std::string locate(const std::string &name) = 0;
     };
 }}
 

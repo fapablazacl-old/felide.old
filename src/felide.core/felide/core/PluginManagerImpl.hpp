@@ -8,6 +8,7 @@
 
 #include <memory>
 #include <list>
+#include <map>
 
 namespace felide {  namespace core {
     class Application;
@@ -22,7 +23,7 @@ namespace felide {  namespace core {
         }
 
         virtual Locator* getLocator() {
-            return &m_locator;
+            return m_locator.get();
         }
 
         virtual void load(const std::string &name);
@@ -31,9 +32,9 @@ namespace felide {  namespace core {
 
     private:
         Application *m_application = nullptr;
-        Locator m_locator;
+        std::unique_ptr<Locator> m_locator;
 
-        std::list<std::unique_ptr<Plugin>> m_plugins;
+        std::map<std::string, std::unique_ptr<Plugin>> m_plugins;
     };
 }}
 

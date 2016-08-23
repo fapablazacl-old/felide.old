@@ -14,6 +14,10 @@ set (sources
     "felide/core/PluginManagerImpl.hpp" 
     "felide/core/Locator.cpp" 
     "felide/core/Locator.hpp" 
+    "felide/core/PathEnvLocator.cpp" 
+    "felide/core/PathEnvLocator.hpp" 
+    "felide/core/ArbitraryLocator.cpp" 
+    "felide/core/ArbitraryLocator.hpp" 
 )
 
 source_group(\\ FILES ${sources})
