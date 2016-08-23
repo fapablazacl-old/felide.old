@@ -1,17 +1,28 @@
 
 set(felide_src
     Predef.hpp 
-    ProjectItem.hpp		ProjectItem.cpp
-    Project.hpp			Project.cpp
-    Workspace.hpp		Workspace.cpp
-    Toolchain.hpp		Toolchain.cpp
-    App.hpp				App.cpp
-    LexerConstants.cpp	LexerConstants.hpp 
-    Collection.hpp		Dictionary.hpp
-    Lexer.hpp			Lexer.cpp
-    Language.hpp		Language.cpp
-    LexerConstants.hpp	LexerConstants.cpp
-    Config.hpp			Config.cpp
+    ProjectItem.hpp		
+    ProjectItem.cpp
+    Project.hpp			
+    Project.cpp
+    Workspace.hpp		
+    Workspace.cpp
+    Toolchain.hpp		
+    Toolchain.cpp
+    App.hpp				
+    App.cpp
+    LexerConstants.cpp	
+    LexerConstants.hpp 
+    Collection.hpp		
+    Dictionary.hpp
+    Lexer.hpp			
+    Lexer.cpp
+    Language.hpp		
+    Language.cpp
+    LexerConstants.hpp	
+    LexerConstants.cpp
+    Config.hpp			
+    Config.cpp
     felide.cpp
 )
 
@@ -43,8 +54,16 @@ set (felide_view_src
 )
 
 set (felide_view_gen_src
-    view/gen/Menu.hpp		view/gen/Menu.cpp
-	view/gen/Shortcut.hpp	view/gen/Shortcut.cpp
+    view/gen/Menu.hpp               
+    view/gen/Menu.cpp
+    view/gen/Shortcut.hpp           
+    view/gen/Shortcut.cpp
+    view/gen/Generator.hpp          
+    view/gen/Generator.cpp
+    view/gen/DefaultGenerator.hpp  
+    view/gen/DefaultGenerator.cpp
+    view/gen/WindowsGenerator.hpp  
+    view/gen/WindowsGenerator.cpp
 )
 
 add_executable(felide 

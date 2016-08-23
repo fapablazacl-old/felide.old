@@ -69,3 +69,5 @@ add_subdirectory (src/felide.proj.impl)
 
 add_subdirectory (src/felide)
 add_subdirectory (src/model)
+add_subdirectory (src/felide.core)
+add_subdirectory (src/felide.system)
