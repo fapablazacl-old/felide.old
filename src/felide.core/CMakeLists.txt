@@ -17,4 +17,4 @@ set (sources
 source_group(\\ FILES ${sources})
 
 add_library (${target} SHARED ${sources})
-target_link_libraries (${target} ${Boost_LIBRARIES})
+target_link_libraries (${target} ${Boost_LIBRARIES} felide.system)

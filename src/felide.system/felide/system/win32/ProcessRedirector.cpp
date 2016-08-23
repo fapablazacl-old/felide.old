@@ -10,7 +10,7 @@ namespace felide { namespace system { namespace win32 {
         return (osv.dwPlatformId == VER_PLATFORM_WIN32_NT);
     }
 
-    ProcessRedirector::ProcessRedirector(STARTUPINFO *si, PROCESS_INFORMATION *pi) {
+    ProcessRedirector::ProcessRedirector(STARTUPINFO *si, PROCESS_INFORMATION *m_pi) {
         SECURITY_ATTRIBUTES sa = {0};
         SECURITY_DESCRIPTOR sd = {0};
 
@@ -28,36 +28,36 @@ namespace felide { namespace system { namespace win32 {
         sa.lpSecurityDescriptor = &sd;
         sa.bInheritHandle = TRUE;
 
-        HANDLE hStdIn = 0, hStdOut = 0;
-        HANDLE hReadStdOut = 0, hWriteStdIn = 0;
+        HANDLE m_hStdIn = 0, m_hStdOut = 0;
+        HANDLE m_hReadStdOut = 0, m_hWriteStdIn = 0;
 
         BOOL result;
-        result = ::CreatePipe(&hStdIn, &hWriteStdIn, &sa, 0);
-        result = ::CreatePipe(&hReadStdOut, &hStdOut, &sa, 0);
+        result = ::CreatePipe(&m_hStdIn, &m_hWriteStdIn, &sa, 0);
+        result = ::CreatePipe(&m_hReadStdOut, &m_hStdOut, &sa, 0);
 
         si->dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
         si->wShowWindow = SW_HIDE;
-        si->hStdOutput = hStdOut;
-        si->hStdError = hStdOut;
-        si->hStdInput = hStdIn;
+        si->hStdOutput = m_hStdOut;
+        si->hStdError = m_hStdOut;
+        si->hStdInput = m_hStdIn;
 
-        this->hStdIn = hStdIn;
-        this->hStdOut = hStdOut;
-        this->hReadStdOut = hReadStdOut;
-        this->hWriteStdIn = hWriteStdIn;
+        m_hStdIn = m_hStdIn;
+        m_hStdOut = m_hStdOut;
+        m_hReadStdOut = m_hReadStdOut;
+        m_hWriteStdIn = m_hWriteStdIn;
 
-        this->pi = pi;
+        m_pi = m_pi;
     }
 
     ProcessRedirector::~ProcessRedirector() {
-        ::CloseHandle(hStdIn);
-        ::CloseHandle(hStdOut);
-        ::CloseHandle(hReadStdOut);
-        ::CloseHandle(hWriteStdIn);
+        ::CloseHandle(m_hStdIn);
+        ::CloseHandle(m_hStdOut);
+        ::CloseHandle(m_hReadStdOut);
+        ::CloseHandle(m_hWriteStdIn);
     }
 
     std::string ProcessRedirector::getOutput() {
-        PROCESS_INFORMATION pi = *this->pi;
+        PROCESS_INFORMATION pi = *m_pi;
 
         std::stringstream ss;
 
@@ -68,19 +68,19 @@ namespace felide { namespace system { namespace win32 {
             DWORD readed = 0;
             DWORD avail = 0;
 
-            ::PeekNamedPipe(this->hReadStdOut, buff, BUFFER_SIZE-1, &readed, &avail, NULL);
+            ::PeekNamedPipe(m_hReadStdOut, buff, BUFFER_SIZE-1, &readed, &avail, NULL);
 
             if (readed > 0) {
                 ::ZeroMemory(buff, sizeof(buff));
 
                 if (avail > BUFFER_SIZE-1) {
                     while (readed >= BUFFER_SIZE-1) {
-                        ::ReadFile(this->hReadStdOut, buff, BUFFER_SIZE-1, &readed, NULL);
+                        ::ReadFile(m_hReadStdOut, buff, BUFFER_SIZE-1, &readed, NULL);
                         ss << buff;
                         ::ZeroMemory(buff, sizeof(buff));
                     }
                 } else {
-                    ::ReadFile(this->hReadStdOut, buff, BUFFER_SIZE-1, &readed, NULL);
+                    ::ReadFile(m_hReadStdOut, buff, BUFFER_SIZE-1, &readed, NULL);
                     ss << buff;
                 }
             }
