@@ -2,6 +2,9 @@
 #include <map>
 #include "felide/App.hpp"
 #include "felide/view/gen/Menu.hpp"
+#include "felide/view/gen/Generator.hpp"
+#include "felide/view/gen/DefaultGenerator.hpp"
+#include "felide/view/gen/WindowsGenerator.hpp"
 
 #include <iostream>
 
@@ -89,72 +92,6 @@ int main(int argc, char **argv) {
         }}, 
     }};
 
-    class Generator {
-    public:
-        Generator(const std::map<std::string, std::string> &labels) 
-            : m_labels(labels) {}
-
-        void generate(const Menu &menu) {
-            this->generateImpl(menu, 0);
-        }
-
-    private:
-        void generateImpl(const Menu &menu, const int level) {
-            std::cout << std::string(level, '-') << m_labels[menu.key] << std::endl;
-
-            for (const Menu &child : menu.childs) {
-                this->generateImpl(child, level + 2);
-            }
-        }
-
-    private:
-        std::map<std::string, std::string> m_labels;
-    };
-
-#if defined(_WIN32)
-    class WindowsGenerator {
-    public:
-        WindowsGenerator(const std::map<std::string, std::string> &labels, HWND hWnd) 
-            : m_labels(labels), m_hWnd(hWnd) {
-        }
-
-        void generate(const Menu &menu) {
-            HMENU hMenuBar = ::CreateMenu();
-
-            for (const Menu &child : menu.childs) {
-                this->generateImpl(hMenuBar, child);
-            }
-
-            ::SetMenu(m_hWnd, hMenuBar);
-        }
-
-    private:
-        void generateImpl(HMENU &hMenu, const Menu &menu) {
-            std::string text = m_labels[menu.key];
-
-            if (menu.childs.size() == 0) {
-                if (menu.key == "-") {
-                    ::AppendMenuA(hMenu, MF_SEPARATOR, 1000, NULL);
-                } else {
-                    ::AppendMenuA(hMenu, MF_STRING, 1000, text.c_str());
-                }
-            } else {
-                HMENU hCurrent = ::CreateMenu();
-
-                for (const Menu &child : menu.childs) {
-                    this->generateImpl(hCurrent, child);
-                }
-
-                ::AppendMenuA(hMenu, MF_POPUP, (UINT_PTR)hCurrent, text.c_str());
-            }
-        }
-
-    private:
-        HWND m_hWnd = nullptr;
-        std::map<std::string, std::string> m_labels;
-    };
-#endif
-
 #if defined(_WIN32)
     WNDCLASS wc = {};
 
@@ -195,7 +132,6 @@ int main(int argc, char **argv) {
     Generator generator(labels_EN);
     generator.generate(mainMenu);
 #endif
-
 
     //try {
     //    return felide::App::getInstance()->run(argc, argv);
