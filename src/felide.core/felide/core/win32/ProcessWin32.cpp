@@ -3,7 +3,7 @@
 
 #include <boost/algorithm/string/join.hpp>
 
-namespace felide { namespace system { namespace win32 {
+namespace felide { namespace core { namespace win32 {
 
     ProcessWin32::ProcessWin32(ProcessFlags flags, const std::string &name) {
         std::list<std::string> args;
@@ -87,5 +87,14 @@ namespace felide { namespace system { namespace win32 {
         }
 
         return m_redirector->getOutput();
+    }
+
+    ProcessStatus ProcessWin32::getStatus() const {
+        // TODO: Add implementation
+        return ProcessStatus::Executing;
+    }
+
+    void ProcessWin32::pause() {
+        // TODO: Add implementation
     }
 }}}

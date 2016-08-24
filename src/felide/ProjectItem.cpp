@@ -103,7 +103,7 @@ namespace felide {
         if (content.size() > 0) {
             fs.write(content.c_str(), content.size() - 1);
         } else {
-        fs.write("", 1);
+            fs.write("", 1);
         }
         
         m_impl->modified = false;

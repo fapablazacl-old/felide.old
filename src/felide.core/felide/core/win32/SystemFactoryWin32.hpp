@@ -1,13 +1,13 @@
 
-#ifndef __felide_system_win32_systemfactorywin32_hpp__
-#define __felide_system_win32_systemfactorywin32_hpp__
+#ifndef __felide_core_win32_systemfactorywin32_hpp__
+#define __felide_core_win32_systemfactorywin32_hpp__
 
 #include <memory>
 #include <vector>
 
 #include "../SystemFactory.hpp"
 
-namespace felide { namespace system { namespace win32 {
+namespace felide { namespace core { namespace win32 {
 
     class Library;
     class Process;

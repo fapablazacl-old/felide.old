@@ -16,4 +16,6 @@ set (sources
 
 add_executable (${target} ${sources})
 
+source_group(\\ FILES ${sources})
+
 target_link_libraries (${target} ${Boost_LIBRARIES})

@@ -1,6 +1,6 @@
 
-#ifndef __felide_system_systemfactory_hpp__
-#define __felide_system_systemfactory_hpp__
+#ifndef __felide_core_systemfactory_hpp__
+#define __felide_core_systemfactory_hpp__
 
 #include <memory>
 #include <list>
@@ -8,7 +8,7 @@
 #include "Process.hpp"
 #include "Library.hpp"
 
-namespace felide { namespace system {
+namespace felide { namespace core {
     class SystemFactory {
     public:
         virtual ~SystemFactory();

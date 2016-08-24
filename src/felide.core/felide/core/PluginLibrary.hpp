@@ -6,13 +6,13 @@
 #include <memory>
 
 #include "Plugin.hpp"
-#include "felide/system/Library.hpp"
+#include "Library.hpp"
 
 namespace felide {  namespace core {
     
     class PluginLibrary : public Plugin {
     public:
-        explicit PluginLibrary(std::unique_ptr<felide::system::Library> library);
+        explicit PluginLibrary(std::unique_ptr<felide::core::Library> library);
 
         virtual ~PluginLibrary();
         
@@ -29,7 +29,7 @@ namespace felide {  namespace core {
         }
 
     private:
-        std::unique_ptr<felide::system::Library> m_library;
+        std::unique_ptr<felide::core::Library> m_library;
         std::unique_ptr<felide::core::Plugin> m_plugin;
     };
 }}

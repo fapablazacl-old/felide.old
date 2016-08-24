@@ -20,4 +20,6 @@ set (sources
     WEditor.hpp 
 )
 
+source_group(\\ FILES ${sources})
+
 add_library(${target} ${sources})

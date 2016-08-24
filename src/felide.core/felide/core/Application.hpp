@@ -4,20 +4,23 @@
 
 #include <memory>
 
+#include "PreDef.hpp"
 #include "PluginManager.hpp"
+#include "SystemFactory.hpp"
 
 namespace felide {  namespace core {
-    class Application {
+    class FELIDE_CORE_API Application {
     public:
         Application();
         virtual ~Application();
 
-        PluginManager* getPluginManager() {
-            return m_pluginManager.get();
-        }
+        PluginManager* getPluginManager();
+
+        SystemFactory* getSystemFactory();
 
     private:
-        std::unique_ptr<PluginManager> m_pluginManager;
+        struct Private;
+        Private *m_impl = nullptr;
     };
 }}
 

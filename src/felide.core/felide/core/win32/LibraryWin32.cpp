@@ -1,7 +1,7 @@
 
 #include "LibraryWin32.hpp"
 
-namespace felide { namespace system { namespace win32 {
+namespace felide { namespace core { namespace win32 {
 
     LibraryWin32::LibraryWin32(const std::string &name) {
         m_name = name;
