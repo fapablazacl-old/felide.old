@@ -4,6 +4,8 @@
 namespace felide { namespace windows {
     MainFrame::MainFrame(const std::map<std::string, std::string> *labels) 
         : m_frame(L"felide::MainFrame"), m_labels(labels) {
+
+        m_frame.Create(L"Test Name", WS_OVERLAPPEDWINDOW | WS_VISIBLE);
     }
 
     MainFrame::~MainFrame() {}

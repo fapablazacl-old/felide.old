@@ -2,6 +2,8 @@
 set (target felide.core)
 
 set (sources 
+    "felide/core/RefCounted.cpp" 
+    "felide/core/RefCounted.hpp" 
     "felide/core/Application.cpp" 
     "felide/core/Application.hpp" 
     "felide/core/Plugin.cpp" 

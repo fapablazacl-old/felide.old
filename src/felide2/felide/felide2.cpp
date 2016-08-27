@@ -1,57 +1,36 @@
 
 #include <map>
 
-#include <felide/core/view/gen/DefaultGenerator.hpp>
-#include <felide/core/view/gen/WindowsGenerator.hpp>
-#include <iostream>
-
 #include "Resources.hpp"
 
-#if defined(_WIN32)
-#include <Windows.h>
-#endif
+#include <felide/core/Application.hpp>
+#include <felide/core/view/MainFrame.hpp>
+
+namespace felide {
+    class FelideApp : public felide::core::Application {
+    public:
+        FelideApp() {
+            this->getPluginManager()->load("felide.windows");
+        }
+
+        virtual ~FelideApp() {
+            this->getPluginManager()->unload("felide.windows");
+        }
+
+        int run() {
+            m_mainFrame = this->getViewFactory()->createMainFrame(&labels_EN);
+            m_mainFrame->setMenu(mainMenu);
+
+            return this->getViewFactory()->mainLoop();
+        }
+
+    private:
+        std::unique_ptr<felide::core::view::MainFrame> m_mainFrame;
+    };
+}
 
 int main(int argc, char **argv) {
-#if defined(_WIN32)
-    WNDCLASS wc = {};
+    felide::FelideApp app;
 
-    wc.lpszClassName = "Lala";
-    wc.lpfnWndProc = DefWindowProc;
-    wc.hbrBackground = (HBRUSH)COLOR_3DFACE;
-    wc.hCursor = ::LoadCursor(::GetModuleHandle(NULL), IDC_ARROW);
-    wc.hIcon = ::LoadIcon(::GetModuleHandle(NULL), IDC_ICON);
-    wc.hInstance = ::GetModuleHandle(NULL);
-
-    ::RegisterClass(&wc);
-
-    HWND hWnd = ::CreateWindow("Lala", "Test", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 400, 300, NULL, NULL, GetModuleHandle(NULL), NULL);
-
-    felide::view::gen::WindowsGenerator generator(&felide::labels_EN, hWnd);
-    generator.generate(felide::mainMenu);
-
-    ShowWindow(hWnd, SW_SHOW);
-
-    MSG msg;
-
-    while (true) {
-        if (::PeekMessage(&msg, hWnd, 0, 0, PM_REMOVE) < 0) {
-            break;
-        } else {
-            if (msg.message == WM_QUIT || msg.message == WM_CLOSE) {
-                break;
-            } else { 
-                ::TranslateMessage(&msg);
-                ::DispatchMessage(&msg);
-            }
-        }
-    }
-
-    DestroyWindow(hWnd);
-
-#else 
-    Generator generator(labels_EN);
-    generator.generate(mainMenu);
-#endif
-
-    return EXIT_SUCCESS;
+    return app.run();
 }

@@ -3,6 +3,7 @@
 #define __felide_core_plugin_hpp__
 
 #include <string>
+#include <felide/core/RefCounted.hpp>
 
 namespace felide {  namespace core {
     struct PluginData {
@@ -11,7 +12,7 @@ namespace felide {  namespace core {
     };
 
     class Application;
-    class Plugin {
+    class FELIDE_CORE_API Plugin : public RefCounted {
     public:
         virtual ~Plugin();
         

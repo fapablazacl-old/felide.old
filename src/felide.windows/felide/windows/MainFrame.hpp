@@ -8,13 +8,13 @@
 
 namespace felide { namespace windows {
 
-    class MainFrame {
+    class MainFrame : public felide::core::view::MainFrame {
     public:
         explicit MainFrame(const std::map<std::string, std::string> *labels);
 
         virtual ~MainFrame();
 
-        virtual void setMenu(const felide::view::gen::Menu &menu);
+        virtual void setMenu(const felide::view::gen::Menu &menu) override;
 
     private:
         void generateMenu(HMENU &hMenu, const felide::view::gen::Menu &menu);

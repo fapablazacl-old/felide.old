@@ -4,6 +4,7 @@
 #define __felide_view_gen_hpp__
 
 #include <string>
+#include <felide/core/PreDef.hpp>
 
 namespace felide { namespace view { namespace gen {
     enum class Modifier {
@@ -32,7 +33,7 @@ namespace felide { namespace view { namespace gen {
         N1, N2, N3, N4, N5, N6, N7, N8, N9, N0
     };
 
-    struct Shortcut {
+    struct FELIDE_CORE_API Shortcut {
         Modifier modifier = Modifier::None;
         Key key = Key::None;
 

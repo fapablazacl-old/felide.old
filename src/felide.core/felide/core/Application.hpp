@@ -7,6 +7,7 @@
 #include "PreDef.hpp"
 #include "PluginManager.hpp"
 #include "SystemFactory.hpp"
+#include "view/ViewFactory.hpp"
 
 namespace felide {  namespace core {
     class FELIDE_CORE_API Application {
@@ -17,6 +18,10 @@ namespace felide {  namespace core {
         PluginManager* getPluginManager();
 
         SystemFactory* getSystemFactory();
+
+        felide::core::view::ViewFactory* getViewFactory();
+
+        void setViewFactory(felide::core::view::ViewFactory* viewFactory);
 
     private:
         struct Private;

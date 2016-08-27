@@ -7,34 +7,7 @@
 
 namespace felide { namespace view { namespace gen {
 
-    extern std::map<Key, std::string> keyString;
-
-    std::map<Modifier, std::string> modifierString = {
-        {Modifier::Control, "Ctrl"}, 
-        {Modifier::Shift, "Shift"}, 
-        {Modifier::Alt, "Alt"}
-    };
-
-    std::string Shortcut::toString() const {
-        std::string result;
-
-        std::list<std::string> elements;
-
-        for (const auto &pair : modifierString) {
-            if (modifier & pair.first) {
-                elements.push_back(pair.second);
-            }
-        }
-
-        elements.push_back(keyString[key]);
-
-        result = boost::join(elements, "+");
-
-        return result;
-    }
-
-
-    std::map<Key, std::string> keyString = {
+    static std::map<Key, std::string> keyString = {
         {Key::F1, "F1"},
         {Key::F2, "F2"},
         {Key::F3, "F3"},
@@ -85,4 +58,27 @@ namespace felide { namespace view { namespace gen {
         {Key::N0, "0"}
     };
 
+    static std::map<Modifier, std::string> modifierString = {
+        {Modifier::Control, "Ctrl"}, 
+        {Modifier::Shift, "Shift"}, 
+        {Modifier::Alt, "Alt"}
+    };
+
+    std::string Shortcut::toString() const {
+        std::string result;
+
+        std::list<std::string> elements;
+
+        for (const auto &pair : modifierString) {
+            if (modifier & pair.first) {
+                elements.push_back(pair.second);
+            }
+        }
+
+        elements.push_back(keyString[key]);
+
+        result = boost::join(elements, "+");
+
+        return result;
+    }
 }}}

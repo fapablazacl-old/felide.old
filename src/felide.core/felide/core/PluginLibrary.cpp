@@ -6,9 +6,9 @@ namespace felide {  namespace core {
         m_library = std::move(library);
 
         auto createPluginAddress = m_library->getAddress("felide_createPlugin");
-        auto createPlugin = (std::unique_ptr<Plugin> (*)()) createPluginAddress;
+        auto createPlugin = (Plugin* (*)()) createPluginAddress;
 
-        m_plugin = createPlugin();
+        m_plugin = std::unique_ptr<Plugin>(createPlugin());
     }
 
     PluginLibrary::~PluginLibrary() {}

@@ -8,6 +8,8 @@ namespace felide {  namespace core {
     struct Application::Private {
         std::unique_ptr<PluginManager> pluginManager;
         std::unique_ptr<felide::core::SystemFactory> systemFactory;
+
+        felide::core::view::ViewFactory* viewFactory = nullptr;
     };
 
     Application::Application()  {
@@ -31,5 +33,19 @@ namespace felide {  namespace core {
     felide::core::SystemFactory* Application::getSystemFactory() {
         assert(m_impl);
         return m_impl->systemFactory.get();
+    }
+
+    felide::core::view::ViewFactory* Application::getViewFactory() {
+        assert(m_impl);
+        if (!m_impl->viewFactory) {
+            throw std::runtime_error("felide::Application::getViewFactory: 'nullptr'");
+        }
+
+        return m_impl->viewFactory;
+    }
+
+    void Application::setViewFactory(felide::core::view::ViewFactory* viewFactory) {
+        assert(m_impl);
+        m_impl->viewFactory = viewFactory;
     }
 }}
