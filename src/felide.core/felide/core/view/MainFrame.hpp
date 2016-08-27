@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <felide/core/PreDef.hpp>
+#include <felide/core/view/gen/Menu.hpp>
 
 namespace felide { namespace core { namespace view {
 
@@ -12,12 +13,7 @@ namespace felide { namespace core { namespace view {
     public:
         virtual ~MainFrame();
         
-        virtual std::size_t getEditorCount() const = 0;
-        virtual Editor* getEditor(const std::size_t index) = 0;
-        virtual const Editor* getEditor(const std::size_t index) const = 0;
-
-        virtual Editor* appendEditor();
-        virtual Editor* appendEditor(const std::size_t pos) = 0;
+        virtual void setMenu(const felide::view::gen::Menu &menu) = 0;
     };
 }}}
 

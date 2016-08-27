@@ -9,7 +9,7 @@
 
 namespace wcl {
     
-    struct WindowClass : public WNDCLASSEX {
+    struct WindowClass : public WNDCLASSEXW {
         WindowClass();
         explicit WindowClass(LPWSTR className);
         ~WindowClass();
@@ -19,9 +19,9 @@ namespace wcl {
     };
 
     inline WindowClass::WindowClass() {
-        ::ZeroMemory(static_cast<WNDCLASSEX*>(this), sizeof(WNDCLASSEX));
+        ::ZeroMemory(static_cast<WNDCLASSEXW*>(this), sizeof(WNDCLASSEXW));
 
-        this->cbSize = sizeof(WNDCLASSEX);
+        this->cbSize = sizeof(WNDCLASSEXW);
         this->hInstance = ::GetModuleHandle(NULL);
     }
     
@@ -30,9 +30,9 @@ namespace wcl {
         assert(className != L"");
         assert(className != std::wstring(L""));
         
-        ::ZeroMemory(static_cast<WNDCLASSEX*>(this), sizeof(WNDCLASSEX));
+        ::ZeroMemory(static_cast<WNDCLASSEXW*>(this), sizeof(WNDCLASSEXW));
 
-        this->cbSize = sizeof(WNDCLASSEX);
+        this->cbSize = sizeof(WNDCLASSEXW);
         this->hInstance = ::GetModuleHandle(NULL);
         this->lpszClassName = className;
     }
@@ -46,7 +46,7 @@ namespace wcl {
         assert(this->lpszClassName != L"");
         assert(this->lpszClassName != std::wstring(L""));
         
-        ATOM atom = ::RegisterClassEx(this);
+        ATOM atom = ::RegisterClassExW(this);
         
         if (!atom) {
             throw wcl::Exception("Couldn't register the window class");
@@ -57,8 +57,8 @@ namespace wcl {
     
     inline BOOL WindowClass::Unregister() {
         if (this->lpszClassName) {
-            if (::UnregisterClass(this->lpszClassName, this->hInstance)) {
-                ::ZeroMemory(static_cast<WNDCLASSEX*>(this), sizeof(WNDCLASSEX));
+            if (::UnregisterClassW(this->lpszClassName, this->hInstance)) {
+                ::ZeroMemory(static_cast<WNDCLASSEXW*>(this), sizeof(WNDCLASSEXW));
             } else {
                 throw wcl::Exception("Couldn't unregister the window class");
             }

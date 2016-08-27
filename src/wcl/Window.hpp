@@ -148,7 +148,7 @@ namespace wcl {
     }
 
     inline BOOL Window::CreateEx(DWORD dwExStyle, const std::wstring &windowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam) {
-        HWND hWnd = ::CreateWindowEx(dwExStyle, this->className.c_str(), windowName.c_str(), dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+        HWND hWnd = ::CreateWindowExW(dwExStyle, this->className.c_str(), windowName.c_str(), dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 
         if (!hWnd) {
             throw wcl::Exception("Couldn't create the specified window.");

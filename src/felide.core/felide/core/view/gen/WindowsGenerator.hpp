@@ -9,9 +9,9 @@
 #include <Windows.h>
 
 namespace felide { namespace view { namespace gen {
-    class WindowsGenerator : public Generator {
+    class FELIDE_CORE_API WindowsGenerator : public Generator {
     public:
-        WindowsGenerator(const std::map<std::string, std::string> &labels, HWND hWnd);
+        WindowsGenerator(const std::map<std::string, std::string> *labels, HWND hWnd);
 
         virtual void generate(const Menu &menu) override;
 
@@ -20,7 +20,7 @@ namespace felide { namespace view { namespace gen {
 
     private:
         HWND m_hWnd = nullptr;
-        std::map<std::string, std::string> m_labels;
+        const std::map<std::string, std::string> *m_labels = nullptr;
     };
 }}}
 

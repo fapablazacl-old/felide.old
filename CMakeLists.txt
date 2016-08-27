@@ -9,6 +9,10 @@ option (FELIDE_GEN_WCL     "Enable WinAPI-based user interface"    OFF)
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/src/cmake)
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 # Boost
 add_definitions(-DBOOST_ALL_NO_LIB)
 add_definitions(-D_SCL_SECURE_NO_WARNINGS)
@@ -63,6 +67,7 @@ if (FELIDE_GEN_WCL)
     add_subdirectory (src/felide.wcl)
 endif ()
 
+include_directories(src/felide2)
 include_directories(src/felide.core)
 
 add_subdirectory (src/pom)
@@ -72,3 +77,5 @@ add_subdirectory (src/felide.proj.impl)
 add_subdirectory (src/felide)
 add_subdirectory (src/model)
 add_subdirectory (src/felide.core)
+add_subdirectory (src/felide2)
+add_subdirectory (src/felide.windows)

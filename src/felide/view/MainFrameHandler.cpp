@@ -2,7 +2,7 @@
 #include "MainFrameHandler.hpp"
 
 #include "felide/App.hpp"
-#include "felide/system/Process.hpp"
+//#include "felide/system/Process.hpp"
 #include "felide/view/Editor.hpp"
 #include "felide/view/Dialog.hpp"
 #include "MainFrame.hpp"
@@ -37,7 +37,7 @@ namespace felide { namespace view {
         auto dialog = dialogFactory->showFileOpenDialog("Open File", filters);
 
         if (dialog->getResult() == DialogResult::Cancel) {
-                return false;
+            return false;
         }
 
         auto filePath = boost::get<fs::path>(dialog->getData());

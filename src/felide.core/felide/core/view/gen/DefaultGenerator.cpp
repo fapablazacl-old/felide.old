@@ -5,7 +5,7 @@
 
 namespace felide { namespace view { namespace gen {
 
-    DefaultGenerator::DefaultGenerator(const std::map<std::string, std::string> &labels) 
+    DefaultGenerator::DefaultGenerator(const std::map<std::string, std::string> *labels) 
         : m_labels(labels) {}
 
     DefaultGenerator::~DefaultGenerator() {}
@@ -15,7 +15,9 @@ namespace felide { namespace view { namespace gen {
     }
 
     void DefaultGenerator::generateImpl(const Menu &menu, const int level) {
-        std::cout << std::string(level, '-') << m_labels[menu.key] << std::endl;
+        auto labelIterator = m_labels->find(menu.key);
+
+        std::cout << std::string(level, '-') << labelIterator->second << std::endl;
 
         for (const Menu &child : menu.childs) {
             this->generateImpl(child, level + 2);

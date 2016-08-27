@@ -41,19 +41,6 @@ set (felide_view_src
     view/MainFrameHandler.cpp
 )
 
-set (felide_view_gen_src
-    view/gen/Menu.hpp               
-    view/gen/Menu.cpp
-    view/gen/Shortcut.hpp           
-    view/gen/Shortcut.cpp
-    view/gen/Generator.hpp          
-    view/gen/Generator.cpp
-    view/gen/DefaultGenerator.hpp  
-    view/gen/DefaultGenerator.cpp
-    view/gen/WindowsGenerator.hpp  
-    view/gen/WindowsGenerator.cpp
-)
-
 add_executable(felide 
     ${felide_src} 
     ${felide_system_src} 

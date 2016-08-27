@@ -5,13 +5,17 @@
 #define __felide_view_gen_defaultgenerator_hpp__
 
 #include "Generator.hpp"
+
+#include <felide/core/PreDef.hpp>
+#include <felide/core/view/gen/Menu.hpp>
+
 #include <map>
 
 namespace felide { namespace view { namespace gen {
 
-    class DefaultGenerator : public Generator {
+    class FELIDE_CORE_API DefaultGenerator : public Generator {
     public:
-        DefaultGenerator(const std::map<std::string, std::string> &labels);
+        DefaultGenerator(const std::map<std::string, std::string> *labels);
 
         virtual ~DefaultGenerator();
 
@@ -21,7 +25,7 @@ namespace felide { namespace view { namespace gen {
         void generateImpl(const Menu &menu, const int level);
 
     private:
-        std::map<std::string, std::string> m_labels;
+        const std::map<std::string, std::string> *m_labels = nullptr;
     };
 }}}
 

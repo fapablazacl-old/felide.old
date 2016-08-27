@@ -14,8 +14,6 @@ namespace felide { namespace core { namespace view {
 
         virtual ~Editor() = 0;
 
-        virtual std::size_t getIndex() const;
-
     private:
         MainFrame *m_mainFrame;
     };
