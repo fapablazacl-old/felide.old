@@ -9,7 +9,7 @@
 
 namespace felide { namespace windows {
 
-    class MainFrame : public felide::core::view::MainFrame {
+    class MainFrame : public felide::core::view::MainFrame, public wcl::Frame {
     public:
         explicit MainFrame(const std::map<std::string, std::string> *labels);
 
@@ -21,12 +21,17 @@ namespace felide { namespace windows {
 
         virtual felide::core::view::FrameHandler* getHandler() override;
 
+    public:
+        virtual void OnCommand(const int id) override;
+
     private:
         void generateMenu(HMENU &hMenu, const felide::view::gen::Menu &menu);
 
     private:
-        wcl::Frame m_frame;
         const std::map<std::string, std::string> *m_labels;
+
+        std::vector<std::string> m_keys;
+
         felide::core::view::FrameHandler *m_handler;
         felide::core::view::HandlerMethodMap m_methodMap;
     };

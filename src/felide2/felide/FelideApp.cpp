@@ -75,6 +75,7 @@ namespace felide {
     int FelideApp::run() {
         m_mainFrame = this->getViewFactory()->createMainFrame(&m_labels_EN);
         m_mainFrame->setMenu(m_mainMenu);
+        m_mainFrame->setHandler(&m_mainHandler);
 
         return this->getViewFactory()->mainLoop();
     }

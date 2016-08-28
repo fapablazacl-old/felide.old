@@ -9,6 +9,8 @@
 #include <felide/core/view/gen/Menu.hpp>
 #include <felide/core/view/gen/Generator.hpp>
 
+#include "MainFrameHandler.hpp"
+
 namespace felide {
     class FelideApp : public felide::core::Application {
     public:
@@ -22,6 +24,7 @@ namespace felide {
         std::unique_ptr<felide::core::view::MainFrame> m_mainFrame;
         felide::view::gen::Menu m_mainMenu;
         std::map<std::string, std::string> m_labels_EN;
+        MainFrameHandler m_mainHandler;
     };
 }
 
