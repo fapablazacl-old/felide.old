@@ -1,6 +1,7 @@
 
 #include "MainFrame.hpp"
 
+
 namespace felide { namespace windows {
     MainFrame::MainFrame(const std::map<std::string, std::string> *labels) 
         : m_frame(L"felide::MainFrame"), m_labels(labels) {
@@ -45,5 +46,14 @@ namespace felide { namespace windows {
 
             ::AppendMenuA(hMenu, MF_POPUP, (UINT_PTR)hCurrent, text.c_str());
         }
+    }
+
+    void MainFrame::setHandler(felide::core::view::FrameHandler *handler) {
+        m_handler = handler;
+        m_methodMap = handler->buildMap();
+    }
+
+    felide::core::view::FrameHandler* MainFrame::getHandler() {
+        return m_handler;
     }
 }}

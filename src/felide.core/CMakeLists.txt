@@ -77,6 +77,8 @@ set (sources_view
     "felide/core/view/ViewManager.hpp"
     "felide/core/view/Widget.cpp"
     "felide/core/view/Widget.hpp"
+    "felide/core/view/FrameHandler.cpp"
+    "felide/core/view/FrameHandler.hpp"
 )
 
 set (sources_view_gen

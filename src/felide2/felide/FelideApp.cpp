@@ -1,8 +1,11 @@
 
-#include "Resources.hpp"
+#include "FelideApp.hpp"
 
 namespace felide {
-    std::map<std::string, std::string> labels_EN = {
+
+    using namespace felide::view::gen;
+
+    static std::map<std::string, std::string> labels_EN = {
         {"file", "&File"}, 
         {"file.new", "&New"}, 
         {"file.open", "&Open ..."}, 
@@ -24,7 +27,7 @@ namespace felide {
         {"help.about", "&About"}
     };
 
-    Menu mainMenu = {{
+    static Menu mainMenu = {{
         {"file", {
             {"file.new", {Modifier::Control, Key::N}}, 
             {"-"}, 
@@ -57,4 +60,22 @@ namespace felide {
             {"help.about"}
         }}, 
     }};
+
+    FelideApp::FelideApp() {
+        m_labels_EN = labels_EN;
+        m_mainMenu = mainMenu;
+
+        this->getPluginManager()->load("felide.windows");
+    }
+
+    FelideApp::~FelideApp() {
+        this->getPluginManager()->unload("felide.windows");
+    }
+
+    int FelideApp::run() {
+        m_mainFrame = this->getViewFactory()->createMainFrame(&m_labels_EN);
+        m_mainFrame->setMenu(m_mainMenu);
+
+        return this->getViewFactory()->mainLoop();
+    }
 }

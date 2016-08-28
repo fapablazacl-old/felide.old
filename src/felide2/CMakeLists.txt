@@ -3,8 +3,11 @@ set (target felide2)
 set (sources 
     felide/felide2.cpp
 
-    felide/Resources.hpp
-    felide/Resources.cpp
+    felide/FelideApp.hpp
+    felide/FelideApp.cpp
+
+    felide/MainFrameHandler.hpp
+    felide/MainFrameHandler.cpp
 )
 
 add_executable(${target} ${sources})

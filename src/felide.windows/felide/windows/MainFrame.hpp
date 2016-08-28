@@ -3,8 +3,9 @@
 #define __felwin_mainframe_hpp__
 
 #include <map>
-#include <felide/core/view/MainFrame.hpp>
 #include <wcl/Frame.hpp>
+#include <felide/core/view/MainFrame.hpp>
+#include <felide/core/view/FrameHandler.hpp>
 
 namespace felide { namespace windows {
 
@@ -16,12 +17,18 @@ namespace felide { namespace windows {
 
         virtual void setMenu(const felide::view::gen::Menu &menu) override;
 
+        virtual void setHandler(felide::core::view::FrameHandler *handler) override;
+
+        virtual felide::core::view::FrameHandler* getHandler() override;
+
     private:
         void generateMenu(HMENU &hMenu, const felide::view::gen::Menu &menu);
 
     private:
         wcl::Frame m_frame;
         const std::map<std::string, std::string> *m_labels;
+        felide::core::view::FrameHandler *m_handler;
+        felide::core::view::HandlerMethodMap m_methodMap;
     };
 }}
 
