@@ -6,6 +6,7 @@
 #include <wcl/Frame.hpp>
 #include <felide/core/view/MainFrame.hpp>
 #include <felide/core/view/FrameHandler.hpp>
+#include <boost/bimap.hpp>
 
 namespace felide { namespace windows {
 
@@ -29,9 +30,7 @@ namespace felide { namespace windows {
 
     private:
         const std::map<std::string, std::string> *m_labels;
-
-        std::vector<std::string> m_keys;
-
+        boost::bimap<std::string, int> m_bimap;
         felide::core::view::FrameHandler *m_handler;
         felide::core::view::HandlerMethodMap m_methodMap;
     };
