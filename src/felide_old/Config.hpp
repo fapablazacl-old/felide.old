@@ -3,8 +3,8 @@
 #define __felide_config_hpp__
 
 #include <vector>
-#include "felide/Language.hpp"
-#include "felide/view/DialogFactory.hpp"
+#include "felide_old/Language.hpp"
+#include "felide_old/view/DialogFactory.hpp"
 
 namespace felide {
     

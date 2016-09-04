@@ -1,7 +1,6 @@
 
-#include "MainFrame.hpp"
+#include "Frame.hpp"
 
 namespace felide { namespace core { namespace view {
-    MainFrame::~MainFrame() {}
-
+    Frame::~Frame() {}
 }}}

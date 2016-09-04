@@ -5,11 +5,11 @@
 #include <map>
 #include <vector>
 
-#include "felide/Config.hpp"
-#include "felide/Lexer.hpp"
-#include "felide/LexerConstants.hpp"
-#include "felide/Language.hpp"
-#include "felide/view/DialogFactory.hpp"
+#include "felide_old/Config.hpp"
+#include "felide_old/Lexer.hpp"
+#include "felide_old/LexerConstants.hpp"
+#include "felide_old/Language.hpp"
+#include "felide_old/view/DialogFactory.hpp"
 
 namespace felide {
 

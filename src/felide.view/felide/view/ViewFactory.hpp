@@ -8,12 +8,12 @@
 #include <felide/core/PreDef.hpp>
 
 namespace felide { namespace core { namespace view {
-    class MainFrame;
+    class Frame;
     class FELIDE_CORE_API ViewFactory {
     public:
         virtual ~ViewFactory();
 
-        virtual std::unique_ptr<MainFrame> createMainFrame(const std::map<std::string, std::string> *labels) = 0;
+        virtual std::unique_ptr<Frame> createMainFrame(const std::map<std::string, std::string> *labels) = 0;
 
         virtual int mainLoop() = 0;
     };

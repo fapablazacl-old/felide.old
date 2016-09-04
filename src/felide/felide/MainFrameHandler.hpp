@@ -2,10 +2,9 @@
 #ifndef __felide_mainframehandler_hpp__
 #define __felide_mainframehandler_hpp__
 
-#include <felide/core/view/FrameHandler.hpp>
+#include <felide/view/FrameHandler.hpp>
 
 namespace felide {
-
     class MainFrameHandler : public felide::core::view::FrameHandler {
     public:
         MainFrameHandler();

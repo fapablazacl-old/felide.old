@@ -1,18 +1,18 @@
 
-#ifndef __felide_core_view_mainframe_hpp__
-#define __felide_core_view_mainframe_hpp__
+#ifndef __felide_core_view_frame_hpp__
+#define __felide_core_view_frame_hpp__
 
 #include <cstddef>
 #include <felide/core/PreDef.hpp>
-#include <felide/core/view/gen/Menu.hpp>
+#include <felide/view/Menu.hpp>
 
 namespace felide { namespace core { namespace view {
 
     class FELIDE_CORE_API FrameHandler;
     class FELIDE_CORE_API Editor;
-    class FELIDE_CORE_API MainFrame {
+    class FELIDE_CORE_API Frame {
     public:
-        virtual ~MainFrame();
+        virtual ~Frame();
         
         virtual void setMenu(const felide::view::gen::Menu &menu) = 0;
 

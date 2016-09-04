@@ -14,8 +14,8 @@
 #include <string>
 #include <list>
 
-#include "felide/Config.hpp"
-#include "felide/Project.hpp"
+#include "felide_old/Config.hpp"
+#include "felide_old/Project.hpp"
 
 namespace felide { 
 

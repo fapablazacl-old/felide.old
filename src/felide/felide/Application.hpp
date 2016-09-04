@@ -4,10 +4,10 @@
 
 #include <memory>
 
-#include "PreDef.hpp"
-#include "PluginManager.hpp"
-#include "SystemFactory.hpp"
-#include "view/ViewFactory.hpp"
+#include <felide/core/PreDef.hpp>
+#include <felide/core/PluginManager.hpp>
+#include <felide/core/SystemFactory.hpp>
+#include <felide/view/ViewFactory.hpp>
 
 namespace felide {  namespace core {
     class FELIDE_CORE_API Application {

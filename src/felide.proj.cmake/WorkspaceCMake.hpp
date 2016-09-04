@@ -7,7 +7,7 @@
 #include <boost/filesystem/path.hpp>
 #include <vector>
 
-#include "felide/Workspace.hpp"
+#include "felide_old/Workspace.hpp"
 
 namespace felide {
 

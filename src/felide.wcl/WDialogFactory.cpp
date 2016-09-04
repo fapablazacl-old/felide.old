@@ -1,5 +1,5 @@
 
-#include "felide/App.hpp"
+#include "felide_old/App.hpp"
 #include "WDialogFactory.hpp"
 
 #include <wcl/FileDialog.hpp>

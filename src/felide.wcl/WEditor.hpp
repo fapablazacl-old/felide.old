@@ -2,8 +2,8 @@
 
 #include <wcl/Scintilla.hpp>
 
-#include "felide/ProjectItem.hpp"
-#include "felide/view/Editor.hpp"
+#include "felide_old/ProjectItem.hpp"
+#include "felide_old/view/Editor.hpp"
 
 namespace felide { namespace view { namespace win {
     class WEditor : public wcl::Scintilla, public Editor {

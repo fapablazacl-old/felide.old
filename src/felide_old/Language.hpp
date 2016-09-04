@@ -2,8 +2,8 @@
 #ifndef __felide_language_hpp__
 #define __felide_language_hpp__
 
-#include "felide/Lexer.hpp"
-#include "felide/LexerConstants.hpp"
+#include "felide_old/Lexer.hpp"
+#include "felide_old/LexerConstants.hpp"
 
 namespace felide {
     

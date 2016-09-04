@@ -2,8 +2,8 @@
 #ifndef __felide_editor_mainframe_hpp__
 #define __felide_editor_mainframe_hpp__
 
-#include "felide/view/View.hpp"
-#include "felide/view/Editor.hpp"
+#include "felide_old/view/View.hpp"
+#include "felide_old/view/Editor.hpp"
 
 #include "MainFrameHandler.hpp"
 #include <vector>

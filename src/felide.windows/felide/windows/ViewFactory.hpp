@@ -3,14 +3,14 @@
 #define __felwin_viewfactory_hpp__
 
 #include <wcl/Application.hpp>
-#include <felide/core/view/ViewFactory.hpp>
+#include <felide/view/ViewFactory.hpp>
 
 namespace felide { namespace windows {
     class ViewFactory : public felide::core::view::ViewFactory {
     public:
         virtual ~ViewFactory();
 
-        virtual std::unique_ptr<felide::core::view::MainFrame> createMainFrame(const std::map<std::string, std::string> *labels) override;
+        virtual std::unique_ptr<felide::core::view::Frame> createMainFrame(const std::map<std::string, std::string> *labels) override;
 
         virtual int mainLoop() override;
 

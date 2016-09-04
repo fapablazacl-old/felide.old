@@ -1,8 +1,8 @@
 
 #include "Application.hpp"
-#include "PluginManagerImpl.hpp"
 
 #include <cassert>
+#include <felide/core/PluginManagerImpl.hpp>
 
 namespace felide {  namespace core {
     struct Application::Private {

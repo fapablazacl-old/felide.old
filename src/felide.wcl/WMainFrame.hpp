@@ -12,7 +12,7 @@
 #include <wcl/ex/TabbedPanel.hpp>
 #include <memory>
 
-#include "felide/view/MainFrame.hpp"
+#include "felide_old/view/MainFrame.hpp"
 
 #include "WAppImpl.hpp"
 

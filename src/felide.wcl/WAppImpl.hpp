@@ -2,7 +2,7 @@
 #pragma once
 
 #include <wcl/Application.hpp>
-#include "felide/App.hpp"
+#include "felide_old/App.hpp"
 #include "WDialogFactory.hpp"
 
 namespace felide { namespace view { namespace win {

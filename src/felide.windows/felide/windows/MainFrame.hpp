@@ -4,13 +4,13 @@
 
 #include <map>
 #include <wcl/Frame.hpp>
-#include <felide/core/view/MainFrame.hpp>
-#include <felide/core/view/FrameHandler.hpp>
+#include <felide/view/Frame.hpp>
+#include <felide/view/FrameHandler.hpp>
 #include <boost/bimap.hpp>
 
 namespace felide { namespace windows {
 
-    class MainFrame : public felide::core::view::MainFrame, public wcl::Frame {
+    class MainFrame : public felide::core::view::Frame, public wcl::Frame {
     public:
         explicit MainFrame(const std::map<std::string, std::string> *labels);
 

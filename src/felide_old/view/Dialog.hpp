@@ -8,7 +8,7 @@
 #include <boost/variant/variant.hpp>
 #include <boost/filesystem/path.hpp>
 
-#include "felide/Predef.hpp"
+#include "felide_old/Predef.hpp"
 
 namespace felide { namespace view {
     enum class DialogResult {
