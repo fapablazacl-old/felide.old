@@ -2,12 +2,12 @@
 set (target felide.windows)
 
 set (sources 
-    "felide/windows/MainFrame.cpp" 
-    "felide/windows/MainFrame.hpp" 
-    "felide/windows/Plugin.cpp" 
-    "felide/windows/Plugin.hpp" 
-    "felide/windows/ViewFactory.cpp"
-    "felide/windows/ViewFactory.hpp"
+    "felide/MainFrameWin.cpp" 
+    "felide/MainFrameWin.hpp" 
+    "felide/PluginWin.cpp" 
+    "felide/PluginWin.hpp" 
+    "felide/ViewFactoryWin.cpp"
+    "felide/ViewFactoryWin.hpp"
 )
 
 source_group (\\ FILES ${sources})
