@@ -1,5 +1,5 @@
 
-#include "ProcessRedirector.hpp"
+#include "ProcessWinRedirector.hpp"
 #include <sstream>
 
 namespace felide {
@@ -10,7 +10,7 @@ namespace felide {
         return (osv.dwPlatformId == VER_PLATFORM_WIN32_NT);
     }
 
-    ProcessRedirector::ProcessRedirector(STARTUPINFO *si, PROCESS_INFORMATION *m_pi) {
+    ProcessWinRedirector::ProcessWinRedirector(STARTUPINFO *si, PROCESS_INFORMATION *m_pi) {
         SECURITY_ATTRIBUTES sa = {0};
         SECURITY_DESCRIPTOR sd = {0};
 
@@ -49,14 +49,14 @@ namespace felide {
         m_pi = m_pi;
     }
 
-    ProcessRedirector::~ProcessRedirector() {
+    ProcessWinRedirector::~ProcessWinRedirector() {
         ::CloseHandle(m_hStdIn);
         ::CloseHandle(m_hStdOut);
         ::CloseHandle(m_hReadStdOut);
         ::CloseHandle(m_hWriteStdIn);
     }
 
-    std::string ProcessRedirector::getOutput() {
+    std::string ProcessWinRedirector::getOutput() {
         PROCESS_INFORMATION pi = *m_pi;
 
         std::stringstream ss;

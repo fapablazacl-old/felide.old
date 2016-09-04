@@ -6,11 +6,11 @@
 #include <string>
 
 namespace felide {
-    class ProcessRedirector {
+    class ProcessWinRedirector {
     public:
-        ProcessRedirector(STARTUPINFO *si, PROCESS_INFORMATION *m_pi);
+        ProcessWinRedirector(STARTUPINFO *si, PROCESS_INFORMATION *m_pi);
 
-        ~ProcessRedirector();
+        ~ProcessWinRedirector();
 
         std::string getOutput();
 

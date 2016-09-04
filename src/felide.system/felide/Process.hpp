@@ -1,18 +1,29 @@
 
-#ifndef __felide_core_process_hpp__
-#define __felide_core_process_hpp__
+#pragma once
+
+#ifndef __felide_process_hpp__
+#define __felide_process_hpp__
 
 #include <string>
+#include <list>
+#include <felide/PreDef.hpp>
 
 namespace felide {
+
+    /**
+     * @brief Process execution status.
+     */
     enum class ProcessStatus {
         Stopped,     //! The process has not begun, or has been terminated.
         Executing     //! The process is currently executing.
     }; 
 
+    /**
+     * @brief Flags passed during process creation
+     */
     enum class ProcessFlags {
-        Default,
-        Redirect
+        Default,    //! Default proccess execution.
+        Redirect    //! Redirection
     };
 
     inline bool operator& (ProcessFlags flags, ProcessFlags flag) {
@@ -23,23 +34,29 @@ namespace felide {
         }
     }
 
-    class Process {
+    class FELIDE_CORE_API Process {
     public:
-        virtual ~Process();
+        Process(ProcessFlags flags, const std::string &name, const std::list<std::string> &args = std::list<std::string>());
 
-        virtual int getExitCode() const = 0;
+        ~Process();
 
-        virtual ProcessStatus getStatus() const = 0;
+        int getExitCode() const;
 
-        virtual void start() = 0;
+        ProcessStatus getStatus() const;
 
-        virtual void terminate() = 0;
+        void start();
 
-        virtual void pause() = 0;
+        void terminate();
 
-        virtual void wait() = 0;
+        void pause();
 
-        virtual std::string getOutput() const = 0;
+        void wait();
+
+        std::string getOutput() const;
+
+    private:
+        struct Private;
+        Private *m_impl;
     };
 }
 
