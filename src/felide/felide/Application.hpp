@@ -4,12 +4,12 @@
 
 #include <memory>
 
-#include <felide/core/PreDef.hpp>
-#include <felide/core/PluginManager.hpp>
-#include <felide/core/SystemFactory.hpp>
-#include <felide/view/ViewFactory.hpp>
+#include <felide/PreDef.hpp>
+#include <felide/PluginManager.hpp>
+#include <felide/SystemFactory.hpp>
+#include <felide/ViewFactory.hpp>
 
-namespace felide {  namespace core {
+namespace felide { 
     class FELIDE_CORE_API Application {
     public:
         Application();
@@ -19,14 +19,14 @@ namespace felide {  namespace core {
 
         SystemFactory* getSystemFactory();
 
-        felide::core::view::ViewFactory* getViewFactory();
+        ViewFactory* getViewFactory();
 
-        void setViewFactory(felide::core::view::ViewFactory* viewFactory);
+        void setViewFactory(ViewFactory* viewFactory);
 
     private:
         struct Private;
         Private *m_impl = nullptr;
     };
-}}
+}
 
 #endif 

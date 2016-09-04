@@ -13,7 +13,7 @@ namespace felide {
         std::cout << "MainFrameHandler::handleFileExit" << std::endl;
     }
 
-    felide::core::view::HandlerMethodMap MainFrameHandler::buildMap() {
+    HandlerMethodMap MainFrameHandler::buildMap() {
         return {
             {"file.exit", [this](){this->handleFileExit();} }
         };

@@ -67,6 +67,8 @@ if (FELIDE_GEN_WCL)
     #add_subdirectory (src/felide.wcl)
 endif ()
 
+include_directories(src/felide)
+include_directories(src/felide.system)
 include_directories(src/felide.core)
 include_directories(src/felide.view)
 
@@ -79,3 +81,4 @@ add_subdirectory (src/felide)
 add_subdirectory (src/felide.core)
 add_subdirectory (src/felide.windows)
 add_subdirectory (src/felide.view)
+add_subdirectory (src/felide.system)

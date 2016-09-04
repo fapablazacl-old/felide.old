@@ -2,21 +2,21 @@
 #include "Application.hpp"
 
 #include <cassert>
-#include <felide/core/PluginManagerImpl.hpp>
+#include <felide/PluginManagerImpl.hpp>
 
-namespace felide {  namespace core {
+namespace felide { 
     struct Application::Private {
         std::unique_ptr<PluginManager> pluginManager;
-        std::unique_ptr<felide::core::SystemFactory> systemFactory;
+        std::unique_ptr<SystemFactory> systemFactory;
 
-        felide::core::view::ViewFactory* viewFactory = nullptr;
+        ViewFactory* viewFactory = nullptr;
     };
 
     Application::Application()  {
         m_impl = new Application::Private();
 
         m_impl->pluginManager.reset(new PluginManagerImpl(this));
-        m_impl->systemFactory = felide::core::SystemFactory::newInstance();
+        m_impl->systemFactory = SystemFactory::newInstance();
     }
 
     Application::~Application() {
@@ -30,12 +30,12 @@ namespace felide {  namespace core {
         return m_impl->pluginManager.get();
     }
 
-    felide::core::SystemFactory* Application::getSystemFactory() {
+    SystemFactory* Application::getSystemFactory() {
         assert(m_impl);
         return m_impl->systemFactory.get();
     }
 
-    felide::core::view::ViewFactory* Application::getViewFactory() {
+    ViewFactory* Application::getViewFactory() {
         assert(m_impl);
         if (!m_impl->viewFactory) {
             throw std::runtime_error("felide::Application::getViewFactory: 'nullptr'");
@@ -44,8 +44,8 @@ namespace felide {  namespace core {
         return m_impl->viewFactory;
     }
 
-    void Application::setViewFactory(felide::core::view::ViewFactory* viewFactory) {
+    void Application::setViewFactory(ViewFactory* viewFactory) {
         assert(m_impl);
         m_impl->viewFactory = viewFactory;
     }
-}}
+}

@@ -4,14 +4,14 @@
 
 #include <map>
 
-#include <felide/view/Frame.hpp>
-#include <felide/view/Menu.hpp>
+#include <felide/Frame.hpp>
+#include <felide/Menu.hpp>
 
 #include "Application.hpp"
 #include "MainFrameHandler.hpp"
 
 namespace felide {
-    class FelideApp : public felide::core::Application {
+    class FelideApp : public Application {
     public:
         FelideApp();
 
@@ -20,8 +20,8 @@ namespace felide {
         int run();
 
     private:
-        std::unique_ptr<felide::core::view::Frame> m_mainFrame;
-        felide::view::gen::Menu m_mainMenu;
+        std::unique_ptr<Frame> m_mainFrame;
+        Menu m_mainMenu;
         std::map<std::string, std::string> m_labels_EN;
         MainFrameHandler m_mainHandler;
     };

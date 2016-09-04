@@ -2,10 +2,10 @@
 #ifndef __felide_mainframehandler_hpp__
 #define __felide_mainframehandler_hpp__
 
-#include <felide/view/FrameHandler.hpp>
+#include <felide/FrameHandler.hpp>
 
 namespace felide {
-    class MainFrameHandler : public felide::core::view::FrameHandler {
+    class MainFrameHandler : public FrameHandler {
     public:
         MainFrameHandler();
 
@@ -13,7 +13,7 @@ namespace felide {
 
         void handleFileExit();
 
-        virtual felide::core::view::HandlerMethodMap buildMap() override;
+        virtual HandlerMethodMap buildMap() override;
     };
 }
 

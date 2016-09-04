@@ -3,8 +3,6 @@
 
 namespace felide {
 
-    using namespace felide::view::gen;
-
     static std::map<std::string, std::string> labels_EN = {
         {"file", "&File"}, 
         {"file.new", "&New"}, 

@@ -2,22 +2,22 @@
 set (target felide.view)
 
 set (sources
-    "felide/view/Editor.cpp"
-    "felide/view/Editor.hpp"
-    "felide/view/Frame.cpp"
-    "felide/view/Frame.hpp"
-    "felide/view/ViewFactory.cpp"
-    "felide/view/ViewFactory.hpp"
-    "felide/view/ViewManager.cpp"
-    "felide/view/ViewManager.hpp"
-    "felide/view/Widget.cpp"
-    "felide/view/Widget.hpp"
-    "felide/view/FrameHandler.cpp"
-    "felide/view/FrameHandler.hpp"
-    "felide/view/Menu.hpp"
-    "felide/view/Menu.cpp"
-    "felide/view/Shortcut.hpp"
-    "felide/view/Shortcut.cpp"
+    "felide/Editor.cpp"
+    "felide/Editor.hpp"
+    "felide/Frame.cpp"
+    "felide/Frame.hpp"
+    "felide/ViewFactory.cpp"
+    "felide/ViewFactory.hpp"
+    "felide/ViewManager.cpp"
+    "felide/ViewManager.hpp"
+    "felide/Widget.cpp"
+    "felide/Widget.hpp"
+    "felide/FrameHandler.cpp"
+    "felide/FrameHandler.hpp"
+    "felide/Menu.hpp"
+    "felide/Menu.cpp"
+    "felide/Shortcut.hpp"
+    "felide/Shortcut.cpp"
 )
 
 source_group(\\ FILES ${sources})

@@ -1,6 +1,8 @@
 
 set (target felide)
 set (sources 
+    "felide/PreDef.cpp" 
+    "felide/PreDef.hpp" 
     "felide/felide.cpp"
     "felide/FelideApp.hpp"
     "felide/FelideApp.cpp"
