@@ -21,6 +21,8 @@ namespace felide {
         {"view", "&View"},
         {"view.output", "&Output Window"},
         {"view.folder", "&Folder View"},
+        {"tools", "&Tools"},
+        {"tools.plugins", "&Plugins ..."},
         {"help", "&Help"},
         {"help.about", "&About"}
     };
@@ -52,6 +54,10 @@ namespace felide {
         {"view", {
             {"view.output"},
             {"view.folder"}
+        }}, 
+
+        {"tools", {
+            {"tools.plugins"}
         }}, 
 
         {"help", {
