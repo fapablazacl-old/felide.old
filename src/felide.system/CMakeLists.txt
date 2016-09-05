@@ -12,5 +12,5 @@ set (sources
 
 source_group (\\ FILES ${sources})
 
-add_definitions (-DFELIDE_CORE_BUILD -DFELIDE_CORE_SHARED)
+add_definitions (-DFELIDE_BUILD -DFELIDE_SHARED)
 add_library (${target} SHARED ${sources})

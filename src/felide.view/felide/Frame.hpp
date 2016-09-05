@@ -8,9 +8,9 @@
 
 namespace felide {
 
-    class FELIDE_CORE_API FrameHandler;
-    class FELIDE_CORE_API Editor;
-    class FELIDE_CORE_API Frame {
+    class FELIDE_API FrameHandler;
+    class FELIDE_API Editor;
+    class FELIDE_API Frame {
     public:
         virtual ~Frame();
         

@@ -10,7 +10,7 @@ namespace felide {
     typedef std::function<void()> HandlerMethod;
     typedef std::map<std::string, HandlerMethod> HandlerMethodMap;
 
-    class FELIDE_CORE_API FrameHandler {
+    class FELIDE_API FrameHandler {
     public:
         virtual ~FrameHandler();
         virtual HandlerMethodMap buildMap() = 0;

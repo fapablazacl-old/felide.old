@@ -9,7 +9,7 @@
 
 namespace felide {
     class Frame;
-    class FELIDE_CORE_API ViewFactory {
+    class FELIDE_API ViewFactory {
     public:
         virtual ~ViewFactory();
 

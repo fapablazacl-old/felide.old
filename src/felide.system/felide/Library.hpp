@@ -8,7 +8,7 @@
 #include <felide/PreDef.hpp>
 
 namespace felide {
-    class FELIDE_CORE_API Library {
+    class FELIDE_API Library {
     public:
         Library(const std::string &name);
 

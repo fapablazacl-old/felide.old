@@ -5,21 +5,21 @@
 #define __felide_core_predef_hpp__
 
 #if defined(_WINDOWS)
-  #define FELIDE_CORE_API_EXPORT __declspec(dllexport)
-  #define FELIDE_CORE_API_IMPORT __declspec(dllimport)
+  #define FELIDE_API_EXPORT __declspec(dllexport)
+  #define FELIDE_API_IMPORT __declspec(dllimport)
 #else 
-  #define FELIDE_CORE_API_EXPORT
-  #define FELIDE_CORE_API_IMPORT
+  #define FELIDE_API_EXPORT
+  #define FELIDE_API_IMPORT
 #endif
 
-#if defined(FELIDE_CORE_SHARED)
-  #if defined(FELIDE_CORE_BUILD)
-    #define FELIDE_CORE_API FELIDE_CORE_API_EXPORT
+#if defined(FELIDE_SHARED)
+  #if defined(FELIDE_BUILD)
+    #define FELIDE_API FELIDE_API_EXPORT
   #else
-    #define FELIDE_CORE_API FELIDE_CORE_API_IMPORT
+    #define FELIDE_API FELIDE_API_IMPORT
   #endif
 #else 
-  #define FELIDE_CORE_API 
+  #define FELIDE_API 
 #endif
 
 namespace felide { namespace core {

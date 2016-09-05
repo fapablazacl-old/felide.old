@@ -12,7 +12,7 @@ namespace felide {
     };
 
     class Application;
-    class FELIDE_CORE_API Plugin : public RefCounted {
+    class FELIDE_API Plugin : public RefCounted {
     public:
         virtual ~Plugin();
         

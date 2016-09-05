@@ -33,7 +33,7 @@ namespace felide {
         N1, N2, N3, N4, N5, N6, N7, N8, N9, N0
     };
 
-    struct FELIDE_CORE_API Shortcut {
+    struct FELIDE_API Shortcut {
         Modifier modifier = Modifier::None;
         Key key = Key::None;
 

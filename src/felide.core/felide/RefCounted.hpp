@@ -2,7 +2,7 @@
 #include <felide/PreDef.hpp>
 
 namespace felide {
-    class FELIDE_CORE_API RefCounted {
+    class FELIDE_API RefCounted {
     public:
         RefCounted();
 

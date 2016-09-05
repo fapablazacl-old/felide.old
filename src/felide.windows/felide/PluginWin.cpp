@@ -26,7 +26,7 @@ namespace felide {
 }
 
 extern "C" {
-    FELIDE_CORE_API_EXPORT felide::Plugin* felide_createPlugin() {
+    FELIDE_API_EXPORT felide::Plugin* felide_createPlugin() {
         return new felide::PluginWin();
     }
 }

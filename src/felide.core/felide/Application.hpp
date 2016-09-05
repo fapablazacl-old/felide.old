@@ -9,7 +9,7 @@
 #include <felide/ViewFactory.hpp>
 
 namespace felide { 
-    class FELIDE_CORE_API Application {
+    class FELIDE_API Application {
     public:
         Application();
         virtual ~Application();

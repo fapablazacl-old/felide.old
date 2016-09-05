@@ -7,8 +7,8 @@
 
 namespace felide {
 
-    class FELIDE_CORE_API MainFrame;
-    class FELIDE_CORE_API Editor {
+    class FELIDE_API MainFrame;
+    class FELIDE_API Editor {
     public:
         Editor(MainFrame *mainFrame);
 

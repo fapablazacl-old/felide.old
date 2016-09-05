@@ -34,7 +34,7 @@ namespace felide {
         }
     }
 
-    class FELIDE_CORE_API Process {
+    class FELIDE_API Process {
     public:
         Process(ProcessFlags flags, const std::string &name, const std::list<std::string> &args = std::list<std::string>());
 
