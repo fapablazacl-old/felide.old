@@ -12,6 +12,8 @@ namespace felide {
 
         virtual std::unique_ptr<Frame> createMainFrame(const std::map<std::string, std::string> *labels) override;
 
+        virtual std::unique_ptr<Frame> createPluginFrame(PluginManager *pluginManager) override;
+
         virtual int mainLoop() override;
 
     private:

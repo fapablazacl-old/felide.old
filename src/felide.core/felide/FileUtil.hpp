@@ -5,10 +5,10 @@
 #define __felide_core_fileutil_hpp__
 
 #include <string>
+#include <felide/PreDef.hpp>
 
 namespace felide {
-
-    class FileUtil {
+    class FELIDE_API FileUtil {
         FileUtil() = delete;
         FileUtil(const FileUtil &) = delete;
 

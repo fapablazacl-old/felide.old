@@ -8,8 +8,6 @@ set (sources
     "felide/Frame.hpp"
     "felide/ViewFactory.cpp"
     "felide/ViewFactory.hpp"
-    "felide/ViewManager.cpp"
-    "felide/ViewManager.hpp"
     "felide/Widget.cpp"
     "felide/Widget.hpp"
     "felide/FrameHandler.cpp"

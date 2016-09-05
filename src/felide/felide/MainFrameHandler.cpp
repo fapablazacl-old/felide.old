@@ -4,7 +4,6 @@
 #include <iostream>
 
 namespace felide {
-
     MainFrameHandler::MainFrameHandler() {}
 
     MainFrameHandler::~MainFrameHandler() {}
@@ -13,9 +12,14 @@ namespace felide {
         std::cout << "MainFrameHandler::handleFileExit" << std::endl;
     }
 
+    void MainFrameHandler::handleToolPlugins() {
+        std::cout << "MainFrameHandler::handleToolPlugins" << std::endl;
+    }
+
     HandlerMethodMap MainFrameHandler::buildMap() {
         return {
-            {"file.exit", [this](){this->handleFileExit();} }
+            {"file.exit", [this](){this->handleFileExit();} },
+            {"tools.plugins", [this](){this->handleToolPlugins();}}
         };
     }
 }

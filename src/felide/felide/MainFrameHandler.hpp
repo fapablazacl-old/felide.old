@@ -13,6 +13,8 @@ namespace felide {
 
         void handleFileExit();
 
+        void handleToolPlugins();
+
         virtual HandlerMethodMap buildMap() override;
     };
 }
