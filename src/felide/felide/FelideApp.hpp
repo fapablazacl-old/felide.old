@@ -6,8 +6,8 @@
 
 #include <felide/Frame.hpp>
 #include <felide/Menu.hpp>
+#include <felide/Application.hpp>
 
-#include "Application.hpp"
 #include "MainFrameHandler.hpp"
 
 namespace felide {

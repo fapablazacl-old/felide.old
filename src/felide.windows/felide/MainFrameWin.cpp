@@ -12,15 +12,15 @@ namespace felide {
         return std::accumulate(key.begin(), key.end(), static_cast<int>(0));
     }
 
-    MainFrameWin::MainFrame(const std::map<std::string, std::string> *labels) 
+    MainFrameWin::MainFrameWin(const std::map<std::string, std::string> *labels) 
         : wcl::Frame(L"felide::MainFrame"), m_labels(labels) {
 
         this->Create(L"Test Name", WS_OVERLAPPEDWINDOW | WS_VISIBLE);
     }
 
-    MainFrameWin::~MainFrame() {}
+    MainFrameWin::~MainFrameWin() {}
 
-    void MainFrameWin::setMenu(const gen::Menu &menu) {
+    void MainFrameWin::setMenu(const Menu &menu) {
         HMENU hMenuBar = ::CreateMenu();
 
         for (const auto &child : menu.childs) {
@@ -30,7 +30,7 @@ namespace felide {
         ::SetMenu(this->GetHandle(), hMenuBar);
     }
 
-    void MainFrameWin::generateMenu(HMENU &hMenu, const gen::Menu &menu) {
+    void MainFrameWin::generateMenu(HMENU &hMenu, const Menu &menu) {
         auto labelIterator = m_labels->find(menu.key);
 
         if (menu.isItem()) {
@@ -49,7 +49,7 @@ namespace felide {
                 // get the command text
                 std::string text = labelIterator->second;
 
-                if (menu.shortcut.key != gen::Key::None) {
+                if (menu.shortcut.key != Key::None) {
                     text += "\t" + menu.shortcut.toString();
                 }
 

@@ -10,11 +10,11 @@
 
 namespace felide {
 
-    class MainFrame : public Frame, public wcl::Frame {
+    class MainFrameWin : public Frame, public wcl::Frame {
     public:
-        explicit MainFrame(const std::map<std::string, std::string> *labels);
+        explicit MainFrameWin(const std::map<std::string, std::string> *labels);
 
-        virtual ~MainFrame();
+        virtual ~MainFrameWin();
 
         virtual void setMenu(const Menu &menu) override;
 

@@ -5,7 +5,7 @@
 #include <map>
 #include <felide/Plugin.hpp>
 
-#include "ViewFactory.hpp"
+#include "ViewFactoryWin.hpp"
 
 namespace felide { 
     class PluginWin : public Plugin {
@@ -21,7 +21,7 @@ namespace felide {
         virtual void stop(Application *application) override;
 
     private:
-        ViewFactory m_viewFactory;
+        ViewFactoryWin m_viewFactory;
     };
 }
 

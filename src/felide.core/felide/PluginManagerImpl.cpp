@@ -2,6 +2,7 @@
 #include "PluginManagerImpl.hpp"
 
 #include <felide/Application.hpp>
+#include <felide/Library.hpp>
 
 #include "ArbitraryLocator.hpp"
 #include "PluginLibrary.hpp"
@@ -28,7 +29,7 @@ namespace felide {
     void PluginManagerImpl::load(const std::string &name) {
         std::string fileName = buildPluginFileName(name);
 
-        auto library = m_application->getSystemFactory()->loadLibrary(fileName);
+        auto library = std::make_unique<Library>(fileName);
         auto plugin = std::make_unique<PluginLibrary>(std::move(library));
         
         plugin->start(m_application);

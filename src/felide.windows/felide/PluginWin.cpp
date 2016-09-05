@@ -7,7 +7,7 @@ namespace felide {
 
     PluginWin::PluginWin() {}
 
-    PluginWin::~Plugin() {}
+    PluginWin::~PluginWin() {}
 
     PluginData PluginWin::getData() const {
         return {

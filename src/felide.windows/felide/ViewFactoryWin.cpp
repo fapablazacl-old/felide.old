@@ -6,7 +6,7 @@ namespace felide {
     ViewFactoryWin::~ViewFactoryWin() {}
 
     std::unique_ptr<Frame> ViewFactoryWin::createMainFrame(const std::map<std::string, std::string> *labels) {
-        return std::make_unique<MainFrame>(labels);
+        return std::make_unique<MainFrameWin>(labels);
     }
 
     int ViewFactoryWin::mainLoop() {

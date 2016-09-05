@@ -6,7 +6,6 @@
 
 #include <felide/PreDef.hpp>
 #include <felide/PluginManager.hpp>
-#include <felide/SystemFactory.hpp>
 #include <felide/ViewFactory.hpp>
 
 namespace felide { 
@@ -16,8 +15,6 @@ namespace felide {
         virtual ~Application();
 
         PluginManager* getPluginManager();
-
-        SystemFactory* getSystemFactory();
 
         ViewFactory* getViewFactory();
 

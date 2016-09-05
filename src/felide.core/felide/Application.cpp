@@ -7,7 +7,6 @@
 namespace felide { 
     struct Application::Private {
         std::unique_ptr<PluginManager> pluginManager;
-        std::unique_ptr<SystemFactory> systemFactory;
 
         ViewFactory* viewFactory = nullptr;
     };
@@ -16,7 +15,6 @@ namespace felide {
         m_impl = new Application::Private();
 
         m_impl->pluginManager.reset(new PluginManagerImpl(this));
-        m_impl->systemFactory = SystemFactory::newInstance();
     }
 
     Application::~Application() {
@@ -28,11 +26,6 @@ namespace felide {
     PluginManager* Application::getPluginManager() {
         assert(m_impl);
         return m_impl->pluginManager.get();
-    }
-
-    SystemFactory* Application::getSystemFactory() {
-        assert(m_impl);
-        return m_impl->systemFactory.get();
     }
 
     ViewFactory* Application::getViewFactory() {

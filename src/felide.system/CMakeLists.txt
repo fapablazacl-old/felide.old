@@ -10,6 +10,7 @@ set (sources
     "felide/ProcessWinRedirector.hpp"
 )
 
-source_group(\\ FILES ${sources})
+source_group (\\ FILES ${sources})
 
-add_library(${target} ${sources})
+add_definitions (-DFELIDE_CORE_BUILD -DFELIDE_CORE_SHARED)
+add_library (${target} SHARED ${sources})

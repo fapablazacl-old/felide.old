@@ -6,8 +6,6 @@ set (sources
     "felide/felide.cpp"
     "felide/FelideApp.hpp"
     "felide/FelideApp.cpp"
-    "felide/Application.hpp"
-    "felide/Application.cpp"
     "felide/MainFrameHandler.hpp"
     "felide/MainFrameHandler.cpp"
 )
