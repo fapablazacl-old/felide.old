@@ -1,0 +1,29 @@
+Proyecto "felide"
+
+Editor de Texto (Sin Lenguaje):
+
+Editor de Codigo Fuente (todos los lenguajes)
+Tener asociado:
+Lenguaje de programacion actual.
+Tema actual de color.
+Coloreado de sintaxis.
+Soportar las siguientes acciones:
+Comentar los bloques de codigo seleccionados.
+Mostrar sugerencias de autocompletacion.
+Autocompletar expresion actual sin completar.
+
+Gestor de Proyectos:
+Basado en Crosis (en fase de planeacion)
+
+Gestor de Proyectos C++ (General)
+Soporte para multiples compiladores.
+
+
+Gestor de Proyectos C++ (estructura manejada)
+
+
+Gestor de Proyectos C++ (estructura no manejada)
+
+
+Editor de Codigo Fuente C++:
+
