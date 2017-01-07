@@ -1,7 +1,9 @@
 
 Proyecto 'felide'
 
-Descripcion de la Problematica:
+
+PROBLEMATICA
+
 	Los IDEs modernos se enfocan mucho en stack de tecnologias muy mainstream, como PHP, Node.js, dejando de lado lenguajes muy potentes como C/C++, Rust o Haskell, implementando un soporte bastante incompleto y deficiente.
 	
 	- Visual Studio es muy bueno mientras se use su propio gestor de proyectos. Al emplear CMake, se vuelve tedioso agregar o modificar archivos. Ademas, sus herramientas RAD no hacen ni la sombra a lo que se ofrece para otras tecnologías, como por ejemplo C# (principal foco de Microsoft). Otro punto importante es que está basado en .NET, por lo que de vez en cuando experimenta letargos bastante frecuentes luego de varias horas de iniciado el IDE, incluso en equipos con varios GigaBytes de RAM y 8 nucleos de CPU. Al contrario que los otros IDEs analizados, tiene el mejor depurador existente en el mercado, haciendo que las sesiones de depuracion sean bastantes agradables y placenteras.
@@ -13,11 +15,11 @@ Descripcion de la Problematica:
 	¿Por qué Cmake es importante?
 	La tendencia de proyectos muestra que Cmake se esta convirtiendo en el Build-System defacto para el lenguaje C/C++, por lo que un soporte de primera categoria es escencial.
 
-	
-Requerimientos
+
+REQUERIMIENTOS
 
 1. Requerimientos no funcionales.
-	Extensible y Ligero, que no desperdicie recursos internos en cosas absurdas.
+	Extensible y Ligero, que no desperdicie recursos internos en cosas absurdas que no ayudan directamente al usuario, como Garbage Collection, recoleccion de uso, etc.
 	
 2. Gestion de Workspaces. 
 	La gestion de workspaces consiste en la forma que el IDE permite que el usuario maneje el codigo fuente que comprende una solucion de software. Existen algunos gestores que muestran la estructura logica de la solucion (como es el caso de Visual Studio), o muestran directamente la estructura fisica de la solucion (KDevelop, Eclipse, etc), o ambas vistas.
@@ -38,14 +40,32 @@ Requerimientos
 	
 5. Intellisense - Like
 	Implementar una caracteristica similar a Intellisense, que pueda mostrar una entidad de codigo, sus paramatros de entrada, de salida, así como su documentación (si está disponible)
-
 	
-Propuesta de solucion.
+	
+PROPUESTA DE SOLUCION
 
+Entidades y relaciones conceptuales.
+
+	Para entender mejor las funcionalidades es necesario definir primero ciertos conceptos basicos:
+	
+	- Usuario: Es la persona que usa el IDE.
+	
+	- IDE: Es el Entorno de Desarrollo Integrado. La ventana principal del IDE se divide en 4 partes: Cuerpo y en las secciones Izquierda, Abajo y Derecha.
+	
+	- Proyecto: Un proyecto es la unidad fundamental central de trabajo del IDE. Un Proyecto consiste en una colección de Componentes. El IDE puede abrir solamente un unico proyecto simultaneamente.
+	
+	- Componente: Un Componente es una unidad de software en terminos arquitectónicos. Este componente puede ser un Ejecutable, una Libreria, o cualquier otro elemento que deba ser generado durante el proceso de construcción. Cada componente a su vez consiste en una serie de Items. 
+	
+	- Item: Un Item es la unidad fundamental de contenido de logica y/o de informacion de un componente. Puede ser un archivo de codigo fuente, de configuracion, de texto, de recurso, etc.
+	
+	- Ventana: Una Ventana es un elemento de UI que muestra y opcionalmente permite modificar un aspecto del IDE o del Proyecto. Las Ventanas se pueden acoplar libremente en las secciones Izquierda, Abajo y Derecha.
+	
+	- Vista: Una Vista es un elemento de UI que visualiza y opcionalmente permite modificar un Item. Se pueden acoplar al Cuerpo del IDE como una pestaña y desacoplar en una ventana independiente del IDE.
+	
 Funcionalidades
 
 	1. Interfaz de Usuario Modular y personalizable.	
-		
+	
 		El entorno de desarrollo es una aplicación de escritorio cuyo propósito principal es la edición de documentos. 
 		
 		Un documento es cualquier entidad con datos asociados que se modifique directamente por el usuario. Algunos ejemplos de esto son los codigos fuentes, modelos de bases de datos, paginas HTML, etc. Cada documento posee uno o más tipos de editores asociados, donde cada uno representa una vista distinta sobre el mismo documento (nota de implementación: un patrón apropiado es MVC en conjunto con un gestor de editores). 
@@ -62,22 +82,50 @@ Funcionalidades
 			
 			- Proyecto. La ventana de Proyecto muestra la estructura del proyecto actualmente abierto, asi como sus componentes, ejecutables, codigos fuentes, bibliotecas, versiones, archivos de interfaz de usuario, etc. 
 			
-	2. Editor de Codigo Fuente Potente
+	2. Modo Edicion
+		El modo edicion es el modo en el cual el IDE esta configurado para realizar todas las tareas disponibles de depuracion.
+		
 		El editor de codigo fuente debe ser capaz de proveer todas las funcionalidades minimas que se esperan durante las actividades de edición de codigo, ya que es el foco principal durante la fase de implementación. El editor de código fuente debe proveer la siguiente información:
 		
-		1.1 Coloreado de Sintaxis. El coloreado de sintaxis permite identificar rapidamente las categorias de los elementos de codigo por medio de los colores que tengan los textos dentro de un codigo fuente, tales como clases, variables, etc. Esta caracteristica se puede cambiar a gusto del usuario.
+		- Coloreado de Sintaxis. El coloreado de sintaxis permite identificar rapidamente las categorias de los elementos de codigo por medio de los colores que tengan los textos dentro de un codigo fuente, tales como clases, variables, etc. Esta caracteristica se puede cambiar a gusto del usuario.
 		
-		1.2 Listado de elementos de código. Los elementos de codigo son todas las entidades que crea el programador mientras programa, estas son clases, metodos, variables, paquetes, etc.
-		
-		1.3 Muestra de documentación del elemento actual de codigo, esto eso: nombre de la entidad, parametros de entrada, etc, y la muestra de la documentacion respectiva (si es que existe).
-		
-		1.4 Configuracion de la tabulacion. Configura cuantos espacios se usan para tabular de forma automatica. Se overlapea con el estilo de codigo fuente.
-		
-		1.5 Configuracion de estilo de codigo fuente. Configura de que estilo debe ser el codigo fuente que escribe el usuario. Estos estilos son unicos para cada lenguaje. Por ejemplo, 
-		
-		1.6 Configuracion de la muestra de estos elementos. El usuario debe ser capaz de configurar cuales de todas estas configuraciones se aplican 
+		- Listado de elementos de código. Los elementos de codigo son todas las entidades que crea el programador mientras programa, estas son clases, metodos, variables, paquetes, etc.
+		- Muestra de documentación del elemento actual de codigo, esto eso: nombre de la entidad, parametros de entrada, etc, y la muestra de la documentacion respectiva (si es que existe).
+		- Muestra de la linea actual en donde se encuentra el cursor.
+		- 
+		- Configuracion de la tabulacion. Configura cuantos espacios se usan para tabular de forma automatica. Se overlapea con el estilo de codigo fuente.
+		- Configuracion de estilo de codigo fuente. Configura de que estilo debe ser el codigo fuente que escribe el usuario. Estos estilos son unicos para cada lenguaje. Por ejemplo, 
+		- Configuracion de la muestra de estos elementos. El usuario debe ser capaz de configurar cuales de todas estas configuraciones se aplican 
 		
 		NOTA: [Existe cierto overlap con las capacidades de refactorizacion, por lo que le daremos una vuelta mas adelante]
+		
+	3. Modo Depuracion
+		El depurador permite que el usuario pueda ver lo que sucede internamente durante la ejecucion de un programa. Al iniciar el proceso de depuracion, el IDE entra en el modo depuracion, en donde se habilitan el siguiente set de acciones:
+		
+		- Breakpoints.
+		- Iniciar, Continuar, Detener y Pausar Depuración
+		- Ejecucion guiada (siguiente linea, salida de la funcion, ingreso a la funcion).
+		
+		Y de Ventanas:
+		- Inspecciones
+		- Desensamblado.
+		- Variables y parametros Locales 
+		
+		Durante el modo depuracion el programa puede estar en ejecucion o pausado. Es cuando se encuentre pausado es que se encuentran disponibles las ventanas de Desensamblado y de Variables y Parametros Locales. Ademas, en este estado se pueden ver directamente los valores de las variables directamente en el editor de codigo fuente. Este editor 
+		
+	4. Modo Perfilador.
+		
+		
+	5. Extensiones del entorno de desarrollo
+	
+	
+	6. Extension del lenguaje C/C++.
+	
+	
+	7. Extension del lenguage GLSL.
+	
+	
+	8. Extension del lenguaje Python.
 	
 Arquitectura de Software.
 
@@ -89,7 +137,7 @@ Arquitectura de Software.
 			- Facilidades para la depuración de ejecutables.
 			
 		- C/C++ permite interoperar directamente con el sistema operativo y con otras pilas de tecnologias. 
-		- C/C++ permite tener un control absoluto sobre el manejo de memoria y de los recursos hardware, evitando de esta forma los retardos por garbage collection.
+		- C/C++ permite tener un control absoluto sobre el manejo de memoria y de los recursos del sistema, evitando de esta forma los retardos por garbage collection.
 		
 	2. Basado en Plugins.
 		Los plugins permiten que se pueda extender la funcionalidad del IDE de forma casi totalmente flexible una vez lanzado al mercado.
