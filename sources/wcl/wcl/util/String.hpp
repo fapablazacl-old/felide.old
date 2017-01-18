@@ -8,9 +8,6 @@
 #include <cstdlib>
 
 namespace wcl {
-    std::wstring ToWString(const std::string& source);
-    std::string ToString(const std::wstring& source);
-
     inline std::wstring ToWString(const std::string& source) {
         std::wstring destination;
 

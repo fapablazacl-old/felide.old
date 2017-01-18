@@ -154,14 +154,14 @@ namespace wcl {
     }
 
     inline std::wstring WindowBase::GetText() const {
-        const int TEXT_LENGTH = this->SendMessage_(WM_GETTEXTLENGTH);
+        const LRESULT TEXT_LENGTH = this->SendMessage_(WM_GETTEXTLENGTH);
         
         if (TEXT_LENGTH == 0) {
             return L"";
         }
 
         std::wstring text;
-        text.resize(TEXT_LENGTH - 1);
+        text.resize(static_cast<size_t>(TEXT_LENGTH - 1));
 
         this->SendMessage_(WM_GETTEXT, TEXT_LENGTH, text.c_str());
 

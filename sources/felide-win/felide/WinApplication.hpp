@@ -11,6 +11,8 @@ namespace felide {
     public:
         WinApplication();
 
+        int run(int argc, char **argv);
+
         ~WinApplication();
     };
 }

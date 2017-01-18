@@ -1,17 +1,28 @@
 
 #include "WinApplication.hpp"
+#include "WinMainFrame.hpp"
+
+#include <wcl/Application.hpp>
 
 namespace felide {
     WinApplication::WinApplication() {}
 
     WinApplication::~WinApplication() {}
+
+    int WinApplication::run(int argc, char **argv) {
+        wcl::Application app;
+
+        WinMainFrame mainFrame;
+
+        BOOL result = mainFrame.Create(L"Hola, Mundo!", WS_OVERLAPPEDWINDOW);
+        mainFrame.Show(SW_NORMAL);
+
+        return app.Run();
+    }
 }
 
-
-#include <Windows.h>
-
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-    MessageBox(NULL, "", "", MB_OK);
+    felide::WinApplication app;
 
-    return 0;
+    return app.run(0, nullptr);
 }

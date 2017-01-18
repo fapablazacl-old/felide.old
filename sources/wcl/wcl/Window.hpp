@@ -219,7 +219,7 @@ namespace wcl {
     }
 
     inline const int Window::GetChildCount() const {
-        return childs.size();
+        return static_cast<int>(childs.size());
     }
 }
 
