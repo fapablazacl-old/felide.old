@@ -5,7 +5,6 @@
 #define __felide_application_hpp__
 
 namespace felide {
-
     class PluginManager;
 
     class Application {
