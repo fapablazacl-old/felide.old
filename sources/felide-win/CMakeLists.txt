@@ -8,3 +8,5 @@ set (sources
 source_group(\\ FILES ${sources})
 
 add_executable(${target} WIN32 ${sources})
+
+target_link_libraries(${target} core)

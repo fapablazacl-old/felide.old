@@ -30,6 +30,7 @@ find_package (Boost COMPONENTS filesystem system REQUIRED)
 include_directories (${Boost_INCLUDE_DIRS})
 
 # Targets
+include_directories (sources/core)
 add_subdirectory (sources/core)
 
 if (${FELIDE_UI_API} MATCHES WinAPI)
