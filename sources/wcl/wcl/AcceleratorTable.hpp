@@ -50,7 +50,7 @@ namespace wcl {
 
             UINT result = ::MapVirtualKey(this->key, 0);
 
-            INT textResult = ::GetKeyNameTextW (
+            INT textResult = ::GetKeyNameText (
                 result<<16/*|1<<24*/, 
                 part, 
                 PART_SIZE - 1

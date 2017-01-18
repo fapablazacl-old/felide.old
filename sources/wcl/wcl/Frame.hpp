@@ -47,7 +47,7 @@ namespace wcl {
         
         ATOM DoRegister();
         
-        virtual void OnRegister(WNDCLASSEXW &wc) {}
+        virtual void OnRegister(WNDCLASSEX &wc) {}
         
         void SetMenu(MenuPtr menu);
         

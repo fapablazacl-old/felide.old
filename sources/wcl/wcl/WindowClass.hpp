@@ -8,64 +8,53 @@
 #include <cassert>
 
 namespace wcl {
-    
-    struct WindowClass : public WNDCLASSEXW {
-        WindowClass();
-        explicit WindowClass(LPWSTR className);
-        ~WindowClass();
-
-        ATOM Register();
-        BOOL Unregister();
-    };
-
-    inline WindowClass::WindowClass() {
-        ::ZeroMemory(static_cast<WNDCLASSEXW*>(this), sizeof(WNDCLASSEXW));
-
-        this->cbSize = sizeof(WNDCLASSEXW);
-        this->hInstance = ::GetModuleHandle(NULL);
-    }
-    
-    inline WindowClass::WindowClass(LPWSTR className) {
-        assert(className);
-        assert(className != L"");
-        assert(className != std::wstring(L""));
-        
-        ::ZeroMemory(static_cast<WNDCLASSEXW*>(this), sizeof(WNDCLASSEXW));
-
-        this->cbSize = sizeof(WNDCLASSEXW);
-        this->hInstance = ::GetModuleHandle(NULL);
-        this->lpszClassName = className;
-    }
-
-    inline WindowClass::~WindowClass() {
-        BOOL result = this->Unregister();
-    }
-
-    inline ATOM WindowClass::Register() {
-        assert(this->lpszClassName);
-        assert(this->lpszClassName != L"");
-        assert(this->lpszClassName != std::wstring(L""));
-        
-        ATOM atom = ::RegisterClassExW(this);
-        
-        if (!atom) {
-            throw wcl::Exception("Couldn't register the window class");
+    /**
+     * Wrapper around WNDCLASSEX
+     */
+    struct WindowClass : WNDCLASSEX {
+    public:
+        static WindowClass MakeDefault(LPTSTR className, WNDPROC wndProc) {
+            return {
+                className, 
+                wndProc,
+                (HBRUSH)(COLOR_BTNFACE + 1),
+                ::LoadCursor(GetModuleHandle(NULL), IDC_ARROW),
+                ::LoadIcon(GetModuleHandle(NULL), IDI_APPLICATION)
+            };
         }
-        
-        return atom;
-    }
-    
-    inline BOOL WindowClass::Unregister() {
-        if (this->lpszClassName) {
-            if (::UnregisterClassW(this->lpszClassName, this->hInstance)) {
-                ::ZeroMemory(static_cast<WNDCLASSEXW*>(this), sizeof(WNDCLASSEXW));
+
+    public:
+        WindowClass() {
+            ::ZeroMemory(this, sizeof(WNDCLASSEX));
+
+            cbSize = sizeof(WNDCLASSEX);
+            hInstance = ::GetModuleHandle(NULL);
+        }
+
+        WindowClass(LPTSTR className, WNDPROC wndProc=NULL, HBRUSH hBrushBackground=NULL, HICON hIcon=NULL, HCURSOR hCursor=NULL) : WindowClass() {
+            lpszClassName = className;
+            lpfnWndProc = wndProc;
+            hbrBackground = hBrushBackground;
+            this->hIcon = hIcon;
+            this->hCursor = hCursor;
+        }
+
+        ~WindowClass() {
+            this->Unregister();
+        }
+
+        BOOL Register() {
+            if (::RegisterClassEx((const WNDCLASSEX*)this)) {
+                return TRUE;
             } else {
-                throw wcl::Exception("Couldn't unregister the window class");
+                return FALSE;
             }
         }
-        
-        return TRUE;
-    }
+
+        BOOL Unregister() {
+            return ::UnregisterClass(lpszClassName, hInstance);
+        }
+    };
 }
 
 #endif

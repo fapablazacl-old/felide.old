@@ -2,11 +2,20 @@
 #include "WinMainFrame.hpp"
 
 namespace felide {
-    WinMainFrame::WinMainFrame() : wcl::Frame(L"WinMainFrame") {
-        
+    wcl::WindowClass* WinMainFrame::GetWindowClass() {
+        static auto class_ = wcl::WindowClass::MakeDefault("Frame", wcl::Window::WndProc);
+        return &class_;
     }
 
-    void WinMainFrame::OnClose() {
-        this->PostMessage_(WM_QUIT);
+    WinMainFrame::WinMainFrame() : Window("Frame") {}
+
+    LRESULT WinMainFrame::Procedure(UINT Msg, WPARAM wParam, LPARAM lParam) {
+        switch (Msg) {
+        case WM_CLOSE:
+            PostQuitMessage(0);
+            break;
+        }
+
+        return Window::Procedure(Msg, wParam, lParam);
     }
 }

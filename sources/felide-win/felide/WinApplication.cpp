@@ -5,7 +5,9 @@
 #include <wcl/Application.hpp>
 
 namespace felide {
-    WinApplication::WinApplication() {}
+    WinApplication::WinApplication() {
+        WinMainFrame::GetWindowClass()->Register();
+    }
 
     WinApplication::~WinApplication() {}
 
@@ -14,8 +16,8 @@ namespace felide {
 
         WinMainFrame mainFrame;
 
-        BOOL result = mainFrame.Create(L"Hola, Mundo!", WS_OVERLAPPEDWINDOW);
-        mainFrame.Show(SW_NORMAL);
+        BOOL result = mainFrame.Create("Hola, Mundo!", WS_OVERLAPPEDWINDOW);
+        mainFrame.Show();
 
         return app.Run();
     }

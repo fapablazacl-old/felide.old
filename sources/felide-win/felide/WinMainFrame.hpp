@@ -4,14 +4,17 @@
 #ifndef __felide_winmainframe_hpp__
 #define __felide_winmainframe_hpp__
 
-#include <wcl/Frame.hpp>
+#include <wcl/WindowClass.hpp>
+#include <wcl/Window.hpp>
 
 namespace felide {
-    class WinMainFrame : public wcl::Frame {
+    class WinMainFrame : public wcl::Window {
     public:
-        WinMainFrame();
+        static wcl::WindowClass* GetWindowClass();
 
-        virtual void OnClose() override;
+        virtual LRESULT Procedure(UINT Msg, WPARAM wParam, LPARAM lParam) override;
+
+        WinMainFrame();
     };
 }
 

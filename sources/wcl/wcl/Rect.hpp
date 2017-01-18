@@ -7,39 +7,33 @@
 #include <Windows.h>
 
 namespace wcl {
+    /**
+     * Wrapper structure around RECT structure
+     */
     struct Rect : public RECT {
-        Rect();
-        Rect(int left, int top, int right, int bottom);
+        Rect() {
+            ::ZeroMemory(this, sizeof(Rect));
+        }
 
-        int GetWidth() const;
-        int GetHeight() const;
+        Rect(int left, int top, int right, int bottom) {
+            this->left = left;
+            this->top = top;
+            this->right = right;
+            this->bottom = bottom;
+        }
 
-        bool IsValid() const;
+        int GetWidth() const {
+            return this->right - this->left;
+        }
+
+        int GetHeight() const {
+            return this->bottom - this->top;
+        }
+
+        bool IsValid() const {
+            return this->GetWidth() <= 0 || this->GetHeight() <= 0;
+        }
     };
-
-    inline int Rect::GetWidth() const {
-        return this->right - this->left;
-    }
-
-    inline int Rect::GetHeight() const {
-        return this->bottom - this->top;
-    }
-
-    inline Rect::Rect() {
-        this->left = this->top = 0;
-        this->right = this->bottom = 0;
-    }
-
-    inline Rect::Rect(int left, int top, int right, int bottom) {
-        this->left = left;
-        this->top = top;
-        this->right = right;
-        this->bottom = bottom;
-    }
-
-    inline bool Rect::IsValid() const {
-        return this->GetWidth() <= 0 || this->GetHeight() <= 0;
-    }
 }
 
 #endif

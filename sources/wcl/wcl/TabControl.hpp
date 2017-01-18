@@ -19,51 +19,51 @@ namespace wcl {
         TabControl();
 
     public:
-        LRESULT InsertItem(const int index, const TabControlItem &item);
+        int InsertItem(const int index, const TabControlItem &item);
 
-        LRESULT AdjustRect(BOOL bLarger, Rect *rect) const;
+        int AdjustRect(BOOL bLarger, Rect *rect) const;
 
-        LRESULT DeleteAllItems();
+        int DeleteAllItems();
 
-        LRESULT DeleteItem(const int index);
+        int DeleteItem(const int index);
 
-        LRESULT DeselectAll(BOOL allButThis);
+        int DeselectAll(BOOL allButThis);
 
-        LRESULT GetCurFocus() const;
+        int GetCurFocus() const;
 
-        LRESULT GetCurSel() const;
+        int GetCurSel() const;
 
-        LRESULT GetExtendedStyle() const;
+        int GetExtendedStyle() const;
 
-        LRESULT GetImageList() const;
+        int GetImageList() const;
 
-        LRESULT GetItem(const int index, TabControlItem *item) const;
+        int GetItem(const int index, TabControlItem *item) const;
 
-        LRESULT GetItemCount() const;
+        int GetItemCount() const;
 
-        LRESULT GetItemRect(const int index, Rect *rect) const;
+        int GetItemRect(const int index, Rect *rect) const;
 
-        LRESULT GetRowCount() const;
+        int GetRowCount() const;
 
-        LRESULT GetToolTips() const;
+        int GetToolTips() const;
 
-        LRESULT GetUnicodeFormat() const;
+        int GetUnicodeFormat() const;
 
-        LRESULT HighlightItem(const int index, BOOL hightlight);
+        int HighlightItem(const int index, BOOL hightlight);
 
-        LRESULT HitTest(TCHITTESTINFO *info) const;
+        int HitTest(TCHITTESTINFO *info) const;
 
-        LRESULT RemoveImage(const int index);
+        int RemoveImage(const int index);
 
-        LRESULT SetCurFocus(const int index);
+        int SetCurFocus(const int index);
 
-        LRESULT SetCurSel(const int index);
+        int SetCurSel(const int index);
 
-        LRESULT SetImageList(const int imageListHandle);
+        int SetImageList(const int imageListHandle);
 
-        LRESULT SetItem(const int index, const TabControlItem &item);
+        int SetItem(const int index, const TabControlItem &item);
 
-        LRESULT SetToolTips(const int tooltipHandle);
+        int SetToolTips(const int tooltipHandle);
     };
 
     inline TabControlItem TabControlItem::Text(const std::wstring &text) {
@@ -77,95 +77,95 @@ namespace wcl {
 
     inline TabControl::TabControl() : Window(WC_TABCONTROL) {}
 
-    inline LRESULT TabControl::InsertItem(const int index, const TabControlItem &item) {
+    inline int TabControl::InsertItem(const int index, const TabControlItem &item) {
         return this->SendMessage_(TCM_INSERTITEM, index, &item);
     }
 
-    inline LRESULT TabControl::AdjustRect(BOOL bLarger, Rect *rect) const {
+    inline int TabControl::AdjustRect(BOOL bLarger, Rect *rect) const {
         return this->SendMessage_(TCM_ADJUSTRECT, bLarger, rect);
     }
 
-    inline LRESULT TabControl::DeleteAllItems() {
+    inline int TabControl::DeleteAllItems() {
         return this->SendMessage_(TCM_DELETEALLITEMS);
     }
 
-    inline LRESULT TabControl::DeleteItem(const int index) {
+    inline int TabControl::DeleteItem(const int index) {
         return this->SendMessage_(TCM_DELETEITEM, index);
     }
 
-    inline LRESULT TabControl::DeselectAll(BOOL allButThis) {
+    inline int TabControl::DeselectAll(BOOL allButThis) {
         return this->SendMessage_(TCM_DESELECTALL, allButThis);
     }
 
-    inline LRESULT TabControl::GetCurFocus() const {
+    inline int TabControl::GetCurFocus() const {
         return this->SendMessage_(TCM_GETCURFOCUS);
     }
 
-    inline LRESULT TabControl::GetCurSel() const {
+    inline int TabControl::GetCurSel() const {
         return this->SendMessage_(TCM_GETCURSEL);
     }
 
-    inline LRESULT TabControl::GetExtendedStyle() const {
+    inline int TabControl::GetExtendedStyle() const {
         return this->SendMessage_(TCM_GETEXTENDEDSTYLE);
     }
 
-    inline LRESULT TabControl::GetImageList() const {
+    inline int TabControl::GetImageList() const {
         return this->SendMessage_(TCM_GETIMAGELIST);
     }
 
-    inline LRESULT TabControl::GetItem(const int index, TabControlItem *item) const {
+    inline int TabControl::GetItem(const int index, TabControlItem *item) const {
         return this->SendMessage_(TCM_GETITEM, index, item);
     }
 
-    inline LRESULT TabControl::GetItemCount() const {
+    inline int TabControl::GetItemCount() const {
         return this->SendMessage_(TCM_GETITEMCOUNT);
     }
 
-    inline LRESULT TabControl::GetItemRect(const int index, Rect *rect) const {
+    inline int TabControl::GetItemRect(const int index, Rect *rect) const {
         return this->SendMessage_(TCM_GETITEMRECT, index, rect);
     }
 
-    inline LRESULT TabControl::GetRowCount() const {
+    inline int TabControl::GetRowCount() const {
         return this->SendMessage_(TCM_GETROWCOUNT);
     }
 
-    inline LRESULT TabControl::GetToolTips() const {
+    inline int TabControl::GetToolTips() const {
         return this->SendMessage_(TCM_GETTOOLTIPS);
     }
 
-    inline LRESULT TabControl::GetUnicodeFormat() const {
+    inline int TabControl::GetUnicodeFormat() const {
         return this->SendMessage_(TCM_GETUNICODEFORMAT);
     }
 
-    inline LRESULT TabControl::HighlightItem(const int index, BOOL hightlight) {
+    inline int TabControl::HighlightItem(const int index, BOOL hightlight) {
         return this->SendMessage_(TCM_HIGHLIGHTITEM, index, MAKEWPARAM(hightlight, 0));
     }
 
-    inline LRESULT TabControl::HitTest(TCHITTESTINFO *info) const {
+    inline int TabControl::HitTest(TCHITTESTINFO *info) const {
         return this->SendMessage_(TCM_HITTEST, NULL, info);
     }
 
-    inline LRESULT TabControl::RemoveImage(const int index) {
+    inline int TabControl::RemoveImage(const int index) {
         return this->SendMessage_(TCM_REMOVEIMAGE, index);
     }
 
-    inline LRESULT TabControl::SetCurFocus(const int index) {
+    inline int TabControl::SetCurFocus(const int index) {
         return this->SendMessage_(TCM_SETCURFOCUS, index);
     }
 
-    inline LRESULT TabControl::SetCurSel(const int index) {
+    inline int TabControl::SetCurSel(const int index) {
         return this->SendMessage_(TCM_SETCURSEL, index);
     }
 
-    inline LRESULT TabControl::SetImageList(const int imageListHandle) {
+    inline int TabControl::SetImageList(const int imageListHandle) {
         return this->SendMessage_(TCM_SETIMAGELIST, 0L, imageListHandle);
     }
 
-    inline LRESULT TabControl::SetItem(const int index, const TabControlItem &item) {
+    inline int TabControl::SetItem(const int index, const TabControlItem &item) {
         return this->SendMessage_(TCM_SETITEM, index, &item);
     }
 
-    inline LRESULT TabControl::SetToolTips(const int tooltipHandle) {
+    inline int TabControl::SetToolTips(const int tooltipHandle) {
         return this->SendMessage_(TCM_SETTOOLTIPS, tooltipHandle);
     }
 }

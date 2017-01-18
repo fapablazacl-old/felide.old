@@ -34,6 +34,9 @@ include_directories (sources/core)
 add_subdirectory (sources/core)
 
 if (${FELIDE_UI_API} MATCHES WinAPI)
+	include_directories(sources/wcl)
+
+	add_subdirectory(sources/wcl)
 	add_subdirectory(sources/felide-win)
 endif()
 
