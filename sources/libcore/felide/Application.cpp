@@ -4,6 +4,9 @@
 #include "Plugin.hpp"
 #include "PluginManager.hpp"
 
+#include "Resource.hpp"
+#include "ResourceManager.hpp"
+
 #include <cassert>
 #include <vector>
 #include <memory>
@@ -42,8 +45,19 @@ namespace felide {
         std::vector<std::unique_ptr<Plugin>> m_plugins;
     };
 
+    class ResourceImpl : public Resource {
+    public:
+    };
+
+
+    class ResourceManagerImpl : public ResourceManager {
+    public:
+
+    };
+
     struct Application::Private {
         PluginManagerImpl m_pluginManager;
+        ResourceManagerImpl m_resourceManager;
     };
 
     Application::Application() {
@@ -58,5 +72,11 @@ namespace felide {
         assert(m_impl);
 
         return &m_impl->m_pluginManager;
+    }
+
+    ResourceManager* Application::getResourceManager() {
+        assert(m_impl);
+
+        return &m_impl->m_resourceManager;
     }
 }

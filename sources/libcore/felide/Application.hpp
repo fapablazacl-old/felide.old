@@ -4,8 +4,12 @@
 #ifndef __felide_application_hpp__
 #define __felide_application_hpp__
 
+#include <vector>
+#include <string>
+
 namespace felide {
     class PluginManager;
+    class ResourceManager;
 
     class Application {
     public:
@@ -13,6 +17,8 @@ namespace felide {
         ~Application();
 
         PluginManager* getPluginManager();
+
+        ResourceManager* getResourceManager();
 
     private:
         struct Private;

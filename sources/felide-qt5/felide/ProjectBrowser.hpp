@@ -18,7 +18,17 @@ namespace felide {
 
         ~ProjectBrowser();
 
+        void setProjectFolder(const QString &projectFolder);
+
+        QString projectFolder() const;
+
+        Q_PROPERTY(QString projectFolder WRITE setProjectFolder READ projectFolder NOTIFY projectFolderChanged)
+
+    signals:
+        void projectFolderChanged(const QString &projectFolder);
+
     private:
+        QString m_projectFolder;
         QTreeView *m_treeView = nullptr;
         QFileSystemModel *m_fileSystemModel = nullptr;
     };

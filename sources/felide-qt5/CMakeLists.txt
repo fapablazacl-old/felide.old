@@ -14,6 +14,8 @@ set (sources
 	felide/ClassBrowser.cpp
 	felide/DocumentManager.hpp
 	felide/DocumentManager.cpp
+	felide/QtApplication.hpp
+	felide/QtApplication.cpp
 )
 
 find_package(Qt5Widgets)
