@@ -3,82 +3,51 @@ cmake_minimum_required(VERSION 3.0)
 
 project (felide)
 
-option (FELIDE_GEN_QT5     "Enable QT5 based user interface"       OFF)
-option (FELIDE_GEN_WCL     "Enable WinAPI-based user interface"    OFF)
+# Supported User Interface APIs
+set (FELIDE_UI_API "Qt5" CACHE STRING "User Interface API")
+#set (FELIDE_UI_APIS "Qt5;WinAPI")
+set (FELIDE_UI_APIS "Qt5")
+
+set_property(CACHE FELIDE_UI_API PROPERTY STRINGS ${FELIDE_UI_APIS})
 
 set (CMAKE_CXX_STANDARD 14)
-set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/src/cmake)
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Boost
 add_definitions(-DBOOST_ALL_NO_LIB)
+add_definitions(-DBOOST_PROGRAM_OPTIONS_DYN_LINK)
 add_definitions(-D_SCL_SECURE_NO_WARNINGS)
 
 set (Boost_USE_STATIC_LIBS OFF)
 set (Boost_USE_MULTITHREADED ON)
 set (Boost_USE_STATIC_RUNTIME OFF)
 
-find_package (Boost 1.59.0 COMPONENTS filesystem system REQUIRED)
+find_package(Boost COMPONENTS
+    system
+    filesystem
+    program_options
+)
+
+# YAML
+# find_package(yaml-cpp REQUIRED)
 
 # Include dirs
 include_directories (${Boost_INCLUDE_DIRS})
-include_directories (src)
 
-if (FELIDE_GEN_QT5)
-    set (CMAKE_AUTOUIC ON)
-    set (CMAKE_INCLUDE_CURRENT_DIR ON)
-    set (CMAKE_AUTOMOC ON)
-    
-    find_package(Qt5Widgets REQUIRED)
-    find_package(QScintilla REQUIRED)
-    
-    add_definitions(-DQSCINTILLA_DLL)
+# Targets
+include_directories (sources/libcore)
+add_subdirectory (sources/libcore)
 
-    set (FELIDE_QT5_LIBRARIES felide.qt5 Qt5::Widgets ${QSCINTILLA_LIBRARY})
-    
-    include_directories(${QSCINTILLA_INCLUDE_DIR})
-    include_directories(${Qt5Widgets_INCLUDE_DIRS})
-    
-    add_subdirectory (src/felide.qt5)
+include_directories (sources/libborc)
+add_subdirectory (sources/libborc)
+
+include_directories (sources/felide-borc)
+add_subdirectory (sources/felide-borc)
+
+if (${FELIDE_UI_API} MATCHES Qt5)
+	add_subdirectory(sources/felide-qt5)
 endif()
-
-if (FELIDE_GEN_WCL)
-    # WCL
-    set (WCL_LIBRARIES comctl32)
-
-    set (SCINTILLA_FOUND 0)
-    set (SCINTILLA_LIBRARIES)
-
-    if (NOT SCINTILLA_INCLUDE_DIRS)
-        message (ERROR_MESSAGE "Scintilla include location isn't defined (-DSCINTILLA_INCLUDE_DIRS).")
-        set (SCINTILLA_FOUND 0)
-        set (SCINTILLA_LIBRARIES)
-    endif ()
-    
-    set (FELIDE_WCL_LIBRARIES felide.wcl comctl32)
-
-    include_directories(${SCINTILLA_INCLUDE_DIRS})
-
-    add_subdirectory (src/wcl)
-    add_subdirectory (src/wclc)
-    #add_subdirectory (src/felide.wcl)
-endif ()
-
-include_directories(src/felide)
-include_directories(src/felide.system)
-include_directories(src/felide.core)
-include_directories(src/felide.view)
-
-#add_subdirectory (src/pom)
-#add_subdirectory (src/felide.proj.cmake)
-#add_subdirectory (src/felide.proj.impl)
-
-add_subdirectory (src/felide)
-#add_subdirectory (src/model)
-add_subdirectory (src/felide.core)
-add_subdirectory (src/felide.windows)
-add_subdirectory (src/felide.view)
-add_subdirectory (src/felide.system)
