@@ -11,121 +11,52 @@
 #include <QDockWidget>
 #include <QDesktopWidget>
 #include <QFileDialog>
+#include <QFile>
+#include <QFileInfo>
+#include <QMessageBox>
 
 #include "ProjectBrowser.hpp"
 #include "DocumentManager.hpp"
 
+#include "felide/Resource.hpp"
+#include "felide/Menu.hpp"
+
 namespace felide {
-
-    struct Menu;
-
-    struct MenuBar {
-        explicit MenuBar(const std::initializer_list<Menu> menues_) 
-            : menues(menues_) {}
-
-        std::vector<Menu> menues;
-    };
-
-    struct Menu {
-        std::string key;
-        bool separator = false;
-        std::vector<Menu> childs;
-
-        Menu() {}
-
-        Menu(const std::string &key_, const std::vector<Menu> &childs_)
-            : key(key_), childs(childs_) {}
-
-        static Menu Item(const std::string &key) {
-            Menu menu;
-
-            menu.key = key;
-
-            return menu;
-        }
-
-        static Menu Separator() {
-            Menu menu;
-
-            menu.separator = true;
-
-            return menu;
-        }
-    };
-    
-    std::map<std::string, std::string> strings = {
-        {"file", "&File"}, 
-        {"file.openfolder", "&Open Folder"}, 
-        {"file.save", "&Save"}, 
-        {"file.saveall", "Save &All"}, 
-        {"file.exit", "&Exit"}, 
-        {"edit", "&Edit"}, 
-        {"edit.undo", "&Undo"}, 
-        {"edit.redo", "&Redo"}, 
-        {"edit.cut", "&Cut"}, 
-        {"edit.copy", "&Copy"}, 
-        {"edit.paste", "&Paste"}, 
-        {"help", "&Help"},
-        {"help.about", "&About"}
-    };
-
-    MenuBar menuBar {
-        Menu("file", {
-            Menu::Item("file.openfolder"), 
-            Menu::Separator(), 
-            Menu::Item("file.save"), 
-            Menu::Item("file.saveall"), 
-            Menu::Separator(), 
-            Menu::Item("file.exit")
-        }), 
-
-        Menu("edit", {
-            Menu::Item("edit.undo"), 
-            Menu::Item("edit.redo"), 
-            Menu::Separator(), 
-            Menu::Item("edit.cut"), 
-            Menu::Item("edit.copy"), 
-            Menu::Item("edit.paste")
-        }),
-
-        Menu("help", {
-            Menu::Item("help.about")
-        })
-    };
-
 
     struct MainWindow::Private {
         std::map<std::string, QAction*> actions;
-        std::map<std::string, std::string> strings;
-
         std::map<std::string, std::function<void()>> functions;
+
+        const StringResource *stringResource = nullptr;
+        MenuBar menuBar;
 
         ProjectBrowser *projectExplorer = nullptr;
         DocumentManager *documentManager = nullptr;
 
-        Private() {
+        Private(const MenuBar menuBar_, const StringResource *stringResource_) : menuBar(menuBar_), stringResource(stringResource) {
             // inicializar las cadenas
-            strings = felide::strings;
-
             functions = {
                 {"file.openfolder", std::bind(&MainWindow::Private::onOpenFolder, this)}
             };
         }
 
         QMenu* generateMenu(const Menu &menu) {
-            auto result = new QMenu(strings[menu.key].c_str());
+            const std::string menuTitle = stringResource->get(menu.getKey());
 
-            for (const Menu &child : menu.childs) {
-                if (child.separator == true) {
+            auto result = new QMenu(QString::fromStdString(menuTitle));
+
+            for (const Menu &child : menu.getChilds()) {
+                if (child.isSeparator() == true) {
                     result->addSeparator();
 
-                } else if (child.childs.size() > 0) {
+                } else if (child.getChilds().size() > 0) {
                     result->addMenu(this->generateMenu(child));
 
                 } else {
-                    const std::string key = child.key;
+                    const std::string key = child.getKey();
+                    const std::string actionName = stringResource->get(key);
 
-                    QAction *action = result->addAction(strings[key].c_str());
+                    QAction *action = result->addAction(QString::fromStdString(actionName));
 
                     actions[key] = action;
                 }
@@ -137,7 +68,7 @@ namespace felide {
         QMenuBar* generateMenuBar(const MenuBar &menuBar) {
             auto result = new QMenuBar();
 
-            for (const Menu &menu : menuBar.menues) {
+            for (const Menu &menu : menuBar.getMenues()) {
                 result->addMenu(this->generateMenu(menu));
             }
 
@@ -145,7 +76,7 @@ namespace felide {
         }
 
         void setupMenuBar(MainWindow *window) {
-            window->setMenuBar(this->generateMenuBar(felide::menuBar));
+            window->setMenuBar(this->generateMenuBar(menuBar));
         }
 
         void setupWidgets(MainWindow *window) {
@@ -160,6 +91,12 @@ namespace felide {
 
             documentManager = new DocumentManager(window);
             window->setCentralWidget(documentManager);
+
+            // connect inter component signals
+            QObject::connect(projectExplorer, &ProjectBrowser::projectItemOpenRequest, [&](const QString &path) {
+                QFileInfo info(path);
+                documentManager->openDocument(QFileInfo(path).fileName(), path);
+            });
         }
 
         void setupUI(MainWindow *window) {
@@ -208,8 +145,8 @@ namespace felide {
         }
     };
 
-    MainWindow::MainWindow() 
-        : m_impl(new MainWindow::Private()) {
+    MainWindow::MainWindow(const MenuBar &menuBar, const StringResource *stringResource) 
+        : m_impl(new MainWindow::Private(menuBar, stringResource)) {
 
         m_impl->setupUI(this);
         m_impl->connectSignals();

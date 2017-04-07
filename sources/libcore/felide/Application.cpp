@@ -5,7 +5,8 @@
 #include "PluginManager.hpp"
 
 #include "Resource.hpp"
-#include "ResourceManager.hpp"
+#include "ResourceManagerImpl.hpp"
+#include "Menu.hpp"
 
 #include <cassert>
 #include <vector>
@@ -45,16 +46,6 @@ namespace felide {
         std::vector<std::unique_ptr<Plugin>> m_plugins;
     };
 
-    class ResourceImpl : public Resource {
-    public:
-    };
-
-
-    class ResourceManagerImpl : public ResourceManager {
-    public:
-
-    };
-
     struct Application::Private {
         PluginManagerImpl m_pluginManager;
         ResourceManagerImpl m_resourceManager;
@@ -62,6 +53,59 @@ namespace felide {
 
     Application::Application() {
         m_impl = new Application::Private();
+
+        auto stringResource = std::make_unique<StringResource>("strings");
+
+        // Populate application strings
+        std::map<std::string, std::string> strings = {
+            {"file", "&File"}, 
+            {"file.openfolder", "&Open Folder"}, 
+            {"file.save", "&Save"}, 
+            {"file.saveall", "Save &All"}, 
+            {"file.exit", "&Exit"}, 
+            {"edit", "&Edit"}, 
+            {"edit.undo", "&Undo"}, 
+            {"edit.redo", "&Redo"}, 
+            {"edit.cut", "&Cut"}, 
+            {"edit.copy", "&Copy"}, 
+            {"edit.paste", "&Paste"}, 
+            {"help", "&Help"},
+            {"help.about", "&About"}
+        };
+
+        for (const auto &pair : strings) {
+            stringResource->set(pair.first, pair.second);
+        }
+
+        m_impl->m_resourceManager.addResource(std::move(stringResource));
+
+        // Populate main menu structure
+        MenuBar menuBar {
+            Menu("file", {
+                Menu::item("file.openfolder"), 
+                Menu::separator(), 
+                Menu::item("file.save"), 
+                Menu::item("file.saveall"), 
+                Menu::separator(), 
+                Menu::item("file.exit")
+            }), 
+
+            Menu("edit", {
+                Menu::item("edit.undo"), 
+                Menu::item("edit.redo"), 
+                Menu::separator(), 
+                Menu::item("edit.cut"), 
+                Menu::item("edit.copy"), 
+                Menu::item("edit.paste")
+            }),
+
+            Menu("help", {
+                Menu::item("help.about")
+            })
+        };
+
+        auto menuBarResource = std::make_unique<ResourceWrapper<MenuBar>>("menuBar", menuBar);
+        m_impl->m_resourceManager.addResource(std::move(menuBarResource));
     }
 
     Application::~Application() {
@@ -74,7 +118,7 @@ namespace felide {
         return &m_impl->m_pluginManager;
     }
 
-    ResourceManager* Application::getResourceManager() {
+    const ResourceManager* Application::getResourceManager() {
         assert(m_impl);
 
         return &m_impl->m_resourceManager;

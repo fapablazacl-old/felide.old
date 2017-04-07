@@ -4,11 +4,20 @@
 
 #include "MainWindow.hpp"
 
+#include "felide/Menu.hpp"
+#include "felide/Resource.hpp"
+#include "felide/ResourceManager.hpp"
+
 namespace felide {
     int QtApplication::run(int argc, char **argv) {
         QApplication app(argc, argv);
 
-        MainWindow window;
+        auto menuBarResource = this->getResourceManager()->getResource<ResourceWrapper<MenuBar>>("menuBar");
+        auto menuBar = menuBarResource->get();
+
+        auto stringResource = this->getResourceManager()->getResource<StringResource>("strings");
+
+        MainWindow window(menuBar, stringResource);
 
         window.show();
 

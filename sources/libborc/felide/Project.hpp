@@ -79,12 +79,12 @@ namespace borc {
         Release
     };
 
-    struct Item {
+    struct item {
         std::string file;
 
-        Item() {}
+        item() {}
 
-        Item(const std::string &file_) : file(file_) {}
+        item(const std::string &file_) : file(file_) {}
     };
 
     struct Depedency {
@@ -96,7 +96,7 @@ namespace borc {
         std::string path;
         std::vector<Depedency> dependencies;
         TargetType type = TargetType::Unknown;
-        std::vector<Item> items;
+        std::vector<item> items;
         std::vector<std::string> includes;
         
         Target() {}
@@ -104,13 +104,13 @@ namespace borc {
         Target(const std::string &name_, const std::string &path_, const TargetType type_) 
             : name(name_), path(path_), type(type_) {}
 
-        Target(const std::string &name_, const std::string &path_, const TargetType type_, const std::vector<Item> &items_) 
+        Target(const std::string &name_, const std::string &path_, const TargetType type_, const std::vector<item> &items_) 
             : name(name_), path(path_), type(type_), items(items_) {}
 
-        Target(const std::string &name_, const std::string &path_, const TargetType type_, const std::vector<Item> &items_, const std::string &include) 
+        Target(const std::string &name_, const std::string &path_, const TargetType type_, const std::vector<item> &items_, const std::string &include) 
             : name(name_), path(path_), type(type_), items(items_), includes({include}) {}
 
-        Target(const std::string &name_, const std::string &path_, const TargetType type_, const std::vector<Item> &items_, const std::vector<std::string> &includes_) 
+        Target(const std::string &name_, const std::string &path_, const TargetType type_, const std::vector<item> &items_, const std::vector<std::string> &includes_) 
             : name(name_), path(path_), type(type_), items(items_), includes(includes_) {}
     };
 

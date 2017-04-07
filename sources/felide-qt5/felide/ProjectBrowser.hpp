@@ -27,6 +27,8 @@ namespace felide {
     signals:
         void projectFolderChanged(const QString &projectFolder);
 
+        void projectItemOpenRequest(const QString &projectItemPath);
+
     private:
         QString m_projectFolder;
         QTreeView *m_treeView = nullptr;

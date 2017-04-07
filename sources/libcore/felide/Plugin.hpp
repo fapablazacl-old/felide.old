@@ -7,7 +7,6 @@
 #include <string>
 
 namespace felide {
-
     /**
      * @brief Public plugin interface
      */

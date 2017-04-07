@@ -10,9 +10,9 @@ namespace felide {
     /**
      * @brief Item of a Target.
      */
-    class Item {
+    class item {
     public:
-        virtual ~Item();
+        virtual ~item();
 
         /**
          * @brief Returns 'true' if the item has a physical path.

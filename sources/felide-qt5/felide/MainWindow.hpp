@@ -8,11 +8,13 @@
 #include <memory>
 
 namespace felide {
+    class MenuBar;
+    class StringResource;
     class MainWindow : public QMainWindow {
         Q_OBJECT
 
     public:
-        MainWindow();
+        MainWindow(const MenuBar &menuBar, const StringResource *stringResource);
         ~MainWindow();
 
     private:

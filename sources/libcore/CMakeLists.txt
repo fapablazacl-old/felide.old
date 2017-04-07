@@ -12,12 +12,18 @@ set (sources
 	felide/Resource.cpp
 	felide/ResourceManager.hpp
 	felide/ResourceManager.cpp
+	felide/ResourceManagerImpl.hpp
+	felide/ResourceManagerImpl.cpp
 	felide/Project.hpp
 	felide/Project.cpp
 	felide/Target.hpp
 	felide/Target.cpp
 	felide/Item.hpp
 	felide/Item.cpp
+	felide/FileUtil.hpp
+	felide/FileUtil.cpp
+	felide/Menu.hpp
+	felide/Menu.cpp
 )
 
 source_group(\\ FILES ${sources})

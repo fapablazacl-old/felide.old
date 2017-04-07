@@ -157,14 +157,14 @@ namespace borc {
             std::vector<std::unique_ptr<Task>> tasks;
 
             // build commands for creating required directories for the generated object files
-            rng::transform(target.items, std::back_inserter(tasks), [&](const Item &item) {
+            rng::transform(target.items, std::back_inserter(tasks), [&](const item &item) {
                 fs::path directory = buildPath / item.file;
                 
                 return std::make_unique<DirectoryTask>(directory.parent_path().string());
             });
 
             // build commands for every item in the current target
-            rng::transform(target.items, std::back_inserter(tasks), [&](const Item &item) {
+            rng::transform(target.items, std::back_inserter(tasks), [&](const item &item) {
                 return this->genTask(item.file, opts, targetPath, buildPath);
             });
             
@@ -180,7 +180,7 @@ namespace borc {
             // target generated object files
             std::vector<std::string> taskArgs;
             
-            for (const Item &item : target.items) {
+            for (const item &item : target.items) {
                 fs::path itemFile = item.file;
                 
                 CppFileType type = getFileType(item.file);

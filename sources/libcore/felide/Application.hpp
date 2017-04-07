@@ -18,7 +18,7 @@ namespace felide {
 
         PluginManager* getPluginManager();
 
-        ResourceManager* getResourceManager();
+        const ResourceManager* getResourceManager();
 
     private:
         struct Private;

@@ -16,6 +16,8 @@ namespace felide {
 
         ~DocumentManager();
 
+        void openDocument(const QString &title, const QString &documentPath);
+
     private:
         struct Private;
         std::unique_ptr<Private> m_impl;
