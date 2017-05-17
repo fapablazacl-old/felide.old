@@ -4,7 +4,13 @@
 #ifndef __felide_resourcemanagerimpl_hpp__
 #define __felide_resourcemanagerimpl_hpp__
 
+#include "Resource.hpp"
 #include "ResourceManager.hpp"
+
+#include <map>
+#include <vector>
+#include <cassert>
+#include <iostream>
 
 namespace felide {
     class ResourceManagerImpl : public ResourceManager {
@@ -18,8 +24,7 @@ namespace felide {
         virtual ResourceManager* addResource(std::unique_ptr<Resource> resource) override;
 
     private:
-        struct Private;
-        std::unique_ptr<Private> m_impl;
+        std::map<std::string, std::unique_ptr<Resource>> m_resources;
     };
 }
 

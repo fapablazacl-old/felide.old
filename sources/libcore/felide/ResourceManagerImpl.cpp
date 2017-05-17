@@ -2,62 +2,42 @@
 #include "ResourceManagerImpl.hpp"
 #include "Resource.hpp"
 
-#include <map>
-#include <cassert>
-
 namespace felide {
 
-    struct ResourceKey {
-        explicit ResourceKey(Resource *resource) 
-            : name(resource->getName()), typeIndex(typeid(*resource)) {}
-
-        ResourceKey(const std::string &name_, const std::type_index &typeIndex_) 
-            : name(name_), typeIndex(typeIndex_) {}
-
-        std::string name;
-        std::type_index typeIndex;
-
-        bool operator<(const ResourceKey &other) const {
-            if (name < other.name) {
-                return false;
-            }
-
-            if (typeIndex < other.typeIndex) {
-                return false;
-            }
-
-            return true;
-        }
-    };
-
-    struct ResourceManagerImpl::Private {
-        std::map<ResourceKey, std::unique_ptr<Resource>> m_resources;
-    };
-
-    ResourceManagerImpl::ResourceManagerImpl() 
-        : m_impl(new ResourceManagerImpl::Private()) {}
+    ResourceManagerImpl::ResourceManagerImpl() {}
 
     ResourceManagerImpl::~ResourceManagerImpl() {}
 
     const Resource* ResourceManagerImpl::getResource(const std::string &name, const std::type_index &index) const {
-        assert(m_impl);
+        /*
+        std::clog << "felide::ResourceManagerImpl::getResource: Retrieving resource '" << name << "' of type '" << index.name() << "' ..." << std::endl;
+        for (const auto &resourcePair : m_impl->m_resources) {
+            const ResourceKey resourceKey = resourcePair.first;
 
-        const auto key = ResourceKey(name, index);
-        const auto resourceIt = m_impl->m_resources.find(key);
+            std::clog << "    Resource '" << resourceKey.name << "' of type '" << resourceKey.typeIndex.name() << "'. " << std::endl;
+        }
+        */
 
-        assert(resourceIt != m_impl->m_resources.end());
+        const auto key = name;
+        const auto resourceIt = m_resources.find(key);
+
+        assert(resourceIt != m_resources.end());
         assert(resourceIt->second);
 
         return resourceIt->second.get();
     }
 
     ResourceManager* ResourceManagerImpl::addResource(std::unique_ptr<Resource> resource) {
-        assert(m_impl);
         assert(resource);
 
-        const auto key = ResourceKey(resource.get());
+        const auto key = resource->getName();
 
-        m_impl->m_resources[key] = std::move(resource);
+        /*
+        std::clog << "felide::ResourceManagerImpl::addResource: Adding resource '" << resource->getName() << "' of type '" << key.typeIndex.name() << "' ..." << std::endl;
+        */
+
+        m_resources[key] = std::move(resource);
+        //assert(m_resources[key]);
 
         return this;
     }

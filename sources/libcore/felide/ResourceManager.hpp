@@ -3,7 +3,7 @@
  * @brief Definition of the ResourceManager abstract class.
  */
 
-#pragma once 
+#pragma once
 
 #ifndef __felide_resourcemanager_hpp__
 #define __felide_resourcemanager_hpp__
@@ -12,6 +12,7 @@
 #include <typeindex>
 #include <memory>
 #include <cassert>
+#include <iostream>
 
 namespace felide {
     class Resource;
@@ -20,7 +21,7 @@ namespace felide {
      * @brief Interface for resource set and retrieval
      *
      * The Resource Manager is a specialiced interface for the various Resource classes used in the IDE.
-     * Each resource's lifetime is tied to the resource manager. For more information about resources see the 
+     * Each resource's lifetime is tied to the resource manager. For more information about resources see the
      * Resource class documentation.
      *
      * This class is intended to be populated with resources at the application initialization phase.
@@ -32,8 +33,8 @@ namespace felide {
         /**
          * @brief Get a Resource raw pointer.
          *
-         * A resource 'key' is composed of both its name and index. This means that many resources can share the 
-         * same name, but they all to be of different type. 
+         * A resource 'key' is composed of both its name and index. This means that many resources can share the
+         * same name, but they all to be of different type.
          */
         virtual const Resource* getResource(const std::string &name, const std::type_index &index) const = 0;
 
@@ -49,7 +50,11 @@ namespace felide {
          */
         template<typename T>
         const T* getResource(const std::string &name) const {
-            auto resource = dynamic_cast<const T*>(this->getResource(name, std::type_index(typeid(T))));
+            const std::type_index typeIndex = std::type_index(typeid(T));
+
+            std::clog << "felide::ResourceManager::getResource<" << typeid(T).name() << "> ..." << std::endl;
+
+            auto resource = dynamic_cast<const T*>(this->getResource(name, typeIndex));
 
             assert(resource);
 
